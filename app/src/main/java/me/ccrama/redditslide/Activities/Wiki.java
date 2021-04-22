@@ -1,6 +1,5 @@
 package me.ccrama.redditslide.Activities;
 
-import android.content.DialogInterface;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -132,12 +131,8 @@ public class Wiki extends BaseActivityAnim implements WikiPage.WikiPageListener 
             new AlertDialog.Builder(this)
                     .setTitle(R.string.page_not_found)
                     .setMessage(R.string.page_does_not_exist)
-                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    })
+                    .setPositiveButton(android.R.string.ok, (dialog, which) ->
+                            dialog.dismiss())
                     .create()
                     .show();
         }
@@ -177,18 +172,13 @@ public class Wiki extends BaseActivityAnim implements WikiPage.WikiPageListener 
                             new AlertDialog.Builder(Wiki.this)
                                     .setTitle(R.string.wiki_err)
                                     .setMessage(R.string.wiki_err_msg)
-                                    .setPositiveButton(R.string.btn_close, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            dialog.dismiss();
-                                            finish();
-                                        }
-                                    }).setOnDismissListener(new DialogInterface.OnDismissListener() {
-                                @Override
-                                public void onDismiss(DialogInterface dialog) {
-                                    finish();
-                                }
-                            }).show();
+                                    .setPositiveButton(R.string.btn_close, (dialog, which) -> {
+                                        dialog.dismiss();
+                                        finish();
+                                    })
+                                    .setOnDismissListener(dialog ->
+                                            finish())
+                                    .show();
                         } catch(Exception ignored){
 
                         }
@@ -208,21 +198,15 @@ public class Wiki extends BaseActivityAnim implements WikiPage.WikiPageListener 
                 }
             } else {
                 try {
-                    new AlertDialog.Builder(Wiki.this).setTitle(R.string.wiki_err)
+                    new AlertDialog.Builder(Wiki.this)
+                            .setTitle(R.string.wiki_err)
                             .setMessage(R.string.wiki_err_msg)
-                            .setPositiveButton(R.string.btn_close, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                    finish();
-                                }
+                            .setPositiveButton(R.string.btn_close, (dialog, which) -> {
+                                dialog.dismiss();
+                                finish();
                             })
-                            .setOnDismissListener(new DialogInterface.OnDismissListener() {
-                                @Override
-                                public void onDismiss(DialogInterface dialog) {
-                                    finish();
-                                }
-                            })
+                            .setOnDismissListener(dialog ->
+                                    finish())
                             .show();
                 } catch(Exception e){
 

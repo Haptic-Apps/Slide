@@ -3,7 +3,6 @@ package me.ccrama.redditslide.Activities;
 import android.Manifest;
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
@@ -143,29 +142,16 @@ public class NewsActivity extends BaseActivity
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        new AlertDialog.Builder(NewsActivity.this).setTitle(
-                                R.string.err_permission)
+                        new AlertDialog.Builder(NewsActivity.this)
+                                .setTitle(R.string.err_permission)
                                 .setMessage(R.string.err_permission_msg)
-                                .setPositiveButton(R.string.btn_yes,
-                                        new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog,
-                                                        int which) {
-                                                ActivityCompat.requestPermissions(
-                                                        NewsActivity.this, new String[]{
-                                                                Manifest.permission.WRITE_EXTERNAL_STORAGE
-                                                        }, 1);
-
-                                            }
-                                        })
-                                .setNegativeButton(R.string.btn_no,
-                                        new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog,
-                                                        int which) {
-                                                dialog.dismiss();
-                                            }
-                                        })
+                                .setPositiveButton(R.string.btn_yes, (dialog, which) ->
+                                        ActivityCompat.requestPermissions(
+                                                NewsActivity.this, new String[]{
+                                                        Manifest.permission.WRITE_EXTERNAL_STORAGE
+                                                }, 1))
+                                .setNegativeButton(R.string.btn_no, (dialog, which) ->
+                                        dialog.dismiss())
                                 .show();
                     }
                 });

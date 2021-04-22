@@ -104,9 +104,17 @@ public class DonateView extends BaseActivityAnim {
                                             public void onIabPurchaseFinished(IabResult result,
                                                     Purchase info) {
                                                 if(result.isSuccess()){
-                                                    new AlertDialog.Builder(DonateView.this).setTitle("Thank you!").setMessage("Thank you very much for your support :)").setPositiveButton(R.string.btn_done, null).show();
+                                                    new AlertDialog.Builder(DonateView.this)
+                                                            .setTitle("Thank you!")
+                                                            .setMessage("Thank you very much for your support :)")
+                                                            .setPositiveButton(R.string.btn_done, null)
+                                                            .show();
                                                 } else {
-                                                    new AlertDialog.Builder(DonateView.this).setTitle("Uh oh, something went wrong.").setMessage("Please try again soon! Sorry for the inconvenience.").setPositiveButton("Ok", null).show();
+                                                    new AlertDialog.Builder(DonateView.this)
+                                                            .setTitle(R.string.err_something_wrong)
+                                                            .setMessage("Please try again soon! Sorry for the inconvenience.")
+                                                            .setPositiveButton(android.R.string.ok, null)
+                                                            .show();
                                                 }
                                             }
                                         });
@@ -114,7 +122,11 @@ public class DonateView extends BaseActivityAnim {
                                 LogUtil.v("Null");
                             }
                         } else {
-                            new AlertDialog.Builder(DonateView.this).setTitle("Uh oh, something went wrong.").setMessage("Please try again soon! Sorry for the inconvenience.").setPositiveButton("Ok", null).show();
+                            new AlertDialog.Builder(DonateView.this)
+                                    .setTitle(R.string.err_something_wrong)
+                                    .setMessage("Please try again soon! Sorry for the inconvenience.")
+                                    .setPositiveButton(android.R.string.ok, null)
+                                    .show();
                         }
                     }
                 });

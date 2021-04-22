@@ -58,13 +58,12 @@ public class TumblrView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 public void onClick(View v) {
                     LayoutInflater l = context.getLayoutInflater();
                     View body = l.inflate(R.layout.album_grid_dialog, null, false);
-                    AlertDialog.Builder b = new AlertDialog.Builder(context);
                     GridView gridview = body.findViewById(R.id.images);
                     gridview.setAdapter(new ImageGridAdapterTumblr(context, users));
 
-
-                    b.setView(body);
-                    final Dialog d = b.create();
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(context)
+                            .setView(body);
+                    final Dialog d = builder.create();
                     gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         public void onItemClick(AdapterView<?> parent, View v,
                                                 int position, long id) {

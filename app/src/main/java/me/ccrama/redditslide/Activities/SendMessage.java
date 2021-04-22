@@ -119,10 +119,11 @@ public class SendMessage extends BaseActivity {
                 oldMSG.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        AlertDialog.Builder b = new AlertDialog.Builder(SendMessage.this);
-                        b.setTitle(getString(R.string.mail_author_wrote, name));
-                        b.setMessage(previousMessage.getBody());
-                        b.create().show();
+                        new AlertDialog.Builder(SendMessage.this)
+                                .setTitle(getString(R.string.mail_author_wrote, name))
+                                .setMessage(previousMessage.getBody())
+                                .create()
+                                .show();
                     }
                 });
             } else {

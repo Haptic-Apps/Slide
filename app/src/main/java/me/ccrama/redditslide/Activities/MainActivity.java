@@ -347,23 +347,15 @@ public class MainActivity extends BaseActivity
             pager.setCurrentItem(0);
         } else if (SettingValues.backButtonBehavior
                 == Constants.BackButtonBehaviorOptions.ConfirmExit.getValue()) {
-            final AlertDialog.Builder builder =
-                    new AlertDialog.Builder(MainActivity.this);
-            builder.setTitle(R.string.general_confirm_exit);
-            builder.setMessage(R.string.general_confirm_exit_msg);
-            builder.setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    finish();
-                }
-            });
-            builder.setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
-            builder.show();
+
+            new AlertDialog.Builder(MainActivity.this)
+                    .setTitle(R.string.general_confirm_exit)
+                    .setMessage(R.string.general_confirm_exit_msg)
+                    .setPositiveButton(R.string.btn_yes, (dialog, which) ->
+                            finish())
+                    .setNegativeButton(R.string.btn_no, (dialog, which) ->
+                            dialog.dismiss())
+                    .show();
         } else {
             super.onBackPressed();
         }
@@ -425,29 +417,16 @@ public class MainActivity extends BaseActivity
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        new AlertDialog.Builder(MainActivity.this).setTitle(
-                                R.string.err_permission)
+                        new AlertDialog.Builder(MainActivity.this)
+                                .setTitle(R.string.err_permission)
                                 .setMessage(R.string.err_permission_msg)
-                                .setPositiveButton(R.string.btn_yes,
-                                        new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog,
-                                                        int which) {
-                                                ActivityCompat.requestPermissions(
-                                                        MainActivity.this, new String[]{
-                                                                Manifest.permission.WRITE_EXTERNAL_STORAGE
-                                                        }, 1);
-
-                                            }
-                                        })
-                                .setNegativeButton(R.string.btn_no,
-                                        new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog,
-                                                        int which) {
-                                                dialog.dismiss();
-                                            }
-                                        })
+                                .setPositiveButton(R.string.btn_yes, (dialog, which) ->
+                                        ActivityCompat.requestPermissions(
+                                                MainActivity.this, new String[]{
+                                                        Manifest.permission.WRITE_EXTERNAL_STORAGE
+                                                }, 1))
+                                .setNegativeButton(R.string.btn_no, (dialog, which) ->
+                                        dialog.dismiss())
                                 .show();
                     }
                 });
@@ -614,12 +593,11 @@ public class MainActivity extends BaseActivity
             case R.id.night: {
                 LayoutInflater inflater = getLayoutInflater();
                 final View dialoglayout = inflater.inflate(R.layout.choosethemesmall, null);
-                AlertDialog.Builder builder =
-                        new AlertDialog.Builder(MainActivity.this);
                 final TextView title = dialoglayout.findViewById(R.id.title);
                 title.setBackgroundColor(Palette.getDefaultColor());
 
-                builder.setView(dialoglayout);
+                final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this)
+                        .setView(dialoglayout);
                 final Dialog d = builder.show();
                 back = new ColorPreferences(MainActivity.this).getFontStyle().getThemeType();
                 if (SettingValues.isNight()) {
@@ -886,9 +864,12 @@ public class MainActivity extends BaseActivity
         }
         boolean first = false;
         if (Reddit.colors != null && !Reddit.colors.contains("firstStart53")) {
-            new AlertDialog.Builder(this).setTitle("Content settings have moved!")
+            new AlertDialog.Builder(this)
+                    .setTitle("Content settings have moved!")
                     .setMessage("NSFW content is now disabled by default. If you are over the age of 18, to re-enable NSFW content, visit Settings > Content settings")
-                    .setPositiveButton(R.string.btn_ok, null).setCancelable(false).show();
+                    .setPositiveButton(R.string.btn_ok, null)
+                    .setCancelable(false)
+                    .show();
             Reddit.colors.edit().putBoolean("firstStart53", true).apply();
         }
         if (Reddit.colors != null && !Reddit.colors.contains("Tutorial")) {
@@ -1575,77 +1556,75 @@ public class MainActivity extends BaseActivity
                     @Override
                     public void onClick(View v) {
 
-                        new AlertDialog.Builder(MainActivity.this).setTitle(R.string.profile_remove)
+                        new AlertDialog.Builder(MainActivity.this)
+                                .setTitle(R.string.profile_remove)
                                 .setMessage(R.string.profile_remove_account)
-                                .setNegativeButton(R.string.btn_delete, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog2, int which2) {
-                                        Set<String> accounts2 = Authentication.authentication.getStringSet(
-                                                "accounts", new HashSet<String>());
-                                        Set<String> done = new HashSet<>();
-                                        for (String s : accounts2) {
-                                            if (!s.contains(accName)) {
-                                                done.add(s);
-                                            }
+                                .setNegativeButton(R.string.btn_delete, (dialog2, which2) -> {
+                                    Set<String> accounts2 = Authentication.authentication.getStringSet(
+                                            "accounts", new HashSet<>());
+                                    Set<String> done = new HashSet<>();
+                                    for (String s : accounts2) {
+                                        if (!s.contains(accName)) {
+                                            done.add(s);
                                         }
-                                        Authentication.authentication.edit()
-                                                .putStringSet("accounts", done)
-                                                .commit();
-                                        dialog2.dismiss();
-                                        accountList.removeView(t);
-                                        if (accName.equalsIgnoreCase(Authentication.name)) {
+                                    }
+                                    Authentication.authentication.edit()
+                                            .putStringSet("accounts", done)
+                                            .commit();
+                                    dialog2.dismiss();
+                                    accountList.removeView(t);
+                                    if (accName.equalsIgnoreCase(Authentication.name)) {
 
-                                            boolean d = false;
-                                            for (String s : keys) {
+                                        boolean d = false;
+                                        for (String s : keys) {
 
-                                                if (!s.equalsIgnoreCase(accName)) {
-                                                    d = true;
-                                                    LogUtil.v("Switching to " + s);
-                                                    for(Map.Entry<String, String> e : accounts.entrySet()){
-                                                        LogUtil.v(e.getKey() + ":" + e.getValue());
-                                                    }
-                                                    if (accounts.containsKey(s) && !accounts.get(s)
-                                                            .isEmpty()) {
-                                                        Authentication.authentication.edit()
-                                                                .putString("lasttoken", accounts.get(s))
-                                                                .remove("backedCreds")
-                                                                .commit();
-                                                    } else {
-                                                        ArrayList<String> tokens = new ArrayList<>(
-                                                                Authentication.authentication.getStringSet(
-                                                                        "tokens", new HashSet<String>()));
-                                                        int index = keys.indexOf(s);
-                                                        if (keys.indexOf(s) > tokens.size()) {
-                                                            index -= 1;
-                                                        }
-                                                        Authentication.authentication.edit()
-                                                                .putString("lasttoken",
-                                                                        tokens.get(index))
-                                                                .remove("backedCreds")
-                                                                .commit();
-                                                    }
-                                                    Authentication.name = s;
-                                                    UserSubscriptions.switchAccounts();
-                                                    Reddit.forceRestart(MainActivity.this, true);
-                                                    break;
+                                            if (!s.equalsIgnoreCase(accName)) {
+                                                d = true;
+                                                LogUtil.v("Switching to " + s);
+                                                for(Map.Entry<String, String> e : accounts.entrySet()){
+                                                    LogUtil.v(e.getKey() + ":" + e.getValue());
                                                 }
-
-                                            }
-                                            if (!d) {
-                                                Authentication.name = "LOGGEDOUT";
-                                                Authentication.isLoggedIn = false;
-                                                Authentication.authentication.edit()
-                                                        .remove("lasttoken")
-                                                        .remove("backedCreds")
-                                                        .commit();
+                                                if (accounts.containsKey(s) && !accounts.get(s)
+                                                        .isEmpty()) {
+                                                    Authentication.authentication.edit()
+                                                            .putString("lasttoken", accounts.get(s))
+                                                            .remove("backedCreds")
+                                                            .commit();
+                                                } else {
+                                                    ArrayList<String> tokens = new ArrayList<>(
+                                                            Authentication.authentication.getStringSet(
+                                                                    "tokens", new HashSet<>()));
+                                                    int index = keys.indexOf(s);
+                                                    if (keys.indexOf(s) > tokens.size()) {
+                                                        index -= 1;
+                                                    }
+                                                    Authentication.authentication.edit()
+                                                            .putString("lasttoken",
+                                                                    tokens.get(index))
+                                                            .remove("backedCreds")
+                                                            .commit();
+                                                }
+                                                Authentication.name = s;
                                                 UserSubscriptions.switchAccounts();
                                                 Reddit.forceRestart(MainActivity.this, true);
+                                                break;
                                             }
 
-                                        } else {
-                                            accounts.remove(accName);
-                                            keys.remove(accName);
                                         }
+                                        if (!d) {
+                                            Authentication.name = "LOGGEDOUT";
+                                            Authentication.isLoggedIn = false;
+                                            Authentication.authentication.edit()
+                                                    .remove("lasttoken")
+                                                    .remove("backedCreds")
+                                                    .commit();
+                                            UserSubscriptions.switchAccounts();
+                                            Reddit.forceRestart(MainActivity.this, true);
+                                        }
+
+                                    } else {
+                                        accounts.remove(accName);
+                                        keys.remove(accName);
                                     }
                                 })
                                 .setPositiveButton(R.string.btn_cancel, null)
@@ -1791,66 +1770,64 @@ public class MainActivity extends BaseActivity
                     @Override
                     public void onClick(View v) {
 
-                        new AlertDialog.Builder(MainActivity.this).setTitle(R.string.profile_remove)
+                        new AlertDialog.Builder(MainActivity.this)
+                                .setTitle(R.string.profile_remove)
                                 .setMessage(R.string.profile_remove_account)
-                                .setNegativeButton(R.string.btn_delete, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog2, int which2) {
-                                        Set<String> accounts2 = Authentication.authentication.getStringSet(
-                                                "accounts", new HashSet<String>());
-                                        Set<String> done = new HashSet<>();
-                                        for (String s : accounts2) {
-                                            if (!s.contains(accName)) {
-                                                done.add(s);
-                                            }
+                                .setNegativeButton(R.string.btn_delete, (dialog2, which2) -> {
+                                    Set<String> accounts2 = Authentication.authentication.getStringSet(
+                                            "accounts", new HashSet<>());
+                                    Set<String> done = new HashSet<>();
+                                    for (String s : accounts2) {
+                                        if (!s.contains(accName)) {
+                                            done.add(s);
                                         }
-                                        Authentication.authentication.edit()
-                                                .putStringSet("accounts", done)
-                                                .commit();
-                                        dialog2.dismiss();
-                                        accountList.removeView(t);
+                                    }
+                                    Authentication.authentication.edit()
+                                            .putStringSet("accounts", done)
+                                            .commit();
+                                    dialog2.dismiss();
+                                    accountList.removeView(t);
 
-                                        if (accName.equalsIgnoreCase(Authentication.name)) {
-                                            boolean d = false;
-                                            for (String s : keys) {
-                                                if (!s.equalsIgnoreCase(accName)) {
-                                                    d = true;
-                                                    LogUtil.v("Switching to " + s);
-                                                    if (!accounts.get(s).isEmpty()) {
-                                                        Authentication.authentication.edit()
-                                                                .putString("lasttoken", accounts.get(s))
-                                                                .remove("backedCreds")
-                                                                .commit();
+                                    if (accName.equalsIgnoreCase(Authentication.name)) {
+                                        boolean d = false;
+                                        for (String s : keys) {
+                                            if (!s.equalsIgnoreCase(accName)) {
+                                                d = true;
+                                                LogUtil.v("Switching to " + s);
+                                                if (!accounts.get(s).isEmpty()) {
+                                                    Authentication.authentication.edit()
+                                                            .putString("lasttoken", accounts.get(s))
+                                                            .remove("backedCreds")
+                                                            .commit();
 
-                                                    } else {
-                                                        ArrayList<String> tokens = new ArrayList<>(
-                                                                Authentication.authentication.getStringSet(
-                                                                        "tokens", new HashSet<String>()));
-                                                        Authentication.authentication.edit()
-                                                                .putString("lasttoken", tokens.get(
-                                                                        keys.indexOf(s)))
-                                                                .remove("backedCreds")
-                                                                .commit();
-                                                    }
-                                                    Authentication.name = s;
-                                                    UserSubscriptions.switchAccounts();
-                                                    Reddit.forceRestart(MainActivity.this, true);
+                                                } else {
+                                                    ArrayList<String> tokens = new ArrayList<>(
+                                                            Authentication.authentication.getStringSet(
+                                                                    "tokens", new HashSet<>()));
+                                                    Authentication.authentication.edit()
+                                                            .putString("lasttoken", tokens.get(
+                                                                    keys.indexOf(s)))
+                                                            .remove("backedCreds")
+                                                            .commit();
                                                 }
-                                            }
-                                            if (!d) {
-                                                Authentication.name = "LOGGEDOUT";
-                                                Authentication.isLoggedIn = false;
-                                                Authentication.authentication.edit()
-                                                        .remove("lasttoken")
-                                                        .remove("backedCreds")
-                                                        .commit();
+                                                Authentication.name = s;
                                                 UserSubscriptions.switchAccounts();
                                                 Reddit.forceRestart(MainActivity.this, true);
                                             }
-                                        } else {
-                                            accounts.remove(accName);
-                                            keys.remove(accName);
                                         }
+                                        if (!d) {
+                                            Authentication.name = "LOGGEDOUT";
+                                            Authentication.isLoggedIn = false;
+                                            Authentication.authentication.edit()
+                                                    .remove("lasttoken")
+                                                    .remove("backedCreds")
+                                                    .commit();
+                                            UserSubscriptions.switchAccounts();
+                                            Reddit.forceRestart(MainActivity.this, true);
+                                        }
+                                    } else {
+                                        accounts.remove(accName);
+                                        keys.remove(accName);
                                     }
                                 })
                                 .setPositiveButton(R.string.btn_cancel, null)
@@ -2438,71 +2415,51 @@ public class MainActivity extends BaseActivity
                                         && !sub.contains("+")
                                         && !sub.contains(".")
                                         && !sub.contains("/m/")) {
-                                    new AlertDialog.Builder(MainActivity.this).setTitle(
-                                            getString(R.string.sub_post_notifs_title, sub))
+                                    new AlertDialog.Builder(MainActivity.this)
+                                            .setTitle(getString(R.string.sub_post_notifs_title, sub))
                                             .setMessage(R.string.sub_post_notifs_msg)
-                                            .setPositiveButton(R.string.btn_ok,
-                                                    new DialogInterface.OnClickListener() {
-                                                        @Override
-                                                        public void onClick(DialogInterface dialog,
-                                                                int which) {
-                                                            new MaterialDialog.Builder(
-                                                                    MainActivity.this).title(
-                                                                    R.string.sub_post_notifs_threshold)
-                                                                    .items(new String[]{
-                                                                            "1", "5", "10", "20",
-                                                                            "40", "50"
+                                            .setPositiveButton(R.string.btn_ok, (dialog, which) ->
+                                                    new MaterialDialog.Builder(MainActivity.this)
+                                                            .title(R.string.sub_post_notifs_threshold)
+                                                            .items(new String[]{
+                                                                    "1", "5", "10", "20", "40", "50"
+                                                            })
+                                                            .alwaysCallSingleChoiceCallback()
+                                                            .itemsCallbackSingleChoice(0,
+                                                                    new MaterialDialog.ListCallbackSingleChoice() {
+                                                                        @Override
+                                                                        public boolean onSelection(
+                                                                                MaterialDialog dialog,
+                                                                                View itemView,
+                                                                                int which,
+                                                                                CharSequence text) {
+                                                                            ArrayList<String>
+                                                                                    subs =
+                                                                                    StringUtil.stringToArray(
+                                                                                            Reddit.appRestart
+                                                                                                    .getString(
+                                                                                                            CheckForMail.SUBS_TO_GET,
+                                                                                                            ""));
+                                                                            subs.add(sub
+                                                                                    + ":"
+                                                                                    + text);
+                                                                            Reddit.appRestart
+                                                                                    .edit()
+                                                                                    .putString(
+                                                                                            CheckForMail.SUBS_TO_GET,
+                                                                                            StringUtil.arrayToString(
+                                                                                                    subs))
+                                                                                    .commit();
+                                                                            return true;
+                                                                        }
                                                                     })
-                                                                    .alwaysCallSingleChoiceCallback()
-                                                                    .itemsCallbackSingleChoice(0,
-                                                                            new MaterialDialog.ListCallbackSingleChoice() {
-                                                                                @Override
-                                                                                public boolean onSelection(
-                                                                                        MaterialDialog dialog,
-                                                                                        View itemView,
-                                                                                        int which,
-                                                                                        CharSequence text) {
-                                                                                    ArrayList<String>
-                                                                                            subs =
-                                                                                            StringUtil.stringToArray(
-                                                                                                    Reddit.appRestart
-                                                                                                            .getString(
-                                                                                                                    CheckForMail.SUBS_TO_GET,
-                                                                                                                    ""));
-                                                                                    subs.add(sub
-                                                                                            + ":"
-                                                                                            + text);
-                                                                                    Reddit.appRestart
-                                                                                            .edit()
-                                                                                            .putString(
-                                                                                                    CheckForMail.SUBS_TO_GET,
-                                                                                                    StringUtil.arrayToString(
-                                                                                                            subs))
-                                                                                            .commit();
-                                                                                    return true;
-                                                                                }
-                                                                            })
-                                                                    .cancelable(false)
-                                                                    .show();
-                                                        }
-                                                    })
+                                                            .cancelable(false)
+                                                            .show())
                                             .setNegativeButton(R.string.btn_cancel, null)
-                                            .setNegativeButton(R.string.btn_cancel,
-                                                    new DialogInterface.OnClickListener() {
-                                                        @Override
-                                                        public void onClick(DialogInterface dialog,
-                                                                int which) {
-                                                            notifyStateCheckBox.setChecked(false);
-                                                        }
-                                                    })
-                                            .setOnCancelListener(
-                                                    new DialogInterface.OnCancelListener() {
-                                                        @Override
-                                                        public void onCancel(
-                                                                DialogInterface dialog) {
-                                                            notifyStateCheckBox.setChecked(false);
-                                                        }
-                                                    })
+                                            .setNegativeButton(R.string.btn_cancel, (dialog, which) ->
+                                                    notifyStateCheckBox.setChecked(false))
+                                            .setOnCancelListener(dialog ->
+                                                    notifyStateCheckBox.setChecked(false))
                                             .show();
                                 } else {
                                     notifyStateCheckBox.setChecked(false);
@@ -2529,87 +2486,54 @@ public class MainActivity extends BaseActivity
             subscribe.setOnClickListener(new View.OnClickListener() {
                 private void doSubscribe() {
                     if (Authentication.isLoggedIn) {
-                        new AlertDialog.Builder(MainActivity.this).setTitle(
-                                getString(R.string.subscribe_to, subreddit.getDisplayName()))
-                                .setPositiveButton(R.string.reorder_add_subscribe,
-                                        new DialogInterface.OnClickListener() {
+                        new AlertDialog.Builder(MainActivity.this)
+                                .setTitle(getString(R.string.subscribe_to, subreddit.getDisplayName()))
+                                .setPositiveButton(R.string.reorder_add_subscribe, (dialog, which) ->
+                                        new AsyncTask<Void, Void, Boolean>() {
                                             @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                new AsyncTask<Void, Void, Boolean>() {
-                                                    @Override
-                                                    public void onPostExecute(Boolean success) {
-                                                        if (!success) { // If subreddit was removed from account or not
+                                            public void onPostExecute(Boolean success) {
+                                                if (!success) { // If subreddit was removed from account or not
+                                                    new AlertDialog.Builder(MainActivity.this)
+                                                            .setTitle(R.string.force_change_subscription)
+                                                            .setMessage(R.string.force_change_subscription_desc)
+                                                            .setPositiveButton(R.string.btn_yes, (dialog1, which1) -> {
+                                                                changeSubscription(subreddit, true); // Force add the subscription
+                                                                Snackbar s = Snackbar.make(
+                                                                        mToolbar,
+                                                                        getString(R.string.misc_subscribed),
+                                                                        Snackbar.LENGTH_LONG);
+                                                                LayoutUtils.showSnackbar(s);
+                                                            })
+                                                            .setNegativeButton(R.string.btn_no, null)
+                                                            .setCancelable(false)
+                                                            .show();
+                                                } else {
+                                                    changeSubscription(subreddit, true);
+                                                }
 
-                                                            new AlertDialog.Builder(
-                                                                    MainActivity.this).setTitle(
-                                                                    R.string.force_change_subscription)
-                                                                    .setMessage(
-                                                                            R.string.force_change_subscription_desc)
-                                                                    .setPositiveButton(
-                                                                            R.string.btn_yes,
-                                                                            new DialogInterface.OnClickListener() {
-                                                                                @Override
-                                                                                public void onClick(
-                                                                                        DialogInterface dialog,
-                                                                                        int which) {
-                                                                                    changeSubscription(
-                                                                                            subreddit,
-                                                                                            true); // Force add the subscription
-                                                                                    Snackbar s =
-                                                                                            Snackbar.make(
-                                                                                                    mToolbar,
-                                                                                                    getString(
-                                                                                                            R.string.misc_subscribed),
-                                                                                                    Snackbar.LENGTH_LONG);
-                                                                                    LayoutUtils.showSnackbar(s);
-                                                                                }
-                                                                            })
-                                                                    .setNegativeButton(
-                                                                            R.string.btn_no,
-                                                                            new DialogInterface.OnClickListener() {
-                                                                                @Override
-                                                                                public void onClick(
-                                                                                        DialogInterface dialog,
-                                                                                        int which) {
-
-                                                                                }
-                                                                            })
-                                                                    .setCancelable(false)
-                                                                    .show();
-                                                        } else {
-                                                            changeSubscription(subreddit, true);
-                                                        }
-
-                                                    }
-
-                                                    @Override
-                                                    protected Boolean doInBackground(
-                                                            Void... params) {
-                                                        try {
-                                                            new AccountManager(
-                                                                    Authentication.reddit).subscribe(
-                                                                    subreddit);
-                                                        } catch (NetworkException e) {
-                                                            return false; // Either network crashed or trying to unsubscribe to a subreddit that the account isn't subscribed to
-                                                        }
-                                                        return true;
-                                                    }
-                                                }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                                             }
-                                        })
 
-                                .setNeutralButton(R.string.btn_add_to_sublist,
-                                        new DialogInterface.OnClickListener() {
                                             @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                changeSubscription(subreddit,
-                                                        true); // Force add the subscription
-                                                Snackbar s =
-                                                        Snackbar.make(mToolbar, R.string.sub_added,
-                                                                Snackbar.LENGTH_LONG);
-                                                LayoutUtils.showSnackbar(s);
+                                            protected Boolean doInBackground(
+                                                    Void... params) {
+                                                try {
+                                                    new AccountManager(
+                                                            Authentication.reddit).subscribe(
+                                                            subreddit);
+                                                } catch (NetworkException e) {
+                                                    return false; // Either network crashed or trying to unsubscribe to a subreddit that the account isn't subscribed to
+                                                }
+                                                return true;
                                             }
-                                        })
+                                        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR))
+
+                                .setNeutralButton(R.string.btn_add_to_sublist, (dialog, which) -> {
+                                    changeSubscription(subreddit, true); // Force add the subscription
+                                    Snackbar s = Snackbar.make(
+                                            mToolbar, R.string.sub_added,
+                                            Snackbar.LENGTH_LONG);
+                                    LayoutUtils.showSnackbar(s);
+                                })
                                 .setNegativeButton(R.string.btn_cancel, null)
                                 .show();
                     } else {
@@ -2619,86 +2543,53 @@ public class MainActivity extends BaseActivity
 
                 private void doUnsubscribe() {
                     if (Authentication.didOnline) {
-                        new AlertDialog.Builder(MainActivity.this).setTitle(
-                                getString(R.string.unsubscribe_from, subreddit.getDisplayName()))
-                                .setPositiveButton(R.string.reorder_remove_unsubscribe,
-                                        new DialogInterface.OnClickListener() {
+                        new AlertDialog.Builder(MainActivity.this)
+                                .setTitle(getString(R.string.unsubscribe_from, subreddit.getDisplayName()))
+                                .setPositiveButton(R.string.reorder_remove_unsubscribe, (dialog, which) ->
+                                        new AsyncTask<Void, Void, Boolean>() {
                                             @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                new AsyncTask<Void, Void, Boolean>() {
-                                                    @Override
-                                                    public void onPostExecute(Boolean success) {
-                                                        if (!success) { // If subreddit was removed from account or not
+                                            public void onPostExecute(Boolean success) {
+                                                if (!success) { // If subreddit was removed from account or not
+                                                    new AlertDialog.Builder(MainActivity.this)
+                                                            .setTitle(R.string.force_change_subscription)
+                                                            .setMessage(R.string.force_change_subscription_desc)
+                                                            .setPositiveButton(R.string.btn_yes, (dialog12, which12) -> {
+                                                                changeSubscription(subreddit, false); // Force add the subscription
+                                                                Snackbar s = Snackbar.make(
+                                                                        mToolbar,
+                                                                        getString(R.string.misc_unsubscribed),
+                                                                        Snackbar.LENGTH_LONG);
+                                                                LayoutUtils.showSnackbar(s);
+                                                            })
+                                                            .setNegativeButton(R.string.btn_no, null)
+                                                            .setCancelable(false)
+                                                            .show();
+                                                } else {
+                                                    changeSubscription(subreddit, false);
+                                                }
 
-                                                            new AlertDialog.Builder(
-                                                                    MainActivity.this).setTitle(
-                                                                    R.string.force_change_subscription)
-                                                                    .setMessage(
-                                                                            R.string.force_change_subscription_desc)
-                                                                    .setPositiveButton(
-                                                                            R.string.btn_yes,
-                                                                            new DialogInterface.OnClickListener() {
-                                                                                @Override
-                                                                                public void onClick(
-                                                                                        DialogInterface dialog,
-                                                                                        int which) {
-                                                                                    changeSubscription(
-                                                                                            subreddit,
-                                                                                            false); // Force add the subscription
-                                                                                    Snackbar s =
-                                                                                            Snackbar.make(
-                                                                                                    mToolbar,
-                                                                                                    getString(
-                                                                                                            R.string.misc_unsubscribed),
-                                                                                                    Snackbar.LENGTH_LONG);
-                                                                                    LayoutUtils.showSnackbar(s);
-                                                                                }
-                                                                            })
-                                                                    .setNegativeButton(
-                                                                            R.string.btn_no,
-                                                                            new DialogInterface.OnClickListener() {
-                                                                                @Override
-                                                                                public void onClick(
-                                                                                        DialogInterface dialog,
-                                                                                        int which) {
-
-                                                                                }
-                                                                            })
-                                                                    .setCancelable(false)
-                                                                    .show();
-                                                        } else {
-                                                            changeSubscription(subreddit, false);
-                                                        }
-
-                                                    }
-
-                                                    @Override
-                                                    protected Boolean doInBackground(
-                                                            Void... params) {
-                                                        try {
-                                                            new AccountManager(
-                                                                    Authentication.reddit).unsubscribe(
-                                                                    subreddit);
-                                                        } catch (NetworkException e) {
-                                                            return false; // Either network crashed or trying to unsubscribe to a subreddit that the account isn't subscribed to
-                                                        }
-                                                        return true;
-                                                    }
-                                                }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                                             }
-                                        })
-                                .setNeutralButton(R.string.just_unsub,
-                                        new DialogInterface.OnClickListener() {
+
                                             @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                changeSubscription(subreddit,
-                                                        false); // Force add the subscription
-                                                Snackbar s = Snackbar.make(mToolbar,
-                                                        R.string.misc_unsubscribed,
-                                                        Snackbar.LENGTH_LONG);
-                                                LayoutUtils.showSnackbar(s);
+                                            protected Boolean doInBackground(
+                                                    Void... params) {
+                                                try {
+                                                    new AccountManager(
+                                                            Authentication.reddit).unsubscribe(
+                                                            subreddit);
+                                                } catch (NetworkException e) {
+                                                    return false; // Either network crashed or trying to unsubscribe to a subreddit that the account isn't subscribed to
+                                                }
+                                                return true;
                                             }
-                                        })
+                                        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR))
+                                .setNeutralButton(R.string.just_unsub, (dialog, which) -> {
+                                    changeSubscription(subreddit, false); // Force add the subscription
+                                    Snackbar s = Snackbar.make(mToolbar,
+                                            R.string.misc_unsubscribed,
+                                            Snackbar.LENGTH_LONG);
+                                    LayoutUtils.showSnackbar(s);
+                                })
                                 .setNegativeButton(R.string.btn_cancel, null)
                                 .show();
                     } else {
@@ -2882,30 +2773,25 @@ public class MainActivity extends BaseActivity
                                     reloadSubs();
                                 }
                             };
-                    AlertDialog.Builder builder =
-                            new AlertDialog.Builder(MainActivity.this);
-                    builder.setTitle(R.string.sorting_choose);
-                    builder.setSingleChoiceItems(SortingUtil.getSortingStrings(),
-                            sortid, l2);
-                    builder.setNegativeButton("Reset default sorting", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            SettingValues.prefs.edit().remove("defaultSort" + subreddit.toLowerCase(Locale.ENGLISH)).apply();
-                            SettingValues.prefs.edit().remove("defaultTime" + subreddit.toLowerCase(Locale.ENGLISH)).apply();
-                            final TextView sort = dialoglayout.findViewById(R.id.sort);
-                            if(SettingValues.hasSort(subreddit)) {
-                                Sorting sortingis = SettingValues.getBaseSubmissionSort(subreddit);
-                                sort.setText(sortingis.name()
-                                        + ((sortingis == Sorting.CONTROVERSIAL || sortingis == Sorting.TOP)?" of "
-                                        + SettingValues.getBaseTimePeriod(subreddit).name():""));
-                            } else {
-                                sort.setText("Set default sorting");
 
-                            }
-                            reloadSubs();
-                        }
-                    });
-                    builder.show();
+                    new AlertDialog.Builder(MainActivity.this)
+                            .setTitle(R.string.sorting_choose)
+                            .setSingleChoiceItems(SortingUtil.getSortingStrings(), sortid, l2)
+                            .setNegativeButton("Reset default sorting", (dialog, which) -> {
+                                SettingValues.prefs.edit().remove("defaultSort" + subreddit.toLowerCase(Locale.ENGLISH)).apply();
+                                SettingValues.prefs.edit().remove("defaultTime" + subreddit.toLowerCase(Locale.ENGLISH)).apply();
+                                final TextView sort1 = dialoglayout.findViewById(R.id.sort);
+                                if(SettingValues.hasSort(subreddit)) {
+                                    Sorting sortingis1 = SettingValues.getBaseSubmissionSort(subreddit);
+                                    sort1.setText(sortingis1.name()
+                                            + ((sortingis1 == Sorting.CONTROVERSIAL || sortingis1 == Sorting.TOP)?" of "
+                                            + SettingValues.getBaseTimePeriod(subreddit).name():""));
+                                } else {
+                                    sort1.setText("Set default sorting");
+                                }
+                                reloadSubs();
+                            })
+                            .show();
                 }
             });
 
@@ -3265,11 +3151,13 @@ public class MainActivity extends BaseActivity
                 reloadSubs();
             }
         };
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        builder.setTitle(R.string.sorting_choose);
-        builder.setSingleChoiceItems(SortingUtil.getSortingTimesStrings(),
-                SortingUtil.getSortingTimeId(""), l2);
-        builder.show();
+        new AlertDialog.Builder(MainActivity.this)
+                .setTitle(R.string.sorting_choose)
+                .setSingleChoiceItems(
+                        SortingUtil.getSortingTimesStrings(),
+                        SortingUtil.getSortingTimeId(""),
+                        l2)
+                .show();
     }
 
     public void doSubSidebarNoLoad(final String subreddit) {
@@ -3424,26 +3312,19 @@ public class MainActivity extends BaseActivity
             }
         }
 
-        new AlertDialogWrapper.Builder(this).setTitle(filterTitle)
+        new AlertDialogWrapper.Builder(this)
+                .setTitle(filterTitle)
                 .alwaysCallMultiChoiceCallback()
                 .setMultiChoiceItems(new String[]{
                         getString(R.string.image_downloads), getString(R.string.type_albums),
                         getString(R.string.type_gifs), getString(R.string.type_videos),
                         getString(R.string.type_links), getString(R.string.type_selftext),
-                        getString(R.string.type_nsfw_content)
-                }, chosen, new DialogInterface.OnMultiChoiceClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                        chosen[which] = isChecked;
-                    }
-                })
-                .setPositiveButton(R.string.btn_save, new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        PostMatch.setChosen(chosen, subreddit);
-                        reloadSubs();
-                    }
+                        getString(R.string.type_nsfw_content)},
+                        chosen, (dialog, which, isChecked) ->
+                                chosen[which] = isChecked)
+                .setPositiveButton(R.string.btn_save, (dialog, which) -> {
+                    PostMatch.setChosen(chosen, subreddit);
+                    reloadSubs();
                 })
                 .setNegativeButton(R.string.btn_cancel, null)
                 .show();
@@ -3697,29 +3578,18 @@ public class MainActivity extends BaseActivity
 
     public void saveOffline(final List<Submission> submissions, final String subreddit) {
         final boolean[] chosen = new boolean[2];
-        new AlertDialog.Builder(this).setTitle(R.string.save_for_offline_viewing)
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.save_for_offline_viewing)
                 .setMultiChoiceItems(new String[]{getString(R.string.type_gifs)},
-                        new boolean[]{false}, new DialogInterface.OnMultiChoiceClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which,
-                                    boolean isChecked) {
-                                chosen[which] = isChecked;
-                            }
-                        })
-                .setPositiveButton(R.string.btn_save, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                        new boolean[]{false}, (dialog, which, isChecked) ->
+                                chosen[which] = isChecked)
+                .setPositiveButton(R.string.btn_save, (dialog, which) ->
                         caching = new CommentCacheAsync(submissions, MainActivity.this, subreddit,
-                                chosen).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-                    }
-                })
-                .setPositiveButton(R.string.btn_save, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        ExecutorService service = Executors.newSingleThreadExecutor();
-                        new CommentCacheAsync(submissions, MainActivity.this, subreddit,
-                                chosen).executeOnExecutor(service);
-                    }
+                                chosen).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR))
+                .setPositiveButton(R.string.btn_save, (dialog, which) -> {
+                    ExecutorService service = Executors.newSingleThreadExecutor();
+                    new CommentCacheAsync(submissions, MainActivity.this, subreddit,
+                            chosen).executeOnExecutor(service);
                 })
                 .show();
 

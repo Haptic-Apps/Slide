@@ -1,6 +1,5 @@
 package me.ccrama.redditslide.Activities;
 
-import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -123,8 +122,8 @@ public class Crosspost extends BaseActivity {
                                 }
                                 if (s.getSubredditType().equals("RESTRICTED")) {
                                     subredditText.setText("");
-                                    new AlertDialog.Builder(Crosspost.this).setTitle(
-                                            R.string.err_submit_restricted)
+                                    new AlertDialog.Builder(Crosspost.this)
+                                            .setTitle(R.string.err_submit_restricted)
                                             .setMessage(R.string.err_submit_restricted_text)
                                             .setPositiveButton(R.string.btn_ok, null)
                                             .show();
@@ -242,28 +241,16 @@ public class Crosspost extends BaseActivity {
 
 
     private void showErrorRetryDialog(String message) {
-        new AlertDialog.Builder(Crosspost.this).setTitle(R.string.err_title)
+        new AlertDialog.Builder(Crosspost.this)
+                .setTitle(R.string.err_title)
                 .setMessage(message)
-                .setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        finish();
-                    }
-                })
-                .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        ((FloatingActionButton) findViewById(R.id.send)).show();
-                    }
-                })
-                .setOnDismissListener(new DialogInterface.OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface dialog) {
-                        ((FloatingActionButton) findViewById(R.id.send)).show();
-                    }
-                })
+                .setNegativeButton(R.string.btn_no, (dialogInterface, i) ->
+                        finish())
+                .setPositiveButton(R.string.btn_yes, (dialogInterface, i) ->
+                        ((FloatingActionButton) findViewById(R.id.send)).show())
+                .setOnDismissListener(dialog ->
+                        ((FloatingActionButton) findViewById(R.id.send)).show())
                 .create()
                 .show();
     }
-
 }

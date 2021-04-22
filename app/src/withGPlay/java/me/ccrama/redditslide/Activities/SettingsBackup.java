@@ -1,6 +1,5 @@
 package me.ccrama.redditslide.Activities;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.net.Uri;
@@ -191,16 +190,10 @@ public class SettingsBackup extends BaseActivityAnim
                                 progress.setProgress(progress.getCurrentProgress() + 1);
                                 if (progress.getCurrentProgress() == progress.getMaxProgress()) {
 
-                                    new AlertDialog.Builder(SettingsBackup.this).setTitle(
-                                            R.string.backup_success)
-                                            .setPositiveButton(R.string.btn_close,
-                                                    new DialogInterface.OnClickListener() {
-                                                        @Override
-                                                        public void onClick(DialogInterface dialog,
-                                                                int which) {
-                                                            finish();
-                                                        }
-                                                    })
+                                    new AlertDialog.Builder(SettingsBackup.this)
+                                            .setTitle(R.string.backup_success)
+                                            .setPositiveButton(R.string.btn_close, (dialog, which) ->
+                                                    finish())
                                             .setCancelable(false)
                                             .show();
                                 }
@@ -225,15 +218,10 @@ public class SettingsBackup extends BaseActivityAnim
 
                     if (progress.getCurrentProgress() == progress.getMaxProgress()) {
 
-                        new AlertDialog.Builder(SettingsBackup.this).setTitle(
-                                R.string.backup_success)
-                                .setPositiveButton(R.string.btn_close,
-                                        new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                finish();
-                                            }
-                                        })
+                        new AlertDialog.Builder(SettingsBackup.this)
+                                .setTitle(R.string.backup_success)
+                                .setPositiveButton(R.string.btn_close, (dialog, which) ->
+                                        finish())
                                 .setCancelable(false)
                                 .show();
                     }
@@ -306,39 +294,20 @@ public class SettingsBackup extends BaseActivityAnim
 
                         }
                         new AlertDialog.Builder(SettingsBackup.this)
-                                .setCancelable(false)
                                 .setTitle(R.string.backup_restore_settings)
-                                .setOnDismissListener(new DialogInterface.OnDismissListener() {
-                                    @Override
-                                    public void onDismiss(DialogInterface dialog) {
-                                        ProcessPhoenix.triggerRebirth(SettingsBackup.this);
-
-                                    }
-                                })
                                 .setMessage(R.string.backup_restarting)
-                                .setOnDismissListener(new DialogInterface.OnDismissListener() {
-                                    @Override
-                                    public void onDismiss(DialogInterface dialog) {
-                                        ProcessPhoenix.triggerRebirth(SettingsBackup.this);
-                                    }
-                                })
-                                .setPositiveButton(R.string.btn_ok,
-                                        new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                ProcessPhoenix.triggerRebirth(SettingsBackup.this);
-
-                                            }
-                                        })
+                                .setOnDismissListener(dialog ->
+                                        ProcessPhoenix.triggerRebirth(SettingsBackup.this))
+                                .setPositiveButton(R.string.btn_ok, (dialog, which) ->
+                                        ProcessPhoenix.triggerRebirth(SettingsBackup.this))
                                 .setCancelable(false)
                                 .show();
 
                     } else {
                         progress.hide();
-                        new AlertDialog.Builder(SettingsBackup.this).setTitle(
-                                getString(R.string.err_not_valid_backup))
-                                .setMessage(getString(
-                                        R.string.err_not_valid_backup_msg))
+                        new AlertDialog.Builder(SettingsBackup.this)
+                                .setTitle(R.string.err_not_valid_backup)
+                                .setMessage(R.string.err_not_valid_backup_msg)
                                 .setPositiveButton(R.string.btn_ok, null)
                                 .setCancelable(false)
                                 .show();
@@ -346,20 +315,18 @@ public class SettingsBackup extends BaseActivityAnim
                 } catch (Exception e) {
                     progress.hide();
                     e.printStackTrace();
-                    new AlertDialog.Builder(SettingsBackup.this).setTitle(
-                            getString(R.string.err_file_not_found))
-                            .setMessage(getString(
-                                    R.string.err_file_not_found_msg))
+                    new AlertDialog.Builder(SettingsBackup.this)
+                            .setTitle(R.string.err_file_not_found)
+                            .setMessage(R.string.err_file_not_found_msg)
                             .setPositiveButton(R.string.btn_ok, null)
                             .setCancelable(false)
                             .show();
                 }
             } else {
                 progress.dismiss();
-                new AlertDialog.Builder(SettingsBackup.this).setTitle(
-                        getString(R.string.err_file_not_found))
-                        .setMessage(
-                                getString(R.string.err_file_not_found_msg))
+                new AlertDialog.Builder(SettingsBackup.this)
+                        .setTitle(R.string.err_file_not_found)
+                        .setMessage(R.string.err_file_not_found_msg)
                         .setPositiveButton(R.string.btn_ok, null)
                         .setCancelable(false)
                         .show();
@@ -392,55 +359,37 @@ public class SettingsBackup extends BaseActivityAnim
                 @Override
                 public void onClick(View v) {
                     if (mGoogleApiClient.isConnected()) {
-                        new AlertDialog.Builder(SettingsBackup.this).setTitle(
-                                R.string.general_confirm)
+                        new AlertDialog.Builder(SettingsBackup.this)
+                                .setTitle(R.string.general_confirm)
                                 .setMessage(R.string.backup_confirm)
-                                .setOnCancelListener(new DialogInterface.OnCancelListener() {
-                                    @Override
-                                    public void onCancel(DialogInterface dialog) {
+                                .setOnCancelListener(null)
+                                .setPositiveButton(R.string.btn_ok, (dialog, whichButton) -> {
+                                    File prefsdir = new File(getApplicationInfo().dataDir, "shared_prefs");
+
+                                    if (prefsdir.exists() && prefsdir.isDirectory()) {
+
+                                        String[] list = prefsdir.list();
+                                        progress = new MaterialDialog.Builder(
+                                                SettingsBackup.this).title(
+                                                R.string.backup_backing_up)
+                                                .progress(false, list.length)
+                                                .cancelable(false)
+                                                .build();
+                                        progress.show();
+                                        appFolder.listChildren(mGoogleApiClient)
+                                                .setResultCallback(newCallback2);
+
                                     }
                                 })
-                                .setPositiveButton(R.string.btn_ok,
-                                        new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog,
-                                                    int whichButton) {
-                                                File prefsdir = new File(getApplicationInfo().dataDir, "shared_prefs");
-
-                                                if (prefsdir.exists() && prefsdir.isDirectory()) {
-
-                                                    String[] list = prefsdir.list();
-                                                    progress = new MaterialDialog.Builder(
-                                                            SettingsBackup.this).title(
-                                                            R.string.backup_backing_up)
-                                                            .progress(false, list.length)
-                                                            .cancelable(false)
-                                                            .build();
-                                                    progress.show();
-                                                    appFolder.listChildren(mGoogleApiClient)
-                                                            .setResultCallback(newCallback2);
-
-                                                }
-                                            }
-                                        })
                                 .setNegativeButton(R.string.btn_no, null)
                                 .setCancelable(false)
                                 .show();
                     } else {
-                        new AlertDialog.Builder(SettingsBackup.this).setTitle(
-                                R.string.settings_google)
+                        new AlertDialog.Builder(SettingsBackup.this)
+                                .setTitle(R.string.settings_google)
                                 .setMessage(R.string.settings_google_msg)
-                                .setOnCancelListener(new DialogInterface.OnCancelListener() {
-                                    @Override
-                                    public void onCancel(DialogInterface dialog) {
-                                    }
-                                })
-                                .setPositiveButton(R.string.btn_ok,
-                                        new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog,
-                                                    int whichButton) {
-
-                                            }
-                                        })
+                                .setOnCancelListener(null)
+                                .setPositiveButton(R.string.btn_ok, null)
                                 .setCancelable(false)
                                 .show();
                     }
@@ -452,48 +401,30 @@ public class SettingsBackup extends BaseActivityAnim
                 @Override
                 public void onClick(View v) {
                     if (mGoogleApiClient.isConnected()) {
-                        new AlertDialog.Builder(SettingsBackup.this).setTitle(
-                                R.string.general_confirm)
+                        new AlertDialog.Builder(SettingsBackup.this)
+                                .setTitle(R.string.general_confirm)
                                 .setMessage(R.string.backup_restore_confirm)
-                                .setOnCancelListener(new DialogInterface.OnCancelListener() {
-                                    @Override
-                                    public void onCancel(DialogInterface dialog) {
-                                    }
+                                .setOnCancelListener(null)
+                                .setPositiveButton(R.string.btn_ok, (dialog, whichButton) -> {
+                                    progress = new MaterialDialog.Builder(SettingsBackup.this)
+                                            .title(R.string.backup_restoring)
+                                            .content(R.string.misc_please_wait)
+                                            .cancelable(false)
+                                            .progress(true, 1)
+                                            .build();
+                                    progress.show();
+                                    appFolder.listChildren(mGoogleApiClient).setResultCallback(newCallback);
                                 })
-                                .setPositiveButton(R.string.btn_ok,
-                                        new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog,
-                                                    int whichButton) {
-                                                progress = new MaterialDialog.Builder(SettingsBackup.this).title(
-                                                        R.string.backup_restoring)
-                                                        .content(R.string.misc_please_wait)
-                                                        .cancelable(false)
-                                                        .progress(true, 1)
-                                                        .build();
-                                                progress.show();
-                                                appFolder.listChildren(mGoogleApiClient).setResultCallback(newCallback);
-                                            }
-                                        })
                                 .setNegativeButton(R.string.btn_no, null)
                                 .setCancelable(false)
                                 .show();
                     } else {
-                        new AlertDialog.Builder(SettingsBackup.this).setTitle(
-                                R.string.settings_google)
+                        new AlertDialog.Builder(SettingsBackup.this)
+                                .setTitle(R.string.settings_google)
                                 .setMessage(R.string.settings_google_msg)
                                 //avoid that the dialog can be closed
-                                .setOnCancelListener(new DialogInterface.OnCancelListener() {
-                                    @Override
-                                    public void onCancel(DialogInterface dialog) {
-                                    }
-                                })
-                                .setPositiveButton(R.string.btn_ok,
-                                        new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog,
-                                                    int whichButton) {
-
-                                            }
-                                        })
+                                .setOnCancelListener(null)
+                                .setPositiveButton(R.string.btn_ok, null)
                                 .setCancelable(false)
                                 .show();
                     }
@@ -503,24 +434,13 @@ public class SettingsBackup extends BaseActivityAnim
             findViewById(R.id.backfile).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    new AlertDialog.Builder(SettingsBackup.this).setTitle(
-                            getString(me.ccrama.redditslide.R.string.include_personal_info))
-                            .setMessage(getString(
-                                    me.ccrama.redditslide.R.string.include_personal_info_msg))
-                            .setPositiveButton(R.string.btn_yes,
-                                    new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            backupToDir(false);
-                                        }
-                                    })
-                            .setNegativeButton(R.string.btn_no,
-                                    new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            backupToDir(true);
-                                        }
-                                    })
+                    new AlertDialog.Builder(SettingsBackup.this)
+                            .setTitle(R.string.include_personal_info)
+                            .setMessage(R.string.include_personal_info_msg)
+                            .setPositiveButton(R.string.btn_yes, (dialog, which) ->
+                                    backupToDir(false))
+                            .setNegativeButton(R.string.btn_no, (dialog, which) ->
+                                    backupToDir(true))
                             .setNeutralButton(R.string.btn_cancel, null)
                             .setCancelable(false)
                             .show();
@@ -636,31 +556,24 @@ public class SettingsBackup extends BaseActivityAnim
             @Override
             protected void onPostExecute(Void aVoid) {
                 progress.dismiss();
-                new AlertDialog.Builder(SettingsBackup.this).setTitle(
-                        getString(me.ccrama.redditslide.R.string.backup_complete))
-                        .setMessage(
-                                getString(me.ccrama.redditslide.R.string.backup_saved_downloads))
-                        .setPositiveButton(R.string.btn_view,
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        Intent intent = FileUtil.getFileIntent(file,
-                                                new Intent(Intent.ACTION_VIEW),
-                                                SettingsBackup.this);
-                                        if (intent.resolveActivityInfo(getPackageManager(), 0)
-                                                != null) {
-                                            startActivity(
-                                                    Intent.createChooser(intent, getString(R.string.settings_backup_view)));
-                                        } else {
-                                            Snackbar s =
-                                                    Snackbar.make(findViewById(R.id.restorefile),
-                                                            R.string.settings_backup_err_no_explorer
-                                                                    + file.getAbsolutePath(),
-                                                            Snackbar.LENGTH_INDEFINITE);
-                                            LayoutUtils.showSnackbar(s);
-                                        }
-                                    }
-                                })
+                new AlertDialog.Builder(SettingsBackup.this)
+                        .setTitle(R.string.backup_complete)
+                        .setMessage(R.string.backup_saved_downloads)
+                        .setPositiveButton(R.string.btn_view, (dialog, which) -> {
+                            Intent intent = FileUtil.getFileIntent(file,
+                                    new Intent(Intent.ACTION_VIEW),
+                                    SettingsBackup.this);
+                            if (intent.resolveActivityInfo(getPackageManager(), 0) != null) {
+                                startActivity(
+                                        Intent.createChooser(
+                                                intent, getString(R.string.settings_backup_view)));
+                            } else {
+                                Snackbar s = Snackbar.make(findViewById(R.id.restorefile),
+                                        R.string.settings_backup_err_no_explorer + file.getAbsolutePath(),
+                                        Snackbar.LENGTH_INDEFINITE);
+                                LayoutUtils.showSnackbar(s);
+                            }
+                        })
                         .setNegativeButton(R.string.btn_close, null)
                         .setCancelable(false)
                         .show();
@@ -767,21 +680,13 @@ public class SettingsBackup extends BaseActivityAnim
                 progress.dismiss();
 
 
-                new AlertDialog.Builder(SettingsBackup.this).setTitle(
-                        R.string.backup_restore_settings)
+                new AlertDialog.Builder(SettingsBackup.this)
+                        .setTitle(R.string.backup_restore_settings)
                         .setMessage(R.string.backup_restarting)
-                        .setOnDismissListener(new DialogInterface.OnDismissListener() {
-                            @Override
-                            public void onDismiss(DialogInterface dialog) {
-                                ProcessPhoenix.triggerRebirth(SettingsBackup.this);
-                            }
-                        })
-                        .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                ProcessPhoenix.triggerRebirth(SettingsBackup.this);
-                            }
-                        })
+                        .setOnDismissListener(dialog ->
+                                ProcessPhoenix.triggerRebirth(SettingsBackup.this))
+                        .setPositiveButton(R.string.btn_ok, (dialog, which) ->
+                                ProcessPhoenix.triggerRebirth(SettingsBackup.this))
                         .setCancelable(false)
                         .show();
             }

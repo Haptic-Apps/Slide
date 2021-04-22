@@ -179,13 +179,12 @@ public class RedditGalleryPager extends FullScreenActivity
             public void onClick(View v) {
                 LayoutInflater l = getLayoutInflater();
                 View body = l.inflate(R.layout.album_grid_dialog, null, false);
-                AlertDialog.Builder b = new AlertDialog.Builder(RedditGalleryPager.this);
                 GridView gridview = body.findViewById(R.id.images);
                 gridview.setAdapter(new ImageGridAdapter(RedditGalleryPager.this, true, images));
 
-
-                b.setView(body);
-                final Dialog d = b.create();
+                final AlertDialog.Builder builder = new AlertDialog.Builder(RedditGalleryPager.this)
+                        .setView(body);
+                final Dialog d = builder.create();
                 gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     public void onItemClick(AdapterView<?> parent, View v, int position,
                             long id) {
@@ -412,18 +411,15 @@ public class RedditGalleryPager extends FullScreenActivity
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                new AlertDialog.Builder(RedditGalleryPager.this).setTitle(R.string.set_save_location)
+                new AlertDialog.Builder(RedditGalleryPager.this)
+                        .setTitle(R.string.set_save_location)
                         .setMessage(R.string.set_save_location_msg)
-                        .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                new FolderChooserDialogCreate.Builder(RedditGalleryPager.this).chooseButton(
-                                        R.string.btn_select)  // changes label of the choose button
+                        .setPositiveButton(R.string.btn_yes, (dialog, which) ->
+                                new FolderChooserDialogCreate.Builder(RedditGalleryPager.this)
+                                        .chooseButton(R.string.btn_select) // changes label of the choose button
                                         .initialPath(Environment.getExternalStorageDirectory()
-                                                .getPath())  // changes initial path, defaults to external storage directory
-                                        .show();
-                            }
-                        })
+                                                .getPath()) // changes initial path, defaults to external storage directory
+                                        .show())
                         .setNegativeButton(R.string.btn_no, null)
                         .show();
             }
@@ -435,19 +431,15 @@ public class RedditGalleryPager extends FullScreenActivity
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                new AlertDialog.Builder(RedditGalleryPager.this).setTitle(
-                        R.string.err_something_wrong)
+                new AlertDialog.Builder(RedditGalleryPager.this)
+                        .setTitle(R.string.err_something_wrong)
                         .setMessage(R.string.err_couldnt_save_choose_new)
-                        .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                new FolderChooserDialogCreate.Builder(RedditGalleryPager.this).chooseButton(
-                                        R.string.btn_select)  // changes label of the choose button
+                        .setPositiveButton(R.string.btn_yes, (dialog, which) ->
+                                new FolderChooserDialogCreate.Builder(RedditGalleryPager.this)
+                                        .chooseButton(R.string.btn_select) // changes label of the choose button
                                         .initialPath(Environment.getExternalStorageDirectory()
-                                                .getPath())  // changes initial path, defaults to external storage directory
-                                        .show();
-                            }
-                        })
+                                                .getPath()) // changes initial path, defaults to external storage directory
+                                        .show())
                         .setNegativeButton(R.string.btn_no, null)
                         .show();
             }

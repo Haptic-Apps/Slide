@@ -151,7 +151,6 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 public boolean onLongClick(View v) {
                     LayoutInflater inflater = mContext.getLayoutInflater();
                     final View dialoglayout = inflater.inflate(R.layout.postmenu, null);
-                    AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
                     final TextView title = dialoglayout.findViewById(R.id.title);
                     title.setText(HtmlCompat.fromHtml(submission.getTitle(), HtmlCompat.FROM_HTML_MODE_LEGACY));
 
@@ -244,7 +243,8 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     }
                     title.setBackgroundColor(Palette.getColor(submission.getSubredditName()));
 
-                    builder.setView(dialoglayout);
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(mContext)
+                            .setView(dialoglayout);
                     final Dialog d = builder.show();
                     dialoglayout.findViewById(R.id.hide).setOnClickListener(new View.OnClickListener() {
                         @Override

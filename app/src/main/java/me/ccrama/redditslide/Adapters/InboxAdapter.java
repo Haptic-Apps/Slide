@@ -419,7 +419,6 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
 
         final View dialoglayout = inflater.inflate(R.layout.edit_comment, null);
-        final AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
 
         final EditText e = dialoglayout.findViewById(R.id.entry);
 
@@ -427,7 +426,8 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 ((AppCompatActivity) mContext).getSupportFragmentManager(), (Activity) mContext,
                 replyTo.getBody(), null);
 
-        builder.setView(dialoglayout);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(mContext)
+                .setView(dialoglayout);
         final Dialog d = builder.create();
         d.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 

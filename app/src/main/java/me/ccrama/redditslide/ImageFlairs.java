@@ -2,7 +2,6 @@ package me.ccrama.redditslide;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -53,30 +52,26 @@ public class ImageFlairs {
                 d.dismiss();
                 if (flairStylesheet != null) {
                     flairs.edit().putBoolean(subreddit.toLowerCase(Locale.ENGLISH), true).commit();
-                    d = new AlertDialog.Builder(context).setTitle("Subreddit flairs synced")
-                            .setMessage("Slide found and synced "
-                                    + flairStylesheet.count
-                                    + " image flairs")
+                    d = new AlertDialog.Builder(context)
+                            .setTitle("Subreddit flairs synced")
+                            .setMessage("Slide found and synced " + flairStylesheet.count + " image flairs")
                             .setPositiveButton(R.string.btn_ok, null)
                             .show();
                 } else {
-                    AlertDialog.Builder b = new AlertDialog.Builder(context).setTitle(
-                            "Error syncing subreddit flairs")
+                    final AlertDialog.Builder b = new AlertDialog.Builder(context)
+                            .setTitle("Error syncing subreddit flairs")
                             .setMessage("Slide could not find any subreddit flairs to sync from /r/"
                                     + subreddit
                                     + "'s stylesheet.")
                             .setPositiveButton(R.string.btn_ok, null);
                     if(Authentication.isLoggedIn){
-                        b.setNeutralButton("Report no flairs", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Toast.makeText(context, "Not all subreddits can be parsed, but send a message to SlideBot and hopefully we can add support for this subreddit :)\n\nPlease, only send one report.", Toast.LENGTH_LONG);
-                                Intent i = new Intent(context, SendMessage.class);
-                                i.putExtra(SendMessage.EXTRA_NAME, "slidebot");
-                                i.putExtra(SendMessage.EXTRA_MESSAGE, "/r/" + subreddit);
-                                i.putExtra(SendMessage.EXTRA_REPLY, "Subreddit flair");
-                                context.startActivity(i);
-                            }
+                        b.setNeutralButton("Report no flairs", (dialog, which) -> {
+                            Toast.makeText(context, "Not all subreddits can be parsed, but send a message to SlideBot and hopefully we can add support for this subreddit :)\n\nPlease, only send one report.", Toast.LENGTH_LONG);
+                            Intent i = new Intent(context, SendMessage.class);
+                            i.putExtra(SendMessage.EXTRA_NAME, "slidebot");
+                            i.putExtra(SendMessage.EXTRA_MESSAGE, "/r/" + subreddit);
+                            i.putExtra(SendMessage.EXTRA_REPLY, "Subreddit flair");
+                            context.startActivity(i);
                         });
                     }
 

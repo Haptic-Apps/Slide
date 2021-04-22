@@ -1,7 +1,6 @@
 package me.ccrama.redditslide.Activities;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -128,18 +127,15 @@ public class Tumblr extends FullScreenActivity implements FolderChooserDialogCre
 
     public void showFirstDialog() {
         try {
-            new AlertDialog.Builder(this).setTitle(R.string.set_save_location)
+            new AlertDialog.Builder(this)
+                    .setTitle(R.string.set_save_location)
                     .setMessage(R.string.set_save_location_msg)
-                    .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            new FolderChooserDialogCreate.Builder(Tumblr.this).chooseButton(
-                                    R.string.btn_select)  // changes label of the choose button
+                    .setPositiveButton(R.string.btn_yes, (dialog, which) ->
+                            new FolderChooserDialogCreate.Builder(Tumblr.this)
+                                    .chooseButton(R.string.btn_select) // changes label of the choose button
                                     .initialPath(Environment.getExternalStorageDirectory()
-                                            .getPath())  // changes initial path, defaults to external storage directory
-                                    .show();
-                        }
-                    })
+                                            .getPath()) // changes initial path, defaults to external storage directory
+                                    .show())
                     .setNegativeButton(R.string.btn_no, null)
                     .show();
         } catch (Exception ignored) {
@@ -148,18 +144,15 @@ public class Tumblr extends FullScreenActivity implements FolderChooserDialogCre
     }
 
     public void showErrorDialog() {
-        new AlertDialog.Builder(Tumblr.this).setTitle(R.string.err_something_wrong)
+        new AlertDialog.Builder(Tumblr.this)
+                .setTitle(R.string.err_something_wrong)
                 .setMessage(R.string.err_couldnt_save_choose_new)
-                .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        new FolderChooserDialogCreate.Builder(Tumblr.this).chooseButton(
-                                R.string.btn_select)  // changes label of the choose button
+                .setPositiveButton(R.string.btn_yes, (dialog, which) ->
+                        new FolderChooserDialogCreate.Builder(Tumblr.this)
+                                .chooseButton(R.string.btn_select) // changes label of the choose button
                                 .initialPath(Environment.getExternalStorageDirectory()
-                                        .getPath())  // changes initial path, defaults to external storage directory
-                                .show();
-                    }
-                })
+                                        .getPath()) // changes initial path, defaults to external storage directory
+                                .show())
                 .setNegativeButton(R.string.btn_no, null)
                 .show();
     }

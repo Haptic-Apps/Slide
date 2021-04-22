@@ -689,124 +689,115 @@ public class PopulateSubmissionViewHolder {
                         };
                         oldChosen = chosen.clone();
 
-                        new AlertDialogWrapper.Builder(mContext).setTitle(R.string.filter_title)
+                        new AlertDialogWrapper.Builder(mContext)
+                                .setTitle(R.string.filter_title)
                                 .alwaysCallMultiChoiceCallback()
-                                .setMultiChoiceItems(choices, chosen,
-                                        new DialogInterface.OnMultiChoiceClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which,
-                                                    boolean isChecked) {
-                                                chosen[which] = isChecked;
+                                .setMultiChoiceItems(choices, chosen, (dialog1, which1, isChecked) ->
+                                        chosen[which1] = isChecked)
+                                .setPositiveButton(R.string.filter_btn, (dialog12, which12) -> {
+                                    boolean filtered = false;
+                                    SharedPreferences.Editor e = SettingValues.prefs.edit();
+                                    if (chosen[0] && chosen[0] != oldChosen[0]) {
+                                        SettingValues.subredditFilters.add(submission.getSubredditName()
+                                                .toLowerCase(Locale.ENGLISH).trim());
+                                        filtered = true;
+                                        e.putStringSet(
+                                                SettingValues.PREF_SUBREDDIT_FILTERS,
+                                                SettingValues.subredditFilters);
+                                    } else if (!chosen[0] && chosen[0] != oldChosen[0]) {
+                                        SettingValues.subredditFilters.remove(submission.getSubredditName()
+                                                .toLowerCase(Locale.ENGLISH).trim());
+                                        filtered = false;
+                                        e.putStringSet(
+                                                SettingValues.PREF_SUBREDDIT_FILTERS,
+                                                SettingValues.subredditFilters);
+                                        e.apply();
+                                    }
+                                    if (chosen[1] && chosen[1] != oldChosen[1]) {
+                                        SettingValues.userFilters.add(submission.getAuthor()
+                                                .toLowerCase(Locale.ENGLISH).trim());
+                                        filtered = true;
+                                        e.putStringSet(SettingValues.PREF_USER_FILTERS,
+                                                SettingValues.userFilters);
+                                    } else if (!chosen[1] && chosen[1] != oldChosen[1]) {
+                                        SettingValues.userFilters.remove(submission.getAuthor()
+                                                .toLowerCase(Locale.ENGLISH).trim());
+                                        filtered = false;
+                                        e.putStringSet(SettingValues.PREF_USER_FILTERS,
+                                                SettingValues.userFilters);
+                                        e.apply();
+                                    }
+                                    if (chosen[2] && chosen[2] != oldChosen[2]) {
+                                        SettingValues.domainFilters.add(submission.getDomain()
+                                                .toLowerCase(Locale.ENGLISH).trim());
+                                        filtered = true;
+                                        e.putStringSet(SettingValues.PREF_DOMAIN_FILTERS,
+                                                SettingValues.domainFilters);
+                                    } else if (!chosen[2] && chosen[2] != oldChosen[2]) {
+                                        SettingValues.domainFilters.remove(submission.getDomain()
+                                                .toLowerCase(Locale.ENGLISH).trim());
+                                        filtered = false;
+                                        e.putStringSet(SettingValues.PREF_DOMAIN_FILTERS,
+                                                SettingValues.domainFilters);
+                                        e.apply();
+                                    }
+                                    if (chosen[3] && chosen[3] != oldChosen[3]) {
+                                        SettingValues.alwaysExternal.add(submission.getDomain()
+                                                .toLowerCase(Locale.ENGLISH).trim());
+                                        e.putStringSet(SettingValues.PREF_ALWAYS_EXTERNAL,
+                                                SettingValues.alwaysExternal);
+                                        e.apply();
+                                    } else if (!chosen[3] && chosen[3] != oldChosen[3]) {
+                                        SettingValues.alwaysExternal.remove(submission.getDomain()
+                                                .toLowerCase(Locale.ENGLISH).trim());
+                                        e.putStringSet(SettingValues.PREF_ALWAYS_EXTERNAL,
+                                                SettingValues.alwaysExternal);
+                                        e.apply();
+                                    }
+                                    if (chosen.length > 4) {
+                                        String s = (baseSub + ":" + flair)
+                                                .toLowerCase(Locale.ENGLISH).trim();
+                                        if (chosen[4] && chosen[4] != oldChosen[4]) {
+                                            SettingValues.flairFilters.add(s);
+                                            e.putStringSet(
+                                                    SettingValues.PREF_FLAIR_FILTERS,
+                                                    SettingValues.flairFilters);
+                                            e.apply();
+                                            filtered = true;
+                                        } else if (!chosen[4] && chosen[4] != oldChosen[4]) {
+                                            SettingValues.flairFilters.remove(s);
+                                            e.putStringSet(
+                                                    SettingValues.PREF_FLAIR_FILTERS,
+                                                    SettingValues.flairFilters);
+                                            e.apply();
+                                        }
+                                    }
+                                    if (filtered) {
+                                        e.apply();
+                                        ArrayList<Contribution> toRemove = new ArrayList<>();
+                                        for (Contribution s : posts) {
+                                            if (s instanceof Submission
+                                                    && PostMatch.doesMatch((Submission) s)) {
+                                                toRemove.add(s);
                                             }
-                                        })
-                                .setPositiveButton(R.string.filter_btn,
-                                        new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                boolean filtered = false;
-                                                SharedPreferences.Editor e = SettingValues.prefs.edit();
-                                                if (chosen[0] && chosen[0] != oldChosen[0]) {
-                                                    SettingValues.subredditFilters.add(submission.getSubredditName()
-                                                            .toLowerCase(Locale.ENGLISH).trim());
-                                                    filtered = true;
-                                                    e.putStringSet(
-                                                            SettingValues.PREF_SUBREDDIT_FILTERS,
-                                                            SettingValues.subredditFilters);
-                                                } else if (!chosen[0] && chosen[0] != oldChosen[0]) {
-                                                    SettingValues.subredditFilters.remove(submission.getSubredditName()
-                                                            .toLowerCase(Locale.ENGLISH).trim());
-                                                    filtered = false;
-                                                    e.putStringSet(
-                                                            SettingValues.PREF_SUBREDDIT_FILTERS,
-                                                            SettingValues.subredditFilters);
-                                                    e.apply();
-                                                }
-                                                if (chosen[1] && chosen[1] != oldChosen[1]) {
-                                                    SettingValues.userFilters.add(submission.getAuthor()
-                                                            .toLowerCase(Locale.ENGLISH).trim());
-                                                    filtered = true;
-                                                    e.putStringSet(SettingValues.PREF_USER_FILTERS,
-                                                            SettingValues.userFilters);
-                                                } else if (!chosen[1] && chosen[1] != oldChosen[1]) {
-                                                    SettingValues.userFilters.remove(submission.getAuthor()
-                                                            .toLowerCase(Locale.ENGLISH).trim());
-                                                    filtered = false;
-                                                    e.putStringSet(SettingValues.PREF_USER_FILTERS,
-                                                            SettingValues.userFilters);
-                                                    e.apply();
-                                                }
-                                                if (chosen[2] && chosen[2] != oldChosen[2]) {
-                                                    SettingValues.domainFilters.add(submission.getDomain()
-                                                            .toLowerCase(Locale.ENGLISH).trim());
-                                                    filtered = true;
-                                                    e.putStringSet(SettingValues.PREF_DOMAIN_FILTERS,
-                                                            SettingValues.domainFilters);
-                                                } else if (!chosen[2] && chosen[2] != oldChosen[2]) {
-                                                    SettingValues.domainFilters.remove(submission.getDomain()
-                                                            .toLowerCase(Locale.ENGLISH).trim());
-                                                    filtered = false;
-                                                    e.putStringSet(SettingValues.PREF_DOMAIN_FILTERS,
-                                                            SettingValues.domainFilters);
-                                                    e.apply();
-                                                }
-                                                if (chosen[3] && chosen[3] != oldChosen[3]) {
-                                                    SettingValues.alwaysExternal.add(submission.getDomain()
-                                                            .toLowerCase(Locale.ENGLISH).trim());
-                                                    e.putStringSet(SettingValues.PREF_ALWAYS_EXTERNAL,
-                                                            SettingValues.alwaysExternal);
-                                                    e.apply();
-                                                } else if (!chosen[3] && chosen[3] != oldChosen[3]) {
-                                                    SettingValues.alwaysExternal.remove(submission.getDomain()
-                                                            .toLowerCase(Locale.ENGLISH).trim());
-                                                    e.putStringSet(SettingValues.PREF_ALWAYS_EXTERNAL,
-                                                            SettingValues.alwaysExternal);
-                                                    e.apply();
-                                                }
-                                                if (chosen.length > 4) {
-                                                    String s = (baseSub + ":" + flair)
-                                                            .toLowerCase(Locale.ENGLISH).trim();
-                                                    if (chosen[4] && chosen[4] != oldChosen[4]) {
-                                                        SettingValues.flairFilters.add(s);
-                                                        e.putStringSet(
-                                                                SettingValues.PREF_FLAIR_FILTERS,
-                                                                SettingValues.flairFilters);
-                                                        e.apply();
-                                                        filtered = true;
-                                                    } else if (!chosen[4] && chosen[4] != oldChosen[4]) {
-                                                        SettingValues.flairFilters.remove(s);
-                                                        e.putStringSet(
-                                                                SettingValues.PREF_FLAIR_FILTERS,
-                                                                SettingValues.flairFilters);
-                                                        e.apply();
-                                                    }
-                                                }
-                                                if (filtered) {
-                                                    e.apply();
-                                                    ArrayList<Contribution> toRemove = new ArrayList<>();
-                                                    for (Contribution s : posts) {
-                                                        if (s instanceof Submission
-                                                                && PostMatch.doesMatch((Submission) s)) {
-                                                            toRemove.add(s);
-                                                        }
-                                                    }
+                                        }
 
-                                                    OfflineSubreddit s =
-                                                            OfflineSubreddit.getSubreddit(baseSub,
-                                                                    false, mContext);
+                                        OfflineSubreddit s =
+                                                OfflineSubreddit.getSubreddit(baseSub,
+                                                        false, mContext);
 
-                                                    for (Contribution remove : toRemove) {
-                                                        final int pos = posts.indexOf(remove);
-                                                        posts.remove(pos);
-                                                        if (baseSub != null) {
-                                                            s.hideMulti(pos);
-                                                        }
-                                                    }
-                                                    s.writeToMemoryNoStorage();
-                                                    recyclerview.getAdapter()
-                                                            .notifyDataSetChanged();
-                                                }
+                                        for (Contribution remove : toRemove) {
+                                            final int pos = posts.indexOf(remove);
+                                            posts.remove(pos);
+                                            if (baseSub != null) {
+                                                s.hideMulti(pos);
                                             }
-                                        })
+                                        }
+                                        s.writeToMemoryNoStorage();
+                                        recyclerview.getAdapter()
+                                                .notifyDataSetChanged();
+                                    }
+                                })
                                 .setNegativeButton(R.string.btn_cancel, null)
                                 .show();
                         break;
@@ -995,51 +986,42 @@ public class PopulateSubmissionViewHolder {
                         showText.setTextIsSelectable(true);
                         int sixteen = DisplayUtil.dpToPxVertical(24);
                         showText.setPadding(sixteen, 0, sixteen, 0);
-                        AlertDialog.Builder builder =
-                                new AlertDialog.Builder(mContext);
-                        builder.setView(showText)
+                        new AlertDialog.Builder(mContext)
+                                .setView(showText)
                                 .setTitle("Select text to copy")
                                 .setCancelable(true)
-                                .setPositiveButton("COPY SELECTED",
-                                        new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                String selected = showText.getText()
-                                                        .toString()
-                                                        .substring(showText.getSelectionStart(),
-                                                                showText.getSelectionEnd());
-                                                if (!selected.isEmpty()) {
-                                                    ClipboardUtil.copyToClipboard(mContext, "Selftext", selected);
-                                                } else {
-                                                    ClipboardUtil.copyToClipboard(mContext, "Selftext",
-                                                            HtmlCompat.fromHtml(
-                                                                    submission.getTitle()
-                                                                            + "\n\n"
-                                                                            + submission.getSelftext(),
-                                                                    HtmlCompat.FROM_HTML_MODE_LEGACY));
-                                                }
-                                                Toast.makeText(mContext,
-                                                        R.string.submission_comment_copied,
-                                                        Toast.LENGTH_SHORT).show();
+                                .setPositiveButton("COPY SELECTED", (dialog13, which13) -> {
+                                    String selected = showText.getText()
+                                            .toString()
+                                            .substring(showText.getSelectionStart(),
+                                                    showText.getSelectionEnd());
+                                    if (!selected.isEmpty()) {
+                                        ClipboardUtil.copyToClipboard(mContext, "Selftext", selected);
+                                    } else {
+                                        ClipboardUtil.copyToClipboard(mContext, "Selftext",
+                                                HtmlCompat.fromHtml(
+                                                        submission.getTitle()
+                                                                + "\n\n"
+                                                                + submission.getSelftext(),
+                                                        HtmlCompat.FROM_HTML_MODE_LEGACY));
+                                    }
+                                    Toast.makeText(mContext,
+                                            R.string.submission_comment_copied,
+                                            Toast.LENGTH_SHORT).show();
 
-                                            }
-                                        })
+                                })
                                 .setNegativeButton(R.string.btn_cancel, null)
-                                .setNeutralButton("COPY ALL",
-                                        new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                ClipboardUtil.copyToClipboard(mContext, "Selftext",
-                                                        StringEscapeUtils.unescapeHtml4(
-                                                                submission.getTitle()
-                                                                        + "\n\n"
-                                                                        + submission.getSelftext()));
+                                .setNeutralButton("COPY ALL", (dialog14, which14) -> {
+                                    ClipboardUtil.copyToClipboard(mContext, "Selftext",
+                                            StringEscapeUtils.unescapeHtml4(
+                                                    submission.getTitle()
+                                                            + "\n\n"
+                                                            + submission.getSelftext()));
 
-                                                Toast.makeText(mContext,
-                                                        R.string.submission_text_copied,
-                                                        Toast.LENGTH_SHORT).show();
-                                            }
-                                        })
+                                    Toast.makeText(mContext,
+                                            R.string.submission_text_copied,
+                                            Toast.LENGTH_SHORT).show();
+                                })
                                 .show();
                         break;
                 }
@@ -1469,16 +1451,9 @@ public class PopulateSubmissionViewHolder {
 
                             @Override
                             public void onPostExecute(ArrayList<String> data) {
-                                new AlertDialog.Builder(mContext).setTitle(
-                                        R.string.mod_reports)
-                                        .setItems(data.toArray(new CharSequence[0]),
-                                                new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog,
-                                                            int which) {
-
-                                                    }
-                                                })
+                                new AlertDialog.Builder(mContext)
+                                        .setTitle(R.string.mod_reports)
+                                        .setItems(data.toArray(new CharSequence[0]), null)
                                         .show();
                             }
                         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
@@ -1565,7 +1540,8 @@ public class PopulateSubmissionViewHolder {
                                         LayoutUtils.showSnackbar(s);
 
                                     } else {
-                                        new AlertDialog.Builder(mContext).setTitle(R.string.err_general)
+                                        new AlertDialog.Builder(mContext)
+                                                .setTitle(R.string.err_general)
                                                 .setMessage(R.string.err_retry_later)
                                                 .show();
                                     }
@@ -1672,7 +1648,8 @@ public class PopulateSubmissionViewHolder {
                     LayoutUtils.showSnackbar(s);
 
                 } else {
-                    new AlertDialog.Builder(mContext).setTitle(R.string.err_general)
+                    new AlertDialog.Builder(mContext)
+                            .setTitle(R.string.err_general)
                             .setMessage(R.string.err_retry_later)
                             .show();
                 }
@@ -1730,7 +1707,8 @@ public class PopulateSubmissionViewHolder {
                     LayoutUtils.showSnackbar(s);
 
                 } else {
-                    new AlertDialog.Builder(mContext).setTitle(R.string.err_general)
+                    new AlertDialog.Builder(mContext)
+                            .setTitle(R.string.err_general)
                             .setMessage(R.string.err_retry_later)
                             .show();
                 }
@@ -1778,8 +1756,8 @@ public class PopulateSubmissionViewHolder {
             public void onPostExecute(final ArrayList<String> data) {
                 try {
                     if (data.isEmpty()) {
-                        new AlertDialog.Builder(mContext).setTitle(
-                                R.string.mod_flair_none_found)
+                        new AlertDialog.Builder(mContext)
+                                .setTitle(R.string.mod_flair_none_found)
                                 .setPositiveButton(R.string.btn_ok, null)
                                 .show();
                     } else {
@@ -1924,7 +1902,8 @@ public class PopulateSubmissionViewHolder {
                     LayoutUtils.showSnackbar(s);
 
                 } else {
-                    new AlertDialog.Builder(mContext).setTitle(R.string.err_general)
+                    new AlertDialog.Builder(mContext)
+                            .setTitle(R.string.err_general)
                             .setMessage(R.string.err_retry_later)
                             .show();
                 }
@@ -1957,7 +1936,8 @@ public class PopulateSubmissionViewHolder {
                     LayoutUtils.showSnackbar(s);
 
                 } else {
-                    new AlertDialog.Builder(mContext).setTitle(R.string.err_general)
+                    new AlertDialog.Builder(mContext)
+                            .setTitle(R.string.err_general)
                             .setMessage(R.string.err_retry_later)
                             .show();
                 }
@@ -1989,7 +1969,8 @@ public class PopulateSubmissionViewHolder {
                     LayoutUtils.showSnackbar(s);
 
                 } else {
-                    new AlertDialog.Builder(mContext).setTitle(R.string.err_general)
+                    new AlertDialog.Builder(mContext)
+                            .setTitle(R.string.err_general)
                             .setMessage(R.string.err_retry_later)
                             .show();
                 }
@@ -2021,7 +2002,8 @@ public class PopulateSubmissionViewHolder {
                     LayoutUtils.showSnackbar(s);
 
                 } else {
-                    new AlertDialog.Builder(mContext).setTitle(R.string.err_general)
+                    new AlertDialog.Builder(mContext)
+                            .setTitle(R.string.err_general)
                             .setMessage(R.string.err_retry_later)
                             .show();
                 }
@@ -2053,7 +2035,8 @@ public class PopulateSubmissionViewHolder {
                     LayoutUtils.showSnackbar(s);
 
                 } else {
-                    new AlertDialog.Builder(mContext).setTitle(R.string.err_general)
+                    new AlertDialog.Builder(mContext)
+                            .setTitle(R.string.err_general)
                             .setMessage(R.string.err_retry_later)
                             .show();
                 }
@@ -2086,7 +2069,8 @@ public class PopulateSubmissionViewHolder {
                     LayoutUtils.showSnackbar(s);
 
                 } else {
-                    new AlertDialog.Builder(mContext).setTitle(R.string.err_general)
+                    new AlertDialog.Builder(mContext)
+                            .setTitle(R.string.err_general)
                             .setMessage(R.string.err_retry_later)
                             .show();
                 }
@@ -2119,7 +2103,8 @@ public class PopulateSubmissionViewHolder {
                     LayoutUtils.showSnackbar(s);
 
                 } else {
-                    new AlertDialog.Builder(mContext).setTitle(R.string.err_general)
+                    new AlertDialog.Builder(mContext)
+                            .setTitle(R.string.err_general)
                             .setMessage(R.string.err_retry_later)
                             .show();
                 }
@@ -2153,7 +2138,8 @@ public class PopulateSubmissionViewHolder {
                     LayoutUtils.showSnackbar(s);
 
                 } else {
-                    new AlertDialog.Builder(mContext).setTitle(R.string.err_general)
+                    new AlertDialog.Builder(mContext)
+                            .setTitle(R.string.err_general)
                             .setMessage(R.string.err_retry_later)
                             .show();
                 }
@@ -2186,7 +2172,8 @@ public class PopulateSubmissionViewHolder {
                     LayoutUtils.showSnackbar(s);
 
                 } else {
-                    new AlertDialog.Builder(mContext).setTitle(R.string.err_general)
+                    new AlertDialog.Builder(mContext)
+                            .setTitle(R.string.err_general)
                             .setMessage(R.string.err_retry_later)
                             .show();
                 }
@@ -2220,7 +2207,8 @@ public class PopulateSubmissionViewHolder {
                     LayoutUtils.showSnackbar(s);
 
                 } else {
-                    new AlertDialog.Builder(mContext).setTitle(R.string.err_general)
+                    new AlertDialog.Builder(mContext)
+                            .setTitle(R.string.err_general)
                             .setMessage(R.string.err_retry_later)
                             .show();
                 }
@@ -2276,7 +2264,8 @@ public class PopulateSubmissionViewHolder {
                     }
 
                 } else {
-                    new AlertDialog.Builder(mContext).setTitle(R.string.err_general)
+                    new AlertDialog.Builder(mContext)
+                            .setTitle(R.string.err_general)
                             .setMessage(R.string.err_retry_later)
                             .show();
                 }
@@ -2328,124 +2317,107 @@ public class PopulateSubmissionViewHolder {
         time.setInputType(InputType.TYPE_CLASS_NUMBER);
         l.addView(time);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-        builder.setView(l)
+        new AlertDialog.Builder(mContext)
+                .setView(l)
                 .setTitle(mContext.getString(R.string.mod_ban_title, submission.getAuthor()))
                 .setCancelable(true)
-                .setPositiveButton(R.string.mod_btn_ban, new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.mod_btn_ban, (dialog, which) -> {
+                    //to ban
+                    if (reason.getText().toString().isEmpty()) {
+                        new AlertDialog.Builder(mContext)
+                                .setTitle(R.string.mod_ban_reason_required)
+                                .setMessage(R.string.misc_please_try_again)
+                                .setPositiveButton(R.string.btn_ok, (dialog1, which1) ->
+                                        showBan(mContext, mToolbar, submission,
+                                                reason.getText().toString(),
+                                                note.getText().toString(),
+                                                message.getText().toString(),
+                                                time.getText().toString()))
+                                .setCancelable(false)
+                                .show();
+                    } else {
+                        new AsyncTask<Void, Void, Boolean>() {
                             @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                //to ban
-                                if (reason.getText().toString().isEmpty()) {
-                                    new AlertDialog.Builder(mContext).setTitle(
-                                            R.string.mod_ban_reason_required)
-                                            .setMessage(R.string.misc_please_try_again)
-                                            .setPositiveButton(R.string.btn_ok,
-                                                    new DialogInterface.OnClickListener() {
-                                                        @Override
-                                                        public void onClick(DialogInterface dialog,
-                                                                int which) {
-                                                            showBan(mContext, mToolbar, submission,
-                                                                    reason.getText().toString(),
-                                                                    note.getText().toString(),
-                                                                    message.getText().toString(),
-                                                                    time.getText().toString());
-                                                        }
-                                                    })
-                                            .setCancelable(false)
-                                            .show();
-                                } else {
-                                    new AsyncTask<Void, Void, Boolean>() {
-                                        @Override
-                                        protected Boolean doInBackground(Void... params) {
-                                            try {
-                                                String n = note.getText().toString();
-                                                String m = message.getText().toString();
+                            protected Boolean doInBackground(Void... params) {
+                                try {
+                                    String n = note.getText().toString();
+                                    String m = message.getText().toString();
 
-                                                if (n.isEmpty()) {
-                                                    n = null;
-                                                }
-                                                if (m.isEmpty()) {
-                                                    m = null;
-                                                }
-                                                if (time.getText().toString().isEmpty()) {
-                                                    new ModerationManager(
-                                                            Authentication.reddit).banUserPermanently(
-                                                            submission.getSubredditName(),
-                                                            submission.getAuthor(),
-                                                            reason.getText().toString(), n, m);
-                                                } else {
-                                                    new ModerationManager(Authentication.reddit).banUser(
-                                                            submission.getSubredditName(),
-                                                            submission.getAuthor(),
-                                                            reason.getText().toString(), n, m,
-                                                            Integer.parseInt(time.getText().toString()));
-                                                }
-                                                return true;
-                                            } catch (Exception e) {
-                                                if (e instanceof InvalidScopeException) {
-                                                    scope = true;
-                                                }
-                                                e.printStackTrace();
-                                                return false;
-                                            }
-                                        }
-
-                                        boolean scope;
-
-                                        @Override
-                                        protected void onPostExecute(Boolean done) {
-                                            Snackbar s;
-                                            if (done) {
-                                                s = Snackbar.make(mToolbar, R.string.mod_ban_success,
-                                                        Snackbar.LENGTH_SHORT);
-                                            } else {
-                                                if (scope) {
-                                                    new AlertDialog.Builder(mContext).setTitle(
-                                                            R.string.mod_ban_reauth)
-                                                            .setMessage(R.string.mod_ban_reauth_question)
-                                                            .setPositiveButton(R.string.btn_ok,
-                                                                    new DialogInterface.OnClickListener() {
-                                                                        @Override
-                                                                        public void onClick(
-                                                                                DialogInterface dialog,
-                                                                                int which) {
-                                                                            Intent i = new Intent(mContext,
-                                                                                    Reauthenticate.class);
-                                                                            mContext.startActivity(i);
-                                                                        }
-                                                                    })
-                                                            .setNegativeButton(R.string.misc_maybe_later,
-                                                                    null)
-                                                            .setCancelable(false)
-                                                            .show();
-                                                }
-                                                s = Snackbar.make(mToolbar, R.string.mod_ban_fail,
-                                                        Snackbar.LENGTH_INDEFINITE)
-                                                        .setAction(R.string.misc_try_again,
-                                                                new View.OnClickListener() {
-                                                                    @Override
-                                                                    public void onClick(View v) {
-                                                                        showBan(mContext, mToolbar,
-                                                                                submission,
-                                                                                reason.getText().toString(),
-                                                                                note.getText().toString(),
-                                                                                message.getText()
-                                                                                        .toString(),
-                                                                                time.getText().toString());
-                                                                    }
-                                                                });
-
-                                            }
-
-                                            if (s != null) {
-                                                LayoutUtils.showSnackbar(s);
-                                            }
-                                        }
-                                    }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                                    if (n.isEmpty()) {
+                                        n = null;
+                                    }
+                                    if (m.isEmpty()) {
+                                        m = null;
+                                    }
+                                    if (time.getText().toString().isEmpty()) {
+                                        new ModerationManager(
+                                                Authentication.reddit).banUserPermanently(
+                                                submission.getSubredditName(),
+                                                submission.getAuthor(),
+                                                reason.getText().toString(), n, m);
+                                    } else {
+                                        new ModerationManager(Authentication.reddit).banUser(
+                                                submission.getSubredditName(),
+                                                submission.getAuthor(),
+                                                reason.getText().toString(), n, m,
+                                                Integer.parseInt(time.getText().toString()));
+                                    }
+                                    return true;
+                                } catch (Exception e) {
+                                    if (e instanceof InvalidScopeException) {
+                                        scope = true;
+                                    }
+                                    e.printStackTrace();
+                                    return false;
                                 }
                             }
-                        }
+
+                            boolean scope;
+
+                            @Override
+                            protected void onPostExecute(Boolean done) {
+                                Snackbar s;
+                                if (done) {
+                                    s = Snackbar.make(mToolbar, R.string.mod_ban_success,
+                                            Snackbar.LENGTH_SHORT);
+                                } else {
+                                    if (scope) {
+                                        new AlertDialog.Builder(mContext)
+                                                .setTitle(R.string.mod_ban_reauth)
+                                                .setMessage(R.string.mod_ban_reauth_question)
+                                                .setPositiveButton(R.string.btn_ok, (dialog12, which12) -> {
+                                                    Intent i = new Intent(mContext, Reauthenticate.class);
+                                                    mContext.startActivity(i);
+                                                })
+                                                .setNegativeButton(R.string.misc_maybe_later, null)
+                                                .setCancelable(false)
+                                                .show();
+                                    }
+                                    s = Snackbar.make(mToolbar, R.string.mod_ban_fail,
+                                            Snackbar.LENGTH_INDEFINITE)
+                                            .setAction(R.string.misc_try_again,
+                                                    new View.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(View v) {
+                                                            showBan(mContext, mToolbar,
+                                                                    submission,
+                                                                    reason.getText().toString(),
+                                                                    note.getText().toString(),
+                                                                    message.getText()
+                                                                            .toString(),
+                                                                    time.getText().toString());
+                                                        }
+                                                    });
+
+                                }
+
+                                if (s != null) {
+                                    LayoutUtils.showSnackbar(s);
+                                }
+                            }
+                        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                    }
+                }
 
                 )
                 .setNegativeButton(R.string.btn_cancel, null)
@@ -3072,33 +3044,15 @@ public class PopulateSubmissionViewHolder {
                                                                                 new Runnable() {
                                                                                     @Override
                                                                                     public void run() {
-                                                                                        new AlertDialog.Builder(
-                                                                                                mContext)
-                                                                                                .setTitle(
-                                                                                                        R.string.comment_delete_err)
-                                                                                                .setMessage(
-                                                                                                        R.string.comment_delete_err_msg)
-                                                                                                .setPositiveButton(
-                                                                                                        R.string.btn_yes,
-                                                                                                        new DialogInterface.OnClickListener() {
-                                                                                                            @Override
-                                                                                                            public void onClick(
-                                                                                                                    DialogInterface dialog,
-                                                                                                                    int which) {
-                                                                                                                dialog.dismiss();
-                                                                                                                doInBackground();
-                                                                                                            }
-                                                                                                        })
-                                                                                                .setNegativeButton(
-                                                                                                        R.string.btn_no,
-                                                                                                        new DialogInterface.OnClickListener() {
-                                                                                                            @Override
-                                                                                                            public void onClick(
-                                                                                                                    DialogInterface dialog,
-                                                                                                                    int which) {
-                                                                                                                dialog.dismiss();
-                                                                                                            }
-                                                                                                        })
+                                                                                        new AlertDialog.Builder(mContext)
+                                                                                                .setTitle(R.string.comment_delete_err)
+                                                                                                .setMessage(R.string.comment_delete_err_msg)
+                                                                                                .setPositiveButton(R.string.btn_yes, (dialog1, which1) -> {
+                                                                                                    dialog1.dismiss();
+                                                                                                    doInBackground();
+                                                                                                })
+                                                                                                .setNegativeButton(R.string.btn_no, (dialog12, which12) ->
+                                                                                                        dialog12.dismiss())
                                                                                                 .show();
                                                                                     }
                                                                                 });
@@ -3121,66 +3075,59 @@ public class PopulateSubmissionViewHolder {
                                         }
                                         break;
                                         case 2: {
-                                            new AlertDialog.Builder(mContext).setTitle(
-                                                    R.string.really_delete_submission)
-                                                    .setPositiveButton(R.string.btn_yes,
-                                                            new DialogInterface.OnClickListener() {
+                                            new AlertDialog.Builder(mContext)
+                                                    .setTitle(R.string.really_delete_submission)
+                                                    .setPositiveButton(R.string.btn_yes, (dialog13, which13) ->
+                                                            new AsyncTask<Void, Void, Void>() {
                                                                 @Override
-                                                                public void onClick(
-                                                                        DialogInterface dialog,
-                                                                        int which) {
-                                                                    new AsyncTask<Void, Void, Void>() {
-                                                                        @Override
-                                                                        protected Void doInBackground(
-                                                                                Void... params) {
-                                                                            try {
-                                                                                new ModerationManager(
-                                                                                        Authentication.reddit)
-                                                                                        .delete(submission);
-                                                                            } catch (ApiException e) {
-                                                                                e.printStackTrace();
-                                                                            }
-                                                                            return null;
-                                                                        }
-
-                                                                        @Override
-                                                                        protected void onPostExecute(
-                                                                                Void aVoid) {
-                                                                            (mContext).runOnUiThread(
-                                                                                    new Runnable() {
-                                                                                        @Override
-                                                                                        public void run() {
-                                                                                            (holder.title)
-                                                                                                    .setTextHtml(
-                                                                                                            mContext.getString(
-                                                                                                                    R.string.content_deleted));
-                                                                                            if (holder.firstTextView
-                                                                                                    != null) {
-                                                                                                holder.firstTextView
-                                                                                                        .setText(
-                                                                                                                R.string.content_deleted);
-                                                                                                holder.commentOverflow
-                                                                                                        .setVisibility(
-                                                                                                                View.GONE);
-                                                                                            } else {
-                                                                                                if (holder.itemView
-                                                                                                        .findViewById(
-                                                                                                                R.id.body)
-                                                                                                        != null) {
-                                                                                                    ((TextView) holder.itemView
-                                                                                                            .findViewById(
-                                                                                                                    R.id.body))
-                                                                                                            .setText(
-                                                                                                                    R.string.content_deleted);
-                                                                                                }
-                                                                                            }
-                                                                                        }
-                                                                                    });
-                                                                        }
-                                                                    }.executeOnExecutor(
-                                                                            AsyncTask.THREAD_POOL_EXECUTOR);
+                                                                protected Void doInBackground(
+                                                                        Void... params) {
+                                                                    try {
+                                                                        new ModerationManager(
+                                                                                Authentication.reddit)
+                                                                                .delete(submission);
+                                                                    } catch (ApiException e) {
+                                                                        e.printStackTrace();
+                                                                    }
+                                                                    return null;
                                                                 }
-                                                            })
+
+                                                                @Override
+                                                                protected void onPostExecute(
+                                                                        Void aVoid) {
+                                                                    (mContext).runOnUiThread(
+                                                                            new Runnable() {
+                                                                                @Override
+                                                                                public void run() {
+                                                                                    (holder.title)
+                                                                                            .setTextHtml(
+                                                                                                    mContext.getString(
+                                                                                                            R.string.content_deleted));
+                                                                                    if (holder.firstTextView
+                                                                                            != null) {
+                                                                                        holder.firstTextView
+                                                                                                .setText(
+                                                                                                        R.string.content_deleted);
+                                                                                        holder.commentOverflow
+                                                                                                .setVisibility(
+                                                                                                        View.GONE);
+                                                                                    } else {
+                                                                                        if (holder.itemView
+                                                                                                .findViewById(
+                                                                                                        R.id.body)
+                                                                                                != null) {
+                                                                                            ((TextView) holder.itemView
+                                                                                                    .findViewById(
+                                                                                                            R.id.body))
+                                                                                                    .setText(
+                                                                                                            R.string.content_deleted);
+                                                                                        }
+                                                                                    }
+                                                                                }
+                                                                            });
+                                                                }
+                                                            }.executeOnExecutor(
+                                                                    AsyncTask.THREAD_POOL_EXECUTOR))
                                                     .setNegativeButton(R.string.btn_cancel, null)
                                                     .show();
                                         }

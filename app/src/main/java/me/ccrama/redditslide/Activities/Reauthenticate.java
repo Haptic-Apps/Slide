@@ -1,6 +1,5 @@
 package me.ccrama.redditslide.Activities;
 
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
@@ -155,18 +154,12 @@ public class Reauthenticate extends BaseActivityAnim {
 
             new AlertDialog.Builder(Reauthenticate.this)
                     .setTitle(R.string.reauth_complete)
-                    .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            finish();
-                        }
-                    }).setCancelable(false)
-                    .setOnCancelListener(new DialogInterface.OnCancelListener() {
-                        @Override
-                        public void onCancel(DialogInterface dialog) {
-                            finish();
-                        }
-                    }).show();
+                    .setPositiveButton(R.string.btn_ok, (dialog, which) ->
+                            finish())
+                    .setCancelable(false)
+                    .setOnCancelListener(dialog ->
+                            finish())
+                    .show();
         }
     }
 

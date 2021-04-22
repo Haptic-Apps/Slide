@@ -115,11 +115,13 @@ public class Search extends BaseActivityAnim {
                         .capitalize(time.name().toLowerCase(Locale.ENGLISH)));
             }
         };
-        AlertDialog.Builder builder = new AlertDialog.Builder(Search.this);
-        builder.setTitle(R.string.sorting_time_choose);
-        builder.setSingleChoiceItems(SortingUtil.getSortingTimesStrings(),
-                SortingUtil.getSortingSearchId(this), l2);
-        builder.show();
+        new AlertDialog.Builder(Search.this)
+                .setTitle(R.string.sorting_time_choose)
+                .setSingleChoiceItems(
+                        SortingUtil.getSortingTimesStrings(),
+                        SortingUtil.getSortingSearchId(this),
+                        l2)
+                .show();
     }
 
     public void openSearchTypePopup() {
@@ -150,10 +152,13 @@ public class Search extends BaseActivityAnim {
                         .capitalize(time.name().toLowerCase(Locale.ENGLISH)));
             }
         };
-        AlertDialog.Builder builder = new AlertDialog.Builder(Search.this);
-        builder.setTitle(R.string.sorting_choose);
-        builder.setSingleChoiceItems(SortingUtil.getSearch(), SortingUtil.getSearchType(), l2);
-        builder.show();
+        new AlertDialog.Builder(Search.this)
+                .setTitle(R.string.sorting_choose)
+                .setSingleChoiceItems(
+                        SortingUtil.getSearch(),
+                        SortingUtil.getSearchType(),
+                        l2)
+                .show();
     }
 
     public TimePeriod time;

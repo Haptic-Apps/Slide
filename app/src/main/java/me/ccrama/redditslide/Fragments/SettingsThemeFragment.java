@@ -69,8 +69,6 @@ public class SettingsThemeFragment<ActivityType extends BaseActivity & SettingsF
             public void onClick(View v) {
                 LayoutInflater inflater = context.getLayoutInflater();
                 final View dialoglayout = inflater.inflate(R.layout.chooseaccent, null);
-                AlertDialog.Builder builder =
-                        new AlertDialog.Builder(context);
                 final TextView title = dialoglayout.findViewById(R.id.title);
                 title.setBackgroundColor(Palette.getDefaultColor());
 
@@ -108,8 +106,9 @@ public class SettingsThemeFragment<ActivityType extends BaseActivity & SettingsF
                     }
                 });
 
-                builder.setView(dialoglayout);
-                builder.show();
+                new AlertDialog.Builder(context)
+                        .setView(dialoglayout)
+                        .show();
             }
         });
 
@@ -118,8 +117,6 @@ public class SettingsThemeFragment<ActivityType extends BaseActivity & SettingsF
             public void onClick(View v) {
                 LayoutInflater inflater = context.getLayoutInflater();
                 final View dialoglayout = inflater.inflate(R.layout.choosethemesmall, null);
-                AlertDialog.Builder builder =
-                        new AlertDialog.Builder(context);
                 final TextView title = dialoglayout.findViewById(R.id.title);
                 title.setBackgroundColor(Palette.getDefaultColor());
 
@@ -151,8 +148,9 @@ public class SettingsThemeFragment<ActivityType extends BaseActivity & SettingsF
                             });
                 }
 
-                builder.setView(dialoglayout);
-                builder.show();
+                new AlertDialog.Builder(context)
+                        .setView(dialoglayout)
+                        .show();
             }
 
         });
@@ -162,8 +160,6 @@ public class SettingsThemeFragment<ActivityType extends BaseActivity & SettingsF
             public void onClick(View v) {
                 LayoutInflater inflater = context.getLayoutInflater();
                 final LinearLayout dialoglayout = (LinearLayout) inflater.inflate(R.layout.choosemain, null);
-                final AlertDialog.Builder builder =
-                        new AlertDialog.Builder(context);
                 final TextView title = dialoglayout.findViewById(R.id.title);
                 title.setBackgroundColor(Palette.getDefaultColor());
 
@@ -235,8 +231,9 @@ public class SettingsThemeFragment<ActivityType extends BaseActivity & SettingsF
                     }
                 });
 
-                builder.setView(dialoglayout);
-                builder.show();
+                new AlertDialog.Builder(context)
+                        .setView(dialoglayout)
+                        .show();
             }
 
         });
@@ -395,9 +392,9 @@ public class SettingsThemeFragment<ActivityType extends BaseActivity & SettingsF
                 if (SettingValues.isPro) {
                     LayoutInflater inflater = context.getLayoutInflater();
                     final View dialoglayout = inflater.inflate(R.layout.nightmode, null);
-                    final AlertDialog.Builder builder =
-                            new AlertDialog.Builder(context);
-                    final Dialog dialog = builder.setView(dialoglayout).create();
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(context)
+                            .setView(dialoglayout);
+                    final Dialog dialog = builder.create();
                     dialog.show();
                     dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
                         @Override

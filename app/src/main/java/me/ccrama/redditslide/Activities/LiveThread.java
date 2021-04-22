@@ -1,7 +1,6 @@
 package me.ccrama.redditslide.Activities;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -142,17 +141,12 @@ public class LiveThread extends BaseActivityAnim {
                     new AlertDialog.Builder(LiveThread.this)
                             .setTitle(R.string.livethread_not_found)
                             .setMessage(R.string.misc_please_try_again_soon)
-                            .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    finish();
-                                }
-                            }).setOnDismissListener(new DialogInterface.OnDismissListener() {
-                        @Override
-                        public void onDismiss(DialogInterface dialog) {
-                            finish();
-                        }
-                    }).setCancelable(false).show();
+                            .setPositiveButton(R.string.btn_ok, (dialog, which) ->
+                                    finish())
+                            .setOnDismissListener(dialog ->
+                                    finish())
+                            .setCancelable(false)
+                            .show();
                 } else {
                     d.dismiss();
                     setupAppBar(R.id.toolbar, thread.getTitle(), true, false);

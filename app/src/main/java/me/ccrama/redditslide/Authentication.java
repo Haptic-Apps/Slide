@@ -2,7 +2,6 @@ package me.ccrama.redditslide;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -195,31 +194,14 @@ public class Authentication {
                                     public void run() {
                                         try {
 
-                                            new AlertDialog.Builder(context).setTitle(
-                                                    R.string.err_general)
+                                            new AlertDialog.Builder(context)
+                                                    .setTitle(R.string.err_general)
                                                     .setMessage(R.string.err_no_connection)
-                                                    .setPositiveButton(R.string.btn_yes,
-                                                            new DialogInterface.OnClickListener() {
-                                                                @Override
-                                                                public void onClick(
-                                                                        DialogInterface dialog,
-                                                                        int which) {
-                                                                    new UpdateToken(
-                                                                            context).executeOnExecutor(
-                                                                            AsyncTask.THREAD_POOL_EXECUTOR);
-                                                                }
-                                                            })
-                                                    .setNegativeButton(R.string.btn_no,
-                                                            new DialogInterface.OnClickListener() {
-                                                                @Override
-                                                                public void onClick(
-                                                                        DialogInterface dialog,
-                                                                        int which) {
-                                                                    Reddit.forceRestart(context,
-                                                                            false);
-
-                                                                }
-                                                            })
+                                                    .setPositiveButton(R.string.btn_yes, (dialog, which) ->
+                                                            new UpdateToken(context)
+                                                                    .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR))
+                                                    .setNegativeButton(R.string.btn_no, (dialog, which) ->
+                                                            Reddit.forceRestart(context, false))
                                                     .show();
                                         } catch (Exception ignored) {
 

@@ -1,7 +1,6 @@
 package me.ccrama.redditslide.Activities;
 
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -52,21 +51,19 @@ public class SettingsSynccit extends BaseActivityAnim {
 
                     new AlertDialog.Builder(SettingsSynccit.this)
                             .setTitle(R.string.settings_synccit_delete)
-                            .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    SettingValues.synccitName = "";
-                                    SettingValues.synccitAuth = "";
-                                    SharedPreferences.Editor e = SettingValues.prefs.edit();
+                            .setPositiveButton(R.string.btn_yes, (dialog, which) -> {
+                                SettingValues.synccitName = "";
+                                SettingValues.synccitAuth = "";
+                                SharedPreferences.Editor e = SettingValues.prefs.edit();
 
-                                    e.putString(SettingValues.SYNCCIT_NAME, SettingValues.synccitName);
-                                    e.putString(SettingValues.SYNCCIT_AUTH, SettingValues.synccitAuth);
-                                    e.apply();
-                                    name.setText(SettingValues.synccitName);
-                                    auth.setText(SettingValues.synccitAuth);
-                                    SynccitRead.visitedIds.removeAll(Collections.singleton("16noez"));
-                                }
-                            }).setNegativeButton(R.string.btn_no, null)
+                                e.putString(SettingValues.SYNCCIT_NAME, SettingValues.synccitName);
+                                e.putString(SettingValues.SYNCCIT_AUTH, SettingValues.synccitAuth);
+                                e.apply();
+                                name.setText(SettingValues.synccitName);
+                                auth.setText(SettingValues.synccitAuth);
+                                SynccitRead.visitedIds.removeAll(Collections.singleton("16noez"));
+                            })
+                            .setNegativeButton(R.string.btn_no, null)
                             .show();
                 }
             }
@@ -99,24 +96,19 @@ public class SettingsSynccit extends BaseActivityAnim {
                                 new AlertDialog.Builder(SettingsSynccit.this)
                                         .setTitle(R.string.settings_synccit_connected)
                                         .setMessage(R.string.settings_synccit_active)
-                                        .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                finish();
-                                            }
-                                        }).setOnDismissListener(new DialogInterface.OnDismissListener() {
-                                    @Override
-                                    public void onDismiss(DialogInterface dialog) {
-                                        finish();
-                                    }
-                                }).show();
+                                        .setPositiveButton(R.string.btn_ok, (dialog, which) ->
+                                                finish())
+                                        .setOnDismissListener(dialog ->
+                                                finish())
+                                        .show();
                             } else {
                                 d.dismiss();
 
                                 new AlertDialog.Builder(SettingsSynccit.this)
                                         .setTitle(R.string.settings_synccit_failed)
                                         .setMessage(R.string.settings_synccit_failed_msg)
-                                        .setPositiveButton(R.string.btn_ok, null).show();
+                                        .setPositiveButton(R.string.btn_ok, null)
+                                        .show();
                             }
                 } catch (Exception e) {
                     d.dismiss();
@@ -124,7 +116,8 @@ public class SettingsSynccit extends BaseActivityAnim {
                     new AlertDialog.Builder(SettingsSynccit.this)
                             .setTitle(R.string.settings_synccit_failed)
                             .setMessage(R.string.settings_synccit_failed_msg)
-                            .setPositiveButton(R.string.btn_ok, null).show();
+                            .setPositiveButton(R.string.btn_ok, null)
+                            .show();
 
                 }
 

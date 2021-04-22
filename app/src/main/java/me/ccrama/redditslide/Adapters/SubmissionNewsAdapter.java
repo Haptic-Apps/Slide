@@ -5,7 +5,6 @@ package me.ccrama.redditslide.Adapters;
  */
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -242,20 +241,14 @@ public class SubmissionNewsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                         }
                     } else {
                         if (!Reddit.appRestart.contains("offlinepopup")) {
-                            new AlertDialog.Builder(context).setTitle(
-                                    R.string.cache_no_comments_found)
+                            new AlertDialog.Builder(context)
+                                    .setTitle(R.string.cache_no_comments_found)
                                     .setMessage(R.string.cache_no_comments_found_message)
                                     .setCancelable(false)
-                                    .setPositiveButton(R.string.btn_ok,
-                                            new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog,
-                                                        int which) {
-                                                    Reddit.appRestart.edit()
-                                                            .putString("offlinepopup", "")
-                                                            .apply();
-                                                }
-                                            })
+                                    .setPositiveButton(R.string.btn_ok, (dialog, which) ->
+                                            Reddit.appRestart.edit()
+                                                    .putString("offlinepopup", "")
+                                                    .apply())
                                     .show();
                         } else {
                             Snackbar s = Snackbar.make(holder.itemView,
@@ -264,20 +257,14 @@ public class SubmissionNewsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                             s.setAction(R.string.misc_more_info, new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    new AlertDialog.Builder(context).setTitle(
-                                            R.string.cache_no_comments_found)
+                                    new AlertDialog.Builder(context)
+                                            .setTitle(R.string.cache_no_comments_found)
                                             .setMessage(R.string.cache_no_comments_found_message)
                                             .setCancelable(false)
-                                            .setPositiveButton(R.string.btn_ok,
-                                                    new DialogInterface.OnClickListener() {
-                                                        @Override
-                                                        public void onClick(DialogInterface dialog,
-                                                                int which) {
-                                                            Reddit.appRestart.edit()
-                                                                    .putString("offlinepopup", "")
-                                                                    .apply();
-                                                        }
-                                                    })
+                                            .setPositiveButton(R.string.btn_ok, (dialog, which) ->
+                                                    Reddit.appRestart.edit()
+                                                            .putString("offlinepopup", "")
+                                                            .apply())
                                             .show();
                                 }
                             });

@@ -260,11 +260,9 @@ public class MediaFragmentComment extends Fragment {
                                             @Override
                                             public boolean onLongClick(View v) {
                                                 try {
-                                                    new AlertDialog.Builder(
-                                                            getContext()).setTitle(
-                                                            result.get("safe_title").getAsString())
-                                                            .setMessage(
-                                                                    result.get("alt").getAsString())
+                                                    new AlertDialog.Builder(getContext())
+                                                            .setTitle(result.get("safe_title").getAsString())
+                                                            .setMessage(result.get("alt").getAsString())
                                                             .show();
                                                 } catch (Exception ignored) {
 

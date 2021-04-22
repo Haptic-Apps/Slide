@@ -1,7 +1,6 @@
 package me.ccrama.redditslide.Fragments;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.os.Build;
 import android.util.TypedValue;
@@ -89,19 +88,16 @@ public class ManageOfflineContentFragment {
         context.findViewById(R.id.manage_history_comments_depth).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String commentDepth = SettingValues.prefs.getString(
-                        SettingValues.COMMENT_DEPTH, "2");
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setTitle(R.string.comments_depth);
-                builder.setSingleChoiceItems(
-                        commentDepths.toArray(commentDepthArray), commentDepths.indexOf(commentDepth), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                SettingValues.prefs.edit().putString(
-                                        SettingValues.COMMENT_DEPTH, commentDepths.get(which)).apply();
-                            }
-                        });
-                builder.show();
+                final String commentDepth = SettingValues.prefs.getString(SettingValues.COMMENT_DEPTH, "2");
+                new AlertDialog.Builder(context)
+                        .setTitle(R.string.comments_depth)
+                        .setSingleChoiceItems(
+                                commentDepths.toArray(commentDepthArray),
+                                commentDepths.indexOf(commentDepth), (dialog, which) ->
+                                        SettingValues.prefs.edit()
+                                                .putString(SettingValues.COMMENT_DEPTH, commentDepths.get(which))
+                                                .apply())
+                        .show();
 
             }
         });
@@ -113,16 +109,15 @@ public class ManageOfflineContentFragment {
             @Override
             public void onClick(View v) {
                 final String commentCount = SettingValues.prefs.getString(SettingValues.COMMENT_COUNT, "2");
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setTitle(R.string.comments_count);
-                builder.setSingleChoiceItems(
-                        commentCounts.toArray(commentCountArray), commentCounts.indexOf(commentCount), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                SettingValues.prefs.edit().putString(SettingValues.COMMENT_COUNT, commentCounts.get(which)).apply();
-                            }
-                        });
-                builder.show();
+                new AlertDialog.Builder(context)
+                        .setTitle(R.string.comments_count)
+                        .setSingleChoiceItems(
+                                commentCounts.toArray(commentCountArray),
+                                commentCounts.indexOf(commentCount), (dialog, which) ->
+                                        SettingValues.prefs.edit()
+                                                .putString(SettingValues.COMMENT_COUNT, commentCounts.get(which))
+                                                .apply())
+                        .show();
 
             }
         });
@@ -151,27 +146,19 @@ public class ManageOfflineContentFragment {
                 final ArrayList<String> toCheck = new ArrayList<>(s2);
                 new AlertDialogWrapper.Builder(context)
                         .alwaysCallMultiChoiceCallback()
-                        .setMultiChoiceItems(all, checked, new DialogInterface.OnMultiChoiceClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                                if (!isChecked) {
-                                    toCheck.remove(all[which]);
-                                } else {
-                                    toCheck.add(all[which]);
-                                }
+                        .setMultiChoiceItems(all, checked, (dialog, which, isChecked) -> {
+                            if (!isChecked) {
+                                toCheck.remove(all[which]);
+                            } else {
+                                toCheck.add(all[which]);
                             }
-                        }
-
-                ).setTitle(R.string.multireddit_selector).setPositiveButton(
-                        context.getString(R.string.btn_add).toUpperCase(), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Reddit.cachedData.edit().putString("toCache", StringUtil.arrayToString(toCheck)).apply();
-                                updateBackup();
-                            }
-                        }
-
-                ).show();
+                        })
+                        .setTitle(R.string.multireddit_selector)
+                        .setPositiveButton(context.getString(R.string.btn_add).toUpperCase(), (dialog, which) -> {
+                            Reddit.cachedData.edit().putString("toCache", StringUtil.arrayToString(toCheck)).apply();
+                            updateBackup();
+                        })
+                        .show();
             }
 
 

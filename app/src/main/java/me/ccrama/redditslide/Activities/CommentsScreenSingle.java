@@ -1,6 +1,5 @@
 package me.ccrama.redditslide.Activities;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -238,23 +237,13 @@ public class CommentsScreenSingle extends BaseActivityAnim {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            new AlertDialog.Builder(CommentsScreenSingle.this).setTitle(
-                                    R.string.submission_not_found)
+                            new AlertDialog.Builder(CommentsScreenSingle.this)
+                                    .setTitle(R.string.submission_not_found)
                                     .setMessage(R.string.submission_not_found_msg)
-                                    .setPositiveButton(R.string.btn_ok,
-                                            new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog,
-                                                        int which) {
-                                                    finish();
-                                                }
-                                            })
-                                    .setOnDismissListener(new DialogInterface.OnDismissListener() {
-                                        @Override
-                                        public void onDismiss(DialogInterface dialog) {
-                                            finish();
-                                        }
-                                    })
+                                    .setPositiveButton(R.string.btn_ok, (dialog, which) ->
+                                            finish())
+                                    .setOnDismissListener(dialog ->
+                                            finish())
                                     .show();
                         }
                     });

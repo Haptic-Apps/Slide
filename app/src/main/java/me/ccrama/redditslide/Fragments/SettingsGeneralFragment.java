@@ -72,7 +72,6 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
     }
 
     public static void setupNotificationSettings(View dialoglayout, final Activity context) {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
         final Slider landscape = dialoglayout.findViewById(R.id.landscape);
         final CheckBox checkBox = dialoglayout.findViewById(R.id.load);
         final CheckBox sound = dialoglayout.findViewById(R.id.sound);
@@ -135,8 +134,9 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
 
         //todo  portrait.setBackgroundColor(Palette.getDefaultColor());
 
-
-        final Dialog dialog = builder.setView(dialoglayout).create();
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context)
+                .setView(dialoglayout);
+        final Dialog dialog = builder.create();
         dialog.show();
         dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
@@ -693,10 +693,6 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
                                     }
                                 };
 
-                        AlertDialog.Builder builder =
-                                new AlertDialog.Builder(SettingsGeneralFragment.this.context);
-                        builder.setTitle(R.string.sorting_choose);
-
                         // Remove the "Best" sorting option from settings because it is only supported on the frontpage.
                         int skip = -1;
                         List<String> sortingStrings = new ArrayList<>(Arrays.asList(SortingUtil.getSortingStrings()));
@@ -710,8 +706,13 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
                             sortingStrings.remove(skip);
                         }
 
-                        builder.setSingleChoiceItems(sortingStrings.toArray(new String[0]), SortingUtil.getSortingId(""), l2);
-                        builder.show();
+                        new AlertDialog.Builder(SettingsGeneralFragment.this.context)
+                                .setTitle(R.string.sorting_choose)
+                                .setSingleChoiceItems(
+                                        sortingStrings.toArray(new String[0]),
+                                        SortingUtil.getSortingId(""),
+                                        l2)
+                                .show();
                     }
                 });
             }
@@ -776,18 +777,20 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
                                     }
                                 };
 
-                        AlertDialog.Builder builder =
-                                new AlertDialog.Builder(SettingsGeneralFragment.this.context);
-                        builder.setTitle(R.string.sorting_choose);
                         Resources res = context.getBaseContext().getResources();
-                        builder.setSingleChoiceItems(new String[]{
-                                res.getString(R.string.sorting_best),
-                                res.getString(R.string.sorting_top),
-                                res.getString(R.string.sorting_new),
-                                res.getString(R.string.sorting_controversial),
-                                res.getString(R.string.sorting_old), res.getString(R.string.sorting_ama)
-                        }, i2, l2);
-                        builder.show();
+
+                        new AlertDialog.Builder(SettingsGeneralFragment.this.context)
+                                .setTitle(R.string.sorting_choose)
+                                .setSingleChoiceItems(
+                                        new String[]{
+                                                res.getString(R.string.sorting_best),
+                                                res.getString(R.string.sorting_top),
+                                                res.getString(R.string.sorting_new),
+                                                res.getString(R.string.sorting_controversial),
+                                                res.getString(R.string.sorting_old),
+                                                res.getString(R.string.sorting_ama)
+                                        }, i2, l2)
+                                .show();
                     }
                 });
             }
@@ -877,11 +880,14 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
                                 "")]);
             }
         };
-        AlertDialog.Builder builder = new AlertDialog.Builder(SettingsGeneralFragment.this.context);
-        builder.setTitle(R.string.sorting_choose);
-        builder.setSingleChoiceItems(SortingUtil.getSortingTimesStrings(),
-                SortingUtil.getSortingTimeId(""), l2);
-        builder.show();
+
+        new AlertDialog.Builder(SettingsGeneralFragment.this.context)
+                .setTitle(R.string.sorting_choose)
+                .setSingleChoiceItems(
+                        SortingUtil.getSortingTimesStrings(),
+                        SortingUtil.getSortingTimeId(""),
+                        l2)
+                .show();
     }
 
     private void setSubText() {
@@ -970,63 +976,50 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
 
         final ArrayList<String> toCheck = new ArrayList<>(subThresholds.keySet());
         final String[] finalAll = all;
-        new AlertDialogWrapper.Builder(SettingsGeneralFragment.this.context).setMultiChoiceItems(finalAll, checked,
-                new DialogInterface.OnMultiChoiceClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                        if (!isChecked) {
-                            toCheck.remove(finalAll[which]);
-                        } else {
-                            toCheck.add(finalAll[which]);
-                        }
+        new AlertDialogWrapper.Builder(SettingsGeneralFragment.this.context)
+                .setMultiChoiceItems(finalAll, checked, (dialog, which, isChecked) -> {
+                    if (!isChecked) {
+                        toCheck.remove(finalAll[which]);
+                    } else {
+                        toCheck.add(finalAll[which]);
                     }
                 })
                 .alwaysCallMultiChoiceCallback()
                 .setTitle(R.string.sub_post_notifs_title_settings)
-                .setPositiveButton(context.getString(R.string.btn_add).toUpperCase(),
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                showThresholdDialog(toCheck, false);
-                            }
-                        })
-                .setNegativeButton(R.string.sub_post_notifs_settings_search,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                new MaterialDialog.Builder(SettingsGeneralFragment.this.context).title(
-                                        R.string.reorder_add_subreddit)
-                                        .inputRangeRes(2, 21, R.color.md_red_500)
-                                        .alwaysCallInputCallback()
-                                        .input(context.getString(R.string.reorder_subreddit_name), null,
-                                                false, new MaterialDialog.InputCallback() {
-                                                    @Override
-                                                    public void onInput(MaterialDialog dialog,
-                                                                        CharSequence raw) {
-                                                        input = raw.toString()
-                                                                .replaceAll("\\s",
-                                                                        ""); //remove whitespace from input
-                                                    }
-                                                })
-                                        .positiveText(R.string.btn_add)
-                                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                .setPositiveButton(context.getString(R.string.btn_add).toUpperCase(), (dialog, which) ->
+                        showThresholdDialog(toCheck, false))
+                .setNegativeButton(R.string.sub_post_notifs_settings_search, (dialog, which) ->
+                        new MaterialDialog.Builder(SettingsGeneralFragment.this.context)
+                                .title(R.string.reorder_add_subreddit)
+                                .inputRangeRes(2, 21, R.color.md_red_500)
+                                .alwaysCallInputCallback()
+                                .input(context.getString(R.string.reorder_subreddit_name), null,
+                                        false, new MaterialDialog.InputCallback() {
                                             @Override
-                                            public void onClick(@NonNull MaterialDialog dialog,
-                                                                @NonNull DialogAction which) {
-                                                new AsyncGetSubreddit().execute(input);
+                                            public void onInput(MaterialDialog dialog,
+                                                                CharSequence raw) {
+                                                input = raw.toString()
+                                                        .replaceAll("\\s",
+                                                                ""); //remove whitespace from input
                                             }
                                         })
-                                        .negativeText(R.string.btn_cancel)
-                                        .onNegative(new MaterialDialog.SingleButtonCallback() {
-                                            @Override
-                                            public void onClick(@NonNull MaterialDialog dialog,
-                                                                @NonNull DialogAction which) {
+                                .positiveText(R.string.btn_add)
+                                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                    @Override
+                                    public void onClick(@NonNull MaterialDialog dialog,
+                                                        @NonNull DialogAction which) {
+                                        new AsyncGetSubreddit().execute(input);
+                                    }
+                                })
+                                .negativeText(R.string.btn_cancel)
+                                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                                    @Override
+                                    public void onClick(@NonNull MaterialDialog dialog,
+                                                        @NonNull DialogAction which) {
 
-                                            }
-                                        })
-                                        .show();
-                            }
-                        })
+                                    }
+                                })
+                                .show())
                 .show();
     }
 
@@ -1108,24 +1101,12 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
                     @Override
                     public void run() {
                         try {
-                            new AlertDialog.Builder(SettingsGeneralFragment.this.context).setTitle(
-                                    R.string.subreddit_err)
+                            new AlertDialog.Builder(SettingsGeneralFragment.this.context)
+                                    .setTitle(R.string.subreddit_err)
                                     .setMessage(context.getString(R.string.subreddit_err_msg, params[0]))
-                                    .setPositiveButton(R.string.btn_ok,
-                                            new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog,
-                                                                    int which) {
-                                                    dialog.dismiss();
-
-                                                }
-                                            })
-                                    .setOnDismissListener(new DialogInterface.OnDismissListener() {
-                                        @Override
-                                        public void onDismiss(DialogInterface dialog) {
-
-                                        }
-                                    })
+                                    .setPositiveButton(R.string.btn_ok, (dialog, which) ->
+                                            dialog.dismiss())
+                                    .setOnDismissListener(null)
                                     .show();
                         } catch (Exception ignored) {
 

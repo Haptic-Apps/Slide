@@ -1,7 +1,6 @@
 package me.ccrama.redditslide.Fragments;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -165,24 +164,16 @@ public class NewsView extends Fragment implements SubmissionDisplay {
                     @Override
                     public void onClick(View v) {
                         if (!Reddit.fabClear) {
-                            new AlertDialog.Builder(getActivity()).setTitle(
-                                    R.string.settings_fabclear)
+                            new AlertDialog.Builder(getActivity())
+                                    .setTitle(R.string.settings_fabclear)
                                     .setMessage(R.string.settings_fabclear_msg)
-                                    .setPositiveButton(R.string.btn_ok,
-                                            new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog,
-                                                        int which) {
-                                                    Reddit.colors.edit()
-                                                            .putBoolean(
-                                                                    SettingValues.PREF_FAB_CLEAR,
-                                                                    true)
-                                                            .apply();
-                                                    Reddit.fabClear = true;
-                                                    clearSeenPosts(false);
-
-                                                }
-                                            })
+                                    .setPositiveButton(R.string.btn_ok, (dialog, which) -> {
+                                        Reddit.colors.edit()
+                                                .putBoolean(SettingValues.PREF_FAB_CLEAR, true)
+                                                .apply();
+                                        Reddit.fabClear = true;
+                                        clearSeenPosts(false);
+                                    })
                                     .show();
                         } else {
                             clearSeenPosts(false);
@@ -212,24 +203,16 @@ public class NewsView extends Fragment implements SubmissionDisplay {
                     public void run() {
                         fab.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
                         if (!Reddit.fabClear) {
-                            new AlertDialog.Builder(getActivity()).setTitle(
-                                    R.string.settings_fabclear)
+                            new AlertDialog.Builder(getActivity())
+                                    .setTitle(R.string.settings_fabclear)
                                     .setMessage(R.string.settings_fabclear_msg)
-                                    .setPositiveButton(R.string.btn_ok,
-                                            new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog,
-                                                        int which) {
-                                                    Reddit.colors.edit()
-                                                            .putBoolean(
-                                                                    SettingValues.PREF_FAB_CLEAR,
-                                                                    true)
-                                                            .apply();
-                                                    Reddit.fabClear = true;
-                                                    clearSeenPosts(true);
-
-                                                }
-                                            })
+                                    .setPositiveButton(R.string.btn_ok, (dialog, which) -> {
+                                        Reddit.colors.edit()
+                                                .putBoolean(SettingValues.PREF_FAB_CLEAR, true)
+                                                .apply();
+                                        Reddit.fabClear = true;
+                                        clearSeenPosts(true);
+                                    })
                                     .show();
                         } else {
                             clearSeenPosts(true);

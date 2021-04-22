@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.media.MediaScannerConnection;
@@ -114,18 +113,15 @@ public class GifUtils {
      * @param a
      */
     private static void showErrorDialog(final Activity a) {
-        new AlertDialog.Builder(a).setTitle(R.string.err_something_wrong)
+        new AlertDialog.Builder(a)
+                .setTitle(R.string.err_something_wrong)
                 .setMessage(R.string.err_couldnt_save_choose_new)
-                .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        new FolderChooserDialogCreate.Builder((MediaView) a).chooseButton(
-                                R.string.btn_select)  // changes label of the choose button
-                                .initialPath(Environment.getExternalStorageDirectory().getPath())
-                                // changes initial path, defaults to external storage directory
-                                .show();
-                    }
-                })
+                .setPositiveButton(R.string.btn_yes, (dialog, which) ->
+                        new FolderChooserDialogCreate.Builder((MediaView) a)
+                                .chooseButton(R.string.btn_select) // changes label of the choose button
+                                .initialPath(Environment.getExternalStorageDirectory()
+                                        .getPath()) // changes initial path, defaults to external storage directory
+                                .show())
                 .setNegativeButton(R.string.btn_no, null)
                 .show();
     }
@@ -136,18 +132,15 @@ public class GifUtils {
      * @param a
      */
     private static void showFirstDialog(final Activity a) {
-        new AlertDialog.Builder(a).setTitle(R.string.set_gif_save_loc)
+        new AlertDialog.Builder(a)
+                .setTitle(R.string.set_gif_save_loc)
                 .setMessage(R.string.set_gif_save_loc_msg)
-                .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        new FolderChooserDialogCreate.Builder((MediaView) a).chooseButton(
-                                R.string.btn_select)  // changes label of the choose button
+                .setPositiveButton(R.string.btn_yes, (dialog, which) ->
+                        new FolderChooserDialogCreate.Builder((MediaView) a)
+                                .chooseButton(R.string.btn_select) // changes label of the choose button
                                 .initialPath(Environment.getExternalStorageDirectory()
-                                        .getPath())  // changes initial path, defaults to external storage directory
-                                .show();
-                    }
-                })
+                                        .getPath()) // changes initial path, defaults to external storage directory
+                                .show())
                 .setNegativeButton(R.string.btn_no, null)
                 .show();
     }
@@ -546,25 +539,16 @@ public class GifUtils {
                         @Override
                         public void run() {
                             try {
-                                new AlertDialog.Builder(c).setTitle(R.string.gif_err_title)
+                                new AlertDialog.Builder(c)
+                                        .setTitle(R.string.gif_err_title)
                                         .setMessage(R.string.gif_err_msg)
                                         .setCancelable(false)
-                                        .setPositiveButton(R.string.btn_ok,
-                                                new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog,
-                                                            int which) {
-                                                        c.finish();
-                                                    }
-                                                })
-                                        .setNeutralButton(R.string.open_externally,
-                                                new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog, int which) {
-                                                        LinkUtil.openExternally(fullUrl);
-                                                        c.finish();
-                                                    }
-                                                })
+                                        .setPositiveButton(R.string.btn_ok, (dialog, which) ->
+                                                c.finish())
+                                        .setNeutralButton(R.string.open_externally, (dialog, which) -> {
+                                            LinkUtil.openExternally(fullUrl);
+                                            c.finish();
+                                        })
                                         .create()
                                         .show();
                             } catch (Exception ignored) {
@@ -728,19 +712,12 @@ public class GifUtils {
                                 c.runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        new AlertDialog.Builder(c).setTitle(
-                                                R.string.error_video_not_found)
+                                        new AlertDialog.Builder(c)
+                                                .setTitle(R.string.error_video_not_found)
                                                 .setMessage(R.string.error_video_message)
                                                 .setCancelable(false)
-                                                .setPositiveButton(R.string.btn_ok,
-                                                        new DialogInterface.OnClickListener() {
-                                                            @Override
-                                                            public void onClick(
-                                                                    DialogInterface dialog,
-                                                                    int which) {
-                                                                c.finish();
-                                                            }
-                                                        })
+                                                .setPositiveButton(R.string.btn_ok, (dialog, which) ->
+                                                        c.finish())
                                                 .create()
                                                 .show();
                                     }
@@ -789,19 +766,12 @@ public class GifUtils {
                                 @Override
                                 public void run() {
                                     try {
-                                        new AlertDialog.Builder(c).setTitle(
-                                                R.string.error_video_not_found)
+                                        new AlertDialog.Builder(c)
+                                                .setTitle(R.string.error_video_not_found)
                                                 .setMessage(R.string.error_video_message)
                                                 .setCancelable(false)
-                                                .setPositiveButton(R.string.btn_ok,
-                                                        new DialogInterface.OnClickListener() {
-                                                            @Override
-                                                            public void onClick(
-                                                                    DialogInterface dialog,
-                                                                    int which) {
-                                                                c.finish();
-                                                            }
-                                                        })
+                                                .setPositiveButton(R.string.btn_ok, (dialog, which) ->
+                                                        c.finish())
                                                 .create()
                                                 .show();
                                     } catch (Exception ignored) {

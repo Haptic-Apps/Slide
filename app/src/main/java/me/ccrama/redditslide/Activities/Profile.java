@@ -3,7 +3,6 @@ package me.ccrama.redditslide.Activities;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -186,17 +185,12 @@ public class Profile extends BaseActivityAnim {
             try {
                 new AlertDialog.Builder(Profile.this)
                         .setTitle(R.string.profile_err_title)
-                        .setCancelable(false)
                         .setMessage(R.string.profile_err_msg)
-                        .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                            }
-                        }).setCancelable(false).setOnDismissListener(new DialogInterface.OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface dialog) {
-                        onBackPressed();
-                    }
-                }).show();
+                        .setPositiveButton(R.string.btn_ok, null)
+                        .setCancelable(false)
+                        .setOnDismissListener(dialog ->
+                                onBackPressed())
+                        .show();
             } catch (MaterialDialog.DialogException e) {
                 Log.w(LogUtil.getTag(), "Activity already in background, dialog not shown " + e);
             }
@@ -208,16 +202,11 @@ public class Profile extends BaseActivityAnim {
                 new AlertDialog.Builder(Profile.this)
                         .setTitle(R.string.account_suspended)
                         .setCancelable(false)
-                        .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                finish();
-                            }
-                        }).setOnDismissListener(new DialogInterface.OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface dialog) {
-                        finish();
-                    }
-                }).show();
+                        .setPositiveButton(R.string.btn_ok, (dialog, whichButton) ->
+                                finish())
+                        .setOnDismissListener(dialog ->
+                                finish())
+                        .show();
             } catch (MaterialDialog.DialogException e) {
                 Log.w(LogUtil.getTag(), "Activity already in background, dialog not shown " + e);
             }
@@ -521,7 +510,6 @@ public class Profile extends BaseActivityAnim {
                 if (account != null && trophyCase != null) {
                     LayoutInflater inflater = getLayoutInflater();
                     final View dialoglayout = inflater.inflate(R.layout.colorprofile, null);
-                    AlertDialog.Builder builder = new AlertDialog.Builder(Profile.this);
                     final TextView title = dialoglayout.findViewById(R.id.title);
                     title.setText(name);
 
@@ -869,21 +857,18 @@ public class Profile extends BaseActivityAnim {
                     ((TextView) dialoglayout.findViewById(R.id.linkkarma)).setText(String.format(Locale.getDefault(), "%d", account.getLinkKarma()));
                     ((TextView) dialoglayout.findViewById(R.id.totalKarma)).setText(String.format(Locale.getDefault(), "%d", account.getCommentKarma() + account.getLinkKarma()));
 
-                    builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                        @Override
-                        public void onDismiss(DialogInterface dialogInterface) {
-                            findViewById(R.id.header).setBackgroundColor(currentColor);
-                            if (mToolbar != null)
-                                mToolbar.setBackgroundColor(currentColor);
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                Window window = getWindow();
-                                window.setStatusBarColor(Palette.getDarkerColor(currentColor));
-                            }
-                        }
-                    });
-
-                    builder.setView(dialoglayout);
-                    builder.show();
+                    new AlertDialog.Builder(Profile.this)
+                            .setOnDismissListener(dialogInterface -> {
+                                findViewById(R.id.header).setBackgroundColor(currentColor);
+                                if (mToolbar != null)
+                                    mToolbar.setBackgroundColor(currentColor);
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                    Window window = getWindow();
+                                    window.setStatusBarColor(Palette.getDarkerColor(currentColor));
+                                }
+                            })
+                            .setView(dialoglayout)
+                            .show();
                 }
                 return true;
 

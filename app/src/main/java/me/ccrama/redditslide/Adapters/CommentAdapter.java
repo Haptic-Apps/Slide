@@ -9,7 +9,6 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -705,19 +704,15 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     final ArrayList<String> keys = new ArrayList<>(accounts.keySet());
                     final int i = keys.indexOf(changedProfile);
 
-                    AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(mContext);
-                    builder.setTitle(mContext.getString(R.string.replies_switch_accounts));
-                    builder.setSingleChoiceItems(keys.toArray(new String[0]), i,
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    changedProfile = keys.get(which);
-                                    profile.setText("/u/" + changedProfile);
-                                }
-                            });
-                    builder.alwaysCallSingleChoiceCallback();
-                    builder.setNegativeButton(R.string.btn_cancel, null);
-                    builder.show();
+                    new AlertDialogWrapper.Builder(mContext)
+                            .setTitle(R.string.replies_switch_accounts)
+                            .setSingleChoiceItems(keys.toArray(new String[0]), i, (dialog, which) -> {
+                                changedProfile = keys.get(which);
+                                profile.setText("/u/" + changedProfile);
+                            })
+                            .alwaysCallSingleChoiceCallback()
+                            .setNegativeButton(R.string.btn_cancel, null)
+                            .show();
                 }
             });
             currentlyEditing.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -1249,20 +1244,15 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             final ArrayList<String> keys = new ArrayList<>(accounts.keySet());
                             final int i = keys.indexOf(changedProfile);
 
-                            AlertDialogWrapper.Builder builder =
-                                    new AlertDialogWrapper.Builder(mContext);
-                            builder.setTitle(R.string.sorting_choose);
-                            builder.setSingleChoiceItems(keys.toArray(new String[0]), i,
-                                    new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            changedProfile = keys.get(which);
-                                            profile.setText("/u/" + changedProfile);
-                                        }
-                                    });
-                            builder.alwaysCallSingleChoiceCallback();
-                            builder.setNegativeButton(R.string.btn_cancel, null);
-                            builder.show();
+                            new AlertDialogWrapper.Builder(mContext)
+                                    .setTitle(R.string.sorting_choose)
+                                    .setSingleChoiceItems(keys.toArray(new String[0]), i, (dialog, which) -> {
+                                        changedProfile = keys.get(which);
+                                        profile.setText("/u/" + changedProfile);
+                                    })
+                                    .alwaysCallSingleChoiceCallback()
+                                    .setNegativeButton(R.string.btn_cancel, null)
+                                    .show();
                         }
                     });
                     replyLine.requestFocus();
@@ -1367,20 +1357,15 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                 final ArrayList<String> keys = new ArrayList<>(accounts.keySet());
                                 final int i = keys.indexOf(changedProfile);
 
-                                AlertDialogWrapper.Builder builder =
-                                        new AlertDialogWrapper.Builder(mContext);
-                                builder.setTitle(R.string.sorting_choose);
-                                builder.setSingleChoiceItems(keys.toArray(new String[0]),
-                                        i, new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                changedProfile = keys.get(which);
-                                                profile.setText("/u/" + changedProfile);
-                                            }
-                                        });
-                                builder.alwaysCallSingleChoiceCallback();
-                                builder.setNegativeButton(R.string.btn_cancel, null);
-                                builder.show();
+                                new AlertDialogWrapper.Builder(mContext)
+                                        .setTitle(R.string.sorting_choose)
+                                        .setSingleChoiceItems(keys.toArray(new String[0]), i, (dialog, which) -> {
+                                            changedProfile = keys.get(which);
+                                            profile.setText("/u/" + changedProfile);
+                                        })
+                                        .alwaysCallSingleChoiceCallback()
+                                        .setNegativeButton(R.string.btn_cancel, null)
+                                        .show();
                             }
                         });
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
@@ -1613,33 +1598,30 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (currentlyEditing != null
                 && !currentlyEditing.getText().toString().isEmpty()
                 && holder.getAdapterPosition() <= editingPosition) {
-            new AlertDialog.Builder(mContext).setTitle(R.string.discard_comment_title)
+            new AlertDialog.Builder(mContext)
+                    .setTitle(R.string.discard_comment_title)
                     .setMessage(R.string.comment_discard_msg)
-                    .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-                            currentlyEditing = null;
-                            editingPosition = -1;
-                            if (SettingValues.fastscroll) {
-                                mPage.fastScroll.setVisibility(View.VISIBLE);
-                            }
-                            if (mPage.fab != null) mPage.fab.setVisibility(View.VISIBLE);
-                            mPage.overrideFab = false;
-                            currentlyEditingId = "";
-                            backedText = "";
-                            View view = ((Activity) mContext).findViewById(android.R.id.content);
-                            if (view != null) {
-                                KeyboardUtil.hideKeyboard(mContext, view.getWindowToken(), 0);
-                            }
-                            if (mContext instanceof BaseActivity) {
-                                ((BaseActivity) mContext).setShareUrl(
-                                        "https://reddit.com" + submission.getPermalink());
-                            }
-
-                            setCommentStateUnhighlighted(holder, comment, baseNode, true);
-
+                    .setPositiveButton(R.string.btn_yes, (dialog, which) -> {
+                        currentlyEditing = null;
+                        editingPosition = -1;
+                        if (SettingValues.fastscroll) {
+                            mPage.fastScroll.setVisibility(View.VISIBLE);
                         }
+                        if (mPage.fab != null) mPage.fab.setVisibility(View.VISIBLE);
+                        mPage.overrideFab = false;
+                        currentlyEditingId = "";
+                        backedText = "";
+                        View view = ((Activity) mContext).findViewById(android.R.id.content);
+                        if (view != null) {
+                            KeyboardUtil.hideKeyboard(mContext, view.getWindowToken(), 0);
+                        }
+                        if (mContext instanceof BaseActivity) {
+                            ((BaseActivity) mContext).setShareUrl(
+                                    "https://reddit.com" + submission.getPermalink());
+                        }
+
+                        setCommentStateUnhighlighted(holder, comment, baseNode, true);
+
                     })
                     .setNegativeButton(R.string.btn_no, null)
                     .show();
@@ -1678,28 +1660,25 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public void doLongClick(final CommentViewHolder holder, final Comment comment,
             final CommentNode baseNode) {
         if (currentlyEditing != null && !currentlyEditing.getText().toString().isEmpty()) {
-            new AlertDialog.Builder(mContext).setTitle(R.string.discard_comment_title)
+            new AlertDialog.Builder(mContext)
+                    .setTitle(R.string.discard_comment_title)
                     .setMessage(R.string.comment_discard_msg)
-                    .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-                            currentlyEditing = null;
-                            editingPosition = -1;
-                            if (SettingValues.fastscroll) {
-                                mPage.fastScroll.setVisibility(View.VISIBLE);
-                            }
-                            if (mPage.fab != null) mPage.fab.setVisibility(View.VISIBLE);
-                            mPage.overrideFab = false;
-                            currentlyEditingId = "";
-                            backedText = "";
-                            View view = ((Activity) mContext).findViewById(android.R.id.content);
-                            if (view != null) {
-                                KeyboardUtil.hideKeyboard(mContext, view.getWindowToken(), 0);
-                            }
-
-                            doLongClick(holder, comment, baseNode);
+                    .setPositiveButton(R.string.btn_yes, (dialog, which) -> {
+                        currentlyEditing = null;
+                        editingPosition = -1;
+                        if (SettingValues.fastscroll) {
+                            mPage.fastScroll.setVisibility(View.VISIBLE);
                         }
+                        if (mPage.fab != null) mPage.fab.setVisibility(View.VISIBLE);
+                        mPage.overrideFab = false;
+                        currentlyEditingId = "";
+                        backedText = "";
+                        View view = ((Activity) mContext).findViewById(android.R.id.content);
+                        if (view != null) {
+                            KeyboardUtil.hideKeyboard(mContext, view.getWindowToken(), 0);
+                        }
+
+                        doLongClick(holder, comment, baseNode);
                     })
                     .setNegativeButton(R.string.btn_no, null)
                     .show();
@@ -1732,29 +1711,26 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (currentlyEditing != null
                 && !currentlyEditing.getText().toString().isEmpty()
                 && holder.getAdapterPosition() <= editingPosition) {
-            new AlertDialog.Builder(mContext).setTitle(R.string.discard_comment_title)
+            new AlertDialog.Builder(mContext)
+                    .setTitle(R.string.discard_comment_title)
                     .setMessage(R.string.comment_discard_msg)
-                    .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-                            currentlyEditing = null;
-                            editingPosition = -1;
-                            if (SettingValues.fastscroll) {
-                                mPage.fastScroll.setVisibility(View.VISIBLE);
-                            }
-                            if (mPage.fab != null) mPage.fab.setVisibility(View.VISIBLE);
-                            mPage.overrideFab = false;
-                            currentlyEditingId = "";
-                            backedText = "";
-                            View view = ((Activity) mContext).findViewById(android.R.id.content);
-                            if (view != null) {
-                                KeyboardUtil.hideKeyboard(mContext, view.getWindowToken(), 0);
-                            }
-
-                            doOnClick(holder, baseNode, comment);
-
+                    .setPositiveButton(R.string.btn_yes, (dialog, which) -> {
+                        currentlyEditing = null;
+                        editingPosition = -1;
+                        if (SettingValues.fastscroll) {
+                            mPage.fastScroll.setVisibility(View.VISIBLE);
                         }
+                        if (mPage.fab != null) mPage.fab.setVisibility(View.VISIBLE);
+                        mPage.overrideFab = false;
+                        currentlyEditingId = "";
+                        backedText = "";
+                        View view = ((Activity) mContext).findViewById(android.R.id.content);
+                        if (view != null) {
+                            KeyboardUtil.hideKeyboard(mContext, view.getWindowToken(), 0);
+                        }
+
+                        doOnClick(holder, baseNode, comment);
+
                     })
                     .setNegativeButton(R.string.btn_no, null)
                     .show();
@@ -2165,17 +2141,10 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                           @Override
                                           public void run() {
                                               try {
-                                                  new AlertDialog.Builder(mContext).setTitle(
-                                                          R.string.err_title)
+                                                  new AlertDialog.Builder(mContext)
+                                                          .setTitle(R.string.err_title)
                                                           .setMessage(R.string.err_connection_failed_msg)
-                                                          .setNegativeButton(R.string.btn_ok,
-                                                                  new DialogInterface.OnClickListener() {
-                                                                      @Override
-                                                                      public void onClick(DialogInterface dialog,
-                                                                              int which) {
-
-                                                                      }
-                                                                  })
+                                                          .setNegativeButton(R.string.btn_ok, null)
                                                           .show();
                                               } catch (Exception ignored) {
 
@@ -2192,26 +2161,12 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             @Override
                             public void run() {
                                 try {
-                                    new AlertDialog.Builder(mContext).setTitle(
-                                            R.string.err_title)
+                                    new AlertDialog.Builder(mContext)
+                                            .setTitle(R.string.err_title)
                                             .setMessage(R.string.err_refused_request_msg)
-                                            .setNegativeButton("No",
-                                                    new DialogInterface.OnClickListener() {
-                                                        @Override
-                                                        public void onClick(DialogInterface dialog,
-                                                                int which) {
-
-                                                        }
-                                                    })
-                                            .setPositiveButton("Yes",
-                                                    new DialogInterface.OnClickListener() {
-                                                        @Override
-                                                        public void onClick(DialogInterface dialog,
-                                                                int which) {
-                                                            Reddit.authentication.updateToken(
-                                                                    (mContext));
-                                                        }
-                                                    })
+                                            .setNegativeButton(R.string.btn_no, null)
+                                            .setPositiveButton(R.string.btn_yes, (dialog, which) ->
+                                                    Reddit.authentication.updateToken(mContext))
                                             .show();
                                 } catch (Exception ignored) {
 
@@ -2226,18 +2181,10 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             @Override
                             public void run() {
                                 try {
-                                    new AlertDialog.Builder(mContext).setTitle(
-                                            R.string.err_title)
+                                    new AlertDialog.Builder(mContext).
+                                            setTitle(R.string.err_title)
                                             .setMessage(R.string.err_could_not_find_content_msg)
-                                            .setNegativeButton("Close",
-                                                    new DialogInterface.OnClickListener() {
-                                                        @Override
-                                                        public void onClick(DialogInterface dialog,
-                                                                int which) {
-
-                                                        }
-
-                                                    })
+                                            .setNegativeButton(R.string.btn_close, null)
                                             .show();
                                 } catch (Exception ignored) {
 
@@ -2376,7 +2323,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 if (commentBack != null && !commentBack.isEmpty()) {
                     Drafts.addDraft(commentBack);
                     try {
-                        new AlertDialog.Builder(mContext).setTitle(R.string.err_comment_post)
+                        new AlertDialog.Builder(mContext)
+                                .setTitle(R.string.err_comment_post)
                                 .setMessage(((why == null) ? ""
                                         : mContext.getString(R.string.err_comment_post_reason, why))
                                         + mContext.getString(R.string.err_comment_post_message))
@@ -2387,11 +2335,11 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     }
                 } else {
                     try {
-                        new AlertDialog.Builder(mContext).setTitle(R.string.err_comment_post)
+                        new AlertDialog.Builder(mContext)
+                                .setTitle(R.string.err_comment_post)
                                 .setMessage(((why == null) ? ""
                                         : mContext.getString(R.string.err_comment_post_reason, why))
-                                        + mContext.getString(
-                                        R.string.err_comment_post_nosave_message))
+                                        + mContext.getString(R.string.err_comment_post_nosave_message))
                                 .setPositiveButton(R.string.btn_ok, null)
                                 .show();
                     } catch (Exception ignored) {

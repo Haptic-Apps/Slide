@@ -1,6 +1,5 @@
 package me.ccrama.redditslide.Activities;
 
-import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -70,18 +69,16 @@ public class FullscreenVideo extends FullScreenActivity {
             setShareUrl(dat);
             v.loadUrl(dat);
             if ((dat.contains("youtube.co" ) || dat.contains("youtu.be")) && !Reddit.appRestart.contains("showYouTubePopup")) {
-                new AlertDialog.Builder(FullscreenVideo.this).setTitle(getString(R.string.load_videos_internally))
-                        .setMessage(getString(R.string.load_videos_internally_content))
-                        .setPositiveButton(getString(R.string.btn_sure), (dialog, which) ->
+                new AlertDialog.Builder(FullscreenVideo.this)
+                        .setTitle(R.string.load_videos_internally)
+                        .setMessage(R.string.load_videos_internally_content)
+                        .setPositiveButton(R.string.btn_sure, (dialog, which) ->
                                 LinkUtil.launchMarketUri(
                                         FullscreenVideo.this, R.string.youtube_plugin_package))
-                        .setNegativeButton(getString(R.string.btn_no), null)
-                        .setNeutralButton(getString(R.string.do_not_show_again), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Reddit.appRestart.edit().putBoolean("showYouTubePopup", false).apply();
-                            }
-                        }).show();
+                        .setNegativeButton(R.string.btn_no, null)
+                        .setNeutralButton(R.string.do_not_show_again, (dialog, which) ->
+                                Reddit.appRestart.edit().putBoolean("showYouTubePopup", false).apply())
+                        .show();
             }
         } else {
             LogUtil.v(dat);

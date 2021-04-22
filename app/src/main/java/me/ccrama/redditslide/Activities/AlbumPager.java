@@ -205,28 +205,18 @@ public class AlbumPager extends FullScreenActivity
                 @Override
                 public void run() {
                     try {
-                        new AlertDialog.Builder(AlbumPager.this).setTitle(
-                                R.string.error_album_not_found)
+                        new AlertDialog.Builder(AlbumPager.this)
+                                .setTitle(R.string.error_album_not_found)
                                 .setMessage(R.string.error_album_not_found_text)
-                                .setNegativeButton(R.string.btn_no,
-                                        new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                finish();
-                                            }
-                                        })
+                                .setNegativeButton(R.string.btn_no, (dialog, which) ->
+                                        finish())
                                 .setCancelable(false)
-                                .setPositiveButton(R.string.btn_yes,
-                                        new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                Intent i =
-                                                        new Intent(AlbumPager.this, Website.class);
-                                                i.putExtra(LinkUtil.EXTRA_URL, url);
-                                                startActivity(i);
-                                                finish();
-                                            }
-                                        })
+                                .setPositiveButton(R.string.btn_yes, (dialog, which) -> {
+                                    Intent i = new Intent(AlbumPager.this, Website.class);
+                                    i.putExtra(LinkUtil.EXTRA_URL, url);
+                                    startActivity(i);
+                                    finish();
+                                })
                                 .show();
                     } catch (Exception e) {
 
@@ -256,12 +246,11 @@ public class AlbumPager extends FullScreenActivity
                 public void onClick(View v) {
                     LayoutInflater l = getLayoutInflater();
                     View body = l.inflate(R.layout.album_grid_dialog, null, false);
-                    AlertDialog.Builder b = new AlertDialog.Builder(AlbumPager.this);
                     GridView gridview = body.findViewById(R.id.images);
                     gridview.setAdapter(new ImageGridAdapter(AlbumPager.this, images));
 
-
-                    b.setView(body);
+                    final AlertDialog.Builder b = new AlertDialog.Builder(AlbumPager.this)
+                            .setView(body);
                     final Dialog d = b.create();
                     gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         public void onItemClick(AdapterView<?> parent, View v, int position,
@@ -707,18 +696,15 @@ public class AlbumPager extends FullScreenActivity
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                new AlertDialog.Builder(AlbumPager.this).setTitle(R.string.set_save_location)
+                new AlertDialog.Builder(AlbumPager.this)
+                        .setTitle(R.string.set_save_location)
                         .setMessage(R.string.set_save_location_msg)
-                        .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                new FolderChooserDialogCreate.Builder(AlbumPager.this).chooseButton(
-                                        R.string.btn_select)  // changes label of the choose button
+                        .setPositiveButton(R.string.btn_yes, (dialog, which) ->
+                                new FolderChooserDialogCreate.Builder(AlbumPager.this)
+                                        .chooseButton(R.string.btn_select) // changes label of the choose button
                                         .initialPath(Environment.getExternalStorageDirectory()
-                                                .getPath())  // changes initial path, defaults to external storage directory
-                                        .show();
-                            }
-                        })
+                                                .getPath()) // changes initial path, defaults to external storage directory
+                                        .show())
                         .setNegativeButton(R.string.btn_no, null)
                         .show();
             }
@@ -730,19 +716,15 @@ public class AlbumPager extends FullScreenActivity
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                new AlertDialog.Builder(AlbumPager.this).setTitle(
-                        R.string.err_something_wrong)
+                new AlertDialog.Builder(AlbumPager.this)
+                        .setTitle(R.string.err_something_wrong)
                         .setMessage(R.string.err_couldnt_save_choose_new)
-                        .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                new FolderChooserDialogCreate.Builder(AlbumPager.this).chooseButton(
-                                        R.string.btn_select)  // changes label of the choose button
+                        .setPositiveButton(R.string.btn_yes, (dialog, which) ->
+                                new FolderChooserDialogCreate.Builder(AlbumPager.this)
+                                        .chooseButton(R.string.btn_select) // changes label of the choose button
                                         .initialPath(Environment.getExternalStorageDirectory()
-                                                .getPath())  // changes initial path, defaults to external storage directory
-                                        .show();
-                            }
-                        })
+                                                .getPath()) // changes initial path, defaults to external storage directory
+                                        .show())
                         .setNegativeButton(R.string.btn_no, null)
                         .show();
             }

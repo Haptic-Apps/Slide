@@ -1,7 +1,6 @@
 package me.ccrama.redditslide.Activities;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -132,18 +131,15 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
 
     public void showFirstDialog() {
         try {
-            new AlertDialog.Builder(this).setTitle(R.string.set_save_location)
+            new AlertDialog.Builder(this)
+                    .setTitle(R.string.set_save_location)
                     .setMessage(R.string.set_save_location_msg)
-                    .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            new FolderChooserDialogCreate.Builder(Album.this).chooseButton(
-                                    R.string.btn_select)  // changes label of the choose button
+                    .setPositiveButton(R.string.btn_yes, (dialog, which) ->
+                            new FolderChooserDialogCreate.Builder(Album.this)
+                                    .chooseButton(R.string.btn_select) // changes label of the choose button
                                     .initialPath(Environment.getExternalStorageDirectory()
-                                            .getPath())  // changes initial path, defaults to external storage directory
-                                    .show();
-                        }
-                    })
+                                            .getPath()) // changes initial path, defaults to external storage directory
+                                    .show())
                     .setNegativeButton(R.string.btn_no, null)
                     .show();
         } catch (Exception ignored) {
@@ -152,18 +148,15 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
     }
 
     public void showErrorDialog() {
-        new AlertDialog.Builder(Album.this).setTitle(R.string.err_something_wrong)
+        new AlertDialog.Builder(Album.this)
+                .setTitle(R.string.err_something_wrong)
                 .setMessage(R.string.err_couldnt_save_choose_new)
-                .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        new FolderChooserDialogCreate.Builder(Album.this).chooseButton(
-                                R.string.btn_select)  // changes label of the choose button
+                .setPositiveButton(R.string.btn_yes, (dialog, which) ->
+                        new FolderChooserDialogCreate.Builder(Album.this)
+                                .chooseButton(R.string.btn_select) // changes label of the choose button
                                 .initialPath(Environment.getExternalStorageDirectory()
-                                        .getPath())  // changes initial path, defaults to external storage directory
-                                .show();
-                    }
-                })
+                                        .getPath()) // changes initial path, defaults to external storage directory
+                                .show())
                 .setNegativeButton(R.string.btn_no, null)
                 .show();
     }
@@ -318,30 +311,18 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
                         @Override
                         public void run() {
                             try {
-                                new AlertDialog.Builder(getActivity()).setTitle(
-                                        R.string.error_album_not_found)
+                                new AlertDialog.Builder(getActivity())
+                                        .setTitle(R.string.error_album_not_found)
                                         .setMessage(R.string.error_album_not_found_text)
-                                        .setNegativeButton(R.string.btn_no,
-                                                new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog,
-                                                                        int which) {
-                                                        getActivity().finish();
-                                                    }
-                                                })
+                                        .setNegativeButton(R.string.btn_no, (dialog, which) ->
+                                                getActivity().finish())
                                         .setCancelable(false)
-                                        .setPositiveButton(R.string.btn_yes,
-                                                new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog,
-                                                                        int which) {
-                                                        Intent i = new Intent(getActivity(),
-                                                                Website.class);
-                                                        i.putExtra(LinkUtil.EXTRA_URL, url);
-                                                        startActivity(i);
-                                                        getActivity().finish();
-                                                    }
-                                                })
+                                        .setPositiveButton(R.string.btn_yes, (dialog, which) -> {
+                                            Intent i = new Intent(getActivity(), Website.class);
+                                            i.putExtra(LinkUtil.EXTRA_URL, url);
+                                            startActivity(i);
+                                            getActivity().finish();
+                                        })
                                         .show();
                             } catch (Exception e) {
 

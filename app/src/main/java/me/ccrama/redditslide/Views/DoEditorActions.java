@@ -2,7 +2,6 @@ package me.ccrama.redditslide.Views;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -91,13 +90,11 @@ public class DoEditorActions {
                             String author =  "/u/" + authors[0];
                             insertBefore(author, editText);
                         } else {
-                            new AlertDialog.Builder(a).setTitle(R.string.authors_above)
-                                    .setItems(authors, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            String author =  "/u/" + authors[which];
-                                            insertBefore(author, editText);
-                                        }
+                            new AlertDialog.Builder(a)
+                                    .setTitle(R.string.authors_above)
+                                    .setItems(authors, (dialog, which) -> {
+                                        String author =  "/u/" + authors[which];
+                                        insertBefore(author, editText);
                                     })
                                     .setNeutralButton(R.string.btn_cancel, null)
                                     .show();
@@ -184,83 +181,42 @@ public class DoEditorActions {
                     draftText[i] = drafts.get(i);
                 }
                 if (drafts.isEmpty()) {
-                    new AlertDialog.Builder(a).setTitle(R.string.dialog_no_drafts)
+                    new AlertDialog.Builder(a)
+                            .setTitle(R.string.dialog_no_drafts)
                             .setMessage(R.string.dialog_no_drafts_msg)
                             .setPositiveButton(R.string.btn_ok, null)
                             .show();
                 } else {
-                    new AlertDialog.Builder(a).setTitle(R.string.choose_draft)
-                            .setItems(draftText, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    editText.setText(
-                                            editText.getText().toString() + draftText[which]);
-                                }
-                            })
+                    new AlertDialog.Builder(a)
+                            .setTitle(R.string.choose_draft)
+                            .setItems(draftText, (dialog, which) ->
+                                    editText.setText(editText.getText().toString() + draftText[which]))
                             .setNeutralButton(R.string.btn_cancel, null)
-                            .setPositiveButton(R.string.manage_drafts,
-                                    new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            final boolean[] selected = new boolean[drafts.size()];
-                                            new AlertDialogWrapper.Builder(a).setTitle(
-                                                    R.string.choose_draft)
-                                                    .setNeutralButton(R.string.btn_cancel, null)
-                                                    .alwaysCallMultiChoiceCallback()
-                                                    .setNegativeButton(R.string.btn_delete,
-                                                            new DialogInterface.OnClickListener() {
-                                                                @Override
-                                                                public void onClick(
-                                                                        DialogInterface dialog,
-                                                                        int which) {
-                                                                    new AlertDialog.Builder(
-                                                                            a).setTitle(
-                                                                            R.string.really_delete_drafts)
-                                                                            .setCancelable(false)
-                                                                            .setPositiveButton(
-                                                                                    R.string.btn_yes,
-                                                                                    new DialogInterface.OnClickListener() {
-                                                                                        @Override
-                                                                                        public void onClick(
-                                                                                                DialogInterface dialog,
-                                                                                                int which) {
-                                                                                            ArrayList<String>
-                                                                                                    draf =
-                                                                                                    new ArrayList<>();
-                                                                                            for (int
-                                                                                                    i =
-                                                                                                    0;
-                                                                                                    i
-                                                                                                            < draftText.length;
-                                                                                                    i++) {
-                                                                                                if (!selected[i]) {
-                                                                                                    draf.add(
-                                                                                                            draftText[i]);
-                                                                                                }
-                                                                                            }
-                                                                                            Drafts.save(
-                                                                                                    draf);
-                                                                                        }
-                                                                                    })
-                                                                            .setNegativeButton(
-                                                                                    R.string.btn_no,
-                                                                                    null)
-                                                                            .show();
+                            .setPositiveButton(R.string.manage_drafts, (dialog, which) -> {
+                                final boolean[] selected = new boolean[drafts.size()];
+                                new AlertDialogWrapper.Builder(a)
+                                        .setTitle(R.string.choose_draft)
+                                        .setNeutralButton(R.string.btn_cancel, null)
+                                        .alwaysCallMultiChoiceCallback()
+                                        .setNegativeButton(R.string.btn_delete, (dialog1, which1) ->
+                                                new AlertDialog.Builder(a)
+                                                        .setTitle(R.string.really_delete_drafts)
+                                                        .setCancelable(false)
+                                                        .setPositiveButton(R.string.btn_yes, (dialog11, which11) -> {
+                                                            ArrayList<String> draf = new ArrayList<>();
+                                                            for (int i = 0; i < draftText.length; i++) {
+                                                                if (!selected[i]) {
+                                                                    draf.add(draftText[i]);
                                                                 }
-                                                            })
-                                                    .setMultiChoiceItems(draftText, selected,
-                                                            new DialogInterface.OnMultiChoiceClickListener() {
-                                                                @Override
-                                                                public void onClick(
-                                                                        DialogInterface dialog,
-                                                                        int which,
-                                                                        boolean isChecked) {
-                                                                    selected[which] = isChecked;
-                                                                }
-                                                            })
-                                                    .show();
-                                        }
-                                    })
+                                                            }
+                                                            Drafts.save(draf);
+                                                        })
+                                                        .setNegativeButton(R.string.btn_no, null)
+                                                        .show())
+                                        .setMultiChoiceItems(draftText, selected, (dialog12, which12, isChecked) ->
+                                                selected[which12] = isChecked)
+                                        .show();
+                            })
                             .show();
                 }
             }
@@ -406,12 +362,13 @@ public class DoEditorActions {
                 String html = renderer.render(document);
                 LayoutInflater inflater = a.getLayoutInflater();
                 final View dialoglayout = inflater.inflate(R.layout.parent_comment_dialog, null);
-                final AlertDialog.Builder builder = new AlertDialog.Builder(a);
                 setViews(html, "NO sub",
                         dialoglayout.findViewById(R.id.firstTextView),
                         dialoglayout.findViewById(R.id.commentOverflow));
-                builder.setView(dialoglayout);
-                builder.show();
+
+                new AlertDialog.Builder(a)
+                        .setView(dialoglayout)
+                        .show();
             }
         });
 
@@ -720,13 +677,10 @@ public class DoEditorActions {
                         .show();
 
             } catch (Exception e) {
-                new AlertDialog.Builder(c).setTitle(R.string.err_title)
+                new AlertDialog.Builder(c)
+                        .setTitle(R.string.err_title)
                         .setMessage(R.string.editor_err_msg)
-                        .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                            }
-                        })
+                        .setPositiveButton(R.string.btn_ok, null)
                         .show();
                 e.printStackTrace();
             }
@@ -799,13 +753,10 @@ public class DoEditorActions {
                         .show();
 
             } catch (Exception e) {
-                new AlertDialog.Builder(c).setTitle(R.string.err_title)
+                new AlertDialog.Builder(c)
+                        .setTitle(R.string.err_title)
                         .setMessage(R.string.editor_err_msg)
-                        .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                            }
-                        })
+                        .setPositiveButton(R.string.btn_ok, null)
                         .show();
                 e.printStackTrace();
             }

@@ -480,8 +480,6 @@ public class Settings extends BaseActivity
                 if (SettingValues.isPro) {
                     LayoutInflater inflater = getLayoutInflater();
                     final View dialoglayout = inflater.inflate(R.layout.tabletui, null);
-                    final AlertDialog.Builder builder =
-                            new AlertDialog.Builder(Settings.this);
                     final Resources res = getResources();
 
                     dialoglayout.findViewById(R.id.title)
@@ -517,7 +515,9 @@ public class Settings extends BaseActivity
 
                         }
                     });
-                    final Dialog dialog = builder.setView(dialoglayout).create();
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(Settings.this)
+                            .setView(dialoglayout);
+                    final Dialog dialog = builder.create();
                     dialog.show();
                     dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
                         @Override

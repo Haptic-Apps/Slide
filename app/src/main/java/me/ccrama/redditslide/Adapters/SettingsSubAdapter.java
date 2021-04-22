@@ -2,7 +2,6 @@ package me.ccrama.redditslide.Adapters;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.view.LayoutInflater;
@@ -64,31 +63,25 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
         convertView.findViewById(R.id.remove).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AlertDialog.Builder(context).setTitle(context.getString(R.string.settings_delete_sub_settings, DELETE_SUB_SETTINGS_TITLE))
-                        .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Palette.removeColor(subreddit);
-                                // Remove layout settings
-                                SettingValues.prefs.edit().remove(Reddit.PREF_LAYOUT + subreddit).apply();
-                                // Remove accent / font color settings
-                                new ColorPreferences(context).removeFontStyle(subreddit);
+                new AlertDialog.Builder(context)
+                        .setTitle(context.getString(R.string.settings_delete_sub_settings, DELETE_SUB_SETTINGS_TITLE))
+                        .setPositiveButton(R.string.btn_yes, (dialog, which) -> {
+                            Palette.removeColor(subreddit);
+                            // Remove layout settings
+                            SettingValues.prefs.edit().remove(Reddit.PREF_LAYOUT + subreddit).apply();
+                            // Remove accent / font color settings
+                            new ColorPreferences(context).removeFontStyle(subreddit);
 
-                                SettingValues.resetPicsEnabled(subreddit);
-                                SettingValues.resetSelftextEnabled(subreddit);
+                            SettingValues.resetPicsEnabled(subreddit);
+                            SettingValues.resetSelftextEnabled(subreddit);
 
-                                dialog.dismiss();
-                                objects.remove(subreddit);
-                                notifyDataSetChanged();
-                            }
+                            dialog.dismiss();
+                            objects.remove(subreddit);
+                            notifyDataSetChanged();
                         })
-                        .setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                                dialog.dismiss();
-                            }
-                        }).show();
+                        .setNegativeButton(R.string.btn_no, (dialog, which) ->
+                                dialog.dismiss())
+                        .show();
             }
         });
         convertView.findViewById(R.id.edit).setOnClickListener(new View.OnClickListener() {
@@ -316,46 +309,42 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
                 }
             }
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(context);
-            builder.setView(dialoglayout);
-            builder.setCancelable(false);
-            builder.setNegativeButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    if (context instanceof MainActivity) {
-                        ((MainActivity) context).updateColor(Palette.getColor(subreddit), subreddit);
-                    }
-                }
-            }).setNeutralButton(R.string.btn_reset, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    String subTitles;
-
-                    if (multipleSubs) {
-                        StringBuilder subTitlesBuilder = new StringBuilder();
-                        for (String sub : subreddits) {
-                            //if the subreddit is the frontpage, don't put "/r/" in front of it
-                            if (sub.equals("frontpage")) {
-                                subTitlesBuilder.append(sub).append(", ");
-                            } else {
-                                subTitlesBuilder.append("/r/").append(sub).append(", ");
-                            }
+            new AlertDialog.Builder(context)
+                    .setView(dialoglayout)
+                    .setCancelable(false)
+                    .setNegativeButton(R.string.btn_cancel, (dialog, which) -> {
+                        if (context instanceof MainActivity) {
+                            ((MainActivity) context).updateColor(Palette.getColor(subreddit), subreddit);
                         }
-                        subTitles = subTitlesBuilder.toString();
-                        subTitles = subTitles.substring(0, subTitles.length() - 2);
-                    } else {
-                        //if the subreddit is the frontpage, don't put "/r/" in front of it
-                        subTitles = (subreddit.equals("frontpage") ? "frontpage" : "/r/" + subreddit);
-                    }
-                    String titleStart = context.getString(R.string.settings_delete_sub_settings, subTitles);
-                    titleStart = titleStart.replace("/r//r/", "/r/");
-                    if (titleStart.contains("/r/frontpage")) {
-                        titleStart = titleStart.replace("/r/frontpage", "frontpage");
-                    }
-                    new AlertDialog.Builder(context).setTitle(titleStart)
-                            .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
+                    })
+                    .setNeutralButton(R.string.btn_reset, (dialog, which) -> {
+                        String subTitles;
+
+                        if (multipleSubs) {
+                            StringBuilder subTitlesBuilder = new StringBuilder();
+                            for (String sub : subreddits) {
+                                //if the subreddit is the frontpage, don't put "/r/" in front of it
+                                if (sub.equals("frontpage")) {
+                                    subTitlesBuilder.append(sub).append(", ");
+                                } else {
+                                    subTitlesBuilder.append("/r/").append(sub).append(", ");
+                                }
+                            }
+                            subTitles = subTitlesBuilder.toString();
+                            subTitles = subTitles.substring(0, subTitles.length() - 2);
+                        } else {
+                            //if the subreddit is the frontpage, don't put "/r/" in front of it
+                            subTitles = (subreddit.equals("frontpage") ? "frontpage" : "/r/" + subreddit);
+                        }
+                        String titleStart = context.getString(R.string.settings_delete_sub_settings, subTitles);
+                        titleStart = titleStart.replace("/r//r/", "/r/");
+                        if (titleStart.contains("/r/frontpage")) {
+                            titleStart = titleStart.replace("/r/frontpage", "frontpage");
+                        }
+
+                        new AlertDialog.Builder(context)
+                                .setTitle(titleStart)
+                                .setPositiveButton(R.string.btn_yes, (dialog1, which1) -> {
                                     for (String sub : subreddits) {
                                         Palette.removeColor(sub);
                                         // Remove layout settings
@@ -374,71 +363,70 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
                                     } else if (context instanceof SubredditView) {
                                         ((SubredditView) context).restartTheme();
                                     }
-                                }
-                            }).setNegativeButton(R.string.btn_no, null).show();
-                }
-            }).setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    final int newPrimaryColor = colorPickerPrimaryShades.getColor();
-                    final int newAccentColor = colorPickerAcc.getColor();
+                                })
+                                .setNegativeButton(R.string.btn_no, null)
+                                .show();
+                    })
+                    .setPositiveButton(R.string.btn_ok, (dialog, which) -> {
+                        final int newPrimaryColor = colorPickerPrimaryShades.getColor();
+                        final int newAccentColor = colorPickerAcc.getColor();
 
-                    for (String sub : subreddits) {
-                        // Set main color
-                        if (bigPics.isChecked() != SettingValues.isPicsEnabled(sub)) {
-                            SettingValues.setPicsEnabled(sub, bigPics.isChecked());
-                        }
-                        if (selftext.isChecked() != SettingValues.isSelftextEnabled(sub)) {
-                            SettingValues.setSelftextEnabled(sub, selftext.isChecked());
-                        }
-                        //Only do set colors if either subreddit theme color has changed
-                        if (Palette.getColor(sub) != newPrimaryColor || Palette.getDarkerColor(sub) != newAccentColor) {
-
-                            if (newPrimaryColor != Palette.getDefaultColor()) {
-                                Palette.setColor(sub, newPrimaryColor);
-                            } else {
-                                Palette.removeColor(sub);
+                        for (String sub : subreddits) {
+                            // Set main color
+                            if (bigPics.isChecked() != SettingValues.isPicsEnabled(sub)) {
+                                SettingValues.setPicsEnabled(sub, bigPics.isChecked());
                             }
+                            if (selftext.isChecked() != SettingValues.isSelftextEnabled(sub)) {
+                                SettingValues.setSelftextEnabled(sub, selftext.isChecked());
+                            }
+                            //Only do set colors if either subreddit theme color has changed
+                            if (Palette.getColor(sub) != newPrimaryColor || Palette.getDarkerColor(sub) != newAccentColor) {
 
-                            // Set accent color
-                            ColorPreferences.Theme t = null;
+                                if (newPrimaryColor != Palette.getDefaultColor()) {
+                                    Palette.setColor(sub, newPrimaryColor);
+                                } else {
+                                    Palette.removeColor(sub);
+                                }
 
-                            //Do not save accent color if it matches the default accent color
-                            if (newAccentColor != ContextCompat.getColor(context, colorPrefs.getFontStyle().getColor()) || newAccentColor != ContextCompat.getColor(context, colorPrefs.getFontStyleSubreddit(sub).getColor())) {
-                                LogUtil.v("Accent colors not equal");
-                                int back = new ColorPreferences(context).getFontStyle().getThemeType();
-                                for (ColorPreferences.Theme type : ColorPreferences.Theme.values()) {
-                                    if (ContextCompat.getColor(context, type.getColor()) == newAccentColor && back == type.getThemeType()) {
-                                        t = type;
-                                        LogUtil.v("Setting accent color to " + t.getTitle());
-                                        break;
+                                // Set accent color
+                                ColorPreferences.Theme t = null;
+
+                                //Do not save accent color if it matches the default accent color
+                                if (newAccentColor != ContextCompat.getColor(context, colorPrefs.getFontStyle().getColor()) || newAccentColor != ContextCompat.getColor(context, colorPrefs.getFontStyleSubreddit(sub).getColor())) {
+                                    LogUtil.v("Accent colors not equal");
+                                    int back = new ColorPreferences(context).getFontStyle().getThemeType();
+                                    for (ColorPreferences.Theme type : ColorPreferences.Theme.values()) {
+                                        if (ContextCompat.getColor(context, type.getColor()) == newAccentColor && back == type.getThemeType()) {
+                                            t = type;
+                                            LogUtil.v("Setting accent color to " + t.getTitle());
+                                            break;
+                                        }
                                     }
+                                } else {
+                                    new ColorPreferences(context).removeFontStyle(sub);
                                 }
-                            } else {
-                                new ColorPreferences(context).removeFontStyle(sub);
+
+                                if (t != null) {
+                                    colorPrefs.setFontStyle(t, sub);
+                                }
                             }
 
-                            if (t != null) {
-                                colorPrefs.setFontStyle(t, sub);
+                            // Set layout
+                            SettingValues.prefs.edit().putBoolean(Reddit.PREF_LAYOUT + sub, true).apply();
+                        }
+
+                        //Only refresh stuff if the user changed something
+                        if (Palette.getColor(subreddit) != newPrimaryColor || Palette.getDarkerColor(subreddit) != newAccentColor) {
+                            if (context instanceof MainActivity) {
+                                ((MainActivity) context).reloadSubs();
+                            } else if (context instanceof SettingsSubreddit) {
+                                ((SettingsSubreddit) context).reloadSubList();
+                            } else if (context instanceof SubredditView) {
+                                ((SubredditView) context).restartTheme();
                             }
                         }
-
-                        // Set layout
-                        SettingValues.prefs.edit().putBoolean(Reddit.PREF_LAYOUT + sub, true).apply();
-                    }
-
-                    //Only refresh stuff if the user changed something
-                    if (Palette.getColor(subreddit) != newPrimaryColor || Palette.getDarkerColor(subreddit) != newAccentColor) {
-                        if (context instanceof MainActivity) {
-                            ((MainActivity) context).reloadSubs();
-                        } else if (context instanceof SettingsSubreddit) {
-                            ((SettingsSubreddit) context).reloadSubList();
-                        } else if (context instanceof SubredditView) {
-                            ((SubredditView) context).restartTheme();
-                        }
-                    }
-                }
-            }).show();
+                    })
+                    .show();
         }
     }
 
