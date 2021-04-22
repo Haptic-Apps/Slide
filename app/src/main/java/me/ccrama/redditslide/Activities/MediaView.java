@@ -31,7 +31,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.text.HtmlCompat;
 
 import com.cocosw.bottomsheet.BottomSheet;
 import com.google.gson.Gson;
@@ -71,6 +70,7 @@ import me.ccrama.redditslide.Views.ImageSource;
 import me.ccrama.redditslide.Views.SubsamplingScaleImageView;
 import me.ccrama.redditslide.Visuals.ColorPreferences;
 import me.ccrama.redditslide.util.AnimatorUtil;
+import me.ccrama.redditslide.util.CompatUtil;
 import me.ccrama.redditslide.util.FileUtil;
 import me.ccrama.redditslide.util.GifUtils;
 import me.ccrama.redditslide.util.HttpUtil;
@@ -566,7 +566,7 @@ public class MediaView extends FullScreenActivity
         setShareUrl(contentUrl);
 
         if (contentUrl.contains("reddituploads.com")) {
-            contentUrl = HtmlCompat.fromHtml(contentUrl, HtmlCompat.FROM_HTML_MODE_LEGACY).toString();
+            contentUrl = CompatUtil.fromHtml(contentUrl).toString();
         }
         if (contentUrl != null && shouldTruncate(contentUrl)) {
             contentUrl = contentUrl.substring(0, contentUrl.lastIndexOf("."));

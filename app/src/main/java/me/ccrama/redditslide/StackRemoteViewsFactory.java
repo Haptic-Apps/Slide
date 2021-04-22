@@ -8,14 +8,13 @@ import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
-import androidx.core.text.HtmlCompat;
-
 import net.dean.jraw.models.Submission;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import me.ccrama.redditslide.Adapters.SubredditPosts;
+import me.ccrama.redditslide.util.CompatUtil;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.TimeUtils;
 
@@ -62,7 +61,7 @@ public class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFa
             try {
 
                 //todo rv.setImageViewBitmap(R.id.thumbnail, Glide.with(mContext).load(url).asBitmap().);
-                rv.setTextViewText(R.id.title, HtmlCompat.fromHtml(submission.getTitle(), HtmlCompat.FROM_HTML_MODE_LEGACY));
+                rv.setTextViewText(R.id.title, CompatUtil.fromHtml(submission.getTitle()));
 
 
             } catch (Exception e) {
@@ -70,7 +69,7 @@ public class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFa
             }
 
 
-            rv.setTextViewText(R.id.title, HtmlCompat.fromHtml(submission.getTitle(), HtmlCompat.FROM_HTML_MODE_LEGACY));
+            rv.setTextViewText(R.id.title, CompatUtil.fromHtml(submission.getTitle()));
 
             rv.setTextViewText(R.id.subreddit, submission.getSubredditName());
             rv.setTextViewText(R.id.info, submission.getAuthor() + " " + TimeUtils.getTimeAgo(submission.getCreated().getTime(), mContext));

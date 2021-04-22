@@ -10,8 +10,6 @@ import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 import android.util.TypedValue;
 
-import androidx.core.text.HtmlCompat;
-
 import com.fasterxml.jackson.databind.JsonNode;
 
 import net.dean.jraw.models.DistinguishedStatus;
@@ -27,6 +25,7 @@ import me.ccrama.redditslide.Toolbox.ToolboxUI;
 import me.ccrama.redditslide.Views.RoundedBackgroundSpan;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.CompatUtil;
 import me.ccrama.redditslide.util.MiscUtil;
 import me.ccrama.redditslide.util.TimeUtils;
 
@@ -404,7 +403,7 @@ public class SubmissionCache {
     private static SpannableStringBuilder getTitleSpannable(Submission submission,
             String flairOverride, Context mContext) {
         SpannableStringBuilder titleString = new SpannableStringBuilder();
-        titleString.append(HtmlCompat.fromHtml(submission.getTitle(), HtmlCompat.FROM_HTML_MODE_LEGACY));
+        titleString.append(CompatUtil.fromHtml(submission.getTitle()));
 
         if (submission.isStickied()) {
             SpannableStringBuilder pinned = new SpannableStringBuilder("\u00A0"
@@ -475,7 +474,7 @@ public class SubmissionCache {
                 flairString = submission.getSubmissionFlair().getText();
             }
             SpannableStringBuilder pinned =
-                    new SpannableStringBuilder("\u00A0" + HtmlCompat.fromHtml(flairString, HtmlCompat.FROM_HTML_MODE_LEGACY) + "\u00A0");
+                    new SpannableStringBuilder("\u00A0" + CompatUtil.fromHtml(flairString) + "\u00A0");
             pinned.setSpan(new RoundedBackgroundSpan(font, color, true, mContext), 0,
                     pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(" ");

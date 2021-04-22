@@ -27,7 +27,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
-import androidx.core.text.HtmlCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -80,6 +79,7 @@ import me.ccrama.redditslide.SubmissionCache;
 import me.ccrama.redditslide.Views.CreateCardView;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.ClipboardUtil;
+import me.ccrama.redditslide.util.CompatUtil;
 import me.ccrama.redditslide.util.DisplayUtil;
 import me.ccrama.redditslide.util.GifUtils;
 import me.ccrama.redditslide.util.LayoutUtils;
@@ -146,10 +146,10 @@ public class PopulateNewsViewHolder {
                                     break;
                                 case EMBEDDED:
                                     if (SettingValues.video) {
-                                        String data = HtmlCompat.fromHtml(submission.getDataNode()
+                                        String data = CompatUtil.fromHtml(submission.getDataNode()
                                                 .get("media_embed")
                                                 .get("content")
-                                                .asText(), HtmlCompat.FROM_HTML_MODE_LEGACY).toString();
+                                                .asText()).toString();
                                         {
                                             Intent i = new Intent(contextActivity,
                                                     FullscreenVideo.class);
@@ -436,7 +436,7 @@ public class PopulateNewsViewHolder {
         ta.recycle();
 
         final BottomSheet.Builder b =
-                new BottomSheet.Builder(mContext).title(HtmlCompat.fromHtml(submission.getTitle(), HtmlCompat.FROM_HTML_MODE_LEGACY));
+                new BottomSheet.Builder(mContext).title(CompatUtil.fromHtml(submission.getTitle()));
 
 
         final boolean isReadLater = mContext instanceof PostReadLater;
@@ -742,7 +742,7 @@ public class PopulateNewsViewHolder {
                         }
                         break;
                     case 4:
-                        Reddit.defaultShareText(HtmlCompat.fromHtml(submission.getTitle(), HtmlCompat.FROM_HTML_MODE_LEGACY).toString(),
+                        Reddit.defaultShareText(CompatUtil.fromHtml(submission.getTitle()).toString(),
                                 StringEscapeUtils.escapeHtml4(submission.getUrl()), mContext);
                         break;
                     case 12:
@@ -826,7 +826,7 @@ public class PopulateNewsViewHolder {
                         reportDialog.show();
                         break;
                     case 8:
-                        Reddit.defaultShareText(HtmlCompat.fromHtml(submission.getTitle(), HtmlCompat.FROM_HTML_MODE_LEGACY).toString(),
+                        Reddit.defaultShareText(CompatUtil.fromHtml(submission.getTitle()).toString(),
                                 "https://reddit.com" + submission.getPermalink(), mContext);
                         break;
                     case 6: {
@@ -855,11 +855,10 @@ public class PopulateNewsViewHolder {
                                         ClipboardUtil.copyToClipboard(mContext, "Selftext", selected);
                                     } else {
                                         ClipboardUtil.copyToClipboard(mContext, "Selftext",
-                                                HtmlCompat.fromHtml(
+                                                CompatUtil.fromHtml(
                                                         submission.getTitle()
                                                                 + "\n\n"
-                                                                + submission.getSelftext(),
-                                                        HtmlCompat.FROM_HTML_MODE_LEGACY));
+                                                                + submission.getSelftext()));
                                     }
                                     Toast.makeText(mContext,
                                             R.string.submission_comment_copied,

@@ -2,8 +2,6 @@ package me.ccrama.redditslide.util;
 
 import android.content.Context;
 
-import androidx.core.text.HtmlCompat;
-
 import net.dean.jraw.models.Submission;
 import net.dean.jraw.models.Thumbnails;
 
@@ -15,38 +13,32 @@ import me.ccrama.redditslide.SettingValues;
 
 public class PhotoLoader {
 
-    public static void loadPhoto(final Context c, Submission submission) {
+    public static void loadPhoto(final Context c, final Submission submission) {
         String url;
-        ContentType.Type type = ContentType.getContentType(submission);
-        Thumbnails thumbnails = submission.getThumbnails();
-        Submission.ThumbnailType thumbnailType = submission.getThumbnailType();
+        final ContentType.Type type = ContentType.getContentType(submission);
+        final Thumbnails thumbnails = submission.getThumbnails();
+        final Submission.ThumbnailType thumbnailType = submission.getThumbnailType();
 
         if (thumbnails != null) {
 
             if (type == ContentType.Type.IMAGE
                     || type == ContentType.Type.SELF
-                    || (thumbnailType == Submission.ThumbnailType.URL)) {
+                    || thumbnailType == Submission.ThumbnailType.URL) {
                 if (type == ContentType.Type.IMAGE) {
                     if ((!NetworkUtil.isConnectedWifi(c) && SettingValues.lowResMobile
                             || SettingValues.lowResAlways)
                             && thumbnails.getVariations() != null
                             && thumbnails.getVariations().length > 0) {
 
-                        int length = thumbnails.getVariations().length;
+                        final int length = thumbnails.getVariations().length;
                         if (SettingValues.lqLow && length >= 3) {
-                            url = HtmlCompat.fromHtml(
-                                    thumbnails.getVariations()[2].getUrl(), HtmlCompat.FROM_HTML_MODE_LEGACY)
-                                    .toString(); //unescape url characters
+                            url = getThumbnailUrl(thumbnails.getVariations()[2]);
                         } else if (SettingValues.lqMid && length >= 4) {
-                            url = HtmlCompat.fromHtml(
-                                    thumbnails.getVariations()[3].getUrl(), HtmlCompat.FROM_HTML_MODE_LEGACY)
-                                    .toString(); //unescape url characters
+                            url = getThumbnailUrl(thumbnails.getVariations()[3]);
                         } else if (length >= 5) {
-                            url = HtmlCompat.fromHtml(thumbnails.getVariations()[length - 1].getUrl(), HtmlCompat.FROM_HTML_MODE_LEGACY)
-                                    .toString(); //unescape url characters
+                            url = getThumbnailUrl(thumbnails.getVariations()[length - 1]);
                         } else {
-                            url = HtmlCompat.fromHtml(thumbnails.getSource().getUrl(), HtmlCompat.FROM_HTML_MODE_LEGACY)
-                                    .toString(); //unescape url characters
+                            url = getThumbnailUrl(thumbnails.getSource());
                         }
 
                     } else {
@@ -74,42 +66,38 @@ public class PhotoLoader {
                             || SettingValues.lowResAlways)
                             && thumbnails.getVariations().length != 0) {
 
-                        int length = thumbnails.getVariations().length;
+                        final int length = thumbnails.getVariations().length;
                         if (SettingValues.lqLow && length >= 3) {
-                            url = HtmlCompat.fromHtml(
-                                    thumbnails.getVariations()[2].getUrl(), HtmlCompat.FROM_HTML_MODE_LEGACY)
-                                    .toString(); //unescape url characters
+                            url = getThumbnailUrl(thumbnails.getVariations()[2]);
                         } else if (SettingValues.lqMid && length >= 4) {
-                            url = HtmlCompat.fromHtml(
-                                    thumbnails.getVariations()[3].getUrl(), HtmlCompat.FROM_HTML_MODE_LEGACY)
-                                    .toString(); //unescape url characters
+                            url = getThumbnailUrl(thumbnails.getVariations()[3]);
                         } else if (length >= 5) {
-                            url = HtmlCompat.fromHtml(thumbnails.getVariations()[length - 1].getUrl(), HtmlCompat.FROM_HTML_MODE_LEGACY)
-                                    .toString(); //unescape url characters
+                            url = getThumbnailUrl(thumbnails.getVariations()[length - 1]);
                         } else {
-                            url = HtmlCompat.fromHtml(thumbnails.getSource().getUrl(), HtmlCompat.FROM_HTML_MODE_LEGACY)
-                                    .toString(); //unescape url characters
+                            url = getThumbnailUrl(thumbnails.getSource());
                         }
-
                     } else {
-                        url = HtmlCompat.fromHtml(thumbnails.getSource().getUrl(), HtmlCompat.FROM_HTML_MODE_LEGACY)
-                                .toString(); //unescape url characters
+                        url = getThumbnailUrl(thumbnails.getSource());
                     }
                 }
-                imageLoadingListener(c, url);
+                loadImage(c, url);
             }
         }
     }
 
-    private static void imageLoadingListener(Context c, String url) {
-        Reddit appContext = (Reddit) c.getApplicationContext();
+    private static String getThumbnailUrl(final Thumbnails.Image thumbnail) {
+        return CompatUtil.fromHtml(thumbnail.getUrl()).toString(); //unescape url characters
+    }
+
+    private static void loadImage(final Context context, final String url) {
+        final Reddit appContext = (Reddit) context.getApplicationContext();
 
         appContext.getImageLoader()
                 .loadImage(url, null);
     }
 
-    public static void loadPhotos(final Context c, List<Submission> submissions) {
-        for (Submission submission : submissions) {
+    public static void loadPhotos(final Context c, final List<Submission> submissions) {
+        for (final Submission submission : submissions) {
             loadPhoto(c, submission);
         }
     }

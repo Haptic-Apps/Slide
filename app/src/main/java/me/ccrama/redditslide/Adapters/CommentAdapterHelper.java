@@ -37,7 +37,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.text.HtmlCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 
@@ -83,6 +82,7 @@ import me.ccrama.redditslide.Views.RoundedBackgroundSpan;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.ClipboardUtil;
+import me.ccrama.redditslide.util.CompatUtil;
 import me.ccrama.redditslide.util.DisplayUtil;
 import me.ccrama.redditslide.util.LayoutUtils;
 import me.ccrama.redditslide.util.LinkUtil;
@@ -124,7 +124,7 @@ public class CommentAdapterHelper {
         ta.recycle();
 
         BottomSheet.Builder b =
-                new BottomSheet.Builder((Activity) mContext).title(HtmlCompat.fromHtml(n.getBody(), HtmlCompat.FROM_HTML_MODE_LEGACY));
+                new BottomSheet.Builder((Activity) mContext).title(CompatUtil.fromHtml(n.getBody()));
 
         if (Authentication.didOnline) {
             b.sheet(1, profile, "/u/" + n.getAuthor());
@@ -624,7 +624,7 @@ public class CommentAdapterHelper {
 
         //Bottom sheet builder
         BottomSheet.Builder b = new BottomSheet.Builder((Activity) mContext).title(
-                HtmlCompat.fromHtml(comment.getBody(), HtmlCompat.FROM_HTML_MODE_LEGACY));
+                CompatUtil.fromHtml(comment.getBody()));
 
         int reportCount = reports.size() + reports2.size();
 
@@ -1453,8 +1453,7 @@ public class CommentAdapterHelper {
                 theme.resolveAttribute(R.attr.activity_background, typedValue, true);
                 int color = typedValue.data;
                 SpannableStringBuilder pinned =
-                        new SpannableStringBuilder("\u00A0" + HtmlCompat.fromHtml(flairText,
-                                HtmlCompat.FROM_HTML_MODE_LEGACY) + "\u00A0");
+                        new SpannableStringBuilder("\u00A0" + CompatUtil.fromHtml(flairText) + "\u00A0");
                 pinned.setSpan(
                         new RoundedBackgroundSpan(holder.firstTextView.getCurrentTextColor(), color,
                                 false, mContext), 0, pinned.length(),

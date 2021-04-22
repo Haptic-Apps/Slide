@@ -27,7 +27,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
-import androidx.core.text.HtmlCompat;
 import androidx.multidex.MultiDexApplication;
 
 import com.google.android.exoplayer2.database.DatabaseProvider;
@@ -66,6 +65,7 @@ import me.ccrama.redditslide.Notifications.NotificationPiggyback;
 import me.ccrama.redditslide.Tumblr.TumblrUtils;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.AdBlocker;
+import me.ccrama.redditslide.util.CompatUtil;
 import me.ccrama.redditslide.util.GifCache;
 import me.ccrama.redditslide.util.ImageLoaderUtils;
 import me.ccrama.redditslide.util.LogUtil;
@@ -136,7 +136,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     }
 
     public static void defaultShareText(String title, String url, Context c) {
-        url = StringEscapeUtils.unescapeHtml4(HtmlCompat.fromHtml(url, HtmlCompat.FROM_HTML_MODE_LEGACY).toString());
+        url = StringEscapeUtils.unescapeHtml4(CompatUtil.fromHtml(url).toString());
         Intent sharingIntent = new Intent(Intent.ACTION_SEND);
         sharingIntent.setType("text/plain");
         /* Decode html entities */

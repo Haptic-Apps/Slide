@@ -41,7 +41,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.core.content.ContextCompat;
-import androidx.core.text.HtmlCompat;
 
 import com.cocosw.bottomsheet.BottomSheet;
 import com.devspark.robototextview.widget.RobotoTextView;
@@ -73,6 +72,7 @@ import me.ccrama.redditslide.Views.PeekMediaView;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.handler.TextViewLinkHandler;
 import me.ccrama.redditslide.util.ClipboardUtil;
+import me.ccrama.redditslide.util.CompatUtil;
 import me.ccrama.redditslide.util.GifUtils;
 import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.LogUtil;
@@ -147,7 +147,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
      */
     public void setTextHtml(CharSequence baseText, String subreddit) {
         String text = wrapAlternateSpoilers(saveEmotesFromDestruction(baseText.toString().trim()));
-        SpannableStringBuilder builder = (SpannableStringBuilder) HtmlCompat.fromHtml(text, HtmlCompat.FROM_HTML_MODE_LEGACY);
+        SpannableStringBuilder builder = (SpannableStringBuilder) CompatUtil.fromHtml(text);
 
         replaceQuoteSpans(
                 builder); //replace the <blockquote> blue line with something more colorful

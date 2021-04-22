@@ -21,7 +21,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.text.HtmlCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -54,6 +53,7 @@ import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.Views.CommentOverflow;
 import me.ccrama.redditslide.Views.SidebarLayout;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.CompatUtil;
 import me.ccrama.redditslide.util.HttpUtil;
 import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.LogUtil;
@@ -269,7 +269,7 @@ public class LiveThread extends BaseActivityAnim {
                 holder.info.setVisibility(View.GONE);
             } else {
                 holder.info.setVisibility(View.VISIBLE);
-                holder.info.setTextHtml(HtmlCompat.fromHtml(u.getDataNode().get("body_html").asText(), HtmlCompat.FROM_HTML_MODE_LEGACY), "NO SUBREDDIT");
+                holder.info.setTextHtml(CompatUtil.fromHtml(u.getDataNode().get("body_html").asText()), "NO SUBREDDIT");
             }
             holder.title.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -335,7 +335,7 @@ public class LiveThread extends BaseActivityAnim {
             public void parseJson() {
                 try {
                     JsonObject result = HttpUtil.getJsonObject(client, gson, "https://publish.twitter.com/oembed?url=" + url, null);
-                    LogUtil.v("Got " + HtmlCompat.fromHtml(result.toString(), HtmlCompat.FROM_HTML_MODE_LEGACY));
+                    LogUtil.v("Got " + CompatUtil.fromHtml(result.toString()));
                     twitter = new ObjectMapper().readValue(result.toString(), TwitterObject.class);
                 } catch (Exception e) {
                     e.printStackTrace();

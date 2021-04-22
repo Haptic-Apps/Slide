@@ -32,7 +32,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.core.text.HtmlCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cocosw.bottomsheet.BottomSheet;
@@ -64,6 +63,7 @@ import me.ccrama.redditslide.Views.RoundedBackgroundSpan;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.ClipboardUtil;
+import me.ccrama.redditslide.util.CompatUtil;
 import me.ccrama.redditslide.util.LayoutUtils;
 import me.ccrama.redditslide.util.SubmissionParser;
 import me.ccrama.redditslide.util.TimeUtils;
@@ -228,7 +228,7 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
             if (comment.getDataNode().has("link_title")) {
                 SpannableStringBuilder link = new SpannableStringBuilder(" "
-                        + HtmlCompat.fromHtml(comment.getDataNode().get("link_title").asText(), HtmlCompat.FROM_HTML_MODE_LEGACY)
+                        + CompatUtil.fromHtml(comment.getDataNode().get("link_title").asText())
                         + " ");
                 link.setSpan(new StyleSpan(Typeface.BOLD_ITALIC), 0, link.length(),
                         Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -273,7 +273,7 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     ta.recycle();
 
                     BottomSheet.Builder b = new BottomSheet.Builder((Activity) mContext).title(
-                            HtmlCompat.fromHtml(comment.getSubject(), HtmlCompat.FROM_HTML_MODE_LEGACY));
+                            CompatUtil.fromHtml(comment.getSubject()));
 
                     String author = comment.getAuthor();
                     if (!dataSet.where.contains("mod")
@@ -377,8 +377,8 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             if (comment.getDataNode().has("link_title")) {
                                 SpannableStringBuilder link = new SpannableStringBuilder(
                                         " "
-                                                + HtmlCompat.fromHtml(
-                                                comment.getDataNode().get("link_title").asText(), HtmlCompat.FROM_HTML_MODE_LEGACY)
+                                                + CompatUtil.fromHtml(
+                                                comment.getDataNode().get("link_title").asText())
                                                 + " ");
                                 link.setSpan(new StyleSpan(Typeface.BOLD_ITALIC), 0, link.length(),
                                         Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);

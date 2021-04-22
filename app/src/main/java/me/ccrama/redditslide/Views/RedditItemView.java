@@ -19,7 +19,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.AppCompatCheckBox;
-import androidx.core.text.HtmlCompat;
 
 import com.devspark.robototextview.RobotoTypefaces;
 
@@ -46,6 +45,7 @@ import me.ccrama.redditslide.SubmissionViews.PopulateSubmissionViewHolder;
 import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.CompatUtil;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.MiscUtil;
 import me.ccrama.redditslide.util.SubmissionParser;
@@ -434,9 +434,9 @@ public class RedditItemView extends RelativeLayout {
         }
 
         if (comment.getSubmissionTitle() != null) {
-            holder.title.setText(HtmlCompat.fromHtml(comment.getSubmissionTitle(), HtmlCompat.FROM_HTML_MODE_LEGACY));
+            holder.title.setText(CompatUtil.fromHtml(comment.getSubmissionTitle()));
         } else {
-            holder.title.setText(HtmlCompat.fromHtml(comment.getAuthor(), HtmlCompat.FROM_HTML_MODE_LEGACY));
+            holder.title.setText(CompatUtil.fromHtml(comment.getAuthor()));
         }
     }
 

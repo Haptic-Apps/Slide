@@ -21,7 +21,6 @@ import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.browser.customtabs.CustomTabsServiceConnection;
 import androidx.browser.customtabs.CustomTabsSession;
 import androidx.core.content.ContextCompat;
-import androidx.core.text.HtmlCompat;
 
 import net.dean.jraw.models.Submission;
 
@@ -195,7 +194,7 @@ public class LinkUtil {
      * @param url     URL to open
      */
     public static void openExternally(String url) {
-        url = StringEscapeUtils.unescapeHtml4(HtmlCompat.fromHtml(url, HtmlCompat.FROM_HTML_MODE_LEGACY).toString());
+        url = StringEscapeUtils.unescapeHtml4(CompatUtil.fromHtml(url).toString());
         Uri uri = formatURL(url);
 
         final Intent intent = new Intent(Intent.ACTION_VIEW, uri);
@@ -219,7 +218,7 @@ public class LinkUtil {
     }
 
     public static void copyUrl(String url, Context context) {
-        url = StringEscapeUtils.unescapeHtml4(HtmlCompat.fromHtml(url, HtmlCompat.FROM_HTML_MODE_LEGACY).toString());
+        url = StringEscapeUtils.unescapeHtml4(CompatUtil.fromHtml(url).toString());
         ClipboardUtil.copyToClipboard(context, "Link", url);
         Toast.makeText(context, R.string.submission_link_copied, Toast.LENGTH_SHORT).show();
     }
