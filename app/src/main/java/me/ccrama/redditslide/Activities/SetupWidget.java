@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -23,6 +22,7 @@ import me.ccrama.redditslide.Visuals.ColorPreferences;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Widget.SubredditWidgetProvider;
 import me.ccrama.redditslide.util.SortingUtil;
+import me.ccrama.redditslide.util.stubs.SimpleTextWatcher;
 
 /**
  * Created by carlo_000 on 5/4/2016.
@@ -70,17 +70,7 @@ public class SetupWidget extends BaseActivity {
         list.setAdapter(adapter);
 
         (header.findViewById(R.id.sort)).clearFocus();
-        ((EditText)header.findViewById(R.id.sort)).addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-
-            }
-
+        ((EditText)header.findViewById(R.id.sort)).addTextChangedListener(new SimpleTextWatcher() {
             @Override
             public void afterTextChanged(Editable editable) {
                 final String result = editable.toString();

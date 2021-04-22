@@ -8,8 +8,6 @@ import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -58,6 +56,7 @@ import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.NetworkUtil;
 import me.ccrama.redditslide.util.OnSingleClickListener;
 import me.ccrama.redditslide.util.ProUtil;
+import me.ccrama.redditslide.util.stubs.SimpleTextWatcher;
 
 /**
  * Created by ccrama on 3/5/2015.
@@ -338,11 +337,7 @@ public class Settings extends BaseActivity
             });
         }
 
-        ((EditText) findViewById(R.id.settings_search)).addTextChangedListener(new TextWatcher() {
-
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
-
+        ((EditText) findViewById(R.id.settings_search)).addTextChangedListener(new SimpleTextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String text = s.toString().trim();
@@ -351,9 +346,6 @@ public class Settings extends BaseActivity
                 BuildLayout(text);
                 prev_text = text;
             }
-
-            @Override
-            public void afterTextChanged(Editable editable) { }
         });
 
         findViewById(R.id.settings_child_general).setOnClickListener(new OnSingleClickListener() {

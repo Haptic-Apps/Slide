@@ -21,8 +21,6 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -99,6 +97,7 @@ import me.ccrama.redditslide.util.KeyboardUtil;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.OnSingleClickListener;
 import me.ccrama.redditslide.util.SubmissionParser;
+import me.ccrama.redditslide.util.stubs.SimpleTextWatcher;
 
 
 public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -1258,22 +1257,10 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                     currentlyEditingId = n.getFullName();
                     replyLine.setText(backedText);
-                    replyLine.addTextChangedListener(new TextWatcher() {
+                    replyLine.addTextChangedListener(new SimpleTextWatcher() {
                         @Override
-                        public void beforeTextChanged(CharSequence s, int start, int count,
-                                int after) {
-
-                        }
-
-                        @Override
-                        public void onTextChanged(CharSequence s, int start, int before,
-                                int count) {
+                        public void onTextChanged(CharSequence s, int start, int before, int count) {
                             backedText = s.toString();
-                        }
-
-                        @Override
-                        public void afterTextChanged(Editable s) {
-
                         }
                     });
                     editingPosition = holder.getBindingAdapterPosition();
@@ -1379,22 +1366,10 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                 InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
 
                         currentlyEditingId = n.getFullName();
-                        replyLine.addTextChangedListener(new TextWatcher() {
+                        replyLine.addTextChangedListener(new SimpleTextWatcher() {
                             @Override
-                            public void beforeTextChanged(CharSequence s, int start, int count,
-                                    int after) {
-
-                            }
-
-                            @Override
-                            public void onTextChanged(CharSequence s, int start, int before,
-                                    int count) {
+                            public void onTextChanged(CharSequence s, int start, int before, int count) {
                                 backedText = s.toString();
-                            }
-
-                            @Override
-                            public void afterTextChanged(Editable s) {
-
                             }
                         });
                         editingPosition = holder.getBindingAdapterPosition();

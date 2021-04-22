@@ -7,8 +7,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -65,6 +63,7 @@ import me.ccrama.redditslide.util.KeyboardUtil;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.SubmissionParser;
 import me.ccrama.redditslide.util.TitleExtractor;
+import me.ccrama.redditslide.util.stubs.SimpleTextWatcher;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
@@ -150,23 +149,13 @@ public class Submit extends BaseActivity {
         subredditText.setAdapter(adapter);
         subredditText.setThreshold(2);
 
-        subredditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
+        subredditText.addTextChangedListener(new SimpleTextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (tchange != null) {
                     tchange.cancel(true);
                 }
                 findViewById(R.id.submittext).setVisibility(View.GONE);
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
             }
         });
 

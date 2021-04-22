@@ -33,7 +33,6 @@ import android.os.Handler;
 import android.os.Parcelable;
 import android.text.Editable;
 import android.text.Spannable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.util.Pair;
 import android.view.Gravity;
@@ -183,6 +182,7 @@ import me.ccrama.redditslide.util.SortingUtil;
 import me.ccrama.redditslide.util.StringUtil;
 import me.ccrama.redditslide.util.SubmissionParser;
 import me.ccrama.redditslide.util.TimeUtils;
+import me.ccrama.redditslide.util.stubs.SimpleTextWatcher;
 
 import static me.ccrama.redditslide.UserSubscriptions.modOf;
 
@@ -3772,17 +3772,7 @@ public class MainActivity extends BaseActivity
             final View close = findViewById(R.id.close_search_drawer);
             close.setVisibility(View.GONE);
 
-            drawerSearch.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-
-                }
-
-                @Override
-                public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-
-                }
-
+            drawerSearch.addTextChangedListener(new SimpleTextWatcher() {
                 @Override
                 public void afterTextChanged(Editable editable) {
                     final String result = editable.toString();
@@ -4246,19 +4236,7 @@ public class MainActivity extends BaseActivity
                                             }
                                         });
 
-                                GO_TO_SUB_FIELD.addTextChangedListener(new TextWatcher() {
-                                    @Override
-                                    public void beforeTextChanged(CharSequence charSequence, int i,
-                                            int i2, int i3) {
-
-                                    }
-
-                                    @Override
-                                    public void onTextChanged(CharSequence charSequence, int i,
-                                            int i2, int i3) {
-
-                                    }
-
+                                GO_TO_SUB_FIELD.addTextChangedListener(new SimpleTextWatcher() {
                                     @Override
                                     public void afterTextChanged(Editable editable) {
                                         final String RESULT = GO_TO_SUB_FIELD.getText()
