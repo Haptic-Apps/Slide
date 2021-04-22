@@ -111,7 +111,7 @@
     <string name="profile_karma_link">Karma de publication</string>
     <string name="profile_karma_comment">Karma du commentaire</string>
     <string name="profile_message">Message privé</string>
-    <string name="profile_saved">enregistré</string>
+    <string name="profile_saved">Enregistré</string>
     <string name="profile_read_later">Lire plus tard</string>
     <string name="profile_upvoted">upvoted</string>
     <string name="profile_err_title">Utilisateur non trouvé</string>

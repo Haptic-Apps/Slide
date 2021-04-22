@@ -14,6 +14,7 @@
     <string name="general_shadowbox_ispro">Mode Shadowbox adalah fitur Pro</string>
     <string name="general_nighttheme_ispro">Mode Malam Otomatis adalah fitur Pro</string>
     <string name="general_backup_ispro">Pencadangan pengaturan adalah fitur Pro</string>
+    <string name="general_multicolumn_ispro">Pengaturan multikolom adalah fitur pro</string>
     <!-- Used when viewing a thread -->
     <string name="submission_info_unsaved">Kiriman belum disimpan</string>
     <string name="submission_info_saved">Kiriman disimpan</string>
@@ -105,6 +106,7 @@
     <string name="sidebar_wiki">Wiki subreddit</string>
     <string name="sidebar_mods">Moderator subreddit</string>
     <!-- User profile -->
+    <string name="profile_karma_total">Jumlah karma</string>
     <string name="profile_karma_link">Karma pos</string>
     <string name="profile_karma_comment">Karma komentar</string>
     <string name="profile_message">Pesan privat</string>
@@ -192,6 +194,7 @@
     <string name="editor_save_draft">Simpan draf</string>
     <string name="editor_chose_draft">Pilih draf</string>
     <string name="editor_insert_image">Sisipkan gambar</string>
+    <string name="editor_draw">Masukkan dan coret di gambar</string>
     <string name="editor_link">Sisipkan tautan</string>
     <string name="editor_bold">Tebal</string>
     <string name="editor_italics">Miring</string>
@@ -261,6 +264,7 @@
     <string name="multi_submit_which_sub">Sub mana yang ingin anda kirim pos?</string>
     <string name="multi_saved_successfully">Berhasil disimpan</string>
     <string name="delete_multireddit_title">Apakah anda yakin ingin menghapus /m/%1$s?</string>
+    <string name="multi_save_option">Apakah kamu ingin menyimpan multireddit ini</string>
     <!-- Content types -->
     <string name="type_nsfw_img">Gambar NSFW</string>
     <string name="type_nsfw_gif">GIF NSFW</string>
@@ -272,6 +276,8 @@
     <string name="type_album">Album</string>
     <string name="type_xkcd">XKCD</string>
     <string name="type_nsfw_album">Album NSFW</string>
+    <string name="type_nsfw_gallery">Galeri NSFW</string>
+    <string name="type_gallery">Galeri</string>
     <string name="type_img">Gambar</string>
     <string name="type_videos">Video</string>
     <string name="type_nsfw_video">Video NSFW</string>
@@ -350,6 +356,7 @@
     <string name="btn_discard">Buang</string>
     <string name="btn_done">Selesai</string>
     <string name="btn_go_back">Kembali</string>
+    <string name="btn_no_thanks">Tidak, terima kasih</string>
     <string name="btn_no">Tidak</string>
     <string name="btn_ok">OK</string>
     <string name="btn_remove">Hapus</string>
@@ -427,6 +434,8 @@
     <string name="mod_btn_unmark_nsfw">Hapus tanda NSFW</string>
     <string name="mod_btn_mark_spoiler">Tandai spoiler</string>
     <string name="mod_btn_unmark_spoiler">Batal tandai spoiler</string>
+    <string name="mod_btn_lock_comment">Kunci komentar</string>
+    <string name="mod_locked">Terkunci</string>
     <string name="mod_btn_pin">Semat</string>
     <string name="mod_btn_unpin">Lepas Sematan</string>
     <string name="mod_btn_remove">Hapus</string>
@@ -574,6 +583,7 @@ ini juga akan menghapus ikon dari layar depan anda.</string>
     <string name="settings_section_save_history">Simpan riwayat</string>
     <string name="settings_section_clear_history">Hapus riwayat</string>
     <string name="settings_section_data_saving_mode">Mode hemat data</string>
+    <string name="settings_section_data_saving_quality">Kualitas hemat data</string>
     <string name="settings_comment_color">Indikator kedalaman komentar yang tajam</string>
     <string name="settings_volume_nav_comments">Arahkan komentar menggunakan tombol volume</string>
     <string name="settings_synccit_remove">MEMUTUSKAN SYNCCIT</string>
@@ -591,6 +601,8 @@ ini juga akan menghapus ikon dari layar depan anda.</string>
     <string name="settings_comment_collapse_description">Nonaktifkan juga komentar animasi</string>
     <string name="settings_comment_collapse_default">Tutup komentar anak secara default</string>
     <string name="settings_data_enable">Aktifkan pengaturan penyimpan data</string>
+    <string name="settings_data_video_quality">Memilih video kualitas rendah ketika mode hemat data menyala</string>
+    <string name="settings_comments_collapse_deleted">Tutup komentar terhapus secara default</string>
     <string name="settings_backup_occurs">Cadangan akan terjadi di %1$s</string>
     <string name="settings_backup_none">Subreddits tidak akan kembali</string>
     <string name="settings_backup_will_backup">\u0020will kembali ke atas</string>
@@ -640,11 +652,20 @@ ini juga akan menghapus ikon dari layar depan anda.</string>
     <string name="settings_theme_night_end_at">Akhir at\u0020</string>
     <string name="settings_general_inbox_snd">Suara dan bergetar</string>
     <string name="settings_enable_notifs">Mengaktifkan pemberitahuan inbox</string>
+    <string name="settings_mod_toolbox_header">Kotak peralatan</string>
+    <string name="settings_mod_toolbox_enabled">Aktifkan fungsi kotak peralatan</string>
     <string name="settings_mod_toolbox_desc">Dapat menyebabkan penurunan performa</string>
     <string name="settings_mod_removal_reasons">Tipe alasan penghapusan</string>
     <string name="settings_mod_removal_slide">Slide \"hapus dengan alasan\"</string>
+    <string name="settings_mod_removal_toolbox">Alasan membuang kotak peralatan</string>
+    <string name="settings_mod_removal_reddit">Alasan membuang reddit</string>
+    <string name="settings_mod_toolbox_message">Metode mengirim alasan pembuangan</string>
     <string name="settings_mod_toolbox_modmail">Mengirimkan alasan penghapusan sebagai subreddit</string>
     <!-- Quick setting toggles in the drawer -->
+    <string name="toggle_night_mode">Mode malam</string>
+    <string name="toggle_immersive_mode">Modus mendalam</string>
+    <string name="toggle_nsfw">Perlihatkan konten NSFW</string>
+    <string name="toggle_right_thumbnails">Gambar kecil sejajar kanan</string>
     <string name="toggle_reader_mode">Gunakan mode pembaca</string>
     <!-- View types -->
     <string name="view_type_tabs">Subreddit tab</string>
@@ -667,6 +688,7 @@ ini juga akan menghapus ikon dari layar depan anda.</string>
     <string name="reorder_fab_domain">Domain</string>
     <string name="reorder_fab_subreddit">Subreddit</string>
     <string name="reorder_add_subscribe">Tambahkan &amp; berlangganan</string>
+    <string name="reorder_remove_unsubscribe">Menghapus &amp; berhenti berlangganan</string>
     <string name="reorder_move">Kembali ke atas</string>
     <string name="reorder_domain_placeholder">\u0020 (hanya nama domain)</string>
     <string name="reorder_not_found_err">Subreddit tidak ditemukan, berikut adalah beberapa saran</string>
@@ -918,6 +940,7 @@ ini juga akan menghapus ikon dari layar depan anda.</string>
     <string name="mode_centered">Kartu dengan gambar terpusat</string>
     <string name="mode_card">Kartu</string>
     <string name="mode_thumbnail">Gambar Kecil</string>
+    <string name="mode_no_thumbnails">Tidak ada gambar kecil</string>
     <string name="mode_big_thumbnails">Lebarkan gambar kecil</string>
     <string name="mode_cropped">Keratkan gambar besar</string>
     <string name="mode_bigpic">Gambar besar</string>
@@ -929,6 +952,7 @@ ini juga akan menghapus ikon dari layar depan anda.</string>
     <string name="filter_content">Saringkan konten ini</string>
     <string name="content_to_hide">Sembunyikan konten pada %1$s</string>
     <string name="save_for_offline_viewing">Simpan kiriman pos untuk akses luring</string>
+    <string name="btn_collapse_children_all">Tutup komentar anak</string>
     <string name="btn_open_content">Buka konten</string>
     <string name="load_videos_internally">Muat video secara internal</string>
     <string name="load_videos_internally_content">Apakah Anda ingin mencoba plugin Slide Video? Ini akan memungkinkan Anda melihat video (seperti YouTube) secara internal!</string>
@@ -1002,6 +1026,7 @@ ini juga akan menghapus ikon dari layar depan anda.</string>
     <string name="comment_removed">Komentar dihapus</string>
     <string name="set_nav_mode">Setel mode navigasi</string>
     <string name="auto_hide_the_comment_nav_bar">Otomatis sembunyikan bilah navigasi komentar</string>
+    <string name="rate_slide">Nilai slide</string>
     <string name="edit_query">Sunting kueri</string>
     <string name="share_slide">Bagikan Slide</string>
     <string name="create_folder">Buat folder</string>
@@ -1037,6 +1062,8 @@ ini juga akan menghapus ikon dari layar depan anda.</string>
     <string name="theme_pixel">Piksel</string>
     <string name="save_images_to_subreddit_specific_subfolders">Simpan gambar ke subfolder khusus subreddit</string>
     <string name="description_save_subfolders">Bekerja dalam pengajuan dan komentar dilihat</string>
+    <string name="show_image_download_button">Shortcut mengunduh</string>
+    <string name="description_image_download_button">Tampilkan tombol unduh di pembuka gambar</string>
     <string name="content_settings">Pengaturan konten</string>
     <string name="setting_titleTop">Tampilkan judul di atas info baris</string>
     <string name="setting_notification_piggybacking">Pemberitahuan Piggybacking</string>
@@ -1045,6 +1072,7 @@ ini juga akan menghapus ikon dari layar depan anda.</string>
     <string name="success_block_user">Pengguna berhasil diblokir</string>
     <string name="settings_highlight_time_desc">Opsi \'Tampilkan jumlah komentar sejak kunjungan terakhir\' harus aktif di Pengaturan &gt; Tata Letak Pos</string>
     <string name="settings_colored_time">Gelembung waktu berwarna untuk komentar baru</string>
+    <string name="theme_deep">Dalam</string>
     <string name="type_vreddit">Video Reddit</string>
     <string name="authors_above">Pengirim diatas</string>
     <string name="btn_crosspost">Crosspost</string>
@@ -1056,6 +1084,10 @@ ini juga akan menghapus ikon dari layar depan anda.</string>
     <string name="replies_enabled_comment">Balasan komentar diaktifkan</string>
     <string name="replies_switch_accounts">Beralih ke akun lainnya</string>
     <string name="search_settings">Pengaturan pencarian</string>
+    <string name="show_collapse_expand_nav_bar">Perlihatkan tombol tutup/buka di bilah navigasi komen</string>
     <string name="page_not_found">Halaman tidak ditemukan</string>
     <string name="page_does_not_exist">Halaman yang anda minta tidak ada</string>
+    <string name="back_button_behavior_goto_first">Menuju ke subreddit pertama</string>
+    <string name="settings_hide_post_awards">Sembunyikan penghargaan</string>
+    <string name="settings_hide_comment_awards">Sembunyikan penghargaan</string>
 </resources>

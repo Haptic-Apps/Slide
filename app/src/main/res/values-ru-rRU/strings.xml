@@ -6,7 +6,7 @@
     <string name="general_confirm_exit_msg">Вы действительно хотите выйти из Slide?</string>
     <string name="general_enable_shadowbox">Включить Shadowbox Mode</string>
     <string name="pro_upgrade_msg">Обновите Slide for Reddit Pro, чтобы насладиться потрясающими новыми функциями, в том числе: \n\n- Блокировка рекламы и режим чтения в режиме просмотра веб-сайта\n- Обрезка и рисование на изображениях для загрузки\n - Настраиваемый режим столбцов на планшете\n - Автоматический ночной режим\n - Представления содержимого Shadow галереи \n- Комментарий Shadowbox view \n- Резервное копирование и восстановление на Google Диск и в файл \n- Поддержка программного обеспечения с открытым исходным кодом и без рекламы! \n \nВы хотите поддержать Slide for Reddit?</string>
-    <string name="general_open_settings">Открыть Настройки Сабреддита</string>
+    <string name="general_open_settings">Боковая панель</string>
     <string name="general_sub_sync">Синхронизация Подписок</string>
     <string name="general_gallerymode_ispro">Режим галереи доступен только в Pro версии</string>
     <string name="general_cropdraw_ispro">Чтобы обрезать и рисовать на картинках нужно купить Pro</string>
@@ -114,6 +114,7 @@
     <string name="sidebar_wiki">Сабреддит-wiki</string>
     <string name="sidebar_mods">Модераторы сабреддита</string>
     <!-- User profile -->
+    <string name="profile_karma_total">Общая карма</string>
     <string name="profile_karma_link">Карма поста</string>
     <string name="profile_karma_comment">Карма коммента</string>
     <string name="profile_message">Личное сообщение</string>
@@ -271,6 +272,7 @@
     <string name="multi_submit_which_sub">В какой сабреддит вы хотите опубликовать?</string>
     <string name="multi_saved_successfully">Успешно сохранено</string>
     <string name="delete_multireddit_title">Вы действительно хотите удалить /m/%1$s?</string>
+    <string name="multi_save_option">Вы хотите сохранить этот мультиреддит?</string>
     <!-- Content types -->
     <string name="type_nsfw_img">NSFW изображение</string>
     <string name="type_nsfw_gif">NSFW GIF</string>
@@ -282,6 +284,8 @@
     <string name="type_album">Альбом</string>
     <string name="type_xkcd">XKCD</string>
     <string name="type_nsfw_album">NSFW альбом</string>
+    <string name="type_nsfw_gallery">NSFW Галерея</string>
+    <string name="type_gallery">Галерея</string>
     <string name="type_img">Изображение</string>
     <string name="type_videos">Видео</string>
     <string name="type_nsfw_video">NSFW видео</string>
@@ -366,6 +370,7 @@
     <string name="btn_discard">Отклонить</string>
     <string name="btn_done">Готово</string>
     <string name="btn_go_back">Назад</string>
+    <string name="btn_no_thanks">Нет, спасибо</string>
     <string name="btn_no">Нет</string>
     <string name="btn_ok">Хорошо</string>
     <string name="btn_remove">Удалить</string>
@@ -445,6 +450,12 @@
     <string name="mod_btn_unmark_nsfw">Снять отметку NSFW</string>
     <string name="mod_btn_mark_spoiler">Пометить как спойлер</string>
     <string name="mod_btn_unmark_spoiler">Снять метку спойлера</string>
+    <string name="mod_btn_lock_thread">Закрыть тему</string>
+    <string name="mod_btn_unlock_thread">Разблокировать тему</string>
+    <string name="mod_btn_lock_comment">Заблокировать комментарий</string>
+    <string name="mod_btn_unlock_comment">Разблокировать комментарий</string>
+    <string name="mod_locked">Заблокирован</string>
+    <string name="mod_unlocked">Разблокирован</string>
     <string name="mod_btn_pin">Закрепить</string>
     <string name="mod_btn_unpin">Открепить</string>
     <string name="mod_btn_remove">Удалить</string>
@@ -530,6 +541,7 @@
     <string name="settings_link_album">Вид внутреннего альбома</string>
     <string name="settings_link_peek">Взглянуть на содержимое (экспериментально)</string>
     <string name="settings_link_gif">Встроенный просмотр GIF</string>
+    <string name="settings_link_hqgif">Высокое качество видео Gfycat</string>
     <string name="settings_link_handling">Обработка ссылок</string>
     <string name="settings_link_image">Встроенный просмотр изображений</string>
     <string name="settings_mail_check">Проверка наличия новых сообщений</string>
@@ -599,6 +611,7 @@
     <string name="settings_section_save_history">Сохранить историю</string>
     <string name="settings_section_clear_history">Очистить историю</string>
     <string name="settings_section_data_saving_mode">Режим экономии трафика</string>
+    <string name="settings_section_data_saving_quality">Качество сохраняемых данных</string>
     <string name="settings_comment_color">Цветные индикаторы глубины комментариев</string>
     <string name="settings_volume_nav_comments">Перемещаться между комментариями кнопками громкости</string>
     <string name="settings_synccit_remove">ОТКЛЮЧИТЬ SYNCCIT</string>
@@ -616,6 +629,8 @@
     <string name="settings_comment_collapse_description">Также отключает анимацию комментариев</string>
     <string name="settings_comment_collapse_default">По умолчанию сворачивать дочерние комментарии</string>
     <string name="settings_data_enable">Включить настройки экономии трафика</string>
+    <string name="settings_data_video_quality">Предпочитайте низкокачественные видео, когда сохранение данных включено</string>
+    <string name="settings_comments_collapse_deleted">Свернуть удаленные комментарии по умолчанию</string>
     <string name="settings_backup_occurs">Резервирование произойдёт в %1$s</string>
     <string name="settings_backup_none">Не выбраны сабреддиты для резервирования</string>
     <string name="settings_backup_will_backup">\u0020создаст резервную копию</string>
@@ -632,6 +647,8 @@
     <string name="settings_layout_picture_mode">Режим просмотра изображений</string>
     <string name="settings_general_expanded_toolbar">Расширенная панель инструментов</string>
     <string name="settings_general_expanded_toolbar_desc">Отображать больше действий в панели инструментов сабреддита</string>
+    <string name="settings_always_show_floating_action_button">Всегда показывать плавающую кнопку действия</string>
+    <string name="settings_always_show_floating_action_button_desc">Никогда не скрывать плавающую кнопку при прокрутке</string>
     <string name="settings_theme_tinting">Режим окрашивания публикаций</string>
     <string name="settings_layout_actionbar_mode">Режим панели действий</string>
     <string name="settings_theme_tint_outside_desc">Менять цвет фона только в мультиреддитах, на главной странице и /r/all</string>
@@ -705,6 +722,7 @@
     <string name="reorder_fab_domain">Домен</string>
     <string name="reorder_fab_subreddit">Сабреддит</string>
     <string name="reorder_add_subscribe">Добавить и подписаться</string>
+    <string name="reorder_remove_unsubscribe">Удалить &amp; Отписаться</string>
     <string name="reorder_move">Переместить в начало</string>
     <string name="reorder_domain_placeholder">\u0020(только доменное имя)</string>
     <string name="reorder_not_found_err">Сабреддит не найден, вот некоторые предложения</string>
@@ -983,6 +1001,7 @@
     <string name="mode_centered">Карточка с изображением в центре</string>
     <string name="mode_card">Карточка</string>
     <string name="mode_thumbnail">Миниатюра</string>
+    <string name="mode_no_thumbnails">Нет эскиза</string>
     <string name="mode_big_thumbnails">Широкие миниатюры</string>
     <string name="mode_cropped">Обрезанное большое изображение</string>
     <string name="mode_bigpic">Большое изображение</string>
@@ -1109,6 +1128,8 @@
     <string name="theme_pixel">Pixel</string>
     <string name="save_images_to_subreddit_specific_subfolders">Сохранять изображения в папки, соответствующие сабреддиту</string>
     <string name="description_save_subfolders">Работает при просмотре публикаций и комментариев</string>
+    <string name="show_image_download_button">Ярлык загрузки</string>
+    <string name="description_image_download_button">Показать кнопку загрузки в средстве просмотра изображений</string>
     <string name="content_settings">Настройки содержимого</string>
     <string name="setting_titleTop">Показывать заголовок над строкой информации</string>
     <string name="setting_notification_piggybacking">Паразитизм уведомлений</string>
@@ -1132,4 +1153,9 @@
     <string name="show_collapse_expand_nav_bar">Отображать кнопку сворачивания/раскрытия в панели навигации по комментариям</string>
     <string name="page_not_found">Страница не найдена</string>
     <string name="page_does_not_exist">Запрошенная вами страница не существует</string>
+    <string name="back_button_behavior_goto_first">Перейти к первому сабреддиту</string>
+    <string name="settings_hide_post_awards">Скрыть награды</string>
+    <string name="settings_hide_comment_awards">Скрыть награды</string>
+    <string name="high_colorspace_images">Высокоцветные изображения</string>
+    <string name="description_high_colorspace">Загружать полноцветное пространство на изображениях, что может привести к большему использованию памяти</string>
 </resources>

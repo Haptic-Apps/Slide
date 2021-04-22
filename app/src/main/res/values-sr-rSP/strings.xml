@@ -63,6 +63,9 @@
     <string name="theme_black">AMOLED црна</string>
     <string name="theme_dark_blue">Тамно плава</string>
     <string name="night_mode">Ноћни режим</string>
+    <string name="disabled">Искључено</string>
+    <string name="manual">Ручно</string>
+    <string name="automatic">Аутоматско</string>
     <string name="theme_default_color">Основна боја</string>
     <string name="theme_subreddit_color">Промени боју</string>
     <string name="theme_accent_color">Боја детаља</string>
@@ -72,6 +75,8 @@
     <string name="theme_amoled_contrast">AMOLED са контрастом</string>
     <string name="theme_night">Тамна тема</string>
     <!-- Font settings -->
+    <string name="font_size_comment">Величина фонта за коментаре</string>
+    <string name="font_size_post">Величина фонта за објаву</string>
     <string name="font_size_huge">Огроман</string>
     <string name="font_size_larger">Већи</string>
     <string name="font_size_large">Велики</string>
@@ -98,10 +103,12 @@
     <string name="drawer_moderation">Модерација</string>
     <string name="drawer_offline">Slide је у режиму рада ван мреже</string>
     <string name="drawer_offline_retry">Покушајте да се повежете на интернет</string>
+    <string name="drawer_guest_mode">Разгледај као гост</string>
     <!-- Sidebar items (That's the one on the right) -->
     <string name="sidebar_wiki">Субредит вики</string>
     <string name="sidebar_mods">Субредит модератори</string>
     <!-- User profile -->
+    <string name="profile_karma_total">Укупна карма</string>
     <string name="profile_karma_link">Карма поста</string>
     <string name="profile_karma_comment">Карма коментара</string>
     <string name="profile_message">Приватна порука</string>
@@ -133,12 +140,14 @@
     <string name="profile_info">Информације о профилу</string>
     <string name="profile_block_user">Блокирај корисника</string>
     <!-- Comment text options -->
+    <string name="comment_gild">Награди коментар</string>
     <string name="comment_share">Подели коментар</string>
     <string name="comment_delete">Избриши коментар</string>
     <string name="comment_delete_msg">Да ли сигурно желите да избришете овај коментар? Ово се не може поништити.</string>
     <string name="comment_delete_err">Ух, нешто је пошло наопако.</string>
     <string name="comment_delete_err_msg">Желите ли да покушате поново?</string>
     <string name="comment_deleted">[избрисано]</string>
+    <string name="comment_unsave">Одсачувај</string>
     <string name="comment_load_more">Учитај још %1$d</string>
     <string name="comment_load_more_string_new">Учитај још %1$s</string>
     <string name="comment_loading_more">Учитавање још коментара&#8230;</string>
@@ -184,6 +193,20 @@
     <string name="delete_submission">Обриши објаву</string>
     <string name="set_submission_flair">Постави значку објаве</string>
     <!-- Editor buttons -->
+    <string name="editor_save_draft">Сачувај нацрт</string>
+    <string name="editor_chose_draft">Одабери нацрт</string>
+    <string name="editor_insert_image">Убаци слику</string>
+    <string name="editor_draw">Убаци слику и цртај по њој</string>
+    <string name="editor_link">Убаци везу</string>
+    <string name="editor_bold">Подебљано</string>
+    <string name="editor_italics">Искошено</string>
+    <string name="editor_quote">Цитат</string>
+    <string name="editor_author">Помени аутора</string>
+    <string name="editor_list">Листа ставки</string>
+    <string name="editor_num_list">Нумерисана листа</string>
+    <string name="editor_size">Велики фонт</string>
+    <string name="editor_strike">Прецртано</string>
+    <string name="editor_spoiler">Спојлер</string>
     <!-- General information / information without a category -->
     <string name="info_photo_saved">Слика сачувана</string>
     <string name="gif_saved">GIF сачуван</string>
@@ -248,6 +271,8 @@
     <string name="type_album">Албум</string>
     <string name="type_xkcd">XKCD</string>
     <string name="type_nsfw_album">NSFW албум</string>
+    <string name="type_nsfw_gallery">NSFW галерија</string>
+    <string name="type_gallery">Галерија</string>
     <string name="type_img">Слика</string>
     <string name="type_videos">Видео снимци</string>
     <string name="type_nsfw_video">NSFW видео</string>
@@ -275,18 +300,25 @@
     <string name="mail_send">Пошаљи поруку</string>
     <string name="mail_notification_msg_from">Нова порука од корисника %1$s</string>
     <string name="mail_notification_msg_via">Нова порука са /r/%1$s</string>
+    <string name="mod_mail_notification_msg">Нова модераторска порука од %1$s</string>
     <string name="mail_reply_to">Одговори кориснику %1$s</string>
     <string name="mail_notification_author">%1$s од %2$s</string>
+    <string name="mail_notification_subreddit">%1$s преко /r/%2$s</string>
     <string name="mail_theirs">Погледај њихову поруку</string>
     <string name="mail_re">re: %1$s</string>
     <string name="mail_mark_read">Означи као прочитано</string>
     <string name="mail_mark_unread">Означи као непрочитано</string>
-    <string name="mail_view_full_thread">Порука ископирана</string>
+    <string name="mail_view_full_thread">Погледај целу тему</string>
     <string name="mail_message_copied">Порука копирана</string>
     <plurals name="mail_notification_title">
         <item quantity="one">Имате %d нову поруку!</item>
         <item quantity="few">Имате %d нове поруке!</item>
         <item quantity="other">Имате %d нових порука!</item>
+    </plurals>
+    <plurals name="mod_mail_notification_title">
+        <item quantity="one">Имате %d нову поруку од модератора!</item>
+        <item quantity="few">Имате %d нове поруке од модератора!</item>
+        <item quantity="other">Имате %d нових порука од модератора!</item>
     </plurals>
     <!-- Miscellaneous/generic things that don't have a category or strings that are used for multiple categories -->
     <string name="misc_err">Грешка</string>
@@ -304,7 +336,9 @@
     <string name="misc_maybe_later">Можда касније</string>
     <string name="misc_try_again">Покушајте поново</string>
     <string name="misc_please_try_again">Молимо покушајте поново</string>
+    <string name="misc_please_try_again_soon">Покушајте поново ускоро</string>
     <string name="misc_setting_up">Подешавам неке ствари&#8230;</string>
+    <string name="misc_setting_up_message">Не напуштајте овај екран. Ово не би требало да траје дуго!</string>
     <string name="misc_more_info">Још информација</string>
     <string name="misc_rate_title">Свиђа Вам се Slide?</string>
     <string name="misc_rate_msg">Оцените га!</string>
@@ -320,6 +354,7 @@
     <string name="btn_discard">Одбаци</string>
     <string name="btn_done">Готово</string>
     <string name="btn_go_back">Назад</string>
+    <string name="btn_no_thanks">Не, хвала</string>
     <string name="btn_no">Не</string>
     <string name="btn_ok">У реду</string>
     <string name="btn_remove">Уклони</string>
@@ -344,7 +379,28 @@
     <string name="btn_new">Ново</string>
     <string name="btn_upload">Отпреми</string>
     <!-- Buttons Content labels for TalkBack accessibility-->
+    <string name="btn_edit">Измени</string>
+    <string name="btn_hide">Сакриј</string>
+    <string name="btn_mod">Модерирај</string>
+    <string name="btn_upvote">Горегласај</string>
+    <string name="btn_downvote">Долегласај</string>
+    <string name="btn_menu">Мени</string>
+    <string name="img_score">Резултат</string>
+    <string name="img_comments">Коментари</string>
+    <string name="btn_expand">Прошири</string>
+    <string name="btn_nav_up">Кретање нагоре</string>
+    <string name="btn_nav_mode">Постави режим навигације</string>
+    <string name="btn_nav_collapse_expand">Скупи/прошири</string>
+    <string name="btn_nav_down">Кретање надоле</string>
+    <string name="btn_fab_reply">Одговори</string>
+    <string name="btn_fab_post">Напиши нови пост</string>
+    <string name="btn_fab_hide">Сакриј прочитане постове</string>
+    <string name="btn_fab_search">Претажи постове</string>
     <!-- Buttons Content labels for TalkBack accessibility active states-->
+    <string name="btn_upvoted">Горегласано</string>
+    <string name="btn_downvoted">Долегласано</string>
+    <string name="btn_unsave">Одсачувано</string>
+    <string name="btn_collapse">Скупи</string>
     <!-- Backup -->
     <string name="backup_success">Резервна копија успешно направљена!</string>
     <string name="backup_restoring">Враћање ваших поставки</string>
@@ -361,6 +417,8 @@
     <string name="vote_removed">Глас уклоњен</string>
     <!-- Moderation tools -->
     <string name="mod_mail">Мод пошта</string>
+    <string name="mod_mail_unread">Непрочитана модераторска порука</string>
+    <string name="mod_modqueue">Мод листа</string>
     <string name="mod_unmoderated">Немодерисани</string>
     <string name="mod_reports">Извештаји</string>
     <string name="mod_approved">Пост одобрен</string>
@@ -371,10 +429,19 @@
     <string name="mod_btn_submission_flair_text">Постави текст значке</string>
     <string name="mod_btn_mark_nsfw">Означи као NSFW</string>
     <string name="mod_btn_unmark_nsfw">Уклони NSFW ознаку</string>
+    <string name="mod_btn_mark_spoiler">Означи као спојлер</string>
+    <string name="mod_btn_unmark_spoiler">Означи као спојлер</string>
+    <string name="mod_btn_lock_thread">Закључај тему</string>
+    <string name="mod_btn_unlock_thread">Откључај тему</string>
+    <string name="mod_btn_lock_comment">Закључај коментар</string>
+    <string name="mod_btn_unlock_comment">Откључај коментар</string>
+    <string name="mod_locked">Закључано</string>
+    <string name="mod_unlocked">Откључано</string>
     <string name="mod_btn_pin">Закачи</string>
     <string name="mod_btn_unpin">Откачи</string>
     <string name="mod_btn_remove">Уклони</string>
     <string name="mod_btn_remove_reason">Уклони уз разлог</string>
+    <string name="mod_btn_spam">Означи као непожељно</string>
     <string name="mod_btn_author">Профил аутора</string>
     <string name="mod_btn_ban">Блокирај</string>
     <string name="mod_ban_user">Блокирај корисника</string>
@@ -385,8 +452,12 @@
     <string name="mod_ban_reason">Разлог блокирања</string>
     <string name="mod_ban_note_mod">Напомена модератора (опционо)</string>
     <string name="mod_ban_note_user">Порука кориснику (опционо)</string>
+    <string name="mod_ban_time">Време бановања - оставите празно за заувек</string>
+    <string name="mod_ban_title">Бануј /u/%1$s</string>
+    <string name="mod_remove_template">Уклоњен на\u0020</string>
     <string name="mod_remove_hint">Разлог уклањања</string>
     <string name="mod_remove_title">Који је разлог уклањања ове објаве?</string>
+    <string name="mod_remove_insert_draft">Убаци нацрт</string>
     <string name="mod_flair_none_found">Ниједна значка није нађена у овом субредиту</string>
     <plurals name="mod_btn_reports">
         <item quantity="one">Види %d пријаву</item>
@@ -394,6 +465,7 @@
         <item quantity="other">Види %d пријава</item>
     </plurals>
     <!-- Toolbox-related stuff -->
+    <string name="toolbox_removal_lock">Закључај уклоњену тему</string>
     <!-- If he did -->
     <string name="really_pin_submission_message">Објава закачена</string>
     <string name="really_unpin_submission_message">Објава откачена</string>
@@ -516,7 +588,12 @@
     <string name="settings_about_version_copied_toast">Број верзије копиран у оставу</string>
     <string name="settings_general_inbox_snd">Звук и вибрација</string>
     <string name="settings_enable_notifs">Укључи обавештења за пријемно сандуче</string>
+    <string name="settings_mod_toolbox_lock">Закључај теме пошто се остави разлог уклањања</string>
     <!-- Quick setting toggles in the drawer -->
+    <string name="toggle_night_mode">Ноћни режим</string>
+    <string name="toggle_immersive_mode">Удубљујући режим</string>
+    <string name="toggle_nsfw">Прикажи NSFW садржај</string>
+    <string name="toggle_right_thumbnails">Сличице поравнате удесно</string>
     <!-- View types -->
     <string name="view_type_tabs">Субредит језичци</string>
     <string name="view_type_none">Нема субредит језичака</string>
@@ -663,6 +740,9 @@
     <string name="sub_post_notifs_err">Обавештења можете додати само на појединачни субредит</string>
     <!-- Internal browser -->
     <!-- Live thread -->
+    <string name="livethread_loading_title">Учитавам тему уживо&#8230;</string>
+    <string name="livethread_not_found">Тема уживо није нађена</string>
+    <string name="livethread_recents_title">Тема уживо: %1$s</string>
     <!-- Used when viewing media -->
     <string name="mediaview_notif_title">Преузимам слику&#8230;</string>
     <string name="mediaview_notif_text">Преузимање у току</string>
@@ -756,6 +836,7 @@
     <string name="btn_preview">Претпреглед</string>
     <string name="sorting_default_comment">Подразумевано сортирање коментара</string>
     <string name="content_deleted">[обрисано]</string>
+    <string name="thread_continue">Настави ову тему</string>
     <string name="type_selftext">Selftext</string>
     <string name="submission_unhide">Откриј пост</string>
     <string name="submission_info_unhidden">Објава откривена</string>
@@ -809,6 +890,7 @@
     <string name="enlarge_links">Увећај линкове</string>
     <string name="type_tumblr">Tumblr</string>
     <string name="type_nsfw_tumblr">NSFW Tumblr</string>
+    <string name="submission_info_contest">Ова тема је у режиму такмичења. Не можете променити сортирање.</string>
     <string name="mod_ban_reason_required">Потребан је разлог</string>
     <string name="settings_abbreviate_post_scores">Скрати поене постова (нпр. 24.0k)</string>
     <string name="settings_wide_depth_indicators">Широки индикатори дубине коментара</string>
