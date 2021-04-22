@@ -20,7 +20,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 
-import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.commons.R;
 
@@ -36,7 +35,7 @@ import java.util.List;
  * https://github.com/afollestad/material-dialogs/
  * <p>
  * Directly based on 0.9.6.0 release source, adapted to support https://github.com/ccrama/Slide/pull/3144
- *  alongside some miscellaneous code improvements.
+ * alongside some miscellaneous code improvements.
  */
 public class FolderChooserDialogCreate extends DialogFragment implements MaterialDialog.ListCallback {
 
@@ -47,9 +46,6 @@ public class FolderChooserDialogCreate extends DialogFragment implements Materia
     private boolean canGoUp = false;
     private FolderCallback callback;
 
-    public FolderChooserDialogCreate() {
-    }
-
     String[] getContentsArray() {
         if (parentContents == null) {
             if (canGoUp) {
@@ -57,7 +53,7 @@ public class FolderChooserDialogCreate extends DialogFragment implements Materia
             }
             return new String[]{};
         }
-        String[] results = new String[parentContents.length + (canGoUp ? 1 : 0)];
+        final String[] results = new String[parentContents.length + (canGoUp ? 1 : 0)];
         if (canGoUp) {
             results[0] = getBuilder().goUpLabel;
         }
@@ -68,10 +64,10 @@ public class FolderChooserDialogCreate extends DialogFragment implements Materia
     }
 
     File[] listFiles() {
-        File[] contents = parentFolder.listFiles();
-        List<File> results = new ArrayList<>();
+        final File[] contents = parentFolder.listFiles();
+        final List<File> results = new ArrayList<>();
         if (contents != null) {
-            for (File fi : contents) {
+            for (final File fi : contents) {
                 if (fi.isDirectory()) {
                     results.add(fi);
                 }
@@ -89,7 +85,8 @@ public class FolderChooserDialogCreate extends DialogFragment implements Materia
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
                 && ActivityCompat.checkSelfPermission(
                 getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
+                != PackageManager.PERMISSION_GRANTED
+        ) {
             return new MaterialDialog.Builder(getActivity())
                     .title(R.string.md_error_label)
                     .content(R.string.md_storage_perm_error)
@@ -105,42 +102,29 @@ public class FolderChooserDialogCreate extends DialogFragment implements Materia
         parentFolder = new File(getArguments().getString("current_path"));
         checkIfCanGoUp();
         parentContents = listFiles();
-        MaterialDialog.Builder builder =
+        final MaterialDialog.Builder builder =
                 new MaterialDialog.Builder(getActivity())
                         .typeface(getBuilder().mediumFont, getBuilder().regularFont)
                         .title(parentFolder.getAbsolutePath())
                         .items((CharSequence[]) getContentsArray())
                         .itemsCallback(this)
-                        .onPositive(
-                                new MaterialDialog.SingleButtonCallback() {
-                                    @Override
-                                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                        dialog.dismiss();
-                                        callback.onFolderSelection(
-                                                FolderChooserDialogCreate.this,
-                                                parentFolder,
-                                                getBuilder().isSaveToLocation);
-                                    }
-                                })
-                        .onNegative(
-                                new MaterialDialog.SingleButtonCallback() {
-                                    @Override
-                                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                        dialog.dismiss();
-                                    }
-                                })
+                        .onPositive((dialog, which) -> {
+                            dialog.dismiss();
+                            callback.onFolderSelection(
+                                    FolderChooserDialogCreate.this,
+                                    parentFolder,
+                                    getBuilder().isSaveToLocation);
+                        })
+                        .onNegative((dialog, which) ->
+                                dialog.dismiss())
                         .autoDismiss(false)
                         .positiveText(getBuilder().chooseButton)
                         .negativeText(getBuilder().cancelButton);
+
         if (getBuilder().allowNewFolder) {
             builder.neutralText(getBuilder().newFolderButton);
-            builder.onNeutral(
-                    new MaterialDialog.SingleButtonCallback() {
-                        @Override
-                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                            createNewFolder();
-                        }
-                    });
+            builder.onNeutral((dialog, which) ->
+                    createNewFolder());
         }
         if ("/".equals(getBuilder().initialPath)) {
             canGoUp = false;
@@ -149,7 +133,7 @@ public class FolderChooserDialogCreate extends DialogFragment implements Materia
     }
 
     @Override
-    public void onDismiss(DialogInterface dialog) {
+    public void onDismiss(@NonNull DialogInterface dialog) {
         super.onDismiss(dialog);
         if (callback != null) {
             callback.onFolderChooserDismissed(this);
@@ -159,26 +143,17 @@ public class FolderChooserDialogCreate extends DialogFragment implements Materia
     private void createNewFolder() {
         new MaterialDialog.Builder(getActivity())
                 .title(getBuilder().newFolderButton)
-                .input(
-                        0,
-                        0,
-                        false,
-                        new MaterialDialog.InputCallback() {
-                            @Override
-                            public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
-                                //noinspection ResultOfMethodCallIgnored
-                                final File newFi = new File(parentFolder, input.toString());
-                                if (!newFi.mkdir()) {
-                                    String msg =
-                                            "Unable to create folder "
-                                                    + newFi.getAbsolutePath()
-                                                    + ", make sure you have the WRITE_EXTERNAL_STORAGE permission or root permissions.";
-                                    Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG).show();
-                                } else {
-                                    reload();
-                                }
-                            }
-                        })
+                .input(0, 0, false, (dialog, input) -> {
+                    final File newFile = new File(parentFolder, input.toString());
+                    if (newFile.mkdir()) {
+                        reload();
+                    } else {
+                        final String msg = "Unable to create folder "
+                                + newFile.getAbsolutePath()
+                                + ", make sure you have the WRITE_EXTERNAL_STORAGE permission or root permissions.";
+                        Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG).show();
+                    }
+                })
                 .show();
     }
 
@@ -186,10 +161,12 @@ public class FolderChooserDialogCreate extends DialogFragment implements Materia
     public void onSelection(MaterialDialog materialDialog, View view, int i, CharSequence s) {
         if (canGoUp && i == 0) {
             parentFolder = parentFolder.getParentFile();
-            if (parentFolder.getAbsolutePath().equals("/storage/emulated")) {
+            if (parentFolder != null && parentFolder.getAbsolutePath().equals("/storage/emulated")) {
                 parentFolder = parentFolder.getParentFile();
             }
-            canGoUp = parentFolder.getParent() != null;
+            if (parentFolder != null) {
+                canGoUp = parentFolder.getParent() != null;
+            }
         } else {
             parentFolder = parentContents[canGoUp ? i - 1 : i];
             canGoUp = true;
@@ -203,21 +180,21 @@ public class FolderChooserDialogCreate extends DialogFragment implements Materia
     private void checkIfCanGoUp() {
         try {
             canGoUp = parentFolder.getPath().split("/").length > 1;
-        } catch (IndexOutOfBoundsException e) {
+        } catch (final IndexOutOfBoundsException e) {
             canGoUp = false;
         }
     }
 
     private void reload() {
         parentContents = listFiles();
-        MaterialDialog dialog = (MaterialDialog) getDialog();
+        final MaterialDialog dialog = (MaterialDialog) getDialog();
         dialog.setTitle(parentFolder.getAbsolutePath());
         getArguments().putString("current_path", parentFolder.getAbsolutePath());
         dialog.setItems((CharSequence[]) getContentsArray());
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         if (getActivity() instanceof FolderCallback) {
             callback = (FolderCallback) getActivity();
@@ -229,13 +206,13 @@ public class FolderChooserDialogCreate extends DialogFragment implements Materia
         }
     }
 
-    public void show(FragmentActivity fragmentActivity) {
+    public void show(final FragmentActivity fragmentActivity) {
         show(fragmentActivity.getSupportFragmentManager());
     }
 
-    public void show(FragmentManager fragmentManager) {
+    public void show(final FragmentManager fragmentManager) {
         final String tag = getBuilder().tag;
-        Fragment frag = fragmentManager.findFragmentByTag(tag);
+        final Fragment frag = fragmentManager.findFragmentByTag(tag);
         if (frag != null) {
             ((DialogFragment) frag).dismiss();
             fragmentManager.beginTransaction().remove(frag).commit();
@@ -345,8 +322,8 @@ public class FolderChooserDialogCreate extends DialogFragment implements Materia
 
         @NonNull
         public FolderChooserDialogCreate build() {
-            FolderChooserDialogCreate dialog = new FolderChooserDialogCreate();
-            Bundle args = new Bundle();
+            final FolderChooserDialogCreate dialog = new FolderChooserDialogCreate();
+            final Bundle args = new Bundle();
             args.putSerializable("builder", this);
             dialog.setArguments(args);
             return dialog;
@@ -354,7 +331,7 @@ public class FolderChooserDialogCreate extends DialogFragment implements Materia
 
         @NonNull
         public FolderChooserDialogCreate show(FragmentManager fragmentManager) {
-            FolderChooserDialogCreate dialog = build();
+            final FolderChooserDialogCreate dialog = build();
             dialog.show(fragmentManager);
             return dialog;
         }
