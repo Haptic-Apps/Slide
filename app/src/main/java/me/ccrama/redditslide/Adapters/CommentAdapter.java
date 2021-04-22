@@ -41,7 +41,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.devspark.robototextview.RobotoTypefaces;
 import com.lusfold.androidkeyvaluestore.KVStore;
 import com.mikepenz.itemanimators.AlphaInAnimator;
@@ -704,13 +703,12 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     final ArrayList<String> keys = new ArrayList<>(accounts.keySet());
                     final int i = keys.indexOf(changedProfile);
 
-                    new AlertDialogWrapper.Builder(mContext)
+                    new AlertDialog.Builder(mContext)
                             .setTitle(R.string.replies_switch_accounts)
                             .setSingleChoiceItems(keys.toArray(new String[0]), i, (dialog, which) -> {
                                 changedProfile = keys.get(which);
                                 profile.setText("/u/" + changedProfile);
                             })
-                            .alwaysCallSingleChoiceCallback()
                             .setNegativeButton(R.string.btn_cancel, null)
                             .show();
                 }
@@ -1244,13 +1242,12 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             final ArrayList<String> keys = new ArrayList<>(accounts.keySet());
                             final int i = keys.indexOf(changedProfile);
 
-                            new AlertDialogWrapper.Builder(mContext)
+                            new AlertDialog.Builder(mContext)
                                     .setTitle(R.string.sorting_choose)
                                     .setSingleChoiceItems(keys.toArray(new String[0]), i, (dialog, which) -> {
                                         changedProfile = keys.get(which);
                                         profile.setText("/u/" + changedProfile);
                                     })
-                                    .alwaysCallSingleChoiceCallback()
                                     .setNegativeButton(R.string.btn_cancel, null)
                                     .show();
                         }
@@ -1357,13 +1354,12 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                 final ArrayList<String> keys = new ArrayList<>(accounts.keySet());
                                 final int i = keys.indexOf(changedProfile);
 
-                                new AlertDialogWrapper.Builder(mContext)
+                                new AlertDialog.Builder(mContext)
                                         .setTitle(R.string.sorting_choose)
                                         .setSingleChoiceItems(keys.toArray(new String[0]), i, (dialog, which) -> {
                                             changedProfile = keys.get(which);
                                             profile.setText("/u/" + changedProfile);
                                         })
-                                        .alwaysCallSingleChoiceCallback()
                                         .setNegativeButton(R.string.btn_cancel, null)
                                         .show();
                             }

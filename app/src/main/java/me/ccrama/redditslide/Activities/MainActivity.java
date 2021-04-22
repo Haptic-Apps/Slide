@@ -85,7 +85,6 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.viewpager.widget.ViewPager;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -3312,9 +3311,8 @@ public class MainActivity extends BaseActivity
             }
         }
 
-        new AlertDialogWrapper.Builder(this)
+        new AlertDialog.Builder(this)
                 .setTitle(filterTitle)
-                .alwaysCallMultiChoiceCallback()
                 .setMultiChoiceItems(new String[]{
                         getString(R.string.image_downloads), getString(R.string.type_albums),
                         getString(R.string.type_gifs), getString(R.string.type_videos),

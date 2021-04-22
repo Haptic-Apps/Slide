@@ -36,7 +36,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -1876,7 +1875,7 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
 
             Resources res = requireActivity().getBaseContext().getResources();
 
-            new AlertDialogWrapper.Builder(requireActivity())
+            new AlertDialog.Builder(requireActivity())
                     .setTitle(R.string.sorting_choose)
                     .setSingleChoiceItems(
                             new String[]{
@@ -1887,7 +1886,6 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                                     res.getString(R.string.sorting_old),
                                     res.getString(R.string.sorting_ama)
                             }, i, l2)
-                    .alwaysCallSingleChoiceCallback()
                     .setPositiveButton(R.string.btn_ok, (dialog, which) ->
                             reloadSubs())
                     .setNeutralButton(getString(R.string.sorting_defaultfor, subreddit), (dialog, which) -> {

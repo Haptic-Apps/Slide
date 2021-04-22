@@ -23,7 +23,6 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.android.material.snackbar.Snackbar;
@@ -194,10 +193,9 @@ public class DoEditorActions {
                             .setNeutralButton(R.string.btn_cancel, null)
                             .setPositiveButton(R.string.manage_drafts, (dialog, which) -> {
                                 final boolean[] selected = new boolean[drafts.size()];
-                                new AlertDialogWrapper.Builder(a)
+                                new AlertDialog.Builder(a)
                                         .setTitle(R.string.choose_draft)
                                         .setNeutralButton(R.string.btn_cancel, null)
-                                        .alwaysCallMultiChoiceCallback()
                                         .setNegativeButton(R.string.btn_delete, (dialog1, which1) ->
                                                 new AlertDialog.Builder(a)
                                                         .setTitle(R.string.really_delete_drafts)

@@ -12,7 +12,6 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.SwitchCompat;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.google.common.collect.ImmutableList;
 import com.rey.material.app.TimePickerDialog;
 
@@ -144,8 +143,7 @@ public class ManageOfflineContentFragment {
                 }
 
                 final ArrayList<String> toCheck = new ArrayList<>(s2);
-                new AlertDialogWrapper.Builder(context)
-                        .alwaysCallMultiChoiceCallback()
+                new AlertDialog.Builder(context)
                         .setMultiChoiceItems(all, checked, (dialog, which, isChecked) -> {
                             if (!isChecked) {
                                 toCheck.remove(all[which]);

@@ -30,7 +30,6 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.core.text.HtmlCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.cocosw.bottomsheet.BottomSheet;
@@ -556,9 +555,8 @@ public class PopulateNewsViewHolder {
                         };
                         oldChosen = chosen.clone();
 
-                        new AlertDialogWrapper.Builder(mContext)
+                        new AlertDialog.Builder(mContext)
                                 .setTitle(R.string.filter_title)
-                                .alwaysCallMultiChoiceCallback()
                                 .setMultiChoiceItems(choices, chosen, (dialog1, which1, isChecked) ->
                                         chosen[which1] = isChecked)
                                 .setPositiveButton(R.string.filter_btn, (dialog12, which12) -> {

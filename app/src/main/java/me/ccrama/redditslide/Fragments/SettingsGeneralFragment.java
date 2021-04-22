@@ -22,7 +22,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.SwitchCompat;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.android.material.snackbar.Snackbar;
@@ -976,7 +975,7 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
 
         final ArrayList<String> toCheck = new ArrayList<>(subThresholds.keySet());
         final String[] finalAll = all;
-        new AlertDialogWrapper.Builder(SettingsGeneralFragment.this.context)
+        new AlertDialog.Builder(SettingsGeneralFragment.this.context)
                 .setMultiChoiceItems(finalAll, checked, (dialog, which, isChecked) -> {
                     if (!isChecked) {
                         toCheck.remove(finalAll[which]);
@@ -984,7 +983,6 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
                         toCheck.add(finalAll[which]);
                     }
                 })
-                .alwaysCallMultiChoiceCallback()
                 .setTitle(R.string.sub_post_notifs_title_settings)
                 .setPositiveButton(context.getString(R.string.btn_add).toUpperCase(), (dialog, which) ->
                         showThresholdDialog(toCheck, false))

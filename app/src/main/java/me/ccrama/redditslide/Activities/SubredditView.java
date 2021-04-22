@@ -41,7 +41,6 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.viewpager.widget.ViewPager;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -952,9 +951,8 @@ public class SubredditView extends BaseActivity {
         final String FILTER_TITLE =
                 (getString(R.string.content_to_hide, subreddit.equals("frontpage") ? "frontpage" : "/r/" + subreddit));
 
-        new AlertDialogWrapper.Builder(this)
+        new AlertDialog.Builder(this)
                 .setTitle(FILTER_TITLE)
-                .alwaysCallMultiChoiceCallback()
                 .setMultiChoiceItems(new String[]{
                         getString(R.string.image_downloads), getString(R.string.type_albums),
                         getString(R.string.type_gifs), getString(R.string.type_videos),
