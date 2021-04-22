@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -191,7 +192,7 @@ public class Profile extends BaseActivityAnim {
                         .setOnDismissListener(dialog ->
                                 onBackPressed())
                         .show();
-            } catch (MaterialDialog.DialogException e) {
+            } catch (WindowManager.BadTokenException e) {
                 Log.w(LogUtil.getTag(), "Activity already in background, dialog not shown " + e);
             }
             return;
@@ -207,7 +208,7 @@ public class Profile extends BaseActivityAnim {
                         .setOnDismissListener(dialog ->
                                 finish())
                         .show();
-            } catch (MaterialDialog.DialogException e) {
+            } catch (WindowManager.BadTokenException e) {
                 Log.w(LogUtil.getTag(), "Activity already in background, dialog not shown " + e);
             }
         }

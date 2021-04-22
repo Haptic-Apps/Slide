@@ -22,6 +22,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -29,7 +30,6 @@ import androidx.core.content.ContextCompat;
 import androidx.core.text.HtmlCompat;
 import androidx.multidex.MultiDexApplication;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.android.exoplayer2.database.DatabaseProvider;
 import com.google.android.exoplayer2.database.ExoDatabaseProvider;
 import com.google.android.exoplayer2.upstream.cache.Cache;
@@ -325,7 +325,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
                             .contains(
                                     "Attempt to invoke virtual method 'android.content.Context android.view.ViewGroup.getContext()' on a null object reference")) {
                         t.printStackTrace();
-                    } else if (t instanceof MaterialDialog.DialogException) {
+                    } else if (t instanceof WindowManager.BadTokenException) {
                         t.printStackTrace();
                     } else if (t instanceof IllegalArgumentException && t.getMessage()
                             .contains("pointerIndex out of range")) {

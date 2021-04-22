@@ -26,6 +26,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -266,94 +267,90 @@ public class ToolboxUI {
      */
     public static void showUsernotes(final Context context, String author, String subreddit, String currentLink) {
         final UsernoteListAdapter adapter = new UsernoteListAdapter(context, subreddit, author);
-        new MaterialDialog.Builder(context)
-                .title(context.getResources().getString(R.string.mod_usernotes_title, author))
-                .adapter(adapter, null)
-                .neutralText(R.string.mod_usernotes_add)
-                .onNeutral(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        // set up layout for add note dialog
-                        final LinearLayout layout = new LinearLayout(context);
-                        final Spinner spinner = new Spinner(context);
-                        final EditText noteText = new EditText(context);
+        new AlertDialog.Builder(context)
+                .setTitle(context.getResources().getString(R.string.mod_usernotes_title, author))
+                .setAdapter(adapter, null)
+                .setNeutralButton(R.string.mod_usernotes_add, (dialog, which) -> {
+                    // set up layout for add note dialog
+                    final LinearLayout layout = new LinearLayout(context);
+                    final Spinner spinner = new Spinner(context);
+                    final EditText noteText = new EditText(context);
 
-                        layout.addView(spinner);
-                        layout.addView(noteText);
+                    layout.addView(spinner);
+                    layout.addView(noteText);
 
-                        noteText.setHint(R.string.toolbox_note_text_placeholder);
+                    noteText.setHint(R.string.toolbox_note_text_placeholder);
 
-                        layout.setOrientation(LinearLayout.VERTICAL);
-                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                        spinner.setLayoutParams(params);
-                        noteText.setLayoutParams(params);
+                    layout.setOrientation(LinearLayout.VERTICAL);
+                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                    spinner.setLayoutParams(params);
+                    noteText.setLayoutParams(params);
 
-                        // create list of types, add default "no type" type
-                        List<CharSequence> types = new ArrayList<>();
-                        SpannableStringBuilder defaultType = new SpannableStringBuilder(
-                                " " + context.getString(R.string.toolbox_note_default) + " ");
-                        defaultType.setSpan(new BackgroundColorSpan(Color.parseColor("#808080")),
-                                0, defaultType.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        defaultType.setSpan(new ForegroundColorSpan(Color.WHITE), 0, defaultType.length(),
-                                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        types.add(defaultType);
+                    // create list of types, add default "no type" type
+                    List<CharSequence> types = new ArrayList<>();
+                    SpannableStringBuilder defaultType = new SpannableStringBuilder(
+                            " " + context.getString(R.string.toolbox_note_default) + " ");
+                    defaultType.setSpan(new BackgroundColorSpan(Color.parseColor("#808080")),
+                            0, defaultType.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    defaultType.setSpan(new ForegroundColorSpan(Color.WHITE), 0, defaultType.length(),
+                            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    types.add(defaultType);
 
-                        // add additional types
-                        ToolboxConfig config = Toolbox.getConfig(subreddit);
+                    // add additional types
+                    ToolboxConfig config = Toolbox.getConfig(subreddit);
 
-                        final Map<String, Map<String, String>> typeMap;
-                        if (config != null
-                                && config.getUsernoteTypes() != null
-                                && config.getUsernoteTypes().size() > 0) {
-                            typeMap = Toolbox.getConfig(subreddit).getUsernoteTypes();
-                        } else {
-                            typeMap = Toolbox.DEFAULT_USERNOTE_TYPES;
-                        }
-
-                        for (Map<String, String> stringStringMap : typeMap.values()) {
-                            SpannableStringBuilder typeString =
-                                    new SpannableStringBuilder(" [" + stringStringMap.get("text") + "] ");
-                            typeString.setSpan(new BackgroundColorSpan(Color.parseColor(stringStringMap.get("color"))),
-                                    0, typeString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                            typeString.setSpan(new ForegroundColorSpan(Color.WHITE), 0, typeString.length(),
-                                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                            types.add(typeString);
-                        }
-
-                        spinner.setAdapter(new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item,
-                                types));
-
-                        // show add note dialog
-                        new MaterialDialog.Builder(context)
-                                .customView(layout, true)
-                                .autoDismiss(false)
-                                .positiveText(R.string.btn_add)
-                                .onPositive(new MaterialDialog.SingleButtonCallback() {
-                                    @Override
-                                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                        if (noteText.getText().length() == 0) {
-                                            noteText.setError(context.getString(R.string.toolbox_note_text_required));
-                                            return;
-                                        }
-                                        int selected = spinner.getSelectedItemPosition();
-                                        new AsyncAddUsernoteTask(context).execute(
-                                                subreddit,
-                                                author,
-                                                noteText.getText().toString(),
-                                                currentLink,
-                                                selected - 1 >= 0 ? typeMap.keySet().toArray()[selected - 1].toString()
-                                                        : null
-                                        );
-                                        dialog.dismiss();
-                                    }
-                                })
-                                .negativeText(R.string.btn_cancel)
-                                .onNegative((dialog1, which1) -> dialog1.dismiss())
-                                .show();
+                    final Map<String, Map<String, String>> typeMap;
+                    if (config != null
+                            && config.getUsernoteTypes() != null
+                            && config.getUsernoteTypes().size() > 0) {
+                        typeMap = Toolbox.getConfig(subreddit).getUsernoteTypes();
+                    } else {
+                        typeMap = Toolbox.DEFAULT_USERNOTE_TYPES;
                     }
+
+                    for (Map<String, String> stringStringMap : typeMap.values()) {
+                        SpannableStringBuilder typeString =
+                                new SpannableStringBuilder(" [" + stringStringMap.get("text") + "] ");
+                        typeString.setSpan(new BackgroundColorSpan(Color.parseColor(stringStringMap.get("color"))),
+                                0, typeString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        typeString.setSpan(new ForegroundColorSpan(Color.WHITE), 0, typeString.length(),
+                                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        types.add(typeString);
+                    }
+
+                    spinner.setAdapter(new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item,
+                            types));
+
+                    // show add note dialog
+                    new MaterialDialog.Builder(context)
+                            .customView(layout, true)
+                            .autoDismiss(false)
+                            .positiveText(R.string.btn_add)
+                            .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                @Override
+                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                    if (noteText.getText().length() == 0) {
+                                        noteText.setError(context.getString(R.string.toolbox_note_text_required));
+                                        return;
+                                    }
+                                    int selected = spinner.getSelectedItemPosition();
+                                    new AsyncAddUsernoteTask(context).execute(
+                                            subreddit,
+                                            author,
+                                            noteText.getText().toString(),
+                                            currentLink,
+                                            selected - 1 >= 0 ? typeMap.keySet().toArray()[selected - 1].toString()
+                                                    : null
+                                    );
+                                    dialog.dismiss();
+                                }
+                            })
+                            .negativeText(R.string.btn_cancel)
+                            .onNegative((dialog1, which1) -> dialog1.dismiss())
+                            .show();
                 })
-                .positiveText(R.string.btn_close)
+                .setPositiveButton(R.string.btn_close, null)
                 .show();
     }
 
