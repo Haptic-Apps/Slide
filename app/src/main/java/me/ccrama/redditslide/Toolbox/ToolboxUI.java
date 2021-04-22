@@ -813,13 +813,14 @@ public class ToolboxUI {
                 if (context == null) {
                     return;
                 }
-                new MaterialDialog.Builder(context)
-                        .title(R.string.toolbox_wiki_edit_reauth)
-                        .content(R.string.toolbox_wiki_edit_reauth_question)
-                        .negativeText(R.string.misc_maybe_later)
-                        .positiveText(R.string.btn_yes)
-                        .onPositive((dialog1, which1) -> context.startActivity(
-                                new Intent(context, Reauthenticate.class)))
+                new AlertDialog.Builder(context)
+                        .setTitle(R.string.toolbox_wiki_edit_reauth)
+                        .setMessage(R.string.toolbox_wiki_edit_reauth_question)
+                        .setNegativeButton(R.string.misc_maybe_later, null)
+                        .setPositiveButton(R.string.btn_yes, (dialog1, which1) ->
+                                context.startActivity(
+                                        new Intent(context, Reauthenticate.class))
+                        )
                         .show();
             }
         }

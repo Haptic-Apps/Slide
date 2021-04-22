@@ -15,10 +15,8 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 
-import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 
 import net.dean.jraw.http.NetworkException;
@@ -266,20 +264,14 @@ public class Login extends BaseActivityAnim {
                 UserSubscriptions.syncSubredditsGetObjectAsync(Login.this);
             } else {
                 //Show a dialog if data is null
-                MaterialDialog.Builder builder =
-                        new MaterialDialog.Builder(Login.this).title(R.string.err_authentication)
-                                .content(R.string.login_failed_err_decline)
-                                .neutralText(R.string.btn_ok)
-                                .onNeutral(new MaterialDialog.SingleButtonCallback() {
-                                    @Override
-                                    public void onClick(@Nullable MaterialDialog dialog,
-                                            @Nullable DialogAction which) {
-                                        Reddit.forceRestart(Login.this, true);
-                                        finish();
-
-                                    }
-                                });
-                builder.show();
+                new AlertDialog.Builder(Login.this)
+                        .setTitle(R.string.err_authentication)
+                        .setMessage(R.string.login_failed_err_decline)
+                        .setNeutralButton(android.R.string.ok, (dialog, which) -> {
+                            Reddit.forceRestart(Login.this, true);
+                            finish();
+                        })
+                        .show();
             }
         }
     }
