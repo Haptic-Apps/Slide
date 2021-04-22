@@ -647,8 +647,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         progress.setVisibility(View.VISIBLE);
                         holder.content.setText(R.string.comment_loading_more);
                         currentLoading =
-                                new AsyncLoadMore(getRealPosition(holder.getAdapterPosition() - 2),
-                                        holder.getAdapterPosition(), holder, finalNextPos,
+                                new AsyncLoadMore(getRealPosition(holder.getBindingAdapterPosition() - 2),
+                                        holder.getBindingAdapterPosition(), holder, finalNextPos,
                                         baseNode.comment.getComment().getFullName());
                         currentLoading.execute(baseNode);
                     }
@@ -744,7 +744,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             KeyboardUtil.toggleKeyboard(mContext,
                     InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
 
-            editingPosition = submissionViewHolder.getAdapterPosition();
+            editingPosition = submissionViewHolder.getBindingAdapterPosition();
 
             submissionViewHolder.itemView.findViewById(R.id.send)
                     .setOnClickListener(new OnSingleClickListener() {
@@ -1029,7 +1029,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 && holder.firstTextView.getVisibility() == View.GONE
                 && !isReplying) {
             hiddenPersons.remove(n.getFullName());
-            unhideAll(baseNode, holder.getAdapterPosition() + 1);
+            unhideAll(baseNode, holder.getBindingAdapterPosition() + 1);
             if (toCollapse.contains(n.getFullName()) && SettingValues.collapseComments) {
                 setViews(n.getDataNode().get("body_html").asText(), submission.getSubredditName(),
                         holder);
@@ -1279,7 +1279,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                         }
                     });
-                    editingPosition = holder.getAdapterPosition();
+                    editingPosition = holder.getBindingAdapterPosition();
                 }
                 reply.setOnClickListener(new OnSingleClickListener() {
                     @Override
@@ -1401,7 +1401,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                             }
                         });
-                        editingPosition = holder.getAdapterPosition();
+                        editingPosition = holder.getBindingAdapterPosition();
                     }
                 });
                 send.setOnClickListener(new OnSingleClickListener() {
@@ -1597,7 +1597,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             final CommentNode baseNode, boolean animate) {
         if (currentlyEditing != null
                 && !currentlyEditing.getText().toString().isEmpty()
-                && holder.getAdapterPosition() <= editingPosition) {
+                && holder.getBindingAdapterPosition() <= editingPosition) {
             new AlertDialog.Builder(mContext)
                     .setTitle(R.string.discard_comment_title)
                     .setMessage(R.string.comment_discard_msg)
@@ -1710,7 +1710,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             final Comment comment) {
         if (currentlyEditing != null
                 && !currentlyEditing.getText().toString().isEmpty()
-                && holder.getAdapterPosition() <= editingPosition) {
+                && holder.getBindingAdapterPosition() <= editingPosition) {
             new AlertDialog.Builder(mContext)
                     .setTitle(R.string.discard_comment_title)
                     .setMessage(R.string.comment_discard_msg)
@@ -1743,7 +1743,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             } else {
                 if (hiddenPersons.contains(comment.getFullName())) {
                     hiddenPersons.remove(comment.getFullName());
-                    unhideAll(baseNode, holder.getAdapterPosition() + 1);
+                    unhideAll(baseNode, holder.getBindingAdapterPosition() + 1);
 
                     if (toCollapse.contains(comment.getFullName())
                             && SettingValues.collapseComments) {
@@ -1765,7 +1765,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 } else {
                     int childNumber = getChildNumber(baseNode);
                     if (childNumber > 0) {
-                        hideAll(baseNode, holder.getAdapterPosition() + 1);
+                        hideAll(baseNode, holder.getBindingAdapterPosition() + 1);
                         if (!hiddenPersons.contains(comment.getFullName())) {
                             hiddenPersons.add(comment.getFullName());
                         }
@@ -1793,7 +1793,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         holder.commentOverflow.setVisibility(View.VISIBLE);
                     }
                 }
-                clickpos = holder.getAdapterPosition() + 1;
+                clickpos = holder.getBindingAdapterPosition() + 1;
             }
         }
     }
@@ -2280,8 +2280,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (n == null) {
             dataSet.loadMoreReply(this);
         } else {
-            int position = getRealPosition(holder.getAdapterPosition() - 1);
-            final int holderpos = holder.getAdapterPosition();
+            int position = getRealPosition(holder.getBindingAdapterPosition() - 1);
+            final int holderpos = holder.getBindingAdapterPosition();
             currentComments.remove(position - 1);
             currentComments.add(position - 1, new CommentItem(n));
             listView.setItemAnimator(new SlideRightAlphaAnimator());
@@ -2350,8 +2350,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 if (isSubmission) {
                     new AsyncForceLoadChild(0, 0, submission.getComments()).execute(s);
                 } else {
-                    new AsyncForceLoadChild(getRealPosition(holder.getAdapterPosition() - 1),
-                            holder.getAdapterPosition(), node).execute(s);
+                    new AsyncForceLoadChild(getRealPosition(holder.getBindingAdapterPosition() - 1),
+                            holder.getBindingAdapterPosition(), node).execute(s);
                 }
             }
         }

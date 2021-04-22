@@ -92,9 +92,9 @@ dependencies {
     implementation 'androidx.browser:browser:1.3.0'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.interpolator:interpolator:1.0.0'
-    implementation 'androidx.media:media:1.2.1'
+    implementation 'androidx.media:media:1.3.0'
     implementation 'androidx.multidex:multidex:2.0.1'
-    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation 'androidx.recyclerview:recyclerview:1.2.0'
     implementation 'com.google.android.material:material:1.3.0'
 
 /** Third-party (Other) **/
@@ -128,7 +128,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'com.github.ozodrukh.CircularReveal:circualreveal:2.1.0'
     implementation 'com.mikepenz:itemanimators:1.1.0@aar'
-    implementation 'com.neovisionaries:nv-websocket-client:2.13'
+    implementation 'com.neovisionaries:nv-websocket-client:2.14'
     implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.0'
     implementation 'me.everything:overscroll-decor-android:1.1.0'
     implementation 'com.mikepenz:aboutlibraries:6.2.3'

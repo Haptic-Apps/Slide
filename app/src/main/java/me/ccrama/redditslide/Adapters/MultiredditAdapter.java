@@ -147,11 +147,11 @@ public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                         holder.thumbimage.setAlpha(0.65f);
 
                         Intent i2 = new Intent(context, CommentsScreen.class);
-                        i2.putExtra(CommentsScreen.EXTRA_PAGE, holder2.getAdapterPosition() - 1);
+                        i2.putExtra(CommentsScreen.EXTRA_PAGE, holder2.getBindingAdapterPosition() - 1);
                         i2.putExtra(CommentsScreen.EXTRA_MULTIREDDIT, dataSet.multiReddit.getDisplayName());
                         context.startActivityForResult(i2, 940);
                         i2.putExtra("fullname", submission.getFullName());
-                        clicked = holder2.getAdapterPosition();
+                        clicked = holder2.getBindingAdapterPosition();
 
 
                     } else {

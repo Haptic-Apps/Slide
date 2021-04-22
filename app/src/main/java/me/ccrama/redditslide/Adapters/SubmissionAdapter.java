@@ -217,10 +217,10 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                                                                        && a.adapter instanceof MainActivity.MainPagerAdapterComment) {
 
                                                                    if (a.openingComments != submission) {
-                                                                       clicked = holder2.getAdapterPosition();
+                                                                       clicked = holder2.getBindingAdapterPosition();
                                                                        a.openingComments = submission;
                                                                        a.toOpenComments = a.pager.getCurrentItem() + 1;
-                                                                       a.currentComment = holder.getAdapterPosition() - 1;
+                                                                       a.currentComment = holder.getBindingAdapterPosition() - 1;
                                                                        ((MainActivity.MainPagerAdapterComment) (a).adapter).storedFragment =
                                                                                (a).adapter.getCurrentFragment();
                                                                        ((MainActivity.MainPagerAdapterComment) (a).adapter).size =
@@ -241,20 +241,20 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                                                                } else {
                                                                    Intent i2 = new Intent(context, CommentsScreen.class);
                                                                    i2.putExtra(CommentsScreen.EXTRA_PAGE,
-                                                                           holder2.getAdapterPosition() - 1);
+                                                                           holder2.getBindingAdapterPosition() - 1);
                                                                    i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, subreddit);
                                                                    i2.putExtra("fullname", submission.getFullName());
                                                                    context.startActivityForResult(i2, 940);
-                                                                   clicked = holder2.getAdapterPosition();
+                                                                   clicked = holder2.getBindingAdapterPosition();
                                                                }
                                                            } else if (context instanceof SubredditView) {
                                                                final SubredditView a = (SubredditView) context;
                                                                if (a.singleMode && a.commentPager) {
 
                                                                    if (a.openingComments != submission) {
-                                                                       clicked = holder2.getAdapterPosition();
+                                                                       clicked = holder2.getBindingAdapterPosition();
                                                                        a.openingComments = submission;
-                                                                       a.currentComment = holder.getAdapterPosition() - 1;
+                                                                       a.currentComment = holder.getBindingAdapterPosition() - 1;
                                                                        ((SubredditView.SubredditPagerAdapterComment) (a).adapter).storedFragment =
                                                                                (a).adapter.getCurrentFragment();
                                                                        ((SubredditView.SubredditPagerAdapterComment) a.adapter).size =
@@ -271,11 +271,11 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                                                                } else {
                                                                    Intent i2 = new Intent(context, CommentsScreen.class);
                                                                    i2.putExtra(CommentsScreen.EXTRA_PAGE,
-                                                                           holder2.getAdapterPosition() - 1);
+                                                                           holder2.getBindingAdapterPosition() - 1);
                                                                    i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, subreddit);
                                                                    i2.putExtra("fullname", submission.getFullName());
                                                                    context.startActivityForResult(i2, 940);
-                                                                   clicked = holder2.getAdapterPosition();
+                                                                   clicked = holder2.getBindingAdapterPosition();
                                                                }
                                                            }
                                                        } else {

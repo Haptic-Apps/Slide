@@ -171,7 +171,7 @@ public class PopulateSubmissionViewHolder {
                                         myIntent.putExtra(MediaView.EXTRA_URL, submission.getUrl());
                                         myIntent.putExtra(EXTRA_SUBMISSION_TITLE, submission.getTitle());
                                         PopulateBase.addAdaptorPosition(myIntent, submission,
-                                                holder.getAdapterPosition());
+                                                holder.getBindingAdapterPosition());
                                         contextActivity.startActivity(myIntent);
                                     } else {
                                         LinkUtil.openExternally(submission.getUrl());
@@ -182,7 +182,7 @@ public class PopulateSubmissionViewHolder {
                                 case XKCD:
                                 case IMAGE:
                                     openImage(type, contextActivity, submission, holder.leadImage,
-                                            holder.getAdapterPosition());
+                                            holder.getBindingAdapterPosition());
                                     break;
                                 case EMBEDDED:
                                     if (SettingValues.video) {
@@ -235,7 +235,7 @@ public class PopulateSubmissionViewHolder {
                                         i.putExtras(urlsBundle);
 
                                         PopulateBase.addAdaptorPosition(i, submission,
-                                                holder.getAdapterPosition());
+                                                holder.getBindingAdapterPosition());
                                         contextActivity.startActivity(i);
                                         contextActivity.overridePendingTransition(R.anim.slideright,
                                                 R.anim.fade_out);
@@ -246,7 +246,7 @@ public class PopulateSubmissionViewHolder {
                                 case LINK:
                                     LinkUtil.openUrl(submission.getUrl(),
                                             Palette.getColor(submission.getSubredditName()),
-                                            contextActivity, holder.getAdapterPosition(),
+                                            contextActivity, holder.getBindingAdapterPosition(),
                                             submission);
                                     break;
                                 case SELF:
@@ -271,7 +271,7 @@ public class PopulateSubmissionViewHolder {
                                         i.putExtra(Album.EXTRA_URL, submission.getUrl());
 
                                         PopulateBase.addAdaptorPosition(i, submission,
-                                                holder.getAdapterPosition());
+                                                holder.getBindingAdapterPosition());
                                         contextActivity.startActivity(i);
                                         contextActivity.overridePendingTransition(R.anim.slideright,
                                                 R.anim.fade_out);
@@ -294,7 +294,7 @@ public class PopulateSubmissionViewHolder {
                                         i.putExtra(Album.EXTRA_URL, submission.getUrl());
 
                                         PopulateBase.addAdaptorPosition(i, submission,
-                                                holder.getAdapterPosition());
+                                                holder.getBindingAdapterPosition());
                                         contextActivity.startActivity(i);
                                         contextActivity.overridePendingTransition(R.anim.slideright,
                                                 R.anim.fade_out);
@@ -307,7 +307,7 @@ public class PopulateSubmissionViewHolder {
                                 case GIF:
                                 case VREDDIT_DIRECT:
                                     openGif(contextActivity, submission,
-                                            holder.getAdapterPosition());
+                                            holder.getBindingAdapterPosition());
                                     break;
                                 case NONE:
                                     if (holder != null) {
@@ -852,7 +852,7 @@ public class PopulateSubmissionViewHolder {
                                 posts.remove(submission);
 
                                 recyclerview.getAdapter()
-                                        .notifyItemRemoved(holder.getAdapterPosition());
+                                        .notifyItemRemoved(holder.getBindingAdapterPosition());
 
                                 Snackbar s2 =
                                         Snackbar.make(holder.itemView, "Removed from read later",
@@ -1532,7 +1532,7 @@ public class PopulateSubmissionViewHolder {
                                                 recyclerview.getAdapter().notifyItemRemoved(pos + 1);
                                             }
                                         } else {
-                                            recyclerview.getAdapter().notifyItemChanged(holder.getAdapterPosition());
+                                            recyclerview.getAdapter().notifyItemChanged(holder.getBindingAdapterPosition());
                                         }
                                         Snackbar s = Snackbar.make(holder.itemView, R.string.submission_removed,
                                                 Snackbar.LENGTH_LONG);
@@ -1640,7 +1640,7 @@ public class PopulateSubmissionViewHolder {
                             recyclerview.getAdapter().notifyItemRemoved(pos + 1);
                         }
                     } else {
-                        recyclerview.getAdapter().notifyItemChanged(holder.getAdapterPosition());
+                        recyclerview.getAdapter().notifyItemChanged(holder.getBindingAdapterPosition());
                     }
                     Snackbar s = Snackbar.make(holder.itemView, R.string.submission_removed,
                             Snackbar.LENGTH_LONG);
@@ -1698,7 +1698,7 @@ public class PopulateSubmissionViewHolder {
                             recyclerview.getAdapter().notifyItemRemoved(pos + 1);
                         }
                     } else {
-                        recyclerview.getAdapter().notifyItemChanged(holder.getAdapterPosition());
+                        recyclerview.getAdapter().notifyItemChanged(holder.getBindingAdapterPosition());
                     }
 
 
@@ -2252,7 +2252,7 @@ public class PopulateSubmissionViewHolder {
                             recyclerview.getAdapter().notifyItemRemoved(pos + 1);
                         }
                     } else {
-                        recyclerview.getAdapter().notifyItemChanged(holder.getAdapterPosition());
+                        recyclerview.getAdapter().notifyItemChanged(holder.getBindingAdapterPosition());
                     }
 
                     try {

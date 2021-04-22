@@ -356,7 +356,7 @@ public class CommentAdapterHelper {
 
     private static void viewCommentParent(CommentAdapter adapter, CommentViewHolder holder,
             Context mContext, CommentNode baseNode) {
-        int old = holder.getAdapterPosition();
+        int old = holder.getBindingAdapterPosition();
         int pos = (old < 2) ? 0 : old - 1;
         for (int i = pos - 1; i >= 0; i--) {
             CommentObject o = adapter.currentComments.get(adapter.getRealPosition(i));

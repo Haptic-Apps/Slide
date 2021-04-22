@@ -911,14 +911,14 @@ public class ReorderSubreddits extends BaseActivityAnim {
                                             }
                                             b.show();
                                         } else if (which == 0) {
-                                            String s = items.get(holder.getAdapterPosition());
+                                            String s = items.get(holder.getBindingAdapterPosition());
                                             subs.remove(s);
                                             subs.add(0, s);
 
-                                            notifyItemMoved(holder.getAdapterPosition(), 0);
+                                            notifyItemMoved(holder.getBindingAdapterPosition(), 0);
                                             recyclerView.smoothScrollToPosition(0);
                                         } else if (which == 1) {
-                                            String s = items.get(holder.getAdapterPosition());
+                                            String s = items.get(holder.getBindingAdapterPosition());
                                             if (!UserSubscriptions.getPinned().contains(s)) {
                                                 int index = subs.indexOf(s);
                                                 UserSubscriptions.addPinned(s,
@@ -926,13 +926,13 @@ public class ReorderSubreddits extends BaseActivityAnim {
                                                 subs.remove(index);
                                                 subs.add(0, s);
 
-                                                notifyItemMoved(holder.getAdapterPosition(), 0);
+                                                notifyItemMoved(holder.getBindingAdapterPosition(), 0);
                                                 recyclerView.smoothScrollToPosition(0);
                                             } else {
                                                 UserSubscriptions.removePinned(s,
                                                         ReorderSubreddits.this);
                                                 adapter.notifyItemChanged(
-                                                        holder.getAdapterPosition());
+                                                        holder.getBindingAdapterPosition());
                                             }
                                         }
                                     })

@@ -143,7 +143,7 @@ public class PopulateNewsViewHolder {
                                 case XKCD:
                                 case IMAGE:
                                     openImage(type, contextActivity, submission, holder.leadImage,
-                                            holder.getAdapterPosition());
+                                            holder.getBindingAdapterPosition());
                                     break;
                                 case EMBEDDED:
                                     if (SettingValues.video) {
@@ -167,7 +167,7 @@ public class PopulateNewsViewHolder {
                                 case LINK:
                                     LinkUtil.openUrl(submission.getUrl(),
                                             Palette.getColor(submission.getSubredditName()),
-                                            contextActivity, holder.getAdapterPosition(),
+                                            contextActivity, holder.getBindingAdapterPosition(),
                                             submission);
                                     break;
                                 case SELF:
@@ -192,7 +192,7 @@ public class PopulateNewsViewHolder {
                                         i.putExtra(Album.EXTRA_URL, submission.getUrl());
 
                                         PopulateBase.addAdaptorPosition(i, submission,
-                                                holder.getAdapterPosition());
+                                                holder.getBindingAdapterPosition());
                                         contextActivity.startActivity(i);
                                         contextActivity.overridePendingTransition(R.anim.slideright,
                                                 R.anim.fade_out);
@@ -216,7 +216,7 @@ public class PopulateNewsViewHolder {
                                         i.putExtra(Album.EXTRA_URL, submission.getUrl());
 
                                         PopulateBase.addAdaptorPosition(i, submission,
-                                                holder.getAdapterPosition());
+                                                holder.getBindingAdapterPosition());
                                         contextActivity.startActivity(i);
                                         contextActivity.overridePendingTransition(R.anim.slideright,
                                                 R.anim.fade_out);
@@ -227,7 +227,7 @@ public class PopulateNewsViewHolder {
                                     break;
                                 case GIF:
                                     openGif(contextActivity, submission,
-                                            holder.getAdapterPosition());
+                                            holder.getBindingAdapterPosition());
                                     break;
                                 case NONE:
                                     if (holder != null) {
@@ -713,7 +713,7 @@ public class PopulateNewsViewHolder {
                                 posts.remove(submission);
 
                                 recyclerview.getAdapter()
-                                        .notifyItemRemoved(holder.getAdapterPosition());
+                                        .notifyItemRemoved(holder.getBindingAdapterPosition());
 
                                 Snackbar s2 =
                                         Snackbar.make(holder.itemView, "Removed from read later",
