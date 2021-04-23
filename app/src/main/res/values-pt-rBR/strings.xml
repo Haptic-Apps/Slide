@@ -14,6 +14,7 @@
     <string name="general_shadowbox_ispro">Modo Shadowbox é um recurso Pro</string>
     <string name="general_nighttheme_ispro">Modo Noturno Automático é um recurso Pro</string>
     <string name="general_backup_ispro">Backup das configurações é um recurso Pro</string>
+    <string name="general_multicolumn_ispro">Configurações de múltiplas colunas são um recurso Pro</string>
     <!-- Used when viewing a thread -->
     <string name="submission_info_unsaved">Envio não salvo</string>
     <string name="submission_info_saved">Post salvo</string>
@@ -108,19 +109,20 @@
     <string name="sidebar_wiki">Wiki do subreddit</string>
     <string name="sidebar_mods">Moderadores do Subreddit</string>
     <!-- User profile -->
+    <string name="profile_karma_total">Karma total</string>
     <string name="profile_karma_link">Karma do post</string>
     <string name="profile_karma_comment">Carma de Comentários</string>
     <string name="profile_message">Mensagem privada</string>
-    <string name="profile_saved">salvo</string>
+    <string name="profile_saved">Salvos</string>
     <string name="profile_read_later">Ler mais tarde</string>
-    <string name="profile_upvoted">Upvoted</string>
+    <string name="profile_upvoted">Curtido</string>
     <string name="profile_err_title">Usuário não encontrado</string>
     <string name="profile_err_msg">Usuário do Reddit não pôde ser encontrado.</string>
     <string name="profile_overview">visão geral</string>
     <string name="profile_comments">Comentários</string>
-    <string name="profile_submitted">enviados</string>
+    <string name="profile_submitted">Enviados</string>
     <string name="profile_gilded">Recebeu Gold</string>
-    <string name="profile_downvoted">Downvoted</string>
+    <string name="profile_downvoted">Não curti</string>
     <string name="profile_hidden">Oculto</string>
     <string name="profile_friend">Amigo(a)</string>
     <string name="profile_add_friend">Adicionar amigo</string>
@@ -265,6 +267,7 @@
     <string name="multi_submit_which_sub">Em que sub deseja publicar?</string>
     <string name="multi_saved_successfully">Guardado com sucesso</string>
     <string name="delete_multireddit_title">Deseja mesmo excluir /m/%1$s?</string>
+    <string name="multi_save_option">Gostaria de salvar este multireddit?</string>
     <!-- Content types -->
     <string name="type_nsfw_img">Imagem NSFW</string>
     <string name="type_nsfw_gif">GIF NSFW</string>
@@ -276,6 +279,8 @@
     <string name="type_album">Álbum</string>
     <string name="type_xkcd">XKCD</string>
     <string name="type_nsfw_album">Álbum NSFW</string>
+    <string name="type_nsfw_gallery">Galeria NSFW</string>
+    <string name="type_gallery">Galeria</string>
     <string name="type_img">Imagem</string>
     <string name="type_videos">Vídeos</string>
     <string name="type_nsfw_video">Vídeo NSFW</string>
@@ -356,6 +361,7 @@
     <string name="btn_discard">Descartar</string>
     <string name="btn_done">Concluído</string>
     <string name="btn_go_back">Retornar</string>
+    <string name="btn_no_thanks">Não, obrigado</string>
     <string name="btn_no">Não</string>
     <string name="btn_ok">OK</string>
     <string name="btn_remove">Remover</string>
@@ -435,6 +441,12 @@
     <string name="mod_btn_unmark_nsfw">Desmarcar como NSFW</string>
     <string name="mod_btn_mark_spoiler">Marcar como spoiler</string>
     <string name="mod_btn_unmark_spoiler">Desmarcar como spoiler</string>
+    <string name="mod_btn_lock_thread">Bloquear tópico</string>
+    <string name="mod_btn_unlock_thread">Desbloquear tópico</string>
+    <string name="mod_btn_lock_comment">Bloquear comentário</string>
+    <string name="mod_btn_unlock_comment">Desbloquear comentário</string>
+    <string name="mod_locked">Bloqueado</string>
+    <string name="mod_unlocked">Desbloqueado</string>
     <string name="mod_btn_pin">Fixar</string>
     <string name="mod_btn_unpin">Desfixar</string>
     <string name="mod_btn_remove">Remover</string>
@@ -518,6 +530,7 @@
     <string name="settings_link_album">Exibição interna do álbum</string>
     <string name="settings_link_peek">Espiar conteúdo (experimental)</string>
     <string name="settings_link_gif">Exibição interna de GIF</string>
+    <string name="settings_link_hqgif">Vídeos Gfycat de alta qualidade</string>
     <string name="settings_link_handling">Gerenciamento de links</string>
     <string name="settings_link_image">Exibição interna de imagens</string>
     <string name="settings_mail_check">Verificar novas mensagens</string>
@@ -587,6 +600,7 @@
     <string name="settings_section_save_history">Salvar histórico</string>
     <string name="settings_section_clear_history">Limpar histórico</string>
     <string name="settings_section_data_saving_mode">Modo de economia de dados</string>
+    <string name="settings_section_data_saving_quality">Qualidade de economia de dados</string>
     <string name="settings_comment_color">Indicadores coloridos de profundidade de comentários</string>
     <string name="settings_volume_nav_comments">Navegar pelos comentários usando os botões de volume</string>
     <string name="settings_synccit_remove">DESCONECTAR DO SYNCCIT</string>
@@ -604,6 +618,8 @@
     <string name="settings_comment_collapse_description">Também desativa animações de comentários</string>
     <string name="settings_comment_collapse_default">Recolher respostas aos comentários por padrão</string>
     <string name="settings_data_enable">Ativar configurações de economia de dados</string>
+    <string name="settings_data_video_quality">Preferir vídeos de baixa qualidade quando a Economia de Dados estiver habilitada</string>
+    <string name="settings_comments_collapse_deleted">Recolher comentários excluídos por padrão</string>
     <string name="settings_backup_occurs">O backup ocorrerá em %1$s</string>
     <string name="settings_backup_none">Nenhum subreddit fará backup</string>
     <string name="settings_backup_will_backup">\u0020fará backup</string>
@@ -620,6 +636,8 @@
     <string name="settings_layout_picture_mode">Modo de imagem</string>
     <string name="settings_general_expanded_toolbar">Barra de ferramentas expandida</string>
     <string name="settings_general_expanded_toolbar_desc">Exibir mais opções na barra de ferramentas do subreddit</string>
+    <string name="settings_always_show_floating_action_button">Sempre mostrar o botão de ação flutuante</string>
+    <string name="settings_always_show_floating_action_button_desc">Nunca ocultar o botão de ação flutuante ao rolar a tela</string>
     <string name="settings_theme_tinting">Modo de cores dos posts</string>
     <string name="settings_layout_actionbar_mode">Modo barra de ações</string>
     <string name="settings_theme_tint_outside_desc">Cor de fundo apenas em multireddits, página inicial e tudo</string>
@@ -693,6 +711,7 @@
     <string name="reorder_fab_domain">Domínio</string>
     <string name="reorder_fab_subreddit">Subreddit</string>
     <string name="reorder_add_subscribe">Adicionar &amp; Inscrever</string>
+    <string name="reorder_remove_unsubscribe">Remover &amp; Cancelar inscrição</string>
     <string name="reorder_move">Mover para o Topo</string>
     <string name="reorder_domain_placeholder">\u0020(apenas o nome do domínio)</string>
     <string name="reorder_not_found_err">Subreddit não encontrado, aqui estão algumas sugestões</string>
@@ -953,6 +972,7 @@
     <string name="mode_centered">Cartão com imagem centralizada</string>
     <string name="mode_card">Cartão</string>
     <string name="mode_thumbnail">Miniatura</string>
+    <string name="mode_no_thumbnails">Nenhuma miniatura</string>
     <string name="mode_big_thumbnails">Miniaturas largas</string>
     <string name="mode_cropped">Imagem grande recortada</string>
     <string name="mode_bigpic">Imagem grande</string>
@@ -1077,6 +1097,8 @@
     <string name="theme_pixel">Pixel</string>
     <string name="save_images_to_subreddit_specific_subfolders">Salvar imagens nas subpastas específicas do subreddit</string>
     <string name="description_save_subfolders">Funciona em posts e visualização de comentários</string>
+    <string name="show_image_download_button">Atalho para Baixar</string>
+    <string name="description_image_download_button">Mostrar o botão de baixar no visualizador de imagens</string>
     <string name="content_settings">Configurações de conteúdo</string>
     <string name="setting_titleTop">Exibir título acima da linha de informação</string>
     <string name="setting_notification_piggybacking">Notificação Piggybacking</string>
@@ -1100,4 +1122,9 @@
     <string name="show_collapse_expand_nav_bar">Exibir o botão de recolher/expandir na barra de navegação de comentários</string>
     <string name="page_not_found">Página não encontrada</string>
     <string name="page_does_not_exist">A página solicitada não existe</string>
+    <string name="back_button_behavior_goto_first">Ir para o primeiro subreddit</string>
+    <string name="settings_hide_post_awards">Ocultar prêmios</string>
+    <string name="settings_hide_comment_awards">Ocultar prêmios</string>
+    <string name="high_colorspace_images">Imagens com ampla gama de cores</string>
+    <string name="description_high_colorspace">Carregar toda a gama de cores nas imagens, potencialmente levando a um maior uso de memória</string>
 </resources>

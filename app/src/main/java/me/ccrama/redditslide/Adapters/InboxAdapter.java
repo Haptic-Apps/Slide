@@ -29,12 +29,11 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.core.text.HtmlCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.cocosw.bottomsheet.BottomSheet;
 import com.devspark.robototextview.RobotoTypefaces;
 import com.google.android.material.snackbar.Snackbar;
@@ -64,6 +63,7 @@ import me.ccrama.redditslide.Views.RoundedBackgroundSpan;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.ClipboardUtil;
+import me.ccrama.redditslide.util.CompatUtil;
 import me.ccrama.redditslide.util.LayoutUtils;
 import me.ccrama.redditslide.util.SubmissionParser;
 import me.ccrama.redditslide.util.TimeUtils;
@@ -228,7 +228,7 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
             if (comment.getDataNode().has("link_title")) {
                 SpannableStringBuilder link = new SpannableStringBuilder(" "
-                        + HtmlCompat.fromHtml(comment.getDataNode().get("link_title").asText(), HtmlCompat.FROM_HTML_MODE_LEGACY)
+                        + CompatUtil.fromHtml(comment.getDataNode().get("link_title").asText())
                         + " ");
                 link.setSpan(new StyleSpan(Typeface.BOLD_ITALIC), 0, link.length(),
                         Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -273,7 +273,7 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     ta.recycle();
 
                     BottomSheet.Builder b = new BottomSheet.Builder((Activity) mContext).title(
-                            HtmlCompat.fromHtml(comment.getSubject(), HtmlCompat.FROM_HTML_MODE_LEGACY));
+                            CompatUtil.fromHtml(comment.getSubject()));
 
                     String author = comment.getAuthor();
                     if (!dataSet.where.contains("mod")
@@ -377,8 +377,8 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             if (comment.getDataNode().has("link_title")) {
                                 SpannableStringBuilder link = new SpannableStringBuilder(
                                         " "
-                                                + HtmlCompat.fromHtml(
-                                                comment.getDataNode().get("link_title").asText(), HtmlCompat.FROM_HTML_MODE_LEGACY)
+                                                + CompatUtil.fromHtml(
+                                                comment.getDataNode().get("link_title").asText())
                                                 + " ");
                                 link.setSpan(new StyleSpan(Typeface.BOLD_ITALIC), 0, link.length(),
                                         Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -419,7 +419,6 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
 
         final View dialoglayout = inflater.inflate(R.layout.edit_comment, null);
-        final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(mContext);
 
         final EditText e = dialoglayout.findViewById(R.id.entry);
 
@@ -427,7 +426,8 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 ((AppCompatActivity) mContext).getSupportFragmentManager(), (Activity) mContext,
                 replyTo.getBody(), null);
 
-        builder.setView(dialoglayout);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(mContext)
+                .setView(dialoglayout);
         final Dialog d = builder.create();
         d.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 

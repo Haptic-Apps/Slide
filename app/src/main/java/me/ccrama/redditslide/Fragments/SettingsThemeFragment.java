@@ -4,10 +4,8 @@ import android.app.Dialog;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Build;
 import android.util.Pair;
 import android.view.LayoutInflater;
@@ -26,12 +24,11 @@ import android.widget.TextView;
 import androidx.annotation.ArrayRes;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.content.ContextCompat;
-
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -48,6 +45,7 @@ import me.ccrama.redditslide.Visuals.ColorPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.OnSingleClickListener;
+import me.ccrama.redditslide.util.ProUtil;
 import uz.shift.colorpicker.LineColorPicker;
 import uz.shift.colorpicker.OnColorChangedListener;
 
@@ -71,8 +69,6 @@ public class SettingsThemeFragment<ActivityType extends BaseActivity & SettingsF
             public void onClick(View v) {
                 LayoutInflater inflater = context.getLayoutInflater();
                 final View dialoglayout = inflater.inflate(R.layout.chooseaccent, null);
-                AlertDialogWrapper.Builder builder =
-                        new AlertDialogWrapper.Builder(context);
                 final TextView title = dialoglayout.findViewById(R.id.title);
                 title.setBackgroundColor(Palette.getDefaultColor());
 
@@ -110,8 +106,9 @@ public class SettingsThemeFragment<ActivityType extends BaseActivity & SettingsF
                     }
                 });
 
-                builder.setView(dialoglayout);
-                builder.show();
+                new AlertDialog.Builder(context)
+                        .setView(dialoglayout)
+                        .show();
             }
         });
 
@@ -120,8 +117,6 @@ public class SettingsThemeFragment<ActivityType extends BaseActivity & SettingsF
             public void onClick(View v) {
                 LayoutInflater inflater = context.getLayoutInflater();
                 final View dialoglayout = inflater.inflate(R.layout.choosethemesmall, null);
-                AlertDialogWrapper.Builder builder =
-                        new AlertDialogWrapper.Builder(context);
                 final TextView title = dialoglayout.findViewById(R.id.title);
                 title.setBackgroundColor(Palette.getDefaultColor());
 
@@ -153,8 +148,9 @@ public class SettingsThemeFragment<ActivityType extends BaseActivity & SettingsF
                             });
                 }
 
-                builder.setView(dialoglayout);
-                builder.show();
+                new AlertDialog.Builder(context)
+                        .setView(dialoglayout)
+                        .show();
             }
 
         });
@@ -164,8 +160,6 @@ public class SettingsThemeFragment<ActivityType extends BaseActivity & SettingsF
             public void onClick(View v) {
                 LayoutInflater inflater = context.getLayoutInflater();
                 final LinearLayout dialoglayout = (LinearLayout) inflater.inflate(R.layout.choosemain, null);
-                final AlertDialogWrapper.Builder builder =
-                        new AlertDialogWrapper.Builder(context);
                 final TextView title = dialoglayout.findViewById(R.id.title);
                 title.setBackgroundColor(Palette.getDefaultColor());
 
@@ -237,8 +231,9 @@ public class SettingsThemeFragment<ActivityType extends BaseActivity & SettingsF
                     }
                 });
 
-                builder.setView(dialoglayout);
-                builder.show();
+                new AlertDialog.Builder(context)
+                        .setView(dialoglayout)
+                        .show();
             }
 
         });
@@ -397,9 +392,9 @@ public class SettingsThemeFragment<ActivityType extends BaseActivity & SettingsF
                 if (SettingValues.isPro) {
                     LayoutInflater inflater = context.getLayoutInflater();
                     final View dialoglayout = inflater.inflate(R.layout.nightmode, null);
-                    final AlertDialogWrapper.Builder builder =
-                            new AlertDialogWrapper.Builder(context);
-                    final Dialog dialog = builder.setView(dialoglayout).create();
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(context)
+                            .setView(dialoglayout);
+                    final Dialog dialog = builder.create();
                     dialog.show();
                     dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
                         @Override
@@ -556,35 +551,9 @@ public class SettingsThemeFragment<ActivityType extends BaseActivity & SettingsF
                         });
                     }
                 } else {
-                    new AlertDialogWrapper.Builder(context).setTitle(
-                            R.string.general_nighttheme_ispro)
-                            .setMessage(R.string.pro_upgrade_msg)
-                            .setPositiveButton(R.string.btn_yes_exclaim,
-
-                                    new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog,
-                                                            int whichButton) {
-                                            try {
-                                                context.startActivity(new Intent(Intent.ACTION_VIEW,
-                                                        Uri.parse("market://details?id="
-                                                                + context.getString(
-                                                                R.string.ui_unlock_package))));
-                                            } catch (android.content.ActivityNotFoundException anfe) {
-                                                context.startActivity(new Intent(Intent.ACTION_VIEW,
-                                                        Uri.parse(
-                                                                "http://play.google.com/store/apps/details?id="
-                                                                        + context.getString(
-                                                                        R.string.ui_unlock_package))));
-                                            }
-                                        }
-                                    })
-                            .setNegativeButton(R.string.btn_no_thanks,
-                                    new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog,
-                                                            int whichButton) {
-
-                                        }
-                                    })
+                    ProUtil.proUpgradeMsg(context, R.string.general_nighttheme_ispro)
+                            .setNegativeButton(R.string.btn_no_thanks, (dialog, whichButton) ->
+                                    dialog.dismiss())
                             .show();
                 }
             }

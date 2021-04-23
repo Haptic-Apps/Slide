@@ -102,6 +102,7 @@
     <string name="sidebar_wiki">Wiki subreddita</string>
     <string name="sidebar_mods">Moderatorzy subreddita</string>
     <!-- User profile -->
+    <string name="profile_karma_total">Całkowita karma</string>
     <string name="profile_karma_link">Karma postów</string>
     <string name="profile_karma_comment">karmy komentarzy</string>
     <string name="profile_message">Prywatna wiadomość</string>
@@ -259,6 +260,7 @@
     <string name="multi_submit_which_sub">Do którego subreddita chcesz wysłać post?</string>
     <string name="multi_saved_successfully">Zapisano pomyślnie</string>
     <string name="delete_multireddit_title">Czy na pewno chcesz usunąć /m/%1$s?</string>
+    <string name="multi_save_option">Czy chcesz zapisać tego multireddita?</string>
     <!-- Content types -->
     <string name="type_nsfw_img">Obraz NSFW</string>
     <string name="type_nsfw_gif">GIF NSFW</string>
@@ -270,6 +272,8 @@
     <string name="type_album">Album</string>
     <string name="type_xkcd">XKCD</string>
     <string name="type_nsfw_album">Album NSFW</string>
+    <string name="type_nsfw_gallery">Galeria NSFW</string>
+    <string name="type_gallery">Galeria</string>
     <string name="type_img">Obraz</string>
     <string name="type_videos">Filmy</string>
     <string name="type_nsfw_video">Wideo NSFW</string>
@@ -354,6 +358,7 @@
     <string name="btn_discard">Odrzuć</string>
     <string name="btn_done">Zrobione</string>
     <string name="btn_go_back">Wstecz</string>
+    <string name="btn_no_thanks">Nie, dziękuję</string>
     <string name="btn_no">Nie</string>
     <string name="btn_ok">OK</string>
     <string name="btn_remove">Usuń</string>
@@ -433,6 +438,12 @@
     <string name="mod_btn_unmark_nsfw">Odznacz NSFW</string>
     <string name="mod_btn_mark_spoiler">Oznacz jako spoiler</string>
     <string name="mod_btn_unmark_spoiler">Odznacz jako spoiler</string>
+    <string name="mod_btn_lock_thread">Zablokuj wątek</string>
+    <string name="mod_btn_unlock_thread">Odblokuj wątek</string>
+    <string name="mod_btn_lock_comment">Zablokuj komentarz</string>
+    <string name="mod_btn_unlock_comment">Odblokuj komentarz</string>
+    <string name="mod_locked">Zablokowany</string>
+    <string name="mod_unlocked">Odblokowany</string>
     <string name="mod_btn_pin">Przypnij</string>
     <string name="mod_btn_unpin">Odepnij</string>
     <string name="mod_btn_remove">Usuń</string>
@@ -479,6 +490,7 @@
     <string name="toolbox_removal_both">Wyślij jako wiadomość i odpowiedź</string>
     <string name="toolbox_removal_none">Brak, rejestruj tylko usunięcie</string>
     <string name="toolbox_removal_lock">Zablokuj usunięty wątek </string>
+    <string name="toolbox_logreason_placeholder">Powód dziennika</string>
     <string name="toolbox_note_text_required">Tekst jest wymagany</string>
     <string name="toolbox_note_text_placeholder">Coś o użytkowniku&#8230;</string>
     <string name="toolbox_note_default">Brak typu</string>
@@ -516,6 +528,7 @@
     <string name="settings_link_album">Wewnętrzne przeglądanie albumów</string>
     <string name="settings_link_peek">Podgląd treści (eksperymentalne)</string>
     <string name="settings_link_gif">Wewnętrzne oglądanie GIFów</string>
+    <string name="settings_link_hqgif">Wysokiej jakości filmy Gfycat</string>
     <string name="settings_link_handling">Obsługa linków</string>
     <string name="settings_link_image">Wewnętrzne oglądanie zdjęć</string>
     <string name="settings_mail_check">Sprawdzaj wiadomości</string>
@@ -585,6 +598,7 @@
     <string name="settings_section_save_history">Zapisuj historię</string>
     <string name="settings_section_clear_history">Wyczyść historię</string>
     <string name="settings_section_data_saving_mode">Tryb oszczędzania danych</string>
+    <string name="settings_section_data_saving_quality">Jakość oszczędzania danych</string>
     <string name="settings_comment_color">Kolorowa indykacja drzew komentarzy</string>
     <string name="settings_volume_nav_comments">Przeglądaj komentarze przyciskami głośności</string>
     <string name="settings_synccit_remove">ODŁĄCZ SYNCCIT</string>
@@ -602,6 +616,8 @@
     <string name="settings_comment_collapse_description">Wyłącza również animacje komentarzy</string>
     <string name="settings_comment_collapse_default">Domyślnie zwijaj komentarze</string>
     <string name="settings_data_enable">Włącz ustawienia oszczędzania</string>
+    <string name="settings_data_video_quality">Preferuj filmy niskiej jakości gdy Oszczędzanie Danych jest włączone</string>
+    <string name="settings_comments_collapse_deleted">Domyślnie zwijaj usunięte komentarze</string>
     <string name="settings_backup_occurs">Kopia zostanie wykonana o %1$s</string>
     <string name="settings_backup_none">Żaden subreddit nie zostanie skopiowany</string>
     <string name="settings_backup_will_backup">\u0020zostanie skopiowany</string>
@@ -618,6 +634,8 @@
     <string name="settings_layout_picture_mode">Tryb obrazu</string>
     <string name="settings_general_expanded_toolbar">Rozszerzony pasek narzędzi</string>
     <string name="settings_general_expanded_toolbar_desc">Pokazuj więcej opcji w pasku narzędzi</string>
+    <string name="settings_always_show_floating_action_button">Zawsze pokazuj pływający przycisk akcji</string>
+    <string name="settings_always_show_floating_action_button_desc">Nigdy nie ukrywaj pływającego przycisku akcji podczas przewijania</string>
     <string name="settings_theme_tinting">Kolorowanie kart subreddita</string>
     <string name="settings_layout_actionbar_mode">Tryb paska akcji</string>
     <string name="settings_theme_tint_outside_desc">Kolorowanie tylko w multiredditach, stronie głównej i /r/all</string>
@@ -684,6 +702,7 @@
     <string name="reorder_fab_domain">Domena</string>
     <string name="reorder_fab_subreddit">Subreddit</string>
     <string name="reorder_add_subscribe">Dodaj &amp; Subskrybu</string>
+    <string name="reorder_remove_unsubscribe">Usuń &amp; Odsubskrybuj</string>
     <string name="reorder_move">Przenieś do góry</string>
     <string name="reorder_domain_placeholder">\u0020(tylko nazwa domeny)</string>
     <string name="reorder_not_found_err">Nie znaleziono subreddita, kilka sugestii</string>
@@ -931,6 +950,9 @@
     <string name="report_post">Zgłoś post</string>
     <string name="report_comment">Zgłoś komentarz</string>
     <string name="report_loading">Ładowanie powodów&#8230;</string>
+    <string name="report_sub_rules">Zasady /r/%s</string>
+    <string name="report_site_rules">Zasady Reddita</string>
+    <string name="report_another_reason">Inny powód</string>
     <string name="report_other">Inne</string>
     <string name="input_reason_for_report">Powód zgłoszenia</string>
     <string name="msg_report_sent">Zgłoszenie wysłane</string>
@@ -952,6 +974,7 @@
     <string name="mode_centered">Karty z wycentrowanym obrazem</string>
     <string name="mode_card">Karta</string>
     <string name="mode_thumbnail">Miniatura</string>
+    <string name="mode_no_thumbnails">Brak miniatury</string>
     <string name="mode_big_thumbnails">Szerokie miniatury</string>
     <string name="mode_cropped">Ucięte duże zdjęcie</string>
     <string name="mode_bigpic">Duży obraz</string>

@@ -33,6 +33,7 @@ import me.ccrama.redditslide.Activities.NewsActivity;
 import me.ccrama.redditslide.DragSort.ReorderSubreddits;
 import me.ccrama.redditslide.Toolbox.Toolbox;
 import me.ccrama.redditslide.util.NetworkUtil;
+import me.ccrama.redditslide.util.StringUtil;
 
 /**
  * Created by carlo_000 on 1/16/2016.
@@ -197,7 +198,7 @@ public class UserSubscriptions {
 
     public static void cacheModOf() {
         subscriptions.edit()
-                .putString(Authentication.name + "mod", Reddit.arrayToString(modOf))
+                .putString(Authentication.name + "mod", StringUtil.arrayToString(modOf))
                 .apply();
     }
 
@@ -368,11 +369,11 @@ public class UserSubscriptions {
     }
 
     public static void setSubscriptions(CaseInsensitiveArrayList subs) {
-        subscriptions.edit().putString(Authentication.name, Reddit.arrayToString(subs)).apply();
+        subscriptions.edit().putString(Authentication.name, StringUtil.arrayToString(subs)).apply();
     }
 
     public static void setPinned(CaseInsensitiveArrayList subs) {
-        pinned.edit().putString(Authentication.name, Reddit.arrayToString(subs)).apply();
+        pinned.edit().putString(Authentication.name, StringUtil.arrayToString(subs)).apply();
         pins = null;
     }
 

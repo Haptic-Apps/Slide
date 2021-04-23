@@ -1,11 +1,8 @@
 package me.ccrama.redditslide.Activities;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -13,11 +10,10 @@ import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.NonNull;
-import androidx.core.text.HtmlCompat;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 
@@ -33,13 +29,13 @@ import me.ccrama.redditslide.Adapters.ContributionAdapter;
 import me.ccrama.redditslide.Adapters.SubredditSearchPosts;
 import me.ccrama.redditslide.Constants;
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.Reddit;
-import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Views.CatchStaggeredGridLayoutManager;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Visuals.ColorPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.handler.ToolbarScrollHideHandler;
+import me.ccrama.redditslide.util.CompatUtil;
+import me.ccrama.redditslide.util.LayoutUtils;
 import me.ccrama.redditslide.util.SortingUtil;
 
 public class Search extends BaseActivityAnim {
@@ -119,11 +115,13 @@ public class Search extends BaseActivityAnim {
                         .capitalize(time.name().toLowerCase(Locale.ENGLISH)));
             }
         };
-        AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(Search.this);
-        builder.setTitle(R.string.sorting_time_choose);
-        builder.setSingleChoiceItems(SortingUtil.getSortingTimesStrings(),
-                SortingUtil.getSortingSearchId(this), l2);
-        builder.show();
+        new AlertDialog.Builder(Search.this)
+                .setTitle(R.string.sorting_time_choose)
+                .setSingleChoiceItems(
+                        SortingUtil.getSortingTimesStrings(),
+                        SortingUtil.getSortingSearchId(this),
+                        l2)
+                .show();
     }
 
     public void openSearchTypePopup() {
@@ -154,10 +152,13 @@ public class Search extends BaseActivityAnim {
                         .capitalize(time.name().toLowerCase(Locale.ENGLISH)));
             }
         };
-        AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(Search.this);
-        builder.setTitle(R.string.sorting_choose);
-        builder.setSingleChoiceItems(SortingUtil.getSearch(), SortingUtil.getSearchType(), l2);
-        builder.show();
+        new AlertDialog.Builder(Search.this)
+                .setTitle(R.string.sorting_choose)
+                .setSingleChoiceItems(
+                        SortingUtil.getSearch(),
+                        SortingUtil.getSearchType(),
+                        l2)
+                .show();
     }
 
     public TimePeriod time;
@@ -249,7 +250,7 @@ public class Search extends BaseActivityAnim {
 
         time = TimePeriod.ALL;
 
-        getSupportActionBar().setTitle(HtmlCompat.fromHtml(where, HtmlCompat.FROM_HTML_MODE_LEGACY));
+        getSupportActionBar().setTitle(CompatUtil.fromHtml(where));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         assert mToolbar != null; //it won't be, trust me
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -269,7 +270,7 @@ public class Search extends BaseActivityAnim {
 
         rv = ((RecyclerView) findViewById(R.id.vertical_content));
         final RecyclerView.LayoutManager mLayoutManager =
-                createLayoutManager(getNumColumns(getResources().getConfiguration().orientation, Search.this));
+                createLayoutManager(LayoutUtils.getNumColumns(getResources().getConfiguration().orientation, Search.this));
         rv.setLayoutManager(mLayoutManager);
 
         rv.addOnScrollListener(new ToolbarScrollHideHandler(mToolbar, findViewById(R.id.header)) {
@@ -338,28 +339,11 @@ public class Search extends BaseActivityAnim {
         final CatchStaggeredGridLayoutManager mLayoutManager =
                 (CatchStaggeredGridLayoutManager) rv.getLayoutManager();
 
-        mLayoutManager.setSpanCount(getNumColumns(currentOrientation, Search.this));
+        mLayoutManager.setSpanCount(LayoutUtils.getNumColumns(currentOrientation, Search.this));
     }
     @NonNull
     private RecyclerView.LayoutManager createLayoutManager(final int numColumns) {
         return new CatchStaggeredGridLayoutManager(numColumns,
                 CatchStaggeredGridLayoutManager.VERTICAL);
-    }
-
-    public static int getNumColumns(final int orientation, Context context) {
-        final int numColumns;
-        boolean singleColumnMultiWindow = false;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            singleColumnMultiWindow = ((Activity)context).isInMultiWindowMode() && SettingValues.singleColumnMultiWindow;
-        }
-        if (orientation == Configuration.ORIENTATION_LANDSCAPE && SettingValues.isPro && !singleColumnMultiWindow) {
-            numColumns = Reddit.dpWidth;
-        } else if (orientation == Configuration.ORIENTATION_PORTRAIT
-                && SettingValues.dualPortrait) {
-            numColumns = 2;
-        } else {
-            numColumns = 1;
-        }
-        return numColumns;
     }
 }

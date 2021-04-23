@@ -10,8 +10,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.TypedArray;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
@@ -22,8 +20,6 @@ import android.text.InputType;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
-import android.text.style.ImageSpan;
-import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -34,11 +30,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
-import androidx.core.text.HtmlCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.cocosw.bottomsheet.BottomSheet;
@@ -75,9 +70,11 @@ import me.ccrama.redditslide.Views.CreateCardView;
 import me.ccrama.redditslide.Views.RoundedBackgroundSpan;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.CompatUtil;
 import me.ccrama.redditslide.util.LayoutUtils;
 import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.LogUtil;
+import me.ccrama.redditslide.util.MiscUtil;
 import me.ccrama.redditslide.util.OnSingleClickListener;
 import me.ccrama.redditslide.util.SubmissionParser;
 import me.ccrama.redditslide.util.TimeUtils;
@@ -168,9 +165,8 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 public boolean onLongClick(View v) {
                     LayoutInflater inflater = mContext.getLayoutInflater();
                     final View dialoglayout = inflater.inflate(R.layout.postmenu, null);
-                    AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(mContext);
                     final TextView title = dialoglayout.findViewById(R.id.title);
-                    title.setText(HtmlCompat.fromHtml(submission.getTitle(), HtmlCompat.FROM_HTML_MODE_LEGACY));
+                    title.setText(CompatUtil.fromHtml(submission.getTitle()));
 
                     ((TextView) dialoglayout.findViewById(R.id.userpopup)).setText("/u/" + submission.getAuthor());
                     ((TextView) dialoglayout.findViewById(R.id.subpopup)).setText("/r/" + submission.getSubredditName());
@@ -261,7 +257,8 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     }
                     title.setBackgroundColor(Palette.getColor(submission.getSubredditName()));
 
-                    builder.setView(dialoglayout);
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(mContext)
+                            .setView(dialoglayout);
                     final Dialog d = builder.show();
                     dialoglayout.findViewById(R.id.hide).setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -433,58 +430,16 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 a.recycle();
                 holder.gild.setVisibility(View.VISIBLE);
                 // Add silver, gold, platinum icons and counts in that order
-                if (comment.getTimesSilvered() > 0) {
-                    final String timesSilvered = (comment.getTimesSilvered() == 1) ? ""
-                            : "\u200Ax" + comment.getTimesSilvered();
-                    SpannableStringBuilder silvered =
-                            new SpannableStringBuilder("\u00A0★" + timesSilvered + "\u00A0");
-                    Bitmap image = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.silver);
-                    float aspectRatio = (float) (1.00 * image.getWidth() / image.getHeight());
-                    image = Bitmap.createScaledBitmap(image, (int) Math.ceil(fontsize * aspectRatio),
-                            (int) Math.ceil(fontsize), true);
-                    silvered.setSpan(new ImageSpan(mContext, image, ImageSpan.ALIGN_BASELINE), 0, 2,
-                            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    silvered.setSpan(new RelativeSizeSpan(0.75f), 3, silvered.length(),
-                            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    ((TextView) holder.gild).append(silvered);
-                }
-                if (comment.getTimesGilded() > 0) {
-                    final String timesGilded = (comment.getTimesGilded() == 1) ? ""
-                            : "\u200Ax" + comment.getTimesGilded();
-                    SpannableStringBuilder gilded =
-                            new SpannableStringBuilder("\u00A0★" + timesGilded + "\u00A0");
-                    Bitmap image = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.gold);
-                    float aspectRatio = (float) (1.00 * image.getWidth() / image.getHeight());
-                    image = Bitmap.createScaledBitmap(image, (int) Math.ceil(fontsize * aspectRatio),
-                            (int) Math.ceil(fontsize), true);
-                    gilded.setSpan(new ImageSpan(mContext, image, ImageSpan.ALIGN_BASELINE), 0, 2,
-                            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    gilded.setSpan(new RelativeSizeSpan(0.75f), 3, gilded.length(),
-                            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    ((TextView) holder.gild).append(gilded);
-                }
-                if (comment.getTimesPlatinized() > 0) {
-                    final String timesPlatinized = (comment.getTimesPlatinized() == 1) ? ""
-                            : "\u200Ax" + comment.getTimesPlatinized();
-                    SpannableStringBuilder platinized =
-                            new SpannableStringBuilder("\u00A0★" + timesPlatinized + "\u00A0");
-                    Bitmap image = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.platinum);
-                    float aspectRatio = (float) (1.00 * image.getWidth() / image.getHeight());
-                    image = Bitmap.createScaledBitmap(image, (int) Math.ceil(fontsize * aspectRatio),
-                            (int) Math.ceil(fontsize), true);
-                    platinized.setSpan(new ImageSpan(mContext, image, ImageSpan.ALIGN_BASELINE), 0, 2,
-                            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    platinized.setSpan(new RelativeSizeSpan(0.75f), 3, platinized.length(),
-                            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    ((TextView) holder.gild).append(platinized);
-                }
+                MiscUtil.addAwards(mContext, fontsize, holder, comment.getTimesSilvered(), R.drawable.silver);
+                MiscUtil.addAwards(mContext, fontsize, holder, comment.getTimesGilded(), R.drawable.gold);
+                MiscUtil.addAwards(mContext, fontsize, holder, comment.getTimesPlatinized(), R.drawable.platinum);
             } else if (holder.gild.getVisibility() == View.VISIBLE)
                 holder.gild.setVisibility(View.GONE);
 
             if (comment.getSubmissionTitle() != null)
-                holder.title.setText(HtmlCompat.fromHtml(comment.getSubmissionTitle(), HtmlCompat.FROM_HTML_MODE_LEGACY));
+                holder.title.setText(CompatUtil.fromHtml(comment.getSubmissionTitle()));
             else
-                holder.title.setText(HtmlCompat.fromHtml(comment.getAuthor(), HtmlCompat.FROM_HTML_MODE_LEGACY));
+                holder.title.setText(CompatUtil.fromHtml(comment.getAuthor()));
 
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -584,7 +539,7 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         //Bottom sheet builder
         BottomSheet.Builder b = new BottomSheet.Builder((Activity) mContext).title(
-                HtmlCompat.fromHtml(comment.getBody(), HtmlCompat.FROM_HTML_MODE_LEGACY));
+                CompatUtil.fromHtml(comment.getBody()));
 
         int reportCount = reports.size() + reports2.size();
 
@@ -656,7 +611,8 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                                         LayoutUtils.showSnackbar(s);
 
                                     } else {
-                                        new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
+                                        new AlertDialog.Builder(mContext)
+                                                .setTitle(R.string.err_general)
                                                 .setMessage(R.string.err_retry_later)
                                                 .show();
                                     }
@@ -701,7 +657,8 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                             .show();
 
                 } else {
-                    new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
+                    new AlertDialog.Builder(mContext)
+                            .setTitle(R.string.err_general)
                             .setMessage(R.string.err_retry_later)
                             .show();
                 }
@@ -732,7 +689,8 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                             Snackbar.LENGTH_LONG);
                     LayoutUtils.showSnackbar(s);
                 } else {
-                    new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
+                    new AlertDialog.Builder(mContext)
+                            .setTitle(R.string.err_general)
                             .setMessage(R.string.err_retry_later)
                             .show();
                 }
@@ -764,7 +722,8 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                             Snackbar.LENGTH_LONG);
                     LayoutUtils.showSnackbar(s);
                 } else {
-                    new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
+                    new AlertDialog.Builder(mContext)
+                            .setTitle(R.string.err_general)
                             .setMessage(R.string.err_retry_later)
                             .show();
                 }
@@ -797,7 +756,8 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     LayoutUtils.showSnackbar(s);
 
                 } else {
-                    new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
+                    new AlertDialog.Builder(mContext)
+                            .setTitle(R.string.err_general)
                             .setMessage(R.string.err_retry_later)
                             .show();
                 }
@@ -872,7 +832,8 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     LayoutUtils.showSnackbar(s);
 
                 } else {
-                    new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
+                    new AlertDialog.Builder(mContext)
+                            .setTitle(R.string.err_general)
                             .setMessage(R.string.err_retry_later)
                             .show();
                 }
@@ -906,7 +867,8 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                             Snackbar.LENGTH_LONG);
                     LayoutUtils.showSnackbar(s);
                 } else {
-                    new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
+                    new AlertDialog.Builder(mContext)
+                            .setTitle(R.string.err_general)
                             .setMessage(R.string.err_retry_later)
                             .show();
                 }

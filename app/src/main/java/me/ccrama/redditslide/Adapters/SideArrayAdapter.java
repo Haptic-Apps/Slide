@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Filter;
@@ -19,7 +18,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
-import androidx.core.content.ContextCompat;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -36,6 +34,7 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.KeyboardUtil;
 import me.ccrama.redditslide.util.SanitizeField;
 
 
@@ -204,10 +203,7 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
                             ((MainActivity) getContext()).drawerSearch.setText("");
                         }
                     }
-                    InputMethodManager imm = ContextCompat.getSystemService(getContext(), InputMethodManager.class);
-                    if (imm != null) {
-                        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                    }
+                    KeyboardUtil.hideKeyboard(getContext(), view.getWindowToken(), 0);
                 }
             });
             convertView.setOnLongClickListener(new View.OnLongClickListener() {
@@ -218,10 +214,7 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
                     inte.putExtra(SubredditView.EXTRA_SUBREDDIT, subreddit);
                     ((Activity) getContext()).startActivityForResult(inte, 2001);
 
-                    InputMethodManager imm = ContextCompat.getSystemService(getContext(), InputMethodManager.class);
-                    if (imm != null) {
-                        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                    }
+                    KeyboardUtil.hideKeyboard(getContext(), view.getWindowToken(), 0);
                     return true;
                 }
             });

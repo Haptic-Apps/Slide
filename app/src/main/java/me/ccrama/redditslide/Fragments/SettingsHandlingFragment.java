@@ -1,8 +1,6 @@
 package me.ccrama.redditslide.Fragments;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Build;
 import android.view.KeyEvent;
 import android.view.MenuItem;
@@ -28,6 +26,7 @@ import java.util.Map;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
+import me.ccrama.redditslide.util.LinkUtil;
 
 
 public class SettingsHandlingFragment implements CompoundButton.OnCheckedChangeListener {
@@ -67,14 +66,7 @@ public class SettingsHandlingFragment implements CompoundButton.OnCheckedChangeL
             context.findViewById(R.id.settings_handling_video).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    try {
-                        context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(
-                                "market://details?id=" + context.getString(
-                                        R.string.youtube_plugin_package))));
-                    } catch (android.content.ActivityNotFoundException anfe) {
-                        context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(
-                                "http://play.google.com/store/apps/details?id=ccrama.me.slideyoutubeplugin")));
-                    }
+                    LinkUtil.launchMarketUri(context, R.string.youtube_plugin_package);
                 }
             });
         } else {

@@ -3,7 +3,6 @@ package me.ccrama.redditslide.Activities;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -76,11 +75,7 @@ public class SettingsAbout extends BaseActivityAnim {
         findViewById(R.id.rate).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=me.ccrama.redditslide")));
-                } catch (android.content.ActivityNotFoundException anfe) {
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=me.ccrama.redditslide")));
-                }
+                LinkUtil.launchMarketUri(SettingsAbout.this, R.string.app_package);
             }
         });
         changelog.setOnClickListener(new View.OnClickListener() {

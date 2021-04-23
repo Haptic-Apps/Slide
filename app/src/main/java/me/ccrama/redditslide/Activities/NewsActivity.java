@@ -3,7 +3,6 @@ package me.ccrama.redditslide.Activities;
 import android.Manifest;
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
@@ -20,6 +19,7 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
@@ -27,7 +27,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.google.android.material.tabs.TabLayout;
 
 import net.dean.jraw.managers.AccountManager;
@@ -55,6 +54,7 @@ import me.ccrama.redditslide.util.LayoutUtils;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkStateReceiver;
 import me.ccrama.redditslide.util.NetworkUtil;
+import me.ccrama.redditslide.util.StringUtil;
 
 public class NewsActivity extends BaseActivity
         implements NetworkStateReceiver.NetworkStateReceiverListener {
@@ -142,29 +142,16 @@ public class NewsActivity extends BaseActivity
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        new AlertDialogWrapper.Builder(NewsActivity.this).setTitle(
-                                R.string.err_permission)
+                        new AlertDialog.Builder(NewsActivity.this)
+                                .setTitle(R.string.err_permission)
                                 .setMessage(R.string.err_permission_msg)
-                                .setPositiveButton(R.string.btn_yes,
-                                        new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog,
-                                                        int which) {
-                                                ActivityCompat.requestPermissions(
-                                                        NewsActivity.this, new String[]{
-                                                                Manifest.permission.WRITE_EXTERNAL_STORAGE
-                                                        }, 1);
-
-                                            }
-                                        })
-                                .setNegativeButton(R.string.btn_no,
-                                        new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog,
-                                                        int which) {
-                                                dialog.dismiss();
-                                            }
-                                        })
+                                .setPositiveButton(R.string.btn_yes, (dialog, which) ->
+                                        ActivityCompat.requestPermissions(
+                                                NewsActivity.this, new String[]{
+                                                        Manifest.permission.WRITE_EXTERNAL_STORAGE
+                                                }, 1))
+                                .setNegativeButton(R.string.btn_no, (dialog, which) ->
+                                        dialog.dismiss())
                                 .show();
                     }
                 });
@@ -261,15 +248,6 @@ public class NewsActivity extends BaseActivity
         }
         Slide.hasStarted = false;
         super.onDestroy();
-    }
-
-    public static String abbreviate(final String str, final int maxWidth) {
-        if (str.length() <= maxWidth) {
-            return str;
-        }
-
-        final String abrevMarker = "...";
-        return str.substring(0, maxWidth - 3) + abrevMarker;
     }
 
     String shouldLoad;
@@ -402,7 +380,7 @@ public class NewsActivity extends BaseActivity
             super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
 
             pager.clearOnPageChangeListeners();
-            pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            pager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
                 @Override
                 public void onPageScrolled(int position, float positionOffset,
                         int positionOffsetPixels) {
@@ -456,10 +434,6 @@ public class NewsActivity extends BaseActivity
                             p.doNewsActivityOffline(NewsActivity.this, p.displayer);
                         }
                     }
-                }
-
-                @Override
-                public void onPageScrollStateChanged(int state) {
                 }
             });
 
@@ -540,7 +514,7 @@ public class NewsActivity extends BaseActivity
         @Override
         public CharSequence getPageTitle(int position) {
             if (usedArray != null) {
-                return abbreviate(usedArray.get(position), 25);
+                return StringUtil.abbreviate(usedArray.get(position), 25);
             } else {
                 return "";
             }

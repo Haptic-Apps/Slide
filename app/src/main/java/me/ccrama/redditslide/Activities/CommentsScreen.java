@@ -8,10 +8,8 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.inputmethod.InputMethodManager;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
@@ -37,6 +35,7 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.KeyboardUtil;
 
 /**
  * This activity is responsible for the view when clicking on a post, showing the post and its
@@ -87,10 +86,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
     @Override
     public void onPause() {
         super.onPause();
-        InputMethodManager imm = ContextCompat.getSystemService(this, InputMethodManager.class);
-        if (imm != null) {
-            imm.hideSoftInputFromWindow(findViewById(android.R.id.content).getWindowToken(), 0);
-        }
+        KeyboardUtil.hideKeyboard(this, findViewById(android.R.id.content).getWindowToken(), 0);
     }
 
     @Override
@@ -202,7 +198,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
 
             pager.setCurrentItem(firstPage + 1);
 
-            pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            pager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
                                               @Override
                                               public void onPageScrolled(int position, float positionOffset,
                                                       int positionOffsetPixels) {
@@ -241,11 +237,6 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
                                                       intent.putExtras(conData);
                                                       setResult(RESULT_OK, intent);
                                                   }
-                                              }
-
-                                              @Override
-                                              public void onPageScrollStateChanged(int state) {
-
                                               }
                                           }
 

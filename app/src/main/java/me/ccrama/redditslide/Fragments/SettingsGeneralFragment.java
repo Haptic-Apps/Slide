@@ -17,11 +17,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.SwitchCompat;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.android.material.snackbar.Snackbar;
@@ -54,6 +54,7 @@ import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.ImageLoaderUtils;
 import me.ccrama.redditslide.util.OnSingleClickListener;
 import me.ccrama.redditslide.util.SortingUtil;
+import me.ccrama.redditslide.util.StringUtil;
 import me.ccrama.redditslide.util.TimeUtils;
 
 /**
@@ -70,7 +71,6 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
     }
 
     public static void setupNotificationSettings(View dialoglayout, final Activity context) {
-        final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(context);
         final Slider landscape = dialoglayout.findViewById(R.id.landscape);
         final CheckBox checkBox = dialoglayout.findViewById(R.id.load);
         final CheckBox sound = dialoglayout.findViewById(R.id.sound);
@@ -133,8 +133,9 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
 
         //todo  portrait.setBackgroundColor(Palette.getDefaultColor());
 
-
-        final Dialog dialog = builder.setView(dialoglayout).create();
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context)
+                .setView(dialoglayout);
+        final Dialog dialog = builder.create();
         dialog.show();
         dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
@@ -322,11 +323,12 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
                 context.findViewById(R.id.settings_general_download).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        new FolderChooserDialogCreate.Builder(SettingsGeneralFragment.this.context).chooseButton(
-                                R.string.btn_select)  // changes label of the choose button
+                        new FolderChooserDialogCreate.Builder(SettingsGeneralFragment.this.context)
+                                .chooseButton(R.string.btn_select) // changes label of the choose button
                                 .initialPath(Environment.getExternalStorageDirectory()
-                                        .getPath())  // changes initial path, defaults to external storage directory
-                                .show();
+                                        .getPath()) // changes initial path, defaults to external storage directory
+                                .allowNewFolder(true, 0)
+                                .show(SettingsGeneralFragment.this.context);
                     }
                 });
             }
@@ -691,10 +693,6 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
                                     }
                                 };
 
-                        AlertDialogWrapper.Builder builder =
-                                new AlertDialogWrapper.Builder(SettingsGeneralFragment.this.context);
-                        builder.setTitle(R.string.sorting_choose);
-
                         // Remove the "Best" sorting option from settings because it is only supported on the frontpage.
                         int skip = -1;
                         List<String> sortingStrings = new ArrayList<>(Arrays.asList(SortingUtil.getSortingStrings()));
@@ -708,8 +706,13 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
                             sortingStrings.remove(skip);
                         }
 
-                        builder.setSingleChoiceItems(sortingStrings.toArray(new String[0]), SortingUtil.getSortingId(""), l2);
-                        builder.show();
+                        new AlertDialog.Builder(SettingsGeneralFragment.this.context)
+                                .setTitle(R.string.sorting_choose)
+                                .setSingleChoiceItems(
+                                        sortingStrings.toArray(new String[0]),
+                                        SortingUtil.getSortingId(""),
+                                        l2)
+                                .show();
                     }
                 });
             }
@@ -774,18 +777,20 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
                                     }
                                 };
 
-                        AlertDialogWrapper.Builder builder =
-                                new AlertDialogWrapper.Builder(SettingsGeneralFragment.this.context);
-                        builder.setTitle(R.string.sorting_choose);
                         Resources res = context.getBaseContext().getResources();
-                        builder.setSingleChoiceItems(new String[]{
-                                res.getString(R.string.sorting_best),
-                                res.getString(R.string.sorting_top),
-                                res.getString(R.string.sorting_new),
-                                res.getString(R.string.sorting_controversial),
-                                res.getString(R.string.sorting_old), res.getString(R.string.sorting_ama)
-                        }, i2, l2);
-                        builder.show();
+
+                        new AlertDialog.Builder(SettingsGeneralFragment.this.context)
+                                .setTitle(R.string.sorting_choose)
+                                .setSingleChoiceItems(
+                                        new String[]{
+                                                res.getString(R.string.sorting_best),
+                                                res.getString(R.string.sorting_top),
+                                                res.getString(R.string.sorting_new),
+                                                res.getString(R.string.sorting_controversial),
+                                                res.getString(R.string.sorting_old),
+                                                res.getString(R.string.sorting_ama)
+                                        }, i2, l2)
+                                .show();
                     }
                 });
             }
@@ -875,16 +880,19 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
                                 "")]);
             }
         };
-        AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SettingsGeneralFragment.this.context);
-        builder.setTitle(R.string.sorting_choose);
-        builder.setSingleChoiceItems(SortingUtil.getSortingTimesStrings(),
-                SortingUtil.getSortingTimeId(""), l2);
-        builder.show();
+
+        new AlertDialog.Builder(SettingsGeneralFragment.this.context)
+                .setTitle(R.string.sorting_choose)
+                .setSingleChoiceItems(
+                        SortingUtil.getSortingTimesStrings(),
+                        SortingUtil.getSortingTimeId(""),
+                        l2)
+                .show();
     }
 
     private void setSubText() {
         ArrayList<String> rawSubs =
-                Reddit.stringToArray(Reddit.appRestart.getString(CheckForMail.SUBS_TO_GET, ""));
+                StringUtil.stringToArray(Reddit.appRestart.getString(CheckForMail.SUBS_TO_GET, ""));
         String subText = context.getString(R.string.sub_post_notifs_settings_none);
         StringBuilder subs = new StringBuilder();
         for (String s : rawSubs) {
@@ -909,7 +917,7 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
 
     private void showSelectDialog() {
         ArrayList<String> rawSubs =
-                Reddit.stringToArray(Reddit.appRestart.getString(CheckForMail.SUBS_TO_GET, ""));
+                StringUtil.stringToArray(Reddit.appRestart.getString(CheckForMail.SUBS_TO_GET, ""));
         HashMap<String, Integer> subThresholds = new HashMap<>();
         for (String s : rawSubs) {
             try {
@@ -968,69 +976,55 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
 
         final ArrayList<String> toCheck = new ArrayList<>(subThresholds.keySet());
         final String[] finalAll = all;
-        new AlertDialogWrapper.Builder(SettingsGeneralFragment.this.context).setMultiChoiceItems(finalAll, checked,
-                new DialogInterface.OnMultiChoiceClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                        if (!isChecked) {
-                            toCheck.remove(finalAll[which]);
-                        } else {
-                            toCheck.add(finalAll[which]);
-                        }
+        new AlertDialog.Builder(SettingsGeneralFragment.this.context)
+                .setMultiChoiceItems(finalAll, checked, (dialog, which, isChecked) -> {
+                    if (!isChecked) {
+                        toCheck.remove(finalAll[which]);
+                    } else {
+                        toCheck.add(finalAll[which]);
                     }
                 })
-                .alwaysCallMultiChoiceCallback()
                 .setTitle(R.string.sub_post_notifs_title_settings)
-                .setPositiveButton(context.getString(R.string.btn_add).toUpperCase(),
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                showThresholdDialog(toCheck, false);
-                            }
-                        })
-                .setNegativeButton(R.string.sub_post_notifs_settings_search,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                new MaterialDialog.Builder(SettingsGeneralFragment.this.context).title(
-                                        R.string.reorder_add_subreddit)
-                                        .inputRangeRes(2, 21, R.color.md_red_500)
-                                        .alwaysCallInputCallback()
-                                        .input(context.getString(R.string.reorder_subreddit_name), null,
-                                                false, new MaterialDialog.InputCallback() {
-                                                    @Override
-                                                    public void onInput(MaterialDialog dialog,
-                                                                        CharSequence raw) {
-                                                        input = raw.toString()
-                                                                .replaceAll("\\s",
-                                                                        ""); //remove whitespace from input
-                                                    }
-                                                })
-                                        .positiveText(R.string.btn_add)
-                                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                .setPositiveButton(context.getString(R.string.btn_add).toUpperCase(), (dialog, which) ->
+                        showThresholdDialog(toCheck, false))
+                .setNegativeButton(R.string.sub_post_notifs_settings_search, (dialog, which) ->
+                        new MaterialDialog.Builder(SettingsGeneralFragment.this.context)
+                                .title(R.string.reorder_add_subreddit)
+                                .inputRangeRes(2, 21, R.color.md_red_500)
+                                .alwaysCallInputCallback()
+                                .input(context.getString(R.string.reorder_subreddit_name), null,
+                                        false, new MaterialDialog.InputCallback() {
                                             @Override
-                                            public void onClick(@NonNull MaterialDialog dialog,
-                                                                @NonNull DialogAction which) {
-                                                new AsyncGetSubreddit().execute(input);
+                                            public void onInput(MaterialDialog dialog,
+                                                                CharSequence raw) {
+                                                input = raw.toString()
+                                                        .replaceAll("\\s",
+                                                                ""); //remove whitespace from input
                                             }
                                         })
-                                        .negativeText(R.string.btn_cancel)
-                                        .onNegative(new MaterialDialog.SingleButtonCallback() {
-                                            @Override
-                                            public void onClick(@NonNull MaterialDialog dialog,
-                                                                @NonNull DialogAction which) {
+                                .positiveText(R.string.btn_add)
+                                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                    @Override
+                                    public void onClick(@NonNull MaterialDialog dialog,
+                                                        @NonNull DialogAction which) {
+                                        new AsyncGetSubreddit().execute(input);
+                                    }
+                                })
+                                .negativeText(R.string.btn_cancel)
+                                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                                    @Override
+                                    public void onClick(@NonNull MaterialDialog dialog,
+                                                        @NonNull DialogAction which) {
 
-                                            }
-                                        })
-                                        .show();
-                            }
-                        })
+                                    }
+                                })
+                                .show())
                 .show();
     }
 
     private void showThresholdDialog(ArrayList<String> strings, boolean search) {
         final ArrayList<String> subsRaw =
-                Reddit.stringToArray(Reddit.appRestart.getString(CheckForMail.SUBS_TO_GET, ""));
+                StringUtil.stringToArray(Reddit.appRestart.getString(CheckForMail.SUBS_TO_GET, ""));
 
         if (!search) {
             //NOT a sub searched for, was instead a list of all subs
@@ -1081,7 +1075,7 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
 
     private void saveAndUpdateSubs(ArrayList<String> subs) {
         Reddit.appRestart.edit()
-                .putString(CheckForMail.SUBS_TO_GET, Reddit.arrayToString(subs))
+                .putString(CheckForMail.SUBS_TO_GET, StringUtil.arrayToString(subs))
                 .commit();
         setSubText();
     }
@@ -1106,24 +1100,12 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
                     @Override
                     public void run() {
                         try {
-                            new AlertDialogWrapper.Builder(SettingsGeneralFragment.this.context).setTitle(
-                                    R.string.subreddit_err)
+                            new AlertDialog.Builder(SettingsGeneralFragment.this.context)
+                                    .setTitle(R.string.subreddit_err)
                                     .setMessage(context.getString(R.string.subreddit_err_msg, params[0]))
-                                    .setPositiveButton(R.string.btn_ok,
-                                            new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog,
-                                                                    int which) {
-                                                    dialog.dismiss();
-
-                                                }
-                                            })
-                                    .setOnDismissListener(new DialogInterface.OnDismissListener() {
-                                        @Override
-                                        public void onDismiss(DialogInterface dialog) {
-
-                                        }
-                                    })
+                                    .setPositiveButton(R.string.btn_ok, (dialog, which) ->
+                                            dialog.dismiss())
+                                    .setOnDismissListener(null)
                                     .show();
                         } catch (Exception ignored) {
 
@@ -1136,14 +1118,18 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
         }
     }
 
-    public void onFolderSelection(FolderChooserDialogCreate dialog, File folder, boolean isSaveToLocation) {
-        if (folder != null) {
-            Reddit.appRestart.edit().putString("imagelocation", folder.getAbsolutePath()).apply();
-            Toast.makeText(context,
-                    context.getString(R.string.settings_set_image_location, folder.getAbsolutePath()),
-                    Toast.LENGTH_LONG).show();
-            ((TextView) context.findViewById(R.id.settings_general_location)).setText(folder.getAbsolutePath());
-        }
+    @Override
+    public void onFolderSelection(@NonNull FolderChooserDialogCreate dialog,
+                                  @NonNull File folder, boolean isSaveToLocation) {
+        Reddit.appRestart.edit().putString("imagelocation", folder.getAbsolutePath()).apply();
+        Toast.makeText(context,
+                context.getString(R.string.settings_set_image_location, folder.getAbsolutePath()),
+                Toast.LENGTH_LONG).show();
+        ((TextView) context.findViewById(R.id.settings_general_location)).setText(folder.getAbsolutePath());
+    }
+
+    @Override
+    public void onFolderChooserDismissed(@NonNull FolderChooserDialogCreate dialog) {
     }
 
 }

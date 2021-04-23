@@ -50,7 +50,7 @@ public class Website extends BaseActivityAnim {
     AdBlockWebViewClient webClient;
     ProgressBar          p;
 
-    public static String getDomainName(String url) {
+    private static String getDomainName(String url) {
         URI uri;
         try {
             uri = new URI(url);

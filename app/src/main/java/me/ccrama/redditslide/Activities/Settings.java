@@ -1,7 +1,6 @@
 package me.ccrama.redditslide.Activities;
 
 import android.app.Dialog;
-import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,8 +8,6 @@ import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -28,9 +25,9 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.SwitchCompat;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.google.common.base.Strings;
 
 import java.io.File;
@@ -58,7 +55,8 @@ import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.NetworkUtil;
 import me.ccrama.redditslide.util.OnSingleClickListener;
-
+import me.ccrama.redditslide.util.ProUtil;
+import me.ccrama.redditslide.util.stubs.SimpleTextWatcher;
 
 /**
  * Created by ccrama on 3/5/2015.
@@ -331,44 +329,15 @@ public class Settings extends BaseActivity
             pro.setOnClickListener(new OnSingleClickListener() {
                 @Override
                 public void onSingleClick(View v) {
-                    new AlertDialogWrapper.Builder(Settings.this).setTitle(
-                            R.string.settings_support_slide)
-                            .setMessage(R.string.pro_upgrade_msg)
-                            .setPositiveButton(R.string.btn_yes_exclaim,
-                                    new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog,
-                                                int whichButton) {
-                                            try {
-                                                startActivity(new Intent(Intent.ACTION_VIEW,
-                                                        Uri.parse(
-                                                                "market://details?id=" + getString(
-                                                                        R.string.ui_unlock_package))));
-                                            } catch (ActivityNotFoundException e) {
-                                                startActivity(new Intent(Intent.ACTION_VIEW,
-                                                        Uri.parse(
-                                                                "http://play.google.com/store/apps/details?id="
-                                                                        + getString(
-                                                                        R.string.ui_unlock_package))));
-                                            }
-                                        }
-                                    })
-                            .setNegativeButton(R.string.btn_no_thanks,
-                                    new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog,
-                                                int whichButton) {
-                                            dialog.dismiss();
-                                        }
-                                    })
+                    ProUtil.proUpgradeMsg(Settings.this, R.string.settings_support_slide)
+                            .setNegativeButton(R.string.btn_no_thanks, (dialog, whichButton) ->
+                                    dialog.dismiss())
                             .show();
                 }
             });
         }
 
-        ((EditText) findViewById(R.id.settings_search)).addTextChangedListener(new TextWatcher() {
-
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
-
+        ((EditText) findViewById(R.id.settings_search)).addTextChangedListener(new SimpleTextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String text = s.toString().trim();
@@ -377,9 +346,6 @@ public class Settings extends BaseActivity
                 BuildLayout(text);
                 prev_text = text;
             }
-
-            @Override
-            public void afterTextChanged(Editable editable) { }
         });
 
         findViewById(R.id.settings_child_general).setOnClickListener(new OnSingleClickListener() {
@@ -506,8 +472,6 @@ public class Settings extends BaseActivity
                 if (SettingValues.isPro) {
                     LayoutInflater inflater = getLayoutInflater();
                     final View dialoglayout = inflater.inflate(R.layout.tabletui, null);
-                    final AlertDialogWrapper.Builder builder =
-                            new AlertDialogWrapper.Builder(Settings.this);
                     final Resources res = getResources();
 
                     dialoglayout.findViewById(R.id.title)
@@ -543,7 +507,9 @@ public class Settings extends BaseActivity
 
                         }
                     });
-                    final Dialog dialog = builder.setView(dialoglayout).create();
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(Settings.this)
+                            .setView(dialoglayout);
+                    final Dialog dialog = builder.create();
                     dialog.show();
                     dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
                         @Override
@@ -588,34 +554,9 @@ public class Settings extends BaseActivity
                         }
                     });
                 } else {
-                    new AlertDialogWrapper.Builder(Settings.this).setTitle(
-                            "Mutli-Column Settings are a Pro feature")
-                            .setMessage(R.string.pro_upgrade_msg)
-                            .setPositiveButton(R.string.btn_yes_exclaim,
-                                    new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog,
-                                                int whichButton) {
-                                            try {
-                                                startActivity(new Intent(Intent.ACTION_VIEW,
-                                                        Uri.parse(
-                                                                "market://details?id=" + getString(
-                                                                        R.string.ui_unlock_package))));
-                                            } catch (android.content.ActivityNotFoundException anfe) {
-                                                startActivity(new Intent(Intent.ACTION_VIEW,
-                                                        Uri.parse(
-                                                                "http://play.google.com/store/apps/details?id="
-                                                                        + getString(
-                                                                        R.string.ui_unlock_package))));
-                                            }
-                                        }
-                                    })
-                            .setNegativeButton(R.string.btn_no_thanks,
-                                    new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog,
-                                                int whichButton) {
-
-                                        }
-                                    })
+                    ProUtil.proUpgradeMsg(Settings.this, R.string.general_multicolumn_ispro)
+                            .setNegativeButton(R.string.btn_no_thanks, (dialog, whichButton) ->
+                                    dialog.dismiss())
                             .show();
                 }
             }
@@ -671,8 +612,13 @@ public class Settings extends BaseActivity
     }
 
     @Override
-    public void onFolderSelection(@NonNull FolderChooserDialogCreate dialog, @NonNull File folder, boolean isSaveToLocation) {
+    public void onFolderSelection(@NonNull FolderChooserDialogCreate dialog,
+                                  @NonNull File folder, boolean isSaveToLocation) {
         mSettingsGeneralFragment.onFolderSelection(dialog, folder, false);
+    }
+
+    @Override
+    public void onFolderChooserDismissed(@NonNull FolderChooserDialogCreate dialog) {
     }
 
     @Override

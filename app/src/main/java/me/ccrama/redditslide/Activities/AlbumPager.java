@@ -31,13 +31,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.cocosw.bottomsheet.BottomSheet;
 import com.devspark.robototextview.RobotoTypefaces;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -49,9 +49,6 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListe
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,6 +69,7 @@ import me.ccrama.redditslide.Views.SubsamplingScaleImageView;
 import me.ccrama.redditslide.Views.ToolbarColorizeHelper;
 import me.ccrama.redditslide.Visuals.ColorPreferences;
 import me.ccrama.redditslide.Visuals.FontPreferences;
+import me.ccrama.redditslide.util.FileUtil;
 import me.ccrama.redditslide.util.GifUtils;
 import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
@@ -207,28 +205,18 @@ public class AlbumPager extends FullScreenActivity
                 @Override
                 public void run() {
                     try {
-                        new AlertDialogWrapper.Builder(AlbumPager.this).setTitle(
-                                R.string.error_album_not_found)
+                        new AlertDialog.Builder(AlbumPager.this)
+                                .setTitle(R.string.error_album_not_found)
                                 .setMessage(R.string.error_album_not_found_text)
-                                .setNegativeButton(R.string.btn_no,
-                                        new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                finish();
-                                            }
-                                        })
+                                .setNegativeButton(R.string.btn_no, (dialog, which) ->
+                                        finish())
                                 .setCancelable(false)
-                                .setPositiveButton(R.string.btn_yes,
-                                        new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                Intent i =
-                                                        new Intent(AlbumPager.this, Website.class);
-                                                i.putExtra(LinkUtil.EXTRA_URL, url);
-                                                startActivity(i);
-                                                finish();
-                                            }
-                                        })
+                                .setPositiveButton(R.string.btn_yes, (dialog, which) -> {
+                                    Intent i = new Intent(AlbumPager.this, Website.class);
+                                    i.putExtra(LinkUtil.EXTRA_URL, url);
+                                    startActivity(i);
+                                    finish();
+                                })
                                 .show();
                     } catch (Exception e) {
 
@@ -258,12 +246,11 @@ public class AlbumPager extends FullScreenActivity
                 public void onClick(View v) {
                     LayoutInflater l = getLayoutInflater();
                     View body = l.inflate(R.layout.album_grid_dialog, null, false);
-                    AlertDialogWrapper.Builder b = new AlertDialogWrapper.Builder(AlbumPager.this);
                     GridView gridview = body.findViewById(R.id.images);
                     gridview.setAdapter(new ImageGridAdapter(AlbumPager.this, images));
 
-
-                    b.setView(body);
+                    final AlertDialog.Builder b = new AlertDialog.Builder(AlbumPager.this)
+                            .setView(body);
                     final Dialog d = b.create();
                     gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         public void onItemClick(AdapterView<?> parent, View v, int position,
@@ -275,7 +262,7 @@ public class AlbumPager extends FullScreenActivity
                     d.show();
                 }
             });
-            p.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            p.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
                 @Override
                 public void onPageScrolled(int position, float positionOffset,
                         int positionOffsetPixels) {
@@ -287,15 +274,6 @@ public class AlbumPager extends FullScreenActivity
                     if (position == 0 && positionOffset < 0.2) {
                         finish();
                     }
-                }
-
-                @Override
-                public void onPageSelected(int position) {
-                }
-
-                @Override
-                public void onPageScrollStateChanged(int state) {
-
                 }
             });
             adapter.notifyDataSetChanged();
@@ -582,10 +560,10 @@ public class AlbumPager extends FullScreenActivity
                         rootView.findViewById(R.id.panel).setVisibility(View.GONE);
                         (rootView.findViewById(R.id.margin)).setPadding(0, 0, 0, 0);
                     } else if (title.isEmpty()) {
-                        setTextWithLinks(description, rootView.findViewById(R.id.title));
+                        LinkUtil.setTextWithLinks(description, rootView.findViewById(R.id.title));
                     } else {
-                        setTextWithLinks(title, rootView.findViewById(R.id.title));
-                        setTextWithLinks(description, rootView.findViewById(R.id.body));
+                        LinkUtil.setTextWithLinks(title, rootView.findViewById(R.id.title));
+                        LinkUtil.setTextWithLinks(description, rootView.findViewById(R.id.body));
                     }
                     {
                         int type = new FontPreferences(getContext()).getFontTypeComment().getTypeface();
@@ -659,31 +637,7 @@ public class AlbumPager extends FullScreenActivity
         }
     }
 
-    public static void setTextWithLinks(String s, SpoilerRobotoTextView text) {
-        String[] parts = s.split("\\s+");
-
-        StringBuilder b = new StringBuilder();
-        for (String item : parts)
-            try {
-                URL url = new URL(item);
-                b.append(" <a href=\"").append(url).append("\">").append(url).append("</a>");
-            } catch (MalformedURLException e) {
-                b.append(" ").append(item);
-            }
-
-        text.setTextHtml(b.toString(), "no sub");
-    }
-
-    public static String readableFileSize(long size) {
-        if (size <= 0) return "0";
-        final String[] units = new String[]{"B", "kB", "MB", "GB", "TB"};
-        int digitGroups = (int) (Math.log10(size) / Math.log10(1024));
-        return new DecimalFormat("#,##0.#").format(size / Math.pow(1024, digitGroups))
-                + " "
-                + units[digitGroups];
-    }
-
-    private static void loadImage(final View rootView, Fragment f, String url, boolean single) {
+    public static void loadImage(final View rootView, Fragment f, String url, boolean single) {
         final SubsamplingScaleImageView image = rootView.findViewById(R.id.image);
 
         image.setMinimumDpi(70);
@@ -730,7 +684,7 @@ public class AlbumPager extends FullScreenActivity
                             @Override
                             public void onProgressUpdate(String imageUri, View view, int current,
                                     int total) {
-                                size.setText(readableFileSize(total));
+                                size.setText(FileUtil.readableFileSize(total));
 
                                 ((ProgressBar) rootView.findViewById(R.id.progress)).setProgress(
                                         Math.round(100.0f * current / total));
@@ -742,18 +696,16 @@ public class AlbumPager extends FullScreenActivity
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                new AlertDialogWrapper.Builder(AlbumPager.this).setTitle(R.string.set_save_location)
+                new AlertDialog.Builder(AlbumPager.this)
+                        .setTitle(R.string.set_save_location)
                         .setMessage(R.string.set_save_location_msg)
-                        .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                new FolderChooserDialogCreate.Builder(AlbumPager.this).chooseButton(
-                                        R.string.btn_select)  // changes label of the choose button
+                        .setPositiveButton(R.string.btn_yes, (dialog, which) ->
+                                new FolderChooserDialogCreate.Builder(AlbumPager.this)
+                                        .chooseButton(R.string.btn_select) // changes label of the choose button
                                         .initialPath(Environment.getExternalStorageDirectory()
-                                                .getPath())  // changes initial path, defaults to external storage directory
-                                        .show();
-                            }
-                        })
+                                                .getPath()) // changes initial path, defaults to external storage directory
+                                        .allowNewFolder(true, 0)
+                                        .show(AlbumPager.this))
                         .setNegativeButton(R.string.btn_no, null)
                         .show();
             }
@@ -765,19 +717,16 @@ public class AlbumPager extends FullScreenActivity
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                new AlertDialogWrapper.Builder(AlbumPager.this).setTitle(
-                        R.string.err_something_wrong)
+                new AlertDialog.Builder(AlbumPager.this)
+                        .setTitle(R.string.err_something_wrong)
                         .setMessage(R.string.err_couldnt_save_choose_new)
-                        .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                new FolderChooserDialogCreate.Builder(AlbumPager.this).chooseButton(
-                                        R.string.btn_select)  // changes label of the choose button
+                        .setPositiveButton(R.string.btn_yes, (dialog, which) ->
+                                new FolderChooserDialogCreate.Builder(AlbumPager.this)
+                                        .chooseButton(R.string.btn_select) // changes label of the choose button
                                         .initialPath(Environment.getExternalStorageDirectory()
-                                                .getPath())  // changes initial path, defaults to external storage directory
-                                        .show();
-                            }
-                        })
+                                                .getPath()) // changes initial path, defaults to external storage directory
+                                        .allowNewFolder(true, 0)
+                                        .show(AlbumPager.this))
                         .setNegativeButton(R.string.btn_no, null)
                         .show();
             }
@@ -786,13 +735,15 @@ public class AlbumPager extends FullScreenActivity
     }
 
     @Override
-    public void onFolderSelection(FolderChooserDialogCreate dialog, File folder, boolean isSaveToLocation) {
-        if (folder != null) {
-            Reddit.appRestart.edit().putString("imagelocation", folder.getAbsolutePath()).apply();
-            Toast.makeText(this,
-                    getString(R.string.settings_set_image_location, folder.getAbsolutePath())
-                            + folder.getAbsolutePath(), Toast.LENGTH_LONG).show();
+    public void onFolderSelection(@NonNull FolderChooserDialogCreate dialog,
+                                  @NonNull File folder, boolean isSaveToLocation) {
+        Reddit.appRestart.edit().putString("imagelocation", folder.getAbsolutePath()).apply();
+        Toast.makeText(this,
+                getString(R.string.settings_set_image_location, folder.getAbsolutePath())
+                        + folder.getAbsolutePath(), Toast.LENGTH_LONG).show();
+    }
 
-        }
+    @Override
+    public void onFolderChooserDismissed(@NonNull FolderChooserDialogCreate dialog) {
     }
 }

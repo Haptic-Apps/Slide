@@ -17,7 +17,6 @@
 package me.ccrama.redditslide.DragSort;
 
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Color;
@@ -37,13 +36,13 @@ import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatCheckBox;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.getbase.floatingactionbutton.FloatingActionButton;
@@ -66,11 +65,11 @@ import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.CaseInsensitiveArrayList;
 import me.ccrama.redditslide.Fragments.SettingsThemeFragment;
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.Visuals.ColorPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.DisplayUtil;
 import me.ccrama.redditslide.util.LogUtil;
 
 import static me.ccrama.redditslide.UserSubscriptions.setPinned;
@@ -138,11 +137,9 @@ public class ReorderSubreddits extends BaseActivityAnim {
                             adapter.notifyDataSetChanged();
                             recyclerView.smoothScrollToPosition(subs.size());
                         }
-                        new AlertDialogWrapper.Builder(ReorderSubreddits.this).setTitle(
-                                R.string.reorder_sync_complete)
-                                .setMessage(
-                                        res.getQuantityString(R.plurals.reorder_subs_added, done,
-                                                done))
+                        new AlertDialog.Builder(ReorderSubreddits.this)
+                                .setTitle(R.string.reorder_sync_complete)
+                                .setMessage(res.getQuantityString(R.plurals.reorder_subs_added, done, done))
                                 .setPositiveButton(R.string.btn_ok, null)
                                 .show();
                     }
@@ -163,8 +160,10 @@ public class ReorderSubreddits extends BaseActivityAnim {
                 subscribe.setChecked(SettingValues.alphabetizeOnSubscribe);
                 return true;
             case R.id.info:
-                new AlertDialogWrapper.Builder(ReorderSubreddits.this).setTitle(
-                        R.string.reorder_subs_FAQ).setMessage(R.string.sorting_faq).show();
+                new AlertDialog.Builder(ReorderSubreddits.this)
+                        .setTitle(R.string.reorder_subs_FAQ)
+                        .setMessage(R.string.sorting_faq)
+                        .show();
                 return true;
         }
         return false;
@@ -243,17 +242,12 @@ public class ReorderSubreddits extends BaseActivityAnim {
                         d.dismiss();
                         doShowSubs();
                     } else {
-                        new AlertDialogWrapper.Builder(ReorderSubreddits.this).setTitle(
-                                R.string.err_title)
+                        new AlertDialog.Builder(ReorderSubreddits.this)
+                                .setTitle(R.string.err_title)
                                 .setMessage(R.string.misc_please_try_again_soon)
                                 .setCancelable(false)
-                                .setPositiveButton(R.string.btn_ok,
-                                        new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                finish();
-                                            }
-                                        })
+                                .setPositiveButton(R.string.btn_ok, (dialog, which) ->
+                                        finish())
                                 .show();
                     }
                 }
@@ -333,70 +327,53 @@ public class ReorderSubreddits extends BaseActivityAnim {
                     fab.collapse();
                     if (UserSubscriptions.multireddits != null
                             && !UserSubscriptions.multireddits.isEmpty()) {
-                        new AlertDialogWrapper.Builder(ReorderSubreddits.this).setTitle(
-                                R.string.create_or_import_multi)
-                                .setPositiveButton(R.string.btn_new,
-                                        new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                doCollection();
-                                            }
-                                        })
-                                .setNegativeButton(R.string.btn_import_multi,
-                                        new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                final String[] multis = new String[UserSubscriptions
-                                                        .multireddits
-                                                        .size()];
-                                                int i = 0;
-                                                for (MultiReddit m : UserSubscriptions.multireddits) {
-                                                    multis[i] = m.getDisplayName();
-                                                    i++;
-                                                }
-                                                MaterialDialog.Builder builder =
-                                                        new MaterialDialog.Builder(
-                                                                ReorderSubreddits.this);
-                                                builder.title(R.string.reorder_subreddits_title)
-                                                        .items(multis)
-                                                        .itemsCallbackSingleChoice(-1,
-                                                                new MaterialDialog.ListCallbackSingleChoice() {
-                                                                    @Override
-                                                                    public boolean onSelection(
-                                                                            MaterialDialog dialog,
-                                                                            View itemView,
-                                                                            int which,
-                                                                            CharSequence text) {
+                        new AlertDialog.Builder(ReorderSubreddits.this)
+                                .setTitle(R.string.create_or_import_multi)
+                                .setPositiveButton(R.string.btn_new, (dialog, which) ->
+                                        doCollection())
+                                .setNegativeButton(R.string.btn_import_multi, (dialog, which) -> {
+                                    final String[] multis = new String[UserSubscriptions
+                                            .multireddits
+                                            .size()];
+                                    int i = 0;
+                                    for (MultiReddit m : UserSubscriptions.multireddits) {
+                                        multis[i] = m.getDisplayName();
+                                        i++;
+                                    }
 
-                                                                        String name = multis[which];
-                                                                        MultiReddit r =
-                                                                                UserSubscriptions.getMultiredditByDisplayName(
-                                                                                        name);
-                                                                        StringBuilder b =
-                                                                                new StringBuilder();
+                                    new MaterialDialog.Builder(ReorderSubreddits.this)
+                                            .title(R.string.reorder_subreddits_title)
+                                            .items(multis)
+                                            .itemsCallbackSingleChoice(-1,
+                                                    new MaterialDialog.ListCallbackSingleChoice() {
+                                                        @Override
+                                                        public boolean onSelection(
+                                                                MaterialDialog dialog,
+                                                                View itemView,
+                                                                int which,
+                                                                CharSequence text) {
 
-                                                                        for (MultiSubreddit s : r.getSubreddits()) {
-                                                                            b.append(
-                                                                                    s.getDisplayName());
-                                                                            b.append("+");
-                                                                        }
-                                                                        int pos =
-                                                                                addSubAlphabetically(
-                                                                                        MULTI_REDDIT
-                                                                                                + r.getDisplayName());
-                                                                        UserSubscriptions.setSubNameToProperties(
-                                                                                MULTI_REDDIT
-                                                                                        + r.getDisplayName(),
-                                                                                b.toString());
-                                                                        adapter.notifyDataSetChanged();
-                                                                        recyclerView.smoothScrollToPosition(
-                                                                                pos);
-                                                                        return false;
-                                                                    }
-                                                                })
-                                                        .show();
-                                            }
-                                        })
+                                                            String name = multis[which];
+                                                            MultiReddit r =
+                                                                    UserSubscriptions.getMultiredditByDisplayName(name);
+                                                            StringBuilder b = new StringBuilder();
+
+                                                            for (MultiSubreddit s : r.getSubreddits()) {
+                                                                b.append(s.getDisplayName());
+                                                                b.append("+");
+                                                            }
+                                                            int pos = addSubAlphabetically(MULTI_REDDIT
+                                                                    + r.getDisplayName());
+                                                            UserSubscriptions.setSubNameToProperties(MULTI_REDDIT
+                                                                            + r.getDisplayName(),
+                                                                    b.toString());
+                                                            adapter.notifyDataSetChanged();
+                                                            recyclerView.smoothScrollToPosition(pos);
+                                                            return false;
+                                                        }
+                                                    })
+                                            .show();
+                                })
                                 .show();
                     } else {
                         doCollection();
@@ -491,9 +468,8 @@ public class ReorderSubreddits extends BaseActivityAnim {
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                         //todo make this better
-                                        new AlertDialogWrapper.Builder(
-                                                ReorderSubreddits.this).setTitle(
-                                                R.string.reorder_url_err)
+                                        new AlertDialog.Builder(ReorderSubreddits.this)
+                                                .setTitle(R.string.reorder_url_err)
                                                 .setMessage(R.string.misc_please_try_again)
                                                 .show();
 
@@ -651,25 +627,12 @@ public class ReorderSubreddits extends BaseActivityAnim {
                         @Override
                         public void run() {
                             try {
-                                new AlertDialogWrapper.Builder(ReorderSubreddits.this).setTitle(
-                                        R.string.subreddit_err)
-                                        .setMessage(
-                                                getString(R.string.subreddit_err_msg, params[0]))
-                                        .setPositiveButton(R.string.btn_ok,
-                                                new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog,
-                                                            int which) {
-                                                        dialog.dismiss();
-
-                                                    }
-                                                })
-                                        .setOnDismissListener(
-                                                new DialogInterface.OnDismissListener() {
-                                                    @Override
-                                                    public void onDismiss(DialogInterface dialog) {
-                                                    }
-                                                })
+                                new AlertDialog.Builder(ReorderSubreddits.this).
+                                        setTitle(R.string.subreddit_err)
+                                        .setMessage(getString(R.string.subreddit_err_msg, params[0]))
+                                        .setPositiveButton(R.string.btn_ok, (dialog, which) ->
+                                                dialog.dismiss())
+                                        .setOnDismissListener(null)
                                         .show();
                             } catch (Exception ignored) {
                             }
@@ -684,16 +647,10 @@ public class ReorderSubreddits extends BaseActivityAnim {
                                 for (Subreddit s : otherSubs) {
                                     subs.add(s.getDisplayName());
                                 }
-                                new AlertDialogWrapper.Builder(ReorderSubreddits.this).setTitle(
-                                        R.string.reorder_not_found_err)
-                                        .setItems(subs.toArray(new String[0]),
-                                                new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog,
-                                                            int which) {
-                                                        doAddSub(subs.get(which));
-                                                    }
-                                                })
+                                new AlertDialog.Builder(ReorderSubreddits.this)
+                                        .setTitle(R.string.reorder_not_found_err)
+                                        .setItems(subs.toArray(new String[0]), (dialog, which) ->
+                                                doAddSub(subs.get(which)))
                                         .setPositiveButton(R.string.btn_cancel, null)
                                         .show();
                             } catch (Exception ignored) {
@@ -747,51 +704,37 @@ public class ReorderSubreddits extends BaseActivityAnim {
             mToolbar.findViewById(R.id.delete).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    AlertDialogWrapper.Builder b =
-                            new AlertDialogWrapper.Builder(ReorderSubreddits.this).setTitle(
-                                    R.string.reorder_remove_title)
-                                    .setPositiveButton(R.string.btn_remove,
-                                            new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog,
-                                                        int which) {
-                                                    for (String s : chosen) {
-                                                        int index = subs.indexOf(s);
-                                                        subs.remove(index);
-                                                        adapter.notifyItemRemoved(index);
-                                                    }
-                                                    isMultiple = false;
-                                                    chosen = new ArrayList<>();
-                                                    doOldToolbar();
-
-                                                }
-                                            });
-                    if (Authentication.isLoggedIn && Authentication.didOnline && isSingle(chosen)) {
-                        b.setNeutralButton(R.string.reorder_remove_unsubscribe,
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
+                    final AlertDialog.Builder b =
+                            new AlertDialog.Builder(ReorderSubreddits.this)
+                                    .setTitle(R.string.reorder_remove_title)
+                                    .setPositiveButton(R.string.btn_remove, (dialog, which) -> {
                                         for (String s : chosen) {
                                             int index = subs.indexOf(s);
                                             subs.remove(index);
                                             adapter.notifyItemRemoved(index);
                                         }
-                                        new UserSubscriptions.UnsubscribeTask().execute(
-                                                chosen.toArray(new String[0]));
-                                        for (String s : chosen) {
-                                            isSubscribed.put(s.toLowerCase(Locale.ENGLISH), false);
-                                        }
                                         isMultiple = false;
                                         chosen = new ArrayList<>();
                                         doOldToolbar();
-                                    }
-                                });
+                                    })
+                                    .setNegativeButton(R.string.btn_cancel, null);
+                    if (Authentication.isLoggedIn && Authentication.didOnline && isSingle(chosen)) {
+                        b.setNeutralButton(R.string.reorder_remove_unsubscribe, (dialog, which) -> {
+                            for (String s : chosen) {
+                                int index = subs.indexOf(s);
+                                subs.remove(index);
+                                adapter.notifyItemRemoved(index);
+                            }
+                            new UserSubscriptions.UnsubscribeTask().execute(chosen.toArray(new String[0]));
+                            for (String s : chosen) {
+                                isSubscribed.put(s.toLowerCase(Locale.ENGLISH), false);
+                            }
+                            isMultiple = false;
+                            chosen = new ArrayList<>();
+                            doOldToolbar();
+                        });
                     }
-                    b.setNegativeButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                        }
-                    }).show();
+                    b.show();
                 }
             });
             mToolbar.findViewById(R.id.top).setOnClickListener(new View.OnClickListener() {
@@ -939,95 +882,61 @@ public class ReorderSubreddits extends BaseActivityAnim {
                     @Override
                     public void onClick(View v) {
                         if (!isMultiple) {
-                            new AlertDialogWrapper.Builder(ReorderSubreddits.this).setItems(
-                                    new CharSequence[]{
+                            new AlertDialog.Builder(ReorderSubreddits.this)
+                                    .setItems(new CharSequence[]{
                                             getString(R.string.reorder_move),
                                             UserSubscriptions.getPinned().contains(origPos)
                                                     ? "Unpin" : "Pin",
                                             getString(R.string.btn_delete)
-                                    }, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            if (which == 2) {
-                                                AlertDialogWrapper.Builder b =
-                                                        new AlertDialogWrapper.Builder(
-                                                                ReorderSubreddits.this).setTitle(
-                                                                R.string.reorder_remove_title)
-                                                                .setPositiveButton(
-                                                                        R.string.btn_remove,
-                                                                        new DialogInterface.OnClickListener() {
-                                                                            @Override
-                                                                            public void onClick(
-                                                                                    DialogInterface dialog,
-                                                                                    int which) {
-                                                                                subs.remove(
-                                                                                        items.get(
-                                                                                                position));
-                                                                                adapter.notifyItemRemoved(
-                                                                                        position);
-                                                                            }
-                                                                        })
-                                                                .setNegativeButton(
-                                                                        R.string.btn_cancel,
-                                                                        new DialogInterface.OnClickListener() {
-                                                                            @Override
-                                                                            public void onClick(
-                                                                                    DialogInterface dialog,
-                                                                                    int which) {
+                                    }, (dialog, which) -> {
+                                        if (which == 2) {
+                                            final AlertDialog.Builder b =
+                                                    new AlertDialog.Builder(ReorderSubreddits.this)
+                                                            .setTitle(R.string.reorder_remove_title)
+                                                            .setPositiveButton(R.string.btn_remove, (dialog1, which1) -> {
+                                                                subs.remove(items.get(position));
+                                                                adapter.notifyItemRemoved(position);
+                                                            })
+                                                            .setNegativeButton(R.string.btn_cancel, null);
+                                            if (Authentication.isLoggedIn
+                                                    && Authentication.didOnline
+                                                    && isSingle(origPos)) {
+                                                b.setNeutralButton(R.string.reorder_remove_unsubscribe, (dialog12, which12) -> {
+                                                    final String sub = items.get(position);
+                                                    subs.remove(sub);
+                                                    adapter.notifyItemRemoved(position);
+                                                    new UserSubscriptions.UnsubscribeTask().execute(sub);
+                                                    isSubscribed.put(sub.toLowerCase(Locale.ENGLISH), false);
+                                                });
+                                            }
+                                            b.show();
+                                        } else if (which == 0) {
+                                            String s = items.get(holder.getBindingAdapterPosition());
+                                            subs.remove(s);
+                                            subs.add(0, s);
 
-                                                                            }
-                                                                        });
-                                                if (Authentication.isLoggedIn
-                                                        && Authentication.didOnline
-                                                        && isSingle(origPos)) {
-                                                    b.setNeutralButton(
-                                                            R.string.reorder_remove_unsubscribe,
-                                                            new DialogInterface.OnClickListener() {
-                                                                @Override
-                                                                public void onClick(
-                                                                        DialogInterface dialog,
-                                                                        int which) {
-                                                                    final String sub =
-                                                                            items.get(position);
-                                                                    subs.remove(sub);
-                                                                    adapter.notifyItemRemoved(
-                                                                            position);
-                                                                    new UserSubscriptions.UnsubscribeTask()
-                                                                            .execute(sub);
-                                                                    isSubscribed.put(
-                                                                            sub.toLowerCase(Locale.ENGLISH),
-                                                                            false);
-                                                                }
-                                                            });
-                                                }
-                                                b.show();
-                                            } else if (which == 0) {
-                                                String s = items.get(holder.getAdapterPosition());
-                                                subs.remove(s);
+                                            notifyItemMoved(holder.getBindingAdapterPosition(), 0);
+                                            recyclerView.smoothScrollToPosition(0);
+                                        } else if (which == 1) {
+                                            String s = items.get(holder.getBindingAdapterPosition());
+                                            if (!UserSubscriptions.getPinned().contains(s)) {
+                                                int index = subs.indexOf(s);
+                                                UserSubscriptions.addPinned(s,
+                                                        ReorderSubreddits.this);
+                                                subs.remove(index);
                                                 subs.add(0, s);
 
-                                                notifyItemMoved(holder.getAdapterPosition(), 0);
+                                                notifyItemMoved(holder.getBindingAdapterPosition(), 0);
                                                 recyclerView.smoothScrollToPosition(0);
-                                            } else if (which == 1) {
-                                                String s = items.get(holder.getAdapterPosition());
-                                                if (!UserSubscriptions.getPinned().contains(s)) {
-                                                    int index = subs.indexOf(s);
-                                                    UserSubscriptions.addPinned(s,
-                                                            ReorderSubreddits.this);
-                                                    subs.remove(index);
-                                                    subs.add(0, s);
-
-                                                    notifyItemMoved(holder.getAdapterPosition(), 0);
-                                                    recyclerView.smoothScrollToPosition(0);
-                                                } else {
-                                                    UserSubscriptions.removePinned(s,
-                                                            ReorderSubreddits.this);
-                                                    adapter.notifyItemChanged(
-                                                            holder.getAdapterPosition());
-                                                }
+                                            } else {
+                                                UserSubscriptions.removePinned(s,
+                                                        ReorderSubreddits.this);
+                                                adapter.notifyItemChanged(
+                                                        holder.getBindingAdapterPosition());
                                             }
                                         }
-                                    }).show();
+                                    })
+                                    .show();
                         } else {
                             if (chosen.contains(origPos)) {
                                 holder.itemView.setBackgroundColor(Color.TRANSPARENT);
@@ -1080,7 +989,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                 itemView.findViewById(R.id.height)
                         .setLayoutParams(
                                 new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                                        Reddit.dpToPxVertical(88)));
+                                        DisplayUtil.dpToPxVertical(88)));
 
             }
         }

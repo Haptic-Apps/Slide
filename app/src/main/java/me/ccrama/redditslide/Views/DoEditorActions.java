@@ -1,9 +1,7 @@
 package me.ccrama.redditslide.Views;
 
 import android.app.Activity;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -20,11 +18,11 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.android.material.snackbar.Snackbar;
@@ -50,10 +48,12 @@ import me.ccrama.redditslide.Drafts;
 import me.ccrama.redditslide.ImgurAlbum.UploadImgur;
 import me.ccrama.redditslide.ImgurAlbum.UploadImgurAlbum;
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.Visuals.ColorPreferences;
+import me.ccrama.redditslide.util.DisplayUtil;
+import me.ccrama.redditslide.util.KeyboardUtil;
+import me.ccrama.redditslide.util.ProUtil;
 import me.ccrama.redditslide.util.SubmissionParser;
 
 /**
@@ -89,13 +89,11 @@ public class DoEditorActions {
                             String author =  "/u/" + authors[0];
                             insertBefore(author, editText);
                         } else {
-                            new AlertDialogWrapper.Builder(a).setTitle(R.string.authors_above)
-                                    .setItems(authors, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            String author =  "/u/" + authors[which];
-                                            insertBefore(author, editText);
-                                        }
+                            new AlertDialog.Builder(a)
+                                    .setTitle(R.string.authors_above)
+                                    .setItems(authors, (dialog, which) -> {
+                                        String author =  "/u/" + authors[which];
+                                        insertBefore(author, editText);
                                     })
                                     .setNeutralButton(R.string.btn_cancel, null)
                                     .show();
@@ -182,83 +180,41 @@ public class DoEditorActions {
                     draftText[i] = drafts.get(i);
                 }
                 if (drafts.isEmpty()) {
-                    new AlertDialogWrapper.Builder(a).setTitle(R.string.dialog_no_drafts)
+                    new AlertDialog.Builder(a)
+                            .setTitle(R.string.dialog_no_drafts)
                             .setMessage(R.string.dialog_no_drafts_msg)
                             .setPositiveButton(R.string.btn_ok, null)
                             .show();
                 } else {
-                    new AlertDialogWrapper.Builder(a).setTitle(R.string.choose_draft)
-                            .setItems(draftText, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    editText.setText(
-                                            editText.getText().toString() + draftText[which]);
-                                }
-                            })
+                    new AlertDialog.Builder(a)
+                            .setTitle(R.string.choose_draft)
+                            .setItems(draftText, (dialog, which) ->
+                                    editText.setText(editText.getText().toString() + draftText[which]))
                             .setNeutralButton(R.string.btn_cancel, null)
-                            .setPositiveButton(R.string.manage_drafts,
-                                    new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            final boolean[] selected = new boolean[drafts.size()];
-                                            new AlertDialogWrapper.Builder(a).setTitle(
-                                                    R.string.choose_draft)
-                                                    .setNeutralButton(R.string.btn_cancel, null)
-                                                    .alwaysCallMultiChoiceCallback()
-                                                    .setNegativeButton(R.string.btn_delete,
-                                                            new DialogInterface.OnClickListener() {
-                                                                @Override
-                                                                public void onClick(
-                                                                        DialogInterface dialog,
-                                                                        int which) {
-                                                                    new AlertDialogWrapper.Builder(
-                                                                            a).setTitle(
-                                                                            R.string.really_delete_drafts)
-                                                                            .setCancelable(false)
-                                                                            .setPositiveButton(
-                                                                                    R.string.btn_yes,
-                                                                                    new DialogInterface.OnClickListener() {
-                                                                                        @Override
-                                                                                        public void onClick(
-                                                                                                DialogInterface dialog,
-                                                                                                int which) {
-                                                                                            ArrayList<String>
-                                                                                                    draf =
-                                                                                                    new ArrayList<>();
-                                                                                            for (int
-                                                                                                    i =
-                                                                                                    0;
-                                                                                                    i
-                                                                                                            < draftText.length;
-                                                                                                    i++) {
-                                                                                                if (!selected[i]) {
-                                                                                                    draf.add(
-                                                                                                            draftText[i]);
-                                                                                                }
-                                                                                            }
-                                                                                            Drafts.save(
-                                                                                                    draf);
-                                                                                        }
-                                                                                    })
-                                                                            .setNegativeButton(
-                                                                                    R.string.btn_no,
-                                                                                    null)
-                                                                            .show();
+                            .setPositiveButton(R.string.manage_drafts, (dialog, which) -> {
+                                final boolean[] selected = new boolean[drafts.size()];
+                                new AlertDialog.Builder(a)
+                                        .setTitle(R.string.choose_draft)
+                                        .setNeutralButton(R.string.btn_cancel, null)
+                                        .setNegativeButton(R.string.btn_delete, (dialog1, which1) ->
+                                                new AlertDialog.Builder(a)
+                                                        .setTitle(R.string.really_delete_drafts)
+                                                        .setCancelable(false)
+                                                        .setPositiveButton(R.string.btn_yes, (dialog11, which11) -> {
+                                                            ArrayList<String> draf = new ArrayList<>();
+                                                            for (int i = 0; i < draftText.length; i++) {
+                                                                if (!selected[i]) {
+                                                                    draf.add(draftText[i]);
                                                                 }
-                                                            })
-                                                    .setMultiChoiceItems(draftText, selected,
-                                                            new DialogInterface.OnMultiChoiceClickListener() {
-                                                                @Override
-                                                                public void onClick(
-                                                                        DialogInterface dialog,
-                                                                        int which,
-                                                                        boolean isChecked) {
-                                                                    selected[which] = isChecked;
-                                                                }
-                                                            })
-                                                    .show();
-                                        }
-                                    })
+                                                            }
+                                                            Drafts.save(draf);
+                                                        })
+                                                        .setNegativeButton(R.string.btn_no, null)
+                                                        .show())
+                                        .setMultiChoiceItems(draftText, selected, (dialog12, which12, isChecked) ->
+                                                selected[which12] = isChecked)
+                                        .show();
+                            })
                             .show();
                 }
             }
@@ -283,10 +239,7 @@ public class DoEditorActions {
                         .create();
 
                 tedBottomPicker.show(fm);
-                InputMethodManager imm = ContextCompat.getSystemService(editText.getContext(), InputMethodManager.class);
-                if (imm != null) {
-                    imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
-                }
+                KeyboardUtil.hideKeyboard(editText.getContext(), editText.getWindowToken(), 0);
             }
         });
 
@@ -296,49 +249,21 @@ public class DoEditorActions {
                 if (SettingValues.isPro) {
                     doDraw(a, editText, fm);
                 } else {
-                    AlertDialogWrapper.Builder b = new AlertDialogWrapper.Builder(a).setTitle(
-                            R.string.general_cropdraw_ispro)
-                            .setMessage(R.string.pro_upgrade_msg)
-                            .setPositiveButton(R.string.btn_yes_exclaim,
-
-                                    new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog,
-                                                int whichButton) {
-                                            try {
-                                                a.startActivity(new Intent(Intent.ACTION_VIEW,
-                                                        Uri.parse("market://details?id="
-                                                                + a.getString(
-                                                                R.string.ui_unlock_package))));
-                                            } catch (ActivityNotFoundException e) {
-                                                a.startActivity(new Intent(Intent.ACTION_VIEW,
-                                                        Uri.parse(
-                                                                "http://play.google.com/store/apps/details?id="
-                                                                        + a.getString(
-                                                                        R.string.ui_unlock_package))));
-                                            }
-                                        }
-                                    })
-                            .setNegativeButton(R.string.btn_no_thanks,
-                                    new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog,
-                                                int whichButton) {
-                                            dialog.dismiss();
-                                        }
-                                    });
+                    final AlertDialog.Builder b =
+                            ProUtil.proUpgradeMsg(a, R.string.general_cropdraw_ispro)
+                                    .setNegativeButton(R.string.btn_no_thanks, (dialog, whichButton) ->
+                                            dialog.dismiss());
                     if (SettingValues.previews > 0) {
                         b.setNeutralButton(
                                 a.getString(R.string.pro_previews, SettingValues.previews),
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        SettingValues.prefs.edit()
-                                                .putInt(SettingValues.PREVIEWS_LEFT,
-                                                        SettingValues.previews - 1)
-                                                .apply();
-                                        SettingValues.previews = SettingValues.prefs.getInt(
-                                                SettingValues.PREVIEWS_LEFT, 10);
-                                        doDraw(a, editText, fm);
-                                    }
+                                (dialog, which) -> {
+                                    SettingValues.prefs.edit()
+                                            .putInt(SettingValues.PREVIEWS_LEFT,
+                                                    SettingValues.previews - 1)
+                                            .apply();
+                                    SettingValues.previews = SettingValues.prefs.getInt(
+                                            SettingValues.PREVIEWS_LEFT, 10);
+                                    doDraw(a, editText, fm);
                                 });
                     }
                     b.show();
@@ -366,7 +291,7 @@ public class DoEditorActions {
                     final TextView showText = new TextView(a);
                     showText.setText(StringEscapeUtils.unescapeHtml4(oldComment)); // text we get is escaped, we don't want that
                     showText.setTextIsSelectable(true);
-                    int sixteen = Reddit.dpToPxVertical(24);
+                    int sixteen = DisplayUtil.dpToPxVertical(24);
                     showText.setPadding(sixteen, 0, sixteen, 0);
                     MaterialDialog.Builder builder = new MaterialDialog.Builder(a);
                     builder.customView(showText, false)
@@ -387,10 +312,7 @@ public class DoEditorActions {
                             })
                             .negativeText(a.getString(R.string.btn_cancel))
                             .show();
-                    InputMethodManager imm = ContextCompat.getSystemService(editText.getContext(), InputMethodManager.class);
-                    if (imm != null) {
-                        imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
-                    }
+                    KeyboardUtil.hideKeyboard(editText.getContext(), editText.getWindowToken(), 0);
                 } else {
                     insertBefore("> ", editText);
                 }
@@ -438,12 +360,13 @@ public class DoEditorActions {
                 String html = renderer.render(document);
                 LayoutInflater inflater = a.getLayoutInflater();
                 final View dialoglayout = inflater.inflate(R.layout.parent_comment_dialog, null);
-                final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(a);
                 setViews(html, "NO sub",
                         dialoglayout.findViewById(R.id.firstTextView),
                         dialoglayout.findViewById(R.id.commentOverflow));
-                builder.setView(dialoglayout);
-                builder.show();
+
+                new AlertDialog.Builder(a)
+                        .setView(dialoglayout)
+                        .show();
             }
         });
 
@@ -549,10 +472,7 @@ public class DoEditorActions {
 
     public static void doDraw(final Activity a, final EditText editText, final FragmentManager fm) {
         final Intent intent = new Intent(a, Draw.class);
-        InputMethodManager imm = ContextCompat.getSystemService(editText.getContext(), InputMethodManager.class);
-        if (imm != null) {
-            imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
-        }
+        KeyboardUtil.hideKeyboard(editText.getContext(), editText.getWindowToken(), 0);
         e = editText.getText();
         TedBottomPicker tedBottomPicker =
                 new TedBottomPicker.Builder(editText.getContext()).setOnImageSelectedListener(
@@ -714,18 +634,15 @@ public class DoEditorActions {
                 descriptionBox.setHint(R.string.editor_title);
                 descriptionBox.setEnabled(true);
                 descriptionBox.setTextColor(ta.getColor(0, Color.WHITE));
-                final InputMethodManager imm = ContextCompat.getSystemService(c, InputMethodManager.class);
-                if (imm != null) {
-                    imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,
-                            InputMethodManager.HIDE_IMPLICIT_ONLY);
-                }
+                KeyboardUtil.toggleKeyboard(c,
+                        InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
 
                 if (DoEditorActions.e != null) {
                     descriptionBox.setText(DoEditorActions.e.toString().substring(sStart, sEnd));
                 }
 
                 ta.recycle();
-                int sixteen = Reddit.dpToPxVertical(16);
+                int sixteen = DisplayUtil.dpToPxVertical(16);
                 layout.setPadding(sixteen, sixteen, sixteen, sixteen);
                 layout.addView(descriptionBox);
                 new MaterialDialog.Builder(c).title(R.string.editor_title_link)
@@ -758,13 +675,10 @@ public class DoEditorActions {
                         .show();
 
             } catch (Exception e) {
-                new AlertDialogWrapper.Builder(c).setTitle(R.string.err_title)
+                new AlertDialog.Builder(c)
+                        .setTitle(R.string.err_title)
                         .setMessage(R.string.editor_err_msg)
-                        .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                            }
-                        })
+                        .setPositiveButton(R.string.btn_ok, null)
                         .show();
                 e.printStackTrace();
             }
@@ -809,7 +723,7 @@ public class DoEditorActions {
                 }
 
                 ta.recycle();
-                int sixteen = Reddit.dpToPxVertical(16);
+                int sixteen = DisplayUtil.dpToPxVertical(16);
                 layout.setPadding(sixteen, sixteen, sixteen, sixteen);
                 layout.addView(descriptionBox);
                 new MaterialDialog.Builder(c).title(R.string.editor_title_link)
@@ -837,13 +751,10 @@ public class DoEditorActions {
                         .show();
 
             } catch (Exception e) {
-                new AlertDialogWrapper.Builder(c).setTitle(R.string.err_title)
+                new AlertDialog.Builder(c)
+                        .setTitle(R.string.err_title)
                         .setMessage(R.string.editor_err_msg)
-                        .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                            }
-                        })
+                        .setPositiveButton(R.string.btn_ok, null)
                         .show();
                 e.printStackTrace();
             }

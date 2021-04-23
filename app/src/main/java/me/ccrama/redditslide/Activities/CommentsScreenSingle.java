@@ -1,6 +1,5 @@
 package me.ccrama.redditslide.Activities;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -11,12 +10,11 @@ import android.view.KeyEvent;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
-
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 
 import net.dean.jraw.models.Submission;
 
@@ -175,7 +173,7 @@ public class CommentsScreenSingle extends BaseActivityAnim {
         pager.setAdapter(comments);
         pager.setBackgroundColor(Color.TRANSPARENT);
         pager.setCurrentItem(1);
-        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        pager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset,
                     int positionOffsetPixels) {
@@ -187,11 +185,6 @@ public class CommentsScreenSingle extends BaseActivityAnim {
                     ((CommentsScreenSinglePagerAdapter) pager.getAdapter()).blankPage.doOffset(positionOffset);
                     pager.setBackgroundColor(Palette.adjustAlpha(positionOffset * 0.7f));
                 }
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-
             }
 
             @Override
@@ -244,23 +237,13 @@ public class CommentsScreenSingle extends BaseActivityAnim {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            new AlertDialogWrapper.Builder(CommentsScreenSingle.this).setTitle(
-                                    R.string.submission_not_found)
+                            new AlertDialog.Builder(CommentsScreenSingle.this)
+                                    .setTitle(R.string.submission_not_found)
                                     .setMessage(R.string.submission_not_found_msg)
-                                    .setPositiveButton(R.string.btn_ok,
-                                            new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog,
-                                                        int which) {
-                                                    finish();
-                                                }
-                                            })
-                                    .setOnDismissListener(new DialogInterface.OnDismissListener() {
-                                        @Override
-                                        public void onDismiss(DialogInterface dialog) {
-                                            finish();
-                                        }
-                                    })
+                                    .setPositiveButton(R.string.btn_ok, (dialog, which) ->
+                                            finish())
+                                    .setOnDismissListener(dialog ->
+                                            finish())
                                     .show();
                         }
                     });

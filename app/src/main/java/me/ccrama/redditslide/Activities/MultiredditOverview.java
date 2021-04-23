@@ -1,13 +1,10 @@
 package me.ccrama.redditslide.Activities;
 
 import android.app.Activity;
-import android.content.ActivityNotFoundException;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Spannable;
@@ -25,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -33,7 +31,6 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.viewpager.widget.ViewPager;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.android.material.tabs.TabLayout;
@@ -59,6 +56,7 @@ import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Visuals.ColorPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.LogUtil;
+import me.ccrama.redditslide.util.ProUtil;
 import me.ccrama.redditslide.util.SortingUtil;
 
 /**
@@ -232,56 +230,29 @@ public class MultiredditOverview extends BaseActivityAnim {
                         startActivity(i2);
                     }
                 } else {
-                    AlertDialogWrapper.Builder b = new AlertDialogWrapper.Builder(this).setTitle(
-                            R.string.general_gallerymode_ispro)
-                            .setMessage(R.string.pro_upgrade_msg)
-                            .setPositiveButton(R.string.btn_yes_exclaim,
-                                    new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog,
-                                                int whichButton) {
-                                            try {
-                                                startActivity(new Intent(Intent.ACTION_VIEW,
-                                                        Uri.parse(
-                                                                "market://details?id=" + getString(
-                                                                        R.string.ui_unlock_package))));
-                                            } catch (ActivityNotFoundException e) {
-                                                startActivity(new Intent(Intent.ACTION_VIEW,
-                                                        Uri.parse(
-                                                                "http://play.google.com/store/apps/details?id="
-                                                                        + getString(
-                                                                        R.string.ui_unlock_package))));
-                                            }
-                                        }
-                                    })
-                            .setNegativeButton(R.string.btn_no_thanks,
-                                    new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog,
-                                                int whichButton) {
-                                            dialog.dismiss();
-                                        }
-                                    });
+                    final AlertDialog.Builder b =
+                            ProUtil.proUpgradeMsg(this, R.string.general_gallerymode_ispro)
+                                    .setNegativeButton(R.string.btn_no_thanks, (dialog, whichButton) ->
+                                            dialog.dismiss());
                     if (SettingValues.previews > 0) {
                         b.setNeutralButton(getString(R.string.pro_previews, SettingValues.previews),
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        SettingValues.prefs.edit()
-                                                .putInt(SettingValues.PREVIEWS_LEFT,
-                                                        SettingValues.previews - 1)
-                                                .apply();
-                                        SettingValues.previews = SettingValues.prefs.getInt(
-                                                SettingValues.PREVIEWS_LEFT, 10);
-                                        List<Submission> posts =
-                                                ((MultiredditView) adapter.getCurrentFragment()).posts.posts;
-                                        if (posts != null && !posts.isEmpty()) {
-                                            Intent i2 = new Intent(MultiredditOverview.this,
-                                                    Gallery.class);
-                                            i2.putExtra(Gallery.EXTRA_PROFILE, profile);
-                                            i2.putExtra(Gallery.EXTRA_MULTIREDDIT,
-                                                    ((MultiredditView) adapter.getCurrentFragment()).posts.multiReddit
-                                                            .getDisplayName());
-                                            startActivity(i2);
-                                        }
+                                (dialog, which) -> {
+                                    SettingValues.prefs.edit()
+                                            .putInt(SettingValues.PREVIEWS_LEFT,
+                                                    SettingValues.previews - 1)
+                                            .apply();
+                                    SettingValues.previews = SettingValues.prefs.getInt(
+                                            SettingValues.PREVIEWS_LEFT, 10);
+                                    List<Submission> posts =
+                                            ((MultiredditView) adapter.getCurrentFragment()).posts.posts;
+                                    if (posts != null && !posts.isEmpty()) {
+                                        Intent i2 = new Intent(MultiredditOverview.this,
+                                                Gallery.class);
+                                        i2.putExtra(Gallery.EXTRA_PROFILE, profile);
+                                        i2.putExtra(Gallery.EXTRA_MULTIREDDIT,
+                                                ((MultiredditView) adapter.getCurrentFragment()).posts.multiReddit
+                                                        .getDisplayName());
+                                        startActivity(i2);
                                     }
                                 });
                     }
@@ -301,61 +272,34 @@ public class MultiredditOverview extends BaseActivityAnim {
                         startActivity(i);
                     }
                 } else {
-                    AlertDialogWrapper.Builder b = new AlertDialogWrapper.Builder(this).setTitle(
-                            R.string.general_shadowbox_ispro)
-                            .setMessage(R.string.pro_upgrade_msg)
-                            .setPositiveButton(R.string.btn_yes_exclaim,
-                                    new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog,
-                                                int whichButton) {
-                                            try {
-                                                startActivity(new Intent(Intent.ACTION_VIEW,
-                                                        Uri.parse(
-                                                                "market://details?id=" + getString(
-                                                                        R.string.ui_unlock_package))));
-                                            } catch (ActivityNotFoundException e) {
-                                                startActivity(new Intent(Intent.ACTION_VIEW,
-                                                        Uri.parse(
-                                                                "http://play.google.com/store/apps/details?id="
-                                                                        + getString(
-                                                                        R.string.ui_unlock_package))));
-                                            }
-                                        }
-                                    })
-                            .setNegativeButton(R.string.btn_no_thanks,
-                                    new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog,
-                                                int whichButton) {
-                                            dialog.dismiss();
-                                        }
-                                    });
+                    final AlertDialog.Builder b =
+                            ProUtil.proUpgradeMsg(this, R.string.general_shadowbox_ispro)
+                                    .setNegativeButton(R.string.btn_no_thanks, (dialog, whichButton) ->
+                                            dialog.dismiss());
                     if (SettingValues.previews > 0
                             && adapter != null
                             && ((MultiredditView) adapter.getCurrentFragment()).posts != null
                             && ((MultiredditView) adapter.getCurrentFragment()).posts.posts != null
                             && !((MultiredditView) adapter.getCurrentFragment()).posts.posts.isEmpty()) {
                         b.setNeutralButton(getString(R.string.pro_previews, SettingValues.previews),
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        SettingValues.prefs.edit()
-                                                .putInt(SettingValues.PREVIEWS_LEFT,
-                                                        SettingValues.previews - 1)
-                                                .apply();
-                                        SettingValues.previews = SettingValues.prefs.getInt(
-                                                SettingValues.PREVIEWS_LEFT, 10);
-                                        List<Submission> posts =
-                                                ((MultiredditView) adapter.getCurrentFragment()).posts.posts;
-                                        if (posts != null && !posts.isEmpty()) {
-                                            Intent i = new Intent(MultiredditOverview.this,
-                                                    Shadowbox.class);
-                                            i.putExtra(Shadowbox.EXTRA_PAGE, getCurrentPage());
-                                            i.putExtra(Shadowbox.EXTRA_PROFILE, profile);
-                                            i.putExtra(Shadowbox.EXTRA_MULTIREDDIT,
-                                                    ((MultiredditView) adapter.getCurrentFragment()).posts.multiReddit
-                                                            .getDisplayName());
-                                            startActivity(i);
-                                        }
+                                (dialog, which) -> {
+                                    SettingValues.prefs.edit()
+                                            .putInt(SettingValues.PREVIEWS_LEFT,
+                                                    SettingValues.previews - 1)
+                                            .apply();
+                                    SettingValues.previews = SettingValues.prefs.getInt(
+                                            SettingValues.PREVIEWS_LEFT, 10);
+                                    List<Submission> posts =
+                                            ((MultiredditView) adapter.getCurrentFragment()).posts.posts;
+                                    if (posts != null && !posts.isEmpty()) {
+                                        Intent i = new Intent(MultiredditOverview.this,
+                                                Shadowbox.class);
+                                        i.putExtra(Shadowbox.EXTRA_PAGE, getCurrentPage());
+                                        i.putExtra(Shadowbox.EXTRA_PROFILE, profile);
+                                        i.putExtra(Shadowbox.EXTRA_MULTIREDDIT,
+                                                ((MultiredditView) adapter.getCurrentFragment()).posts.multiReddit
+                                                        .getDisplayName());
+                                        startActivity(i);
                                     }
                                 });
                     }
@@ -373,49 +317,30 @@ public class MultiredditOverview extends BaseActivityAnim {
 
     private void buildDialog(boolean wasException) {
         try {
-            AlertDialogWrapper.Builder b =
-                    new AlertDialogWrapper.Builder(MultiredditOverview.this).setCancelable(false)
-                            .setOnDismissListener(new DialogInterface.OnDismissListener() {
-                                @Override
-                                public void onDismiss(DialogInterface dialog) {
-                                    finish();
-                                }
-                            });
+            final AlertDialog.Builder b =
+                    new AlertDialog.Builder(MultiredditOverview.this)
+                            .setCancelable(false)
+                            .setOnDismissListener(dialog ->
+                                    finish());
             if (wasException) {
                 b.setTitle(R.string.err_title)
                         .setMessage(R.string.err_loading_content)
-                        .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                finish();
-                            }
-                        });
+                        .setPositiveButton(R.string.btn_ok, (dialog, which) ->
+                                finish());
             } else if (profile.isEmpty()) {
                 b.setTitle(R.string.multireddit_err_title)
                         .setMessage(R.string.multireddit_err_msg)
-                        .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Intent i = new Intent(MultiredditOverview.this, CreateMulti.class);
-                                startActivity(i);
-                            }
+                        .setPositiveButton(R.string.btn_yes, (dialog, which) -> {
+                            Intent i = new Intent(MultiredditOverview.this, CreateMulti.class);
+                            startActivity(i);
                         })
-                        .setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                finish();
-                            }
-                        });
+                        .setNegativeButton(R.string.btn_no, (dialog, which) ->
+                                finish());
             } else {
                 b.setTitle(R.string.public_multireddit_err_title)
                         .setMessage(R.string.public_multireddit_err_msg)
-                        .setNegativeButton(R.string.btn_go_back,
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        finish();
-                                    }
-                                });
+                        .setNegativeButton(R.string.btn_go_back, (dialog, which) ->
+                                finish());
             }
             b.show();
         } catch (Exception e) {
@@ -733,12 +658,7 @@ public class MultiredditOverview extends BaseActivityAnim {
 
         MultiredditOverviewPagerAdapter(FragmentManager fm) {
             super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-            pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-                @Override
-                public void onPageScrolled(int position, float positionOffset,
-                        int positionOffsetPixels) {
-                }
-
+            pager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
                 @Override
                 public void onPageSelected(int position) {
                     findViewById(R.id.header).animate()
@@ -756,10 +676,6 @@ public class MultiredditOverview extends BaseActivityAnim {
                             new ColorPreferences(MultiredditOverview.this).getColor(
                                     usedArray.get(position).getDisplayName()));
                     doDrawerSubs(position);
-                }
-
-                @Override
-                public void onPageScrollStateChanged(int state) {
                 }
             });
         }

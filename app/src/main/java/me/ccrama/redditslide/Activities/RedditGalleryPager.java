@@ -4,14 +4,12 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.TypedArray;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Environment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,30 +19,19 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.cocosw.bottomsheet.BottomSheet;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.assist.ImageScaleType;
-import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
 
 import java.io.File;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,8 +43,6 @@ import me.ccrama.redditslide.Notifications.ImageDownloadNotificationService;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
-import me.ccrama.redditslide.Views.ImageSource;
-import me.ccrama.redditslide.Views.SubsamplingScaleImageView;
 import me.ccrama.redditslide.Views.ToolbarColorizeHelper;
 import me.ccrama.redditslide.Visuals.ColorPreferences;
 import me.ccrama.redditslide.util.LinkUtil;
@@ -194,13 +179,12 @@ public class RedditGalleryPager extends FullScreenActivity
             public void onClick(View v) {
                 LayoutInflater l = getLayoutInflater();
                 View body = l.inflate(R.layout.album_grid_dialog, null, false);
-                AlertDialogWrapper.Builder b = new AlertDialogWrapper.Builder(RedditGalleryPager.this);
                 GridView gridview = body.findViewById(R.id.images);
                 gridview.setAdapter(new ImageGridAdapter(RedditGalleryPager.this, true, images));
 
-
-                b.setView(body);
-                final Dialog d = b.create();
+                final AlertDialog.Builder builder = new AlertDialog.Builder(RedditGalleryPager.this)
+                        .setView(body);
+                final Dialog d = builder.create();
                 gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     public void onItemClick(AdapterView<?> parent, View v, int position,
                             long id) {
@@ -211,7 +195,7 @@ public class RedditGalleryPager extends FullScreenActivity
                 d.show();
             }
         });
-        p.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        p.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset,
                     int positionOffsetPixels) {
@@ -223,15 +207,6 @@ public class RedditGalleryPager extends FullScreenActivity
                 if (position == 0 && positionOffset < 0.2) {
                     finish();
                 }
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
             }
         });
         adapter.notifyDataSetChanged();
@@ -377,10 +352,10 @@ public class RedditGalleryPager extends FullScreenActivity
                 String lqurl = url.substring(0, url.lastIndexOf("."))
                         + (SettingValues.lqLow ? "m" : (SettingValues.lqMid ? "l" : "h"))
                         + url.substring(url.lastIndexOf("."));
-                loadImage(rootView, this, lqurl, ((RedditGalleryPager) getActivity()).images.size() == 1);
+                AlbumPager.loadImage(rootView, this, lqurl, ((RedditGalleryPager) getActivity()).images.size() == 1);
                 lq = true;
             } else {
-                loadImage(rootView, this, url, ((RedditGalleryPager) getActivity()).images.size() == 1);
+                AlbumPager.loadImage(rootView, this, url, ((RedditGalleryPager) getActivity()).images.size() == 1);
             }
 
             {
@@ -432,86 +407,20 @@ public class RedditGalleryPager extends FullScreenActivity
         }
     }
 
-    public static String readableFileSize(long size) {
-        if (size <= 0) return "0";
-        final String[] units = new String[]{"B", "kB", "MB", "GB", "TB"};
-        int digitGroups = (int) (Math.log10(size) / Math.log10(1024));
-        return new DecimalFormat("#,##0.#").format(size / Math.pow(1024, digitGroups))
-                + " "
-                + units[digitGroups];
-    }
-
-    private static void loadImage(final View rootView, Fragment f, String url, boolean single) {
-        final SubsamplingScaleImageView image = rootView.findViewById(R.id.image);
-
-        image.setMinimumDpi(70);
-        image.setMinimumTileDpi(240);
-        ImageView fakeImage = new ImageView(f.getActivity());
-        final TextView size = rootView.findViewById(R.id.size);
-        fakeImage.setLayoutParams(
-                new LinearLayout.LayoutParams(image.getWidth(), image.getHeight()));
-        fakeImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        ((Reddit) f.getActivity().getApplication()).getImageLoader()
-                .displayImage(url, new ImageViewAware(fakeImage),
-                        new DisplayImageOptions.Builder().resetViewBeforeLoading(true)
-                                .cacheOnDisk(true)
-                                .imageScaleType(single? ImageScaleType.NONE:ImageScaleType.NONE_SAFE)
-                                .cacheInMemory(false)
-                                .build(), new ImageLoadingListener() {
-
-                            @Override
-                            public void onLoadingStarted(String imageUri, View view) {
-                                size.setVisibility(View.VISIBLE);
-                            }
-
-                            @Override
-                            public void onLoadingFailed(String imageUri, View view,
-                                    FailReason failReason) {
-                                Log.v("Slide", "LOADING FAILED");
-
-                            }
-
-                            @Override
-                            public void onLoadingComplete(String imageUri, View view,
-                                    Bitmap loadedImage) {
-                                size.setVisibility(View.GONE);
-                                image.setImage(ImageSource.bitmap(loadedImage));
-                                (rootView.findViewById(R.id.progress)).setVisibility(View.GONE);
-                            }
-
-                            @Override
-                            public void onLoadingCancelled(String imageUri, View view) {
-                                Log.v("Slide", "LOADING CANCELLED");
-
-                            }
-                        }, new ImageLoadingProgressListener() {
-                            @Override
-                            public void onProgressUpdate(String imageUri, View view, int current,
-                                    int total) {
-                                size.setText(readableFileSize(total));
-
-                                ((ProgressBar) rootView.findViewById(R.id.progress)).setProgress(
-                                        Math.round(100.0f * current / total));
-                            }
-                        });
-    }
-
     public void showFirstDialog() {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                new AlertDialogWrapper.Builder(RedditGalleryPager.this).setTitle(R.string.set_save_location)
+                new AlertDialog.Builder(RedditGalleryPager.this)
+                        .setTitle(R.string.set_save_location)
                         .setMessage(R.string.set_save_location_msg)
-                        .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                new FolderChooserDialogCreate.Builder(RedditGalleryPager.this).chooseButton(
-                                        R.string.btn_select)  // changes label of the choose button
+                        .setPositiveButton(R.string.btn_yes, (dialog, which) ->
+                                new FolderChooserDialogCreate.Builder(RedditGalleryPager.this)
+                                        .chooseButton(R.string.btn_select) // changes label of the choose button
                                         .initialPath(Environment.getExternalStorageDirectory()
-                                                .getPath())  // changes initial path, defaults to external storage directory
-                                        .show();
-                            }
-                        })
+                                                .getPath()) // changes initial path, defaults to external storage directory
+                                        .allowNewFolder(true, 0)
+                                        .show(RedditGalleryPager.this))
                         .setNegativeButton(R.string.btn_no, null)
                         .show();
             }
@@ -523,19 +432,16 @@ public class RedditGalleryPager extends FullScreenActivity
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                new AlertDialogWrapper.Builder(RedditGalleryPager.this).setTitle(
-                        R.string.err_something_wrong)
+                new AlertDialog.Builder(RedditGalleryPager.this)
+                        .setTitle(R.string.err_something_wrong)
                         .setMessage(R.string.err_couldnt_save_choose_new)
-                        .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                new FolderChooserDialogCreate.Builder(RedditGalleryPager.this).chooseButton(
-                                        R.string.btn_select)  // changes label of the choose button
+                        .setPositiveButton(R.string.btn_yes, (dialog, which) ->
+                                new FolderChooserDialogCreate.Builder(RedditGalleryPager.this)
+                                        .chooseButton(R.string.btn_select) // changes label of the choose button
                                         .initialPath(Environment.getExternalStorageDirectory()
-                                                .getPath())  // changes initial path, defaults to external storage directory
-                                        .show();
-                            }
-                        })
+                                                .getPath()) // changes initial path, defaults to external storage directory
+                                        .allowNewFolder(true, 0)
+                                        .show(RedditGalleryPager.this))
                         .setNegativeButton(R.string.btn_no, null)
                         .show();
             }
@@ -544,13 +450,15 @@ public class RedditGalleryPager extends FullScreenActivity
     }
 
     @Override
-    public void onFolderSelection(FolderChooserDialogCreate dialog, File folder, boolean isSaveToLocation) {
-        if (folder != null) {
-            Reddit.appRestart.edit().putString("imagelocation", folder.getAbsolutePath()).apply();
-            Toast.makeText(this,
-                    getString(R.string.settings_set_image_location, folder.getAbsolutePath())
-                            + folder.getAbsolutePath(), Toast.LENGTH_LONG).show();
+    public void onFolderSelection(@NonNull FolderChooserDialogCreate dialog,
+                                  @NonNull File folder, boolean isSaveToLocation) {
+        Reddit.appRestart.edit().putString("imagelocation", folder.getAbsolutePath()).apply();
+        Toast.makeText(this,
+                getString(R.string.settings_set_image_location, folder.getAbsolutePath())
+                        + folder.getAbsolutePath(), Toast.LENGTH_LONG).show();
+    }
 
-        }
+    @Override
+    public void onFolderChooserDismissed(@NonNull FolderChooserDialogCreate dialog) {
     }
 }

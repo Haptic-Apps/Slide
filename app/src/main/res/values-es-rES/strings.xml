@@ -75,6 +75,8 @@
     <string name="theme_amoled_contrast">AMOLED con contraste</string>
     <string name="theme_night">Tema nocturno</string>
     <!-- Font settings -->
+    <string name="font_size_comment">Tamaño fuente de los comentarios</string>
+    <string name="font_size_post">Tamaño de fuente</string>
     <string name="font_size_huge">Gigante</string>
     <string name="font_size_larger">Enorme</string>
     <string name="font_size_large">Grande</string>
@@ -106,6 +108,7 @@
     <string name="sidebar_wiki">Wiki de Subreddit</string>
     <string name="sidebar_mods">Moderadores del Subreddit</string>
     <!-- User profile -->
+    <string name="profile_karma_total">Karma total</string>
     <string name="profile_karma_link">Karma de post</string>
     <string name="profile_karma_comment">karma de comentarios</string>
     <string name="profile_message">Mensaje privado</string>
@@ -262,6 +265,7 @@
     <string name="multi_submit_which_sub">¿A qué sub quieres enviarlo?</string>
     <string name="multi_saved_successfully">Guardado exitosamente</string>
     <string name="delete_multireddit_title">¿Seguro que quieres eliminar /m/%1$s?</string>
+    <string name="multi_save_option">¿Te gustaría guardar este multireddit?</string>
     <!-- Content types -->
     <string name="type_nsfw_img">Imagen NSFW</string>
     <string name="type_nsfw_gif">GIF NSFW</string>
@@ -273,6 +277,8 @@
     <string name="type_album">Álbum</string>
     <string name="type_xkcd">XKCD</string>
     <string name="type_nsfw_album">Álbum NSFW</string>
+    <string name="type_nsfw_gallery">Galería NSFW</string>
+    <string name="type_gallery">Galería</string>
     <string name="type_img">Imagen</string>
     <string name="type_videos">Vídeos</string>
     <string name="type_nsfw_video">Video NSFW</string>
@@ -353,6 +359,7 @@
     <string name="btn_discard">Descarta</string>
     <string name="btn_done">Hecho</string>
     <string name="btn_go_back">Retroceder</string>
+    <string name="btn_no_thanks">No, gracias</string>
     <string name="btn_no">No</string>
     <string name="btn_ok">OK</string>
     <string name="btn_remove">Borrar</string>
@@ -428,6 +435,10 @@
     <string name="mod_btn_unmark_nsfw">Desmarcar NSFW</string>
     <string name="mod_btn_mark_spoiler">Marcar como spoiler</string>
     <string name="mod_btn_unmark_spoiler">Desmarcar como spoiler</string>
+    <string name="mod_btn_lock_comment">Bloquear comentario</string>
+    <string name="mod_btn_unlock_comment">Desbloquear comentario</string>
+    <string name="mod_locked">Bloqueado</string>
+    <string name="mod_unlocked">Desbloqueado</string>
     <string name="mod_btn_pin">Fijar</string>
     <string name="mod_btn_unpin">Eliminar fijado</string>
     <string name="mod_btn_remove">Borrar</string>
@@ -906,6 +917,7 @@
     <string name="report_sub_rules">/r/%s Reglas</string>
     <string name="report_site_rules">Reglas de Reddit</string>
     <string name="report_another_reason">Otra razón</string>
+    <string name="report_other">Otros</string>
     <string name="input_reason_for_report">Motivo</string>
     <string name="msg_report_sent">Reporte enviado</string>
     <!-- Unsorted ¯\\_(ツ)_/¯ -->
@@ -926,6 +938,7 @@
     <string name="mode_centered">Tarjeta con imagen centrada</string>
     <string name="mode_card">Tarjeta</string>
     <string name="mode_thumbnail">Miniatura</string>
+    <string name="mode_no_thumbnails">Miniatura no disponible</string>
     <string name="mode_big_thumbnails">Miniaturas amplias</string>
     <string name="mode_cropped">Imagen grande recortada</string>
     <string name="mode_bigpic">Imágenes grandes</string>
@@ -1071,4 +1084,5 @@
     <string name="search_settings">Ajustes de búsqueda</string>
     <string name="page_not_found">Página no encontrada</string>
     <string name="page_does_not_exist">La página que solicitaste no existe.</string>
+    <string name="back_button_behavior_goto_first">Ir al primer subreddit</string>
 </resources>

@@ -1,5 +1,5 @@
 <resources>
-
+    <string name="app_package">me.ccrama.redditslide</string>
     <string name="youtube_plugin_package">ccrama.me.slideyoutubeplugin</string>
     <string name="ui_unlock_package">me.ccrama.slideforreddittabletuiunlock</string>
     <string name="youtube_plugin_class">ccrama.me.slideyoutubeplugin.YouTubeView</string>

@@ -8,14 +8,12 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.UiModeManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -23,16 +21,14 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.WindowManager;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
-import androidx.core.text.HtmlCompat;
 import androidx.multidex.MultiDexApplication;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.android.exoplayer2.database.DatabaseProvider;
 import com.google.android.exoplayer2.database.ExoDatabaseProvider;
 import com.google.android.exoplayer2.upstream.cache.Cache;
@@ -57,7 +53,6 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -70,6 +65,7 @@ import me.ccrama.redditslide.Notifications.NotificationPiggyback;
 import me.ccrama.redditslide.Tumblr.TumblrUtils;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.AdBlocker;
+import me.ccrama.redditslide.util.CompatUtil;
 import me.ccrama.redditslide.util.GifCache;
 import me.ccrama.redditslide.util.ImageLoaderUtils;
 import me.ccrama.redditslide.util.LogUtil;
@@ -139,26 +135,14 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         ProcessPhoenix.triggerRebirth(context, new Intent(context, MainActivity.class));
     }
 
-    private static int dpToPx(int dp, float xy) {
-        return Math.round(dp * xy / DisplayMetrics.DENSITY_DEFAULT);
-    }
-
-    public static int dpToPxVertical(int dp) {
-        return dpToPx(dp, Resources.getSystem().getDisplayMetrics().ydpi);
-    }
-
-    public static int dpToPxHorizontal(int dp) {
-        return dpToPx(dp, Resources.getSystem().getDisplayMetrics().xdpi);
-    }
-
     public static void defaultShareText(String title, String url, Context c) {
-        url = StringEscapeUtils.unescapeHtml4(HtmlCompat.fromHtml(url, HtmlCompat.FROM_HTML_MODE_LEGACY).toString());
+        url = StringEscapeUtils.unescapeHtml4(CompatUtil.fromHtml(url).toString());
         Intent sharingIntent = new Intent(Intent.ACTION_SEND);
         sharingIntent.setType("text/plain");
         /* Decode html entities */
         title = StringEscapeUtils.unescapeHtml4(title);
-        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, title);
-        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, url);
+        sharingIntent.putExtra(Intent.EXTRA_SUBJECT, title);
+        sharingIntent.putExtra(Intent.EXTRA_TEXT, url);
         c.startActivity(Intent.createChooser(sharingIntent, c.getString(R.string.title_share)));
     }
 
@@ -201,47 +185,6 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         }
 
         return browserMap;
-    }
-
-    public static String arrayToString(ArrayList<String> array) {
-        if (array != null) {
-            StringBuilder b = new StringBuilder();
-            for (String s : array) {
-                b.append(s).append(",");
-
-
-            }
-            String f = b.toString();
-            if (f.length() > 0) {
-                f = f.substring(0, f.length() - 1);
-            }
-
-            return f;
-        } else {
-            return "";
-        }
-    }
-
-    public static String arrayToString(ArrayList<String> array, String separator) {
-        if (array != null) {
-            StringBuilder b = new StringBuilder();
-            for (String s : array) {
-                b.append(s).append(separator);
-            }
-            String f = b.toString();
-            if (f.length() > 0) {
-                f = f.substring(0, f.length() - separator.length());
-            }
-            return f;
-        } else {
-            return "";
-        }
-    }
-
-    public static ArrayList<String> stringToArray(String string) {
-        ArrayList<String> f = new ArrayList<>();
-        Collections.addAll(f, string.split(","));
-        return f;
     }
 
     @Override
@@ -305,31 +248,20 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
                                           @Override
                                           public void run() {
                                               try {
-                                                  new AlertDialogWrapper.Builder(c).setTitle(R.string.err_title)
+                                                  new AlertDialog.Builder(c)
+                                                          .setTitle(R.string.err_title)
                                                           .setMessage(R.string.err_connection_failed_msg)
-                                                          .setNegativeButton(R.string.btn_close,
-                                                                  new DialogInterface.OnClickListener() {
-                                                                      @Override
-                                                                      public void onClick(DialogInterface dialog,
-                                                                              int which) {
-                                                                          if (!(c instanceof MainActivity)) {
-                                                                              ((Activity) c).finish();
-                                                                          }
-                                                                      }
-                                                                  })
-                                                          .setPositiveButton(R.string.btn_offline,
-                                                                  new DialogInterface.OnClickListener() {
-                                                                      @Override
-                                                                      public void onClick(DialogInterface dialog,
-                                                                              int which) {
-                                                                          Reddit.appRestart.edit()
-                                                                                  .putBoolean("forceoffline",
-                                                                                          true)
-                                                                                  .apply();
-                                                                          Reddit.forceRestart(c,
-                                                                                  false);
-                                                                      }
-                                                                  })
+                                                          .setNegativeButton(R.string.btn_close, (dialog, which) -> {
+                                                              if (!(c instanceof MainActivity)) {
+                                                                  ((Activity) c).finish();
+                                                              }
+                                                          })
+                                                          .setPositiveButton(R.string.btn_offline, (dialog, which) -> {
+                                                              Reddit.appRestart.edit()
+                                                                      .putBoolean("forceoffline", true)
+                                                                      .apply();
+                                                              Reddit.forceRestart(c, false);
+                                                          })
                                                           .show();
                                               } catch (Exception ignored) {
 
@@ -346,26 +278,16 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
                             @Override
                             public void run() {
                                 try {
-                                    new AlertDialogWrapper.Builder(c).setTitle(R.string.err_title)
+                                    new AlertDialog.Builder(c)
+                                            .setTitle(R.string.err_title)
                                             .setMessage(R.string.err_refused_request_msg)
-                                            .setNegativeButton("No",
-                                                    new DialogInterface.OnClickListener() {
-                                                        @Override
-                                                        public void onClick(DialogInterface dialog,
-                                                                int which) {
-                                                            if (!(c instanceof MainActivity)) {
-                                                                ((Activity) c).finish();
-                                                            }
-                                                        }
-                                                    })
-                                            .setPositiveButton("Yes",
-                                                    new DialogInterface.OnClickListener() {
-                                                        @Override
-                                                        public void onClick(DialogInterface dialog,
-                                                                int which) {
-                                                            authentication.updateToken((c));
-                                                        }
-                                                    })
+                                            .setNegativeButton("No", (dialog, which) -> {
+                                                if (!(c instanceof MainActivity)) {
+                                                    ((Activity) c).finish();
+                                                }
+                                            })
+                                            .setPositiveButton("Yes", (dialog, which) ->
+                                                    authentication.updateToken(c))
                                             .show();
                                 } catch (Exception ignored) {
 
@@ -380,19 +302,14 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
                             @Override
                             public void run() {
                                 try {
-                                    new AlertDialogWrapper.Builder(c).setTitle(R.string.err_title)
+                                    new AlertDialog.Builder(c)
+                                            .setTitle(R.string.err_title)
                                             .setMessage(R.string.err_could_not_find_content_msg)
-                                            .setNegativeButton("Close",
-                                                    new DialogInterface.OnClickListener() {
-                                                        @Override
-                                                        public void onClick(DialogInterface dialog,
-                                                                int which) {
-                                                            if (!(c instanceof MainActivity)) {
-                                                                ((Activity) c).finish();
-                                                            }
-                                                        }
-
-                                                    })
+                                            .setNegativeButton("Close", (dialog, which) -> {
+                                                if (!(c instanceof MainActivity)) {
+                                                    ((Activity) c).finish();
+                                                }
+                                            })
                                             .show();
                                 } catch (Exception ignored) {
 
@@ -408,7 +325,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
                             .contains(
                                     "Attempt to invoke virtual method 'android.content.Context android.view.ViewGroup.getContext()' on a null object reference")) {
                         t.printStackTrace();
-                    } else if (t instanceof MaterialDialog.DialogException) {
+                    } else if (t instanceof WindowManager.BadTokenException) {
                         t.printStackTrace();
                     } else if (t instanceof IllegalArgumentException && t.getMessage()
                             .contains("pointerIndex out of range")) {
@@ -705,6 +622,6 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     @TargetApi(Build.VERSION_CODES.M)
     private static void setCanUseNightModeAuto() {
         UiModeManager uiModeManager = getAppContext().getSystemService(UiModeManager.class);
-        canUseNightModeAuto = uiModeManager != null
+        canUseNightModeAuto = uiModeManager != null;
     }
 }

@@ -13,6 +13,7 @@ import java.nio.CharBuffer;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CodingErrorAction;
+import java.text.DecimalFormat;
 import java.util.UUID;
 
 public class FileUtil {
@@ -61,6 +62,21 @@ public class FileUtil {
         for (File child : dir.listFiles()) {
             child.delete();
         }
+    }
+
+    /**
+     * Convert a byte count into a human-readable size
+     *
+     * @param size Byte count
+     * @return Human-readable size
+     */
+    public static String readableFileSize(final long size) {
+        if (size <= 0) return "0";
+        final String[] units = new String[]{"B", "KB", "MB", "GB", "TB"};
+        final int digitGroups = (int) (Math.log10(size) / Math.log10(1024));
+        return new DecimalFormat("#,##0.#").format(size / Math.pow(1024, digitGroups))
+                + " "
+                + units[digitGroups];
     }
 
     /**

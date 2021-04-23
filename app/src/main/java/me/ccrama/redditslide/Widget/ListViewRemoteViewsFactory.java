@@ -10,8 +10,6 @@ import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
-import androidx.core.text.HtmlCompat;
-
 import net.dean.jraw.models.Submission;
 import net.dean.jraw.models.Thumbnails;
 import net.dean.jraw.paginators.DomainPaginator;
@@ -32,6 +30,7 @@ import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.CompatUtil;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 import me.ccrama.redditslide.util.TimeUtils;
@@ -208,7 +207,7 @@ public class ListViewRemoteViewsFactory implements RemoteViewsService.RemoteView
             // feed row
             Submission data = records.get(position);
 
-            rv.setTextViewText(R.id.title, HtmlCompat.fromHtml(data.getTitle(), HtmlCompat.FROM_HTML_MODE_LEGACY));
+            rv.setTextViewText(R.id.title, CompatUtil.fromHtml(data.getTitle()));
             rv.setTextViewText(R.id.score, data.getScore() + "");
             rv.setTextViewText(R.id.comments, data.getCommentCount() + "");
             rv.setTextViewText(R.id.information,
@@ -223,8 +222,8 @@ public class ListViewRemoteViewsFactory implements RemoteViewsService.RemoteView
                     rv.setImageViewBitmap(R.id.bigpic,
                             ((Reddit) mContext.getApplicationContext()).getImageLoader()
                                     .loadImageSync(
-                                            HtmlCompat.fromHtml(data.getThumbnails().getSource().getUrl(),
-                                                    HtmlCompat.FROM_HTML_MODE_LEGACY).toString()));
+                                            CompatUtil.fromHtml(
+                                                    data.getThumbnails().getSource().getUrl()).toString()));
                     rv.setViewVisibility(R.id.bigpic, View.VISIBLE);
                 } else {
                     rv.setViewVisibility(R.id.bigpic, View.GONE);

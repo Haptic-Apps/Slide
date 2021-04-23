@@ -2,18 +2,14 @@ package me.ccrama.redditslide.Activities;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
@@ -22,29 +18,24 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.SwitchCompat;
+
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.SwitchCompat;
-import androidx.core.content.ContextCompat;
-
-import com.afollestad.materialdialogs.AlertDialogWrapper;
-import com.afollestad.materialdialogs.DialogAction;
-import com.afollestad.materialdialogs.MaterialDialog;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import net.dean.jraw.ApiException;
 import net.dean.jraw.http.HttpRequest;
 import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.models.Submission;
 import net.dean.jraw.models.Subreddit;
-import net.dean.jraw.models.UserRecord;
 
 import org.json.JSONObject;
 
@@ -52,15 +43,13 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 
 import gun0912.tedbottompicker.TedBottomPicker;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.Drafts;
+import me.ccrama.redditslide.Flair.RichFlair;
 import me.ccrama.redditslide.ImgurAlbum.UploadImgur;
 import me.ccrama.redditslide.ImgurAlbum.UploadImgurAlbum;
-import me.ccrama.redditslide.Flair.RichFlair;
-import me.ccrama.redditslide.ImgurAlbum.AlbumImage;
 import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
@@ -70,9 +59,11 @@ import me.ccrama.redditslide.Views.CommentOverflow;
 import me.ccrama.redditslide.Views.DoEditorActions;
 import me.ccrama.redditslide.Views.ImageInsertEditText;
 import me.ccrama.redditslide.util.HttpUtil;
+import me.ccrama.redditslide.util.KeyboardUtil;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.SubmissionParser;
 import me.ccrama.redditslide.util.TitleExtractor;
+import me.ccrama.redditslide.util.stubs.SimpleTextWatcher;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
@@ -158,23 +149,13 @@ public class Submit extends BaseActivity {
         subredditText.setAdapter(adapter);
         subredditText.setThreshold(2);
 
-        subredditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
+        subredditText.addTextChangedListener(new SimpleTextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (tchange != null) {
                     tchange.cancel(true);
                 }
                 findViewById(R.id.submittext).setVisibility(View.GONE);
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
             }
         });
 
@@ -208,8 +189,8 @@ public class Submit extends BaseActivity {
                                 }
                                 if (s.getSubredditType().equals("RESTRICTED")) {
                                     subredditText.setText("");
-                                    new AlertDialogWrapper.Builder(Submit.this).setTitle(
-                                            R.string.err_submit_restricted)
+                                    new AlertDialog.Builder(Submit.this)
+                                            .setTitle(R.string.err_submit_restricted)
                                             .setMessage(R.string.err_submit_restricted_text)
                                             .setPositiveButton(R.string.btn_ok, null)
                                             .show();
@@ -287,8 +268,8 @@ public class Submit extends BaseActivity {
                             d.dismiss();
                         } else {
                             d.dismiss();
-                            new AlertDialogWrapper.Builder(Submit.this).setTitle(
-                                    R.string.title_not_found)
+                            new AlertDialog.Builder(Submit.this)
+                                    .setTitle(R.string.title_not_found)
                                     .setPositiveButton(R.string.btn_ok, null)
                                     .show();
                         }
@@ -307,11 +288,7 @@ public class Submit extends BaseActivity {
                                 .create();
 
                 tedBottomPicker.show(getSupportFragmentManager());
-                InputMethodManager imm =
-                        ContextCompat.getSystemService(Submit.this, InputMethodManager.class);
-                if (imm != null) {
-                    imm.hideSoftInputFromWindow(findViewById(R.id.bodytext).getWindowToken(), 0);
-                }
+                KeyboardUtil.hideKeyboard(Submit.this, findViewById(R.id.bodytext).getWindowToken(), 0);
             }
         });
 
@@ -674,13 +651,10 @@ public class Submit extends BaseActivity {
                 setImage(url);
 
             } catch (Exception e) {
-                new AlertDialogWrapper.Builder(c).setTitle(R.string.err_title)
+                new AlertDialog.Builder(c)
+                        .setTitle(R.string.err_title)
                         .setMessage(R.string.editor_err_msg)
-                        .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                            }
-                        })
+                        .setPositiveButton(R.string.btn_ok, null)
                         .show();
                 e.printStackTrace();
             }
@@ -731,13 +705,10 @@ public class Submit extends BaseActivity {
                 link.setVisibility(View.VISIBLE);
                 ((EditText) findViewById(R.id.urltext)).setText(finalUrl);
             } catch (Exception e) {
-                new AlertDialogWrapper.Builder(c).setTitle(R.string.err_title)
+                new AlertDialog.Builder(c)
+                        .setTitle(R.string.err_title)
                         .setMessage(R.string.editor_err_msg)
-                        .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                            }
-                        })
+                        .setPositiveButton(R.string.btn_ok, null)
                         .show();
                 e.printStackTrace();
             }
@@ -745,26 +716,15 @@ public class Submit extends BaseActivity {
     }
 
     private void showErrorRetryDialog(String message) {
-        new AlertDialogWrapper.Builder(Submit.this).setTitle(R.string.err_title)
+        new AlertDialog.Builder(Submit.this)
+                .setTitle(R.string.err_title)
                 .setMessage(message)
-                .setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        finish();
-                    }
-                })
-                .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        ((FloatingActionButton) findViewById(R.id.send)).show();
-                    }
-                })
-                .setOnDismissListener(new DialogInterface.OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface dialog) {
-                        ((FloatingActionButton) findViewById(R.id.send)).show();
-                    }
-                })
+                .setNegativeButton(R.string.btn_no, (dialogInterface, i) ->
+                        finish())
+                .setPositiveButton(R.string.btn_yes, (dialogInterface, i) ->
+                        ((FloatingActionButton) findViewById(R.id.send)).show())
+                .setOnDismissListener(dialog ->
+                        ((FloatingActionButton) findViewById(R.id.send)).show())
                 .create()
                 .show();
     }

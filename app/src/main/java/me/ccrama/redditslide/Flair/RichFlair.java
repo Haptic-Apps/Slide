@@ -1,8 +1,5 @@
 package me.ccrama.redditslide.Flair;
 
-import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 

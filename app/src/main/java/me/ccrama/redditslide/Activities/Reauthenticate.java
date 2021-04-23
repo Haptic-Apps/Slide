@@ -1,6 +1,5 @@
 package me.ccrama.redditslide.Activities;
 
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
@@ -12,7 +11,8 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
+import androidx.appcompat.app.AlertDialog;
+
 import com.afollestad.materialdialogs.MaterialDialog;
 
 import net.dean.jraw.http.NetworkException;
@@ -152,20 +152,14 @@ public class Reauthenticate extends BaseActivityAnim {
             //Dismiss old progress dialog
             mMaterialDialog.dismiss();
 
-            new AlertDialogWrapper.Builder(Reauthenticate.this)
+            new AlertDialog.Builder(Reauthenticate.this)
                     .setTitle(R.string.reauth_complete)
-                    .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            finish();
-                        }
-                    }).setCancelable(false)
-                    .setOnCancelListener(new DialogInterface.OnCancelListener() {
-                        @Override
-                        public void onCancel(DialogInterface dialog) {
-                            finish();
-                        }
-                    }).show();
+                    .setPositiveButton(R.string.btn_ok, (dialog, which) ->
+                            finish())
+                    .setCancelable(false)
+                    .setOnCancelListener(dialog ->
+                            finish())
+                    .show();
         }
     }
 

@@ -1,7 +1,6 @@
 package me.ccrama.redditslide.Activities;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -17,13 +16,12 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
-
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -58,13 +56,16 @@ public class Tumblr extends FullScreenActivity implements FolderChooserDialogCre
     public  String subreddit;
 
     @Override
-    public void onFolderSelection(FolderChooserDialogCreate dialog, File folder, boolean isSaveToLocation) {
-        if (folder != null) {
-            Reddit.appRestart.edit().putString("imagelocation", folder.getAbsolutePath()).apply();
-            Toast.makeText(this,
-                    getString(R.string.settings_set_image_location, folder.getAbsolutePath()),
-                    Toast.LENGTH_LONG).show();
-        }
+    public void onFolderSelection(@NonNull FolderChooserDialogCreate dialog,
+                                  @NonNull File folder, boolean isSaveToLocation) {
+        Reddit.appRestart.edit().putString("imagelocation", folder.getAbsolutePath()).apply();
+        Toast.makeText(this,
+                getString(R.string.settings_set_image_location, folder.getAbsolutePath()),
+                Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onFolderChooserDismissed(@NonNull FolderChooserDialogCreate dialog) {
     }
 
     @Override
@@ -129,18 +130,16 @@ public class Tumblr extends FullScreenActivity implements FolderChooserDialogCre
 
     public void showFirstDialog() {
         try {
-            new AlertDialogWrapper.Builder(this).setTitle(R.string.set_save_location)
+            new AlertDialog.Builder(this)
+                    .setTitle(R.string.set_save_location)
                     .setMessage(R.string.set_save_location_msg)
-                    .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            new FolderChooserDialogCreate.Builder(Tumblr.this).chooseButton(
-                                    R.string.btn_select)  // changes label of the choose button
+                    .setPositiveButton(R.string.btn_yes, (dialog, which) ->
+                            new FolderChooserDialogCreate.Builder(Tumblr.this)
+                                    .chooseButton(R.string.btn_select) // changes label of the choose button
                                     .initialPath(Environment.getExternalStorageDirectory()
-                                            .getPath())  // changes initial path, defaults to external storage directory
-                                    .show();
-                        }
-                    })
+                                            .getPath()) // changes initial path, defaults to external storage directory
+                                    .allowNewFolder(true, 0)
+                                    .show(Tumblr.this))
                     .setNegativeButton(R.string.btn_no, null)
                     .show();
         } catch (Exception ignored) {
@@ -149,18 +148,16 @@ public class Tumblr extends FullScreenActivity implements FolderChooserDialogCre
     }
 
     public void showErrorDialog() {
-        new AlertDialogWrapper.Builder(Tumblr.this).setTitle(R.string.err_something_wrong)
+        new AlertDialog.Builder(Tumblr.this)
+                .setTitle(R.string.err_something_wrong)
                 .setMessage(R.string.err_couldnt_save_choose_new)
-                .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        new FolderChooserDialogCreate.Builder(Tumblr.this).chooseButton(
-                                R.string.btn_select)  // changes label of the choose button
+                .setPositiveButton(R.string.btn_yes, (dialog, which) ->
+                        new FolderChooserDialogCreate.Builder(Tumblr.this)
+                                .chooseButton(R.string.btn_select) // changes label of the choose button
                                 .initialPath(Environment.getExternalStorageDirectory()
-                                        .getPath())  // changes initial path, defaults to external storage directory
-                                .show();
-                    }
-                })
+                                        .getPath()) // changes initial path, defaults to external storage directory
+                                .allowNewFolder(true, 0)
+                                .show(Tumblr.this))
                 .setNegativeButton(R.string.btn_no, null)
                 .show();
     }
@@ -199,7 +196,7 @@ public class Tumblr extends FullScreenActivity implements FolderChooserDialogCre
         if(getIntent().hasExtra(SUBREDDIT)){
             subreddit = getIntent().getStringExtra(SUBREDDIT);
         }
-        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        pager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
                                           @Override
                                           public void onPageScrolled(int position, float positionOffset,
                                                   int positionOffsetPixels) {
@@ -215,15 +212,6 @@ public class Tumblr extends FullScreenActivity implements FolderChooserDialogCre
                                                   ((TumblrPagerAdapter) pager.getAdapter()).blankPage.realBack.setBackgroundColor(
                                                           Palette.adjustAlpha(positionOffset * 0.7f));
                                               }
-                                          }
-
-                                          @Override
-                                          public void onPageSelected(int position) {
-                                          }
-
-                                          @Override
-                                          public void onPageScrollStateChanged(int state) {
-
                                           }
                                       }
 

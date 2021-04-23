@@ -17,9 +17,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.base.Strings;
 import com.google.gson.Gson;
@@ -67,6 +67,7 @@ import me.ccrama.redditslide.Views.SubsamplingScaleImageView;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.GifUtils;
 import me.ccrama.redditslide.util.HttpUtil;
+import me.ccrama.redditslide.util.JsonUtil;
 import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
@@ -429,15 +430,7 @@ public class MediaFragment extends Fragment {
 
                                 JsonNode dataNode = submission.getDataNode();
                                 if (dataNode.has("gallery_data")) {
-                                    for (JsonNode identifier : dataNode.get("gallery_data").get("items")) {
-                                        if (dataNode.has("media_metadata") && dataNode.get(
-                                                "media_metadata")
-                                                .has(identifier.get("media_id").asText())) {
-                                            urls.add(new GalleryImage(dataNode.get("media_metadata")
-                                                    .get(identifier.get("media_id").asText())
-                                                    .get("s")));
-                                        }
-                                    }
+                                    JsonUtil.getGalleryData(dataNode, urls);
                                 }
 
                                 Bundle urlsBundle = new Bundle();
@@ -730,11 +723,9 @@ public class MediaFragment extends Fragment {
                                             @Override
                                             public boolean onLongClick(View v) {
                                                 try {
-                                                    new AlertDialogWrapper.Builder(
-                                                            getContext()).setTitle(
-                                                            result.get("safe_title").getAsString())
-                                                            .setMessage(
-                                                                    result.get("alt").getAsString())
+                                                    new AlertDialog.Builder(getContext())
+                                                            .setTitle(result.get("safe_title").getAsString())
+                                                            .setMessage(result.get("alt").getAsString())
                                                             .show();
                                                 } catch (Exception ignored) {
 

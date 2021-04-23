@@ -144,8 +144,9 @@ public class Draw extends BaseActivity implements ColorChooserDialog.ColorCallba
                 color.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        new ColorChooserDialog.Builder(Draw.this,
-                                R.string.choose_color_title).allowUserColorInput(true).show();
+                        new ColorChooserDialog.Builder(Draw.this, R.string.choose_color_title)
+                                .allowUserColorInput(true)
+                                .show(Draw.this);
                     }
                 });
                 drawView.drawBitmap(bitmap);
@@ -167,5 +168,9 @@ public class Draw extends BaseActivity implements ColorChooserDialog.ColorCallba
         color.getBackground().setColorFilter(new PorterDuffColorFilter(selectedColor, PorterDuff.Mode.MULTIPLY));
 
         Reddit.colors.edit().putInt("drawColor", selectedColor).commit();
+    }
+
+    @Override
+    public void onColorChooserDismissed(@NonNull ColorChooserDialog dialog) {
     }
 }

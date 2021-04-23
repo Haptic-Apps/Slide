@@ -20,7 +20,7 @@
             android:layout_gravity="bottom"
             android:padding="20dp"
             android:text="@string/welcome_personalize"
-            android:textColor="#fff"
+            android:textColor="@android:color/white"
             android:textSize="24sp" />
 
     </LinearLayout>
@@ -40,7 +40,7 @@
                 android:padding="16dp"
 
                 android:orientation="horizontal"
-                android:id="@+id/primary"
+                android:id="@+id/primaryColor"
                 android:background="?android:selectableItemBackground"
 
                 android:layout_height="wrap_content">
@@ -49,7 +49,7 @@
                     android:layout_height="36dp"
                     android:src="@drawable/circle"
 
-                    android:id="@+id/tint_primary"
+                    android:id="@+id/primaryColorPreview"
                     />
                 <TextView
                     android:layout_width="match_parent"
@@ -64,7 +64,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:padding="16dp"
-                android:id="@+id/secondary"
+                android:id="@+id/secondaryColor"
 
                 android:orientation="horizontal"
                 android:background="?android:selectableItemBackground"
@@ -73,7 +73,7 @@
                 <ImageView
                     android:layout_width="36dp"
                     android:layout_height="36dp"
-                    android:id="@+id/tint_accent"
+                    android:id="@+id/secondaryColorPreview"
 
                     android:src="@drawable/circle"
                     />
@@ -90,7 +90,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:padding="16dp"
-                android:id="@+id/base"
+                android:id="@+id/baseColor"
 
                 android:orientation="horizontal"
                 android:background="?android:selectableItemBackground"
@@ -133,7 +133,7 @@
             android:textSize="14sp"
             android:textAllCaps="true"
 
-            android:id="@+id/next"
+            android:id="@+id/done"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:textStyle="bold" />

@@ -1,9 +1,6 @@
 package me.ccrama.redditslide.Activities;
 
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Window;
@@ -12,10 +9,11 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
+import androidx.appcompat.app.AlertDialog;
 
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.LogUtil;
 
 
@@ -71,26 +69,16 @@ public class FullscreenVideo extends FullScreenActivity {
             setShareUrl(dat);
             v.loadUrl(dat);
             if ((dat.contains("youtube.co" ) || dat.contains("youtu.be")) && !Reddit.appRestart.contains("showYouTubePopup")) {
-                new AlertDialogWrapper.Builder(FullscreenVideo.this).setTitle(getString(R.string.load_videos_internally))
-                        .setMessage(getString(R.string.load_videos_internally_content))
-                        .setPositiveButton(getString(R.string.btn_sure), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                try {
-                                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(
-                                            "market://details?id=" + getString(
-                                                    R.string.youtube_plugin_package))));
-                                } catch (android.content.ActivityNotFoundException anfe) {
-                                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=ccrama.me.slideyoutubeplugin")));
-                                }
-                            }
-                        }).setNegativeButton(getString(R.string.btn_no), null)
-                        .setNeutralButton(getString(R.string.do_not_show_again), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Reddit.appRestart.edit().putBoolean("showYouTubePopup", false).apply();
-                            }
-                        }).show();
+                new AlertDialog.Builder(FullscreenVideo.this)
+                        .setTitle(R.string.load_videos_internally)
+                        .setMessage(R.string.load_videos_internally_content)
+                        .setPositiveButton(R.string.btn_sure, (dialog, which) ->
+                                LinkUtil.launchMarketUri(
+                                        FullscreenVideo.this, R.string.youtube_plugin_package))
+                        .setNegativeButton(R.string.btn_no, null)
+                        .setNeutralButton(R.string.do_not_show_again, (dialog, which) ->
+                                Reddit.appRestart.edit().putBoolean("showYouTubePopup", false).apply())
+                        .show();
             }
         } else {
             LogUtil.v(dat);

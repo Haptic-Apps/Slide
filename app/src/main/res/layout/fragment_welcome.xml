@@ -9,7 +9,7 @@
         android:layout_height="match_parent"/>
    <ImageView
       android:src="@drawable/slogo"
-       android:layout_above="@+id/icon"
+       android:layout_above="@+id/welcome_appIcon"
        android:layout_width="match_parent"
        android:layout_centerHorizontal="true"
        android:layout_height="100dp"
@@ -18,19 +18,19 @@
         android:layout_width="100dp"
         android:layout_centerInParent="true"
         android:layout_marginTop="40dp"
-        android:id="@+id/icon"
+        android:id="@+id/welcome_appIcon"
         android:src="@drawable/ic_launcher"
         android:layout_height="140dp" />
     <TextView
         android:layout_width="match_parent"
         android:text="@string/welcome_start"
-        android:textColor="#fff"
+        android:textColor="@android:color/white"
         android:textStyle="bold"
         android:textSize="16sp"
         android:textAllCaps="true"
         android:layout_alignParentBottom="true"
         android:layout_height="wrap_content"
-        android:id="@+id/next"
+        android:id="@+id/welcome_getStarted"
         android:padding="16dp"
         android:gravity="right|center_vertical"
         android:layout_centerHorizontal="true"

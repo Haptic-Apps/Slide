@@ -1,6 +1,5 @@
 package me.ccrama.redditslide.Activities;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -8,10 +7,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.wuman.jreadability.Readability;
 
 import org.apache.commons.text.StringEscapeUtils;
@@ -126,24 +125,16 @@ public class ReaderMode extends BaseActivityAnim {
             if (articleText != null) {
                 display(title, articleText);
             } else {
-                new AlertDialogWrapper.Builder(ReaderMode.this).setTitle(
-                        R.string.internal_browser_extracting_error)
-                        .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                finish();
-                            }
+                new AlertDialog.Builder(ReaderMode.this)
+                        .setTitle(R.string.internal_browser_extracting_error)
+                        .setPositiveButton(R.string.btn_ok, (dialog, which) ->
+                                finish())
+                        .setNeutralButton("Open in web view", (dialog, which) -> {
+                            Intent i = new Intent(ReaderMode.this, Website.class);
+                            i.putExtra(LinkUtil.EXTRA_URL, url);
+                            startActivity(i);
+                            finish();
                         })
-                        .setNeutralButton("Open in web view",
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        Intent i = new Intent(ReaderMode.this, Website.class);
-                                        i.putExtra(LinkUtil.EXTRA_URL, url);
-                                        startActivity(i);
-                                        finish();
-                                    }
-                                })
                         .setCancelable(false)
                         .show();
             }

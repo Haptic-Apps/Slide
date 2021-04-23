@@ -9,6 +9,7 @@ import java.util.Locale;
 
 import me.ccrama.redditslide.Notifications.CheckForMail;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.util.StringUtil;
 
 /**
  * Created by ccrama on 9/28/2015.
@@ -28,7 +29,7 @@ public class CancelSubNotifs extends Activity {
             subName = extras.getString(EXTRA_SUB, "");
             subName = subName.toLowerCase(Locale.ENGLISH);
 
-            ArrayList<String> subs = Reddit.stringToArray(
+            ArrayList<String> subs = StringUtil.stringToArray(
                     Reddit.appRestart.getString(CheckForMail.SUBS_TO_GET, "").toLowerCase(Locale.ENGLISH));
             String toRemove = "";
 
@@ -40,7 +41,7 @@ public class CancelSubNotifs extends Activity {
             if(!toRemove.isEmpty()){
                 subs.remove(toRemove);
             }
-            Reddit.appRestart.edit().putString(CheckForMail.SUBS_TO_GET, Reddit.arrayToString(subs)).apply();
+            Reddit.appRestart.edit().putString(CheckForMail.SUBS_TO_GET, StringUtil.arrayToString(subs)).apply();
         }
 
         finish();

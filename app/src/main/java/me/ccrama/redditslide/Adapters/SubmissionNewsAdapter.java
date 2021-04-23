@@ -5,7 +5,6 @@ package me.ccrama.redditslide.Adapters;
  */
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -13,9 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.google.android.material.snackbar.Snackbar;
 
 import net.dean.jraw.models.Submission;
@@ -70,7 +69,7 @@ public class SubmissionNewsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         listView.setAdapter(new ErrorAdapter());
         isError = true;
         listView.setLayoutManager(SubmissionsView.createLayoutManager(
-                SubmissionsView.getNumColumns(context.getResources().getConfiguration().orientation,
+                LayoutUtils.getNumColumns(context.getResources().getConfiguration().orientation,
                         context)));
     }
 
@@ -99,7 +98,7 @@ public class SubmissionNewsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         listView.setAdapter(this);
         isError = false;
         listView.setLayoutManager(SubmissionsView.createLayoutManager(
-                SubmissionsView.getNumColumns(context.getResources().getConfiguration().orientation,
+                LayoutUtils.getNumColumns(context.getResources().getConfiguration().orientation,
                         context)));
     }
 
@@ -179,10 +178,10 @@ public class SubmissionNewsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                                     && a.adapter instanceof MainActivity.MainPagerAdapterComment) {
 
                                 if (a.openingComments != submission) {
-                                    clicked = holder2.getAdapterPosition();
+                                    clicked = holder2.getBindingAdapterPosition();
                                     a.openingComments = submission;
                                     a.toOpenComments = a.pager.getCurrentItem() + 1;
-                                    a.currentComment = holder.getAdapterPosition() - 1;
+                                    a.currentComment = holder.getBindingAdapterPosition() - 1;
                                     ((MainActivity.MainPagerAdapterComment) (a).adapter).storedFragment =
                                             (a).adapter.getCurrentFragment();
                                     ((MainActivity.MainPagerAdapterComment) (a).adapter).size =
@@ -203,20 +202,20 @@ public class SubmissionNewsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                             } else {
                                 Intent i2 = new Intent(context, CommentsScreen.class);
                                 i2.putExtra(CommentsScreen.EXTRA_PAGE,
-                                        holder2.getAdapterPosition() - 1);
+                                        holder2.getBindingAdapterPosition() - 1);
                                 i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, subreddit);
                                 i2.putExtra("fullname", submission.getFullName());
                                 context.startActivityForResult(i2, 940);
-                                clicked = holder2.getAdapterPosition();
+                                clicked = holder2.getBindingAdapterPosition();
                             }
                         } else if (context instanceof SubredditView) {
                             final SubredditView a = (SubredditView) context;
                             if (a.singleMode && a.commentPager) {
 
                                 if (a.openingComments != submission) {
-                                    clicked = holder2.getAdapterPosition();
+                                    clicked = holder2.getBindingAdapterPosition();
                                     a.openingComments = submission;
-                                    a.currentComment = holder.getAdapterPosition() - 1;
+                                    a.currentComment = holder.getBindingAdapterPosition() - 1;
                                     ((SubredditView.SubredditPagerAdapterComment) (a).adapter).storedFragment =
                                             (a).adapter.getCurrentFragment();
                                     ((SubredditView.SubredditPagerAdapterComment) a.adapter).size =
@@ -233,29 +232,23 @@ public class SubmissionNewsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                             } else {
                                 Intent i2 = new Intent(context, CommentsScreen.class);
                                 i2.putExtra(CommentsScreen.EXTRA_PAGE,
-                                        holder2.getAdapterPosition() - 1);
+                                        holder2.getBindingAdapterPosition() - 1);
                                 i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, subreddit);
                                 i2.putExtra("fullname", submission.getFullName());
                                 context.startActivityForResult(i2, 940);
-                                clicked = holder2.getAdapterPosition();
+                                clicked = holder2.getBindingAdapterPosition();
                             }
                         }
                     } else {
                         if (!Reddit.appRestart.contains("offlinepopup")) {
-                            new AlertDialogWrapper.Builder(context).setTitle(
-                                    R.string.cache_no_comments_found)
+                            new AlertDialog.Builder(context)
+                                    .setTitle(R.string.cache_no_comments_found)
                                     .setMessage(R.string.cache_no_comments_found_message)
                                     .setCancelable(false)
-                                    .setPositiveButton(R.string.btn_ok,
-                                            new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog,
-                                                        int which) {
-                                                    Reddit.appRestart.edit()
-                                                            .putString("offlinepopup", "")
-                                                            .apply();
-                                                }
-                                            })
+                                    .setPositiveButton(R.string.btn_ok, (dialog, which) ->
+                                            Reddit.appRestart.edit()
+                                                    .putString("offlinepopup", "")
+                                                    .apply())
                                     .show();
                         } else {
                             Snackbar s = Snackbar.make(holder.itemView,
@@ -264,20 +257,14 @@ public class SubmissionNewsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                             s.setAction(R.string.misc_more_info, new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    new AlertDialogWrapper.Builder(context).setTitle(
-                                            R.string.cache_no_comments_found)
+                                    new AlertDialog.Builder(context)
+                                            .setTitle(R.string.cache_no_comments_found)
                                             .setMessage(R.string.cache_no_comments_found_message)
                                             .setCancelable(false)
-                                            .setPositiveButton(R.string.btn_ok,
-                                                    new DialogInterface.OnClickListener() {
-                                                        @Override
-                                                        public void onClick(DialogInterface dialog,
-                                                                int which) {
-                                                            Reddit.appRestart.edit()
-                                                                    .putString("offlinepopup", "")
-                                                                    .apply();
-                                                        }
-                                                    })
+                                            .setPositiveButton(R.string.btn_ok, (dialog, which) ->
+                                                    Reddit.appRestart.edit()
+                                                            .putString("offlinepopup", "")
+                                                            .apply())
                                             .show();
                                 }
                             });

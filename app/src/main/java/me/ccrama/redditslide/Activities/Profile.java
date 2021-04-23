@@ -3,7 +3,6 @@ package me.ccrama.redditslide.Activities;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -21,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -28,13 +28,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.android.material.snackbar.Snackbar;
@@ -88,7 +88,7 @@ public class Profile extends BaseActivityAnim {
     private String[] usedArray;
     public boolean isSavedView;
 
-    public static boolean isValidUsername(String user) {
+    private static boolean isValidUsername(String user) {
         /* https://github.com/reddit/reddit/blob/master/r2/r2/lib/validator/validator.py#L261 */
         return user.matches("^[a-zA-Z0-9_-]{3,20}$");
     }
@@ -143,12 +143,7 @@ public class Profile extends BaseActivityAnim {
 
         new getProfile().execute(name);
 
-        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
+        pager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
                 isSavedView = position == 6;
@@ -162,11 +157,6 @@ public class Profile extends BaseActivityAnim {
                 if (categoryItem != null && Authentication.me != null && Authentication.me.hasGold()) {
                     categoryItem.setVisible(position == 6);
                 }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
             }
         });
 
@@ -194,20 +184,15 @@ public class Profile extends BaseActivityAnim {
     private void doClick() {
         if (account == null) {
             try {
-                new AlertDialogWrapper.Builder(Profile.this)
+                new AlertDialog.Builder(Profile.this)
                         .setTitle(R.string.profile_err_title)
-                        .setCancelable(false)
                         .setMessage(R.string.profile_err_msg)
-                        .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                            }
-                        }).setCancelable(false).setOnDismissListener(new DialogInterface.OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface dialog) {
-                        onBackPressed();
-                    }
-                }).show();
-            } catch (MaterialDialog.DialogException e) {
+                        .setPositiveButton(R.string.btn_ok, null)
+                        .setCancelable(false)
+                        .setOnDismissListener(dialog ->
+                                onBackPressed())
+                        .show();
+            } catch (WindowManager.BadTokenException e) {
                 Log.w(LogUtil.getTag(), "Activity already in background, dialog not shown " + e);
             }
             return;
@@ -215,20 +200,15 @@ public class Profile extends BaseActivityAnim {
         if (account.getDataNode().has("is_suspended") && account.getDataNode().get("is_suspended").asBoolean()
                 && !name.equalsIgnoreCase(Authentication.name)) {
             try {
-                new AlertDialogWrapper.Builder(Profile.this)
+                new AlertDialog.Builder(Profile.this)
                         .setTitle(R.string.account_suspended)
                         .setCancelable(false)
-                        .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                finish();
-                            }
-                        }).setOnDismissListener(new DialogInterface.OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface dialog) {
-                        finish();
-                    }
-                }).show();
-            } catch (MaterialDialog.DialogException e) {
+                        .setPositiveButton(R.string.btn_ok, (dialog, whichButton) ->
+                                finish())
+                        .setOnDismissListener(dialog ->
+                                finish())
+                        .show();
+            } catch (WindowManager.BadTokenException e) {
                 Log.w(LogUtil.getTag(), "Activity already in background, dialog not shown " + e);
             }
         }
@@ -531,7 +511,6 @@ public class Profile extends BaseActivityAnim {
                 if (account != null && trophyCase != null) {
                     LayoutInflater inflater = getLayoutInflater();
                     final View dialoglayout = inflater.inflate(R.layout.colorprofile, null);
-                    AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(Profile.this);
                     final TextView title = dialoglayout.findViewById(R.id.title);
                     title.setText(name);
 
@@ -879,21 +858,18 @@ public class Profile extends BaseActivityAnim {
                     ((TextView) dialoglayout.findViewById(R.id.linkkarma)).setText(String.format(Locale.getDefault(), "%d", account.getLinkKarma()));
                     ((TextView) dialoglayout.findViewById(R.id.totalKarma)).setText(String.format(Locale.getDefault(), "%d", account.getCommentKarma() + account.getLinkKarma()));
 
-                    builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                        @Override
-                        public void onDismiss(DialogInterface dialogInterface) {
-                            findViewById(R.id.header).setBackgroundColor(currentColor);
-                            if (mToolbar != null)
-                                mToolbar.setBackgroundColor(currentColor);
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                Window window = getWindow();
-                                window.setStatusBarColor(Palette.getDarkerColor(currentColor));
-                            }
-                        }
-                    });
-
-                    builder.setView(dialoglayout);
-                    builder.show();
+                    new AlertDialog.Builder(Profile.this)
+                            .setOnDismissListener(dialogInterface -> {
+                                findViewById(R.id.header).setBackgroundColor(currentColor);
+                                if (mToolbar != null)
+                                    mToolbar.setBackgroundColor(currentColor);
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                    Window window = getWindow();
+                                    window.setStatusBarColor(Palette.getDarkerColor(currentColor));
+                                }
+                            })
+                            .setView(dialoglayout)
+                            .show();
                 }
                 return true;
 

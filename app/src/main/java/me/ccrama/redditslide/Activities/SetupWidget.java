@@ -6,13 +6,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioGroup;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
+import androidx.appcompat.app.AlertDialog;
 
 import java.util.ArrayList;
 
@@ -23,6 +22,7 @@ import me.ccrama.redditslide.Visuals.ColorPreferences;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Widget.SubredditWidgetProvider;
 import me.ccrama.redditslide.util.SortingUtil;
+import me.ccrama.redditslide.util.stubs.SimpleTextWatcher;
 
 /**
  * Created by carlo_000 on 5/4/2016.
@@ -70,17 +70,7 @@ public class SetupWidget extends BaseActivity {
         list.setAdapter(adapter);
 
         (header.findViewById(R.id.sort)).clearFocus();
-        ((EditText)header.findViewById(R.id.sort)).addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-
-            }
-
+        ((EditText)header.findViewById(R.id.sort)).addTextChangedListener(new SimpleTextWatcher() {
             @Override
             public void afterTextChanged(Editable editable) {
                 final String result = editable.toString();
@@ -126,30 +116,28 @@ public class SetupWidget extends BaseActivity {
                 SubredditWidgetProvider.setViewType(appWidgetId, view, SetupWidget.this);
                 SubredditWidgetProvider.setSorting(appWidgetId, i, SetupWidget.this);
                 if (i == 3 || i == 4) {
-                    AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SetupWidget.this);
-                    builder.setTitle(R.string.sorting_choose);
-                    builder.setSingleChoiceItems(SortingUtil.getSortingTimesStrings(),
-                            SortingUtil.getSortingTimeId(""),
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    SubredditWidgetProvider.setSortingTime(appWidgetId, i, SetupWidget.this);
+                    new AlertDialog.Builder(SetupWidget.this)
+                            .setTitle(R.string.sorting_choose)
+                            .setSingleChoiceItems(
+                                    SortingUtil.getSortingTimesStrings(),
+                                    SortingUtil.getSortingTimeId(""),
+                                    (dialogInterface1, i1) -> {
+                                        SubredditWidgetProvider.setSortingTime(appWidgetId, i1, SetupWidget.this);
 
-                                    {
-                                        Intent intent = new Intent();
-                                        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-                                        setResult(Activity.RESULT_OK, intent);
-                                    }
+                                        {
+                                            Intent intent = new Intent();
+                                            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+                                            setResult(Activity.RESULT_OK, intent);
+                                        }
 
-                                    Intent intent = new Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE, null,
-                                            SetupWidget.this, SubredditWidgetProvider.class);
-                                    intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, new int[]{appWidgetId});
-                                    sendBroadcast(intent);
+                                        Intent intent = new Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE, null,
+                                                SetupWidget.this, SubredditWidgetProvider.class);
+                                        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, new int[]{appWidgetId});
+                                        sendBroadcast(intent);
 
-                                    finish();
-                                }
-                            });
-                    builder.show();
+                                        finish();
+                                    })
+                            .show();
                 } else {
                     {
                         Intent intent = new Intent();
@@ -167,11 +155,14 @@ public class SetupWidget extends BaseActivity {
 
             }
         };
-        AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SetupWidget.this);
-        builder.setTitle(R.string.sorting_choose);
-        builder.setSingleChoiceItems(SortingUtil.getSortingStrings(), SortingUtil.getSortingId(""),
-                l2);
-        builder.show();
+
+        new AlertDialog.Builder(SetupWidget.this)
+                .setTitle(R.string.sorting_choose)
+                .setSingleChoiceItems(
+                        SortingUtil.getSortingStrings(),
+                        SortingUtil.getSortingId(""),
+                        l2)
+                .show();
         // this intent is essential to show the widget
         // if this intent is not included,you can't show
         // widget on homescreen

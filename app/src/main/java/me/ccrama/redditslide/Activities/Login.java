@@ -2,7 +2,6 @@ package me.ccrama.redditslide.Activities;
 
 import android.annotation.TargetApi;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
@@ -16,10 +15,8 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
-import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 
 import net.dean.jraw.http.NetworkException;
@@ -136,23 +133,17 @@ public class Login extends BaseActivityAnim {
         }
         subNames = UserSubscriptions.sort(subNames);
         if (!subNames.contains("slideforreddit")) {
-            new AlertDialogWrapper.Builder(Login.this).setTitle(
-                    R.string.login_subscribe_rslideforreddit)
+            new AlertDialog.Builder(Login.this)
+                    .setTitle(R.string.login_subscribe_rslideforreddit)
                     .setMessage(R.string.login_subscribe_rslideforreddit_desc)
-                    .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            subNames.add(2, "slideforreddit");
-                            UserSubscriptions.setSubscriptions(subNames);
-                            Reddit.forceRestart(Login.this, true);
-                        }
+                    .setPositiveButton(R.string.btn_yes, (dialog, which) -> {
+                        subNames.add(2, "slideforreddit");
+                        UserSubscriptions.setSubscriptions(subNames);
+                        Reddit.forceRestart(Login.this, true);
                     })
-                    .setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            UserSubscriptions.setSubscriptions(subNames);
-                            Reddit.forceRestart(Login.this, true);
-                        }
+                    .setNegativeButton(R.string.btn_no, (dialog, which) -> {
+                        UserSubscriptions.setSubscriptions(subNames);
+                        Reddit.forceRestart(Login.this, true);
                     })
                     .setCancelable(false)
                     .show();
@@ -166,42 +157,31 @@ public class Login extends BaseActivityAnim {
     public void doLastStuff(final ArrayList<Subreddit> subs) {
 
         d.dismiss();
-        new AlertDialogWrapper.Builder(Login.this).setTitle(R.string.login_sync_colors)
+        new AlertDialog.Builder(Login.this)
+                .setTitle(R.string.login_sync_colors)
                 .setMessage(R.string.login_sync_colors_desc)
-                .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                        for (Subreddit s : subs) {
-                            if (s.getDataNode().has("key_color")
-                                    && !s.getDataNode()
-                                    .get("key_color")
-                                    .asText()
-                                    .isEmpty()
-                                    && Palette.getColor(s.getDisplayName().toLowerCase(Locale.ENGLISH)) == Palette
-                                    .getDefaultColor()) {
-                                Palette.setColor(s.getDisplayName().toLowerCase(Locale.ENGLISH),
-                                        GetClosestColor.getClosestColor(
-                                                s.getDataNode().get("key_color").asText(),
-                                                Login.this));
-                            }
-
+                .setPositiveButton(R.string.btn_yes, (dialog, which) -> {
+                    for (Subreddit s : subs) {
+                        if (s.getDataNode().has("key_color")
+                                && !s.getDataNode()
+                                .get("key_color")
+                                .asText()
+                                .isEmpty()
+                                && Palette.getColor(s.getDisplayName().toLowerCase(Locale.ENGLISH)) == Palette
+                                .getDefaultColor()) {
+                            Palette.setColor(s.getDisplayName().toLowerCase(Locale.ENGLISH),
+                                    GetClosestColor.getClosestColor(
+                                            s.getDataNode().get("key_color").asText(),
+                                            Login.this));
                         }
-                        doSubStrings(subs);
+
                     }
+                    doSubStrings(subs);
                 })
-                .setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        doSubStrings(subs);
-                    }
-                })
-                .setOnDismissListener(new DialogInterface.OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface dialog) {
-                        doSubStrings(subs);
-                    }
-                })
+                .setNegativeButton(R.string.btn_no, (dialog, which) ->
+                        doSubStrings(subs))
+                .setOnDismissListener(dialog ->
+                        doSubStrings(subs))
                 .create()
                 .show();
     }
@@ -284,20 +264,14 @@ public class Login extends BaseActivityAnim {
                 UserSubscriptions.syncSubredditsGetObjectAsync(Login.this);
             } else {
                 //Show a dialog if data is null
-                MaterialDialog.Builder builder =
-                        new MaterialDialog.Builder(Login.this).title(R.string.err_authentication)
-                                .content(R.string.login_failed_err_decline)
-                                .neutralText(R.string.btn_ok)
-                                .onNeutral(new MaterialDialog.SingleButtonCallback() {
-                                    @Override
-                                    public void onClick(@Nullable MaterialDialog dialog,
-                                            @Nullable DialogAction which) {
-                                        Reddit.forceRestart(Login.this, true);
-                                        finish();
-
-                                    }
-                                });
-                builder.show();
+                new AlertDialog.Builder(Login.this)
+                        .setTitle(R.string.err_authentication)
+                        .setMessage(R.string.login_failed_err_decline)
+                        .setNeutralButton(android.R.string.ok, (dialog, which) -> {
+                            Reddit.forceRestart(Login.this, true);
+                            finish();
+                        })
+                        .show();
             }
         }
     }

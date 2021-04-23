@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.media.MediaScannerConnection;
@@ -19,10 +18,10 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.ext.okhttp.OkHttpDataSourceFactory;
 import com.google.android.exoplayer2.source.dash.manifest.AdaptationSet;
@@ -59,7 +58,6 @@ import java.net.URL;
 import java.nio.BufferOverflowException;
 import java.nio.ByteBuffer;
 import java.nio.channels.WritableByteChannel;
-import java.text.DecimalFormat;
 import java.util.Locale;
 
 import me.ccrama.redditslide.Activities.MediaView;
@@ -115,18 +113,16 @@ public class GifUtils {
      * @param a
      */
     private static void showErrorDialog(final Activity a) {
-        new AlertDialogWrapper.Builder(a).setTitle(R.string.err_something_wrong)
+        new AlertDialog.Builder(a)
+                .setTitle(R.string.err_something_wrong)
                 .setMessage(R.string.err_couldnt_save_choose_new)
-                .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        new FolderChooserDialogCreate.Builder((MediaView) a).chooseButton(
-                                R.string.btn_select)  // changes label of the choose button
-                                .initialPath(Environment.getExternalStorageDirectory().getPath())
-                                // changes initial path, defaults to external storage directory
-                                .show();
-                    }
-                })
+                .setPositiveButton(R.string.btn_yes, (dialog, which) ->
+                        new FolderChooserDialogCreate.Builder((MediaView) a)
+                                .chooseButton(R.string.btn_select) // changes label of the choose button
+                                .initialPath(Environment.getExternalStorageDirectory()
+                                        .getPath()) // changes initial path, defaults to external storage directory
+                                .allowNewFolder(true, 0)
+                                .show((MediaView) a))
                 .setNegativeButton(R.string.btn_no, null)
                 .show();
     }
@@ -137,18 +133,16 @@ public class GifUtils {
      * @param a
      */
     private static void showFirstDialog(final Activity a) {
-        new AlertDialogWrapper.Builder(a).setTitle(R.string.set_gif_save_loc)
+        new AlertDialog.Builder(a)
+                .setTitle(R.string.set_gif_save_loc)
                 .setMessage(R.string.set_gif_save_loc_msg)
-                .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        new FolderChooserDialogCreate.Builder((MediaView) a).chooseButton(
-                                R.string.btn_select)  // changes label of the choose button
+                .setPositiveButton(R.string.btn_yes, (dialog, which) ->
+                        new FolderChooserDialogCreate.Builder((MediaView) a)
+                                .chooseButton(R.string.btn_select) // changes label of the choose button
                                 .initialPath(Environment.getExternalStorageDirectory()
-                                        .getPath())  // changes initial path, defaults to external storage directory
-                                .show();
-                    }
-                })
+                                        .getPath()) // changes initial path, defaults to external storage directory
+                                .allowNewFolder(true, 0)
+                                .show((MediaView) a))
                 .setNegativeButton(R.string.btn_no, null)
                 .show();
     }
@@ -547,25 +541,16 @@ public class GifUtils {
                         @Override
                         public void run() {
                             try {
-                                new AlertDialogWrapper.Builder(c).setTitle(R.string.gif_err_title)
+                                new AlertDialog.Builder(c)
+                                        .setTitle(R.string.gif_err_title)
                                         .setMessage(R.string.gif_err_msg)
                                         .setCancelable(false)
-                                        .setPositiveButton(R.string.btn_ok,
-                                                new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog,
-                                                            int which) {
-                                                        c.finish();
-                                                    }
-                                                })
-                                        .setNeutralButton(R.string.open_externally,
-                                                new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog, int which) {
-                                                        LinkUtil.openExternally(fullUrl);
-                                                        c.finish();
-                                                    }
-                                                })
+                                        .setPositiveButton(R.string.btn_ok, (dialog, which) ->
+                                                c.finish())
+                                        .setNeutralButton(R.string.open_externally, (dialog, which) -> {
+                                            LinkUtil.openExternally(fullUrl);
+                                            c.finish();
+                                        })
                                         .create()
                                         .show();
                             } catch (Exception ignored) {
@@ -729,19 +714,12 @@ public class GifUtils {
                                 c.runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        new AlertDialogWrapper.Builder(c).setTitle(
-                                                R.string.error_video_not_found)
+                                        new AlertDialog.Builder(c)
+                                                .setTitle(R.string.error_video_not_found)
                                                 .setMessage(R.string.error_video_message)
                                                 .setCancelable(false)
-                                                .setPositiveButton(R.string.btn_ok,
-                                                        new DialogInterface.OnClickListener() {
-                                                            @Override
-                                                            public void onClick(
-                                                                    DialogInterface dialog,
-                                                                    int which) {
-                                                                c.finish();
-                                                            }
-                                                        })
+                                                .setPositiveButton(R.string.btn_ok, (dialog, which) ->
+                                                        c.finish())
                                                 .create()
                                                 .show();
                                     }
@@ -790,19 +768,12 @@ public class GifUtils {
                                 @Override
                                 public void run() {
                                     try {
-                                        new AlertDialogWrapper.Builder(c).setTitle(
-                                                R.string.error_video_not_found)
+                                        new AlertDialog.Builder(c)
+                                                .setTitle(R.string.error_video_not_found)
                                                 .setMessage(R.string.error_video_message)
                                                 .setCancelable(false)
-                                                .setPositiveButton(R.string.btn_ok,
-                                                        new DialogInterface.OnClickListener() {
-                                                            @Override
-                                                            public void onClick(
-                                                                    DialogInterface dialog,
-                                                                    int which) {
-                                                                c.finish();
-                                                            }
-                                                        })
+                                                .setPositiveButton(R.string.btn_ok, (dialog, which) ->
+                                                        c.finish())
                                                 .create()
                                                 .show();
                                     } catch (Exception ignored) {
@@ -924,21 +895,6 @@ public class GifUtils {
          */
 
         /**
-         * Convert a byte count into a human-readable size
-         *
-         * @param size Byte count
-         * @return Human-readable size
-         */
-        static String readableFileSize(long size) {
-            if (size <= 0) return "0";
-            final String[] units = new String[] { "B", "kB", "MB", "GB", "TB" };
-            int digitGroups = (int) (Math.log10(size) / Math.log10(1024));
-            return new DecimalFormat("#,##0.#").format(size / Math.pow(1024, digitGroups))
-                    + " "
-                    + units[digitGroups];
-        }
-
-        /**
          * Get a remote video's file size
          *
          * @param url      URL of video (or v.redd.it DASH manifest) to get
@@ -958,7 +914,7 @@ public class GifUtils {
                     c.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            sizeText.setText(readableFileSize(size));
+                            sizeText.setText(FileUtil.readableFileSize(size));
                         }
                     });
                 } catch (IOException e) {
@@ -1016,7 +972,7 @@ public class GifUtils {
                         public void run() {
                             // We can't know which quality will be selected, so we display <= the highest quality size
                             if (totalSize > 0)
-                                sizeText.setText("≤ " + readableFileSize(totalSize));
+                                sizeText.setText("≤ " + FileUtil.readableFileSize(totalSize));
                         }
                     });
                 } catch (IOException ignored) {

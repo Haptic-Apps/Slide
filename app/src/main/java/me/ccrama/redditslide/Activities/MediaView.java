@@ -1,7 +1,5 @@
 package me.ccrama.redditslide.Activities;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -23,7 +21,6 @@ import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -31,12 +28,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.text.HtmlCompat;
-import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.cocosw.bottomsheet.BottomSheet;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -74,6 +70,8 @@ import me.ccrama.redditslide.Views.ExoVideoView;
 import me.ccrama.redditslide.Views.ImageSource;
 import me.ccrama.redditslide.Views.SubsamplingScaleImageView;
 import me.ccrama.redditslide.Visuals.ColorPreferences;
+import me.ccrama.redditslide.util.AnimatorUtil;
+import me.ccrama.redditslide.util.CompatUtil;
 import me.ccrama.redditslide.util.FileUtil;
 import me.ccrama.redditslide.util.GifUtils;
 import me.ccrama.redditslide.util.HttpUtil;
@@ -82,7 +80,6 @@ import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 import me.ccrama.redditslide.util.ShareUtil;
 
-import static me.ccrama.redditslide.Activities.AlbumPager.readableFileSize;
 import static me.ccrama.redditslide.Notifications.ImageDownloadNotificationService.EXTRA_SUBMISSION_TITLE;
 
 
@@ -121,70 +118,7 @@ public class MediaView extends FullScreenActivity
     private Gson                       gson;
     private String                     mashapeKey;
 
-    public static void animateIn(View l) {
-        l.setVisibility(View.VISIBLE);
-
-        ValueAnimator mAnimator = slideAnimator(0, Reddit.dpToPxVertical(56), l);
-
-        mAnimator.start();
-    }
-
-    public static void fadeIn(View l) {
-        ValueAnimator mAnimator = fadeAnimator(0.66f, 1, l);
-        mAnimator.start();
-    }
-
-    private static ValueAnimator fadeAnimator(float start, float end, final View v) {
-        ValueAnimator animator = ValueAnimator.ofFloat(start, end);
-        animator.setInterpolator(new FastOutSlowInInterpolator());
-
-        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                //Update Height
-                float value = (Float) valueAnimator.getAnimatedValue();
-                v.setAlpha(value);
-            }
-        });
-        return animator;
-    }
-
-    private static ValueAnimator slideAnimator(int start, int end, final View v) {
-        ValueAnimator animator = ValueAnimator.ofInt(start, end);
-        animator.setInterpolator(new FastOutSlowInInterpolator());
-
-        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                //Update Height
-                int value = (Integer) valueAnimator.getAnimatedValue();
-                ViewGroup.LayoutParams layoutParams = v.getLayoutParams();
-                layoutParams.height = value;
-                v.setLayoutParams(layoutParams);
-            }
-        });
-        return animator;
-    }
-
-    public static void animateOut(final View l) {
-        ValueAnimator mAnimator = slideAnimator(Reddit.dpToPxVertical(36), 0, l);
-        mAnimator.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                l.setVisibility(View.GONE);
-            }
-        });
-        mAnimator.start();
-
-
-    }
-
-    public static void fadeOut(final View l) {
-        ValueAnimator mAnimator = fadeAnimator(1, .66f, l);
-        mAnimator.start();
-    }
-
-    public static boolean shouldTruncate(String url) {
+    private static boolean shouldTruncate(String url) {
         try {
             final URI uri = new URI(url);
             final String path = uri.getPath();
@@ -324,14 +258,13 @@ public class MediaView extends FullScreenActivity
 
     public void doImageSaveForLocation() {
         if (!isGif) {
-            new FolderChooserDialogCreate.Builder(
-                    MediaView.this).chooseButton(
-                    R.string.btn_select)  // changes label of the choose button
+            new FolderChooserDialogCreate.Builder(MediaView.this)
+                    .chooseButton(R.string.btn_select) // changes label of the choose button
                     .isSaveToLocation(true)
-                    .initialPath(
-                            Environment.getExternalStorageDirectory()
-                                    .getPath())  // changes initial path, defaults to external storage directory
-                    .show();
+                    .initialPath(Environment.getExternalStorageDirectory()
+                            .getPath()) // changes initial path, defaults to external storage directory
+                    .allowNewFolder(true, 0)
+                    .show(MediaView.this);
         }
     }
 
@@ -573,12 +506,12 @@ public class MediaView extends FullScreenActivity
             @Override
             public void onClick(View v) {
                 if (findViewById(R.id.gifheader).getVisibility() == View.GONE) {
-                    animateIn(findViewById(R.id.gifheader));
-                    fadeOut(findViewById(R.id.black));
+                    AnimatorUtil.animateIn(findViewById(R.id.gifheader), 56);
+                    AnimatorUtil.fadeOut(findViewById(R.id.black));
                     getWindow().getDecorView().setSystemUiVisibility(0);
                 } else {
-                    animateOut(findViewById(R.id.gifheader));
-                    fadeIn(findViewById(R.id.black));
+                    AnimatorUtil.animateOut(findViewById(R.id.gifheader));
+                    AnimatorUtil.fadeIn(findViewById(R.id.black));
                     getWindow().getDecorView()
                             .setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
                 }
@@ -589,8 +522,8 @@ public class MediaView extends FullScreenActivity
             @Override
             public void onClick(View v2) {
                 if (findViewById(R.id.gifheader).getVisibility() == View.GONE) {
-                    animateIn(findViewById(R.id.gifheader));
-                    fadeOut(findViewById(R.id.black));
+                    AnimatorUtil.animateIn(findViewById(R.id.gifheader), 56);
+                    AnimatorUtil.fadeOut(findViewById(R.id.black));
                     getWindow().getDecorView().setSystemUiVisibility(0);
                 } else {
                     finish();
@@ -633,7 +566,7 @@ public class MediaView extends FullScreenActivity
         setShareUrl(contentUrl);
 
         if (contentUrl.contains("reddituploads.com")) {
-            contentUrl = HtmlCompat.fromHtml(contentUrl, HtmlCompat.FROM_HTML_MODE_LEGACY).toString();
+            contentUrl = CompatUtil.fromHtml(contentUrl).toString();
         }
         if (contentUrl != null && shouldTruncate(contentUrl)) {
             contentUrl = contentUrl.substring(0, contentUrl.lastIndexOf("."));
@@ -759,8 +692,8 @@ public class MediaView extends FullScreenActivity
             @Override
             public void onClick(View v) {
                 if (findViewById(R.id.gifheader).getVisibility() == View.GONE) {
-                    animateIn(findViewById(R.id.gifheader));
-                    fadeOut(findViewById(R.id.black));
+                    AnimatorUtil.animateIn(findViewById(R.id.gifheader), 56);
+                    AnimatorUtil.fadeOut(findViewById(R.id.black));
                 }
             }
         });
@@ -897,11 +830,9 @@ public class MediaView extends FullScreenActivity
                                             @Override
                                             public boolean onLongClick(View v) {
                                                 try {
-                                                    new AlertDialogWrapper.Builder(
-                                                            MediaView.this).setTitle(
-                                                            result.get("safe_title").getAsString())
-                                                            .setMessage(
-                                                                    result.get("alt").getAsString())
+                                                    new AlertDialog.Builder(MediaView.this)
+                                                            .setTitle(result.get("safe_title").getAsString())
+                                                            .setMessage(result.get("alt").getAsString())
                                                             .show();
                                                 } catch (Exception ignored) {
 
@@ -1287,7 +1218,7 @@ public class MediaView extends FullScreenActivity
                                     @Override
                                     public void onProgressUpdate(String imageUri, View view,
                                             int current, int total) {
-                                        size.setText(readableFileSize(total));
+                                        size.setText(FileUtil.readableFileSize(total));
 
                                         ((ProgressBar) findViewById(R.id.progress)).setProgress(
                                                 Math.round(100.0f * current / total));
@@ -1303,22 +1234,16 @@ public class MediaView extends FullScreenActivity
             public void run() {
                 try {
 
-                    new AlertDialogWrapper.Builder(MediaView.this).setTitle(
-                            R.string.set_save_location)
+                    new AlertDialog.Builder(MediaView.this)
+                            .setTitle(R.string.set_save_location)
                             .setMessage(R.string.set_save_location_msg)
-                            .setPositiveButton(R.string.btn_yes,
-                                    new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            new FolderChooserDialogCreate.Builder(
-                                                    MediaView.this).chooseButton(
-                                                    R.string.btn_select)  // changes label of the choose button
-                                                    .initialPath(
-                                                            Environment.getExternalStorageDirectory()
-                                                                    .getPath())  // changes initial path, defaults to external storage directory
-                                                    .show();
-                                        }
-                                    })
+                            .setPositiveButton(R.string.btn_yes, (dialog, which) ->
+                                    new FolderChooserDialogCreate.Builder(MediaView.this)
+                                            .chooseButton(R.string.btn_select) // changes label of the choose button
+                                            .initialPath(Environment.getExternalStorageDirectory()
+                                                    .getPath()) // changes initial path, defaults to external storage directory
+                                            .allowNewFolder(true, 0)
+                                            .show(MediaView.this))
                             .setNegativeButton(R.string.btn_no, null)
                             .show();
                 } catch (Exception ignored) {
@@ -1333,19 +1258,16 @@ public class MediaView extends FullScreenActivity
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                new AlertDialogWrapper.Builder(MediaView.this).setTitle(
-                        R.string.err_something_wrong)
+                new AlertDialog.Builder(MediaView.this)
+                        .setTitle(R.string.err_something_wrong)
                         .setMessage(R.string.err_couldnt_save_choose_new)
-                        .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                new FolderChooserDialogCreate.Builder(MediaView.this).chooseButton(
-                                        R.string.btn_select)  // changes label of the choose button
+                        .setPositiveButton(R.string.btn_yes, (dialog, which) ->
+                                new FolderChooserDialogCreate.Builder(MediaView.this)
+                                        .chooseButton(R.string.btn_select) // changes label of the choose button
                                         .initialPath(Environment.getExternalStorageDirectory()
-                                                .getPath())  // changes initial path, defaults to external storage directory
-                                        .show();
-                            }
-                        })
+                                                .getPath()) // changes initial path, defaults to external storage directory
+                                        .allowNewFolder(true, 0)
+                                        .show(MediaView.this))
                         .setNegativeButton(R.string.btn_no, null)
                         .show();
             }
@@ -1353,23 +1275,26 @@ public class MediaView extends FullScreenActivity
     }
 
     @Override
-    public void onFolderSelection(FolderChooserDialogCreate dialog, File folder, boolean isSaveToLocation) {
-        if (folder != null) {
-            if (isSaveToLocation) {
-                Intent i = new Intent(this, ImageDownloadNotificationService.class);
-                //always download the original file, or use the cached original if that is currently displayed
-                i.putExtra("actuallyLoaded", contentUrl);
-                i.putExtra("saveToLocation", folder.getAbsolutePath());
-                if (subreddit != null && !subreddit.isEmpty()) i.putExtra("subreddit", subreddit);
-                if (submissionTitle != null) i.putExtra(EXTRA_SUBMISSION_TITLE, submissionTitle);
-                i.putExtra("index", index);
-                startService(i);
-            } else {
-                Reddit.appRestart.edit().putString("imagelocation", folder.getAbsolutePath()).apply();
-                Toast.makeText(this,
-                        getString(R.string.settings_set_image_location, folder.getAbsolutePath()),
-                        Toast.LENGTH_LONG).show();
-            }
+    public void onFolderSelection(@NonNull FolderChooserDialogCreate dialog,
+                                  @NonNull File folder, boolean isSaveToLocation) {
+        if (isSaveToLocation) {
+            Intent i = new Intent(this, ImageDownloadNotificationService.class);
+            //always download the original file, or use the cached original if that is currently displayed
+            i.putExtra("actuallyLoaded", contentUrl);
+            i.putExtra("saveToLocation", folder.getAbsolutePath());
+            if (subreddit != null && !subreddit.isEmpty()) i.putExtra("subreddit", subreddit);
+            if (submissionTitle != null) i.putExtra(EXTRA_SUBMISSION_TITLE, submissionTitle);
+            i.putExtra("index", index);
+            startService(i);
+        } else {
+            Reddit.appRestart.edit().putString("imagelocation", folder.getAbsolutePath()).apply();
+            Toast.makeText(this,
+                    getString(R.string.settings_set_image_location, folder.getAbsolutePath()),
+                    Toast.LENGTH_LONG).show();
         }
+    }
+
+    @Override
+    public void onFolderChooserDismissed(@NonNull FolderChooserDialogCreate dialog) {
     }
 }

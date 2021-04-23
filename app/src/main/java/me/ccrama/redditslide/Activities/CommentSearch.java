@@ -2,7 +2,6 @@ package me.ccrama.redditslide.Activities;
 
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.TextWatcher;
 import android.widget.EditText;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,6 +17,7 @@ import me.ccrama.redditslide.Adapters.CommentObject;
 import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
+import me.ccrama.redditslide.util.stubs.SimpleTextWatcher;
 
 /**
  * Created by ccrama on 9/17/2015.
@@ -50,17 +50,7 @@ public class CommentSearch extends BaseActivityAnim {
             finish();
         final CommentAdapterSearch adapter = new CommentAdapterSearch(this, comments);
         rv.setAdapter(adapter);
-        search.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-
-            }
-
+        search.addTextChangedListener(new SimpleTextWatcher() {
             @Override
             public void afterTextChanged(Editable editable) {
                 String result = search.getText().toString();

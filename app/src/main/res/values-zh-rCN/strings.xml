@@ -14,6 +14,7 @@
     <string name="general_shadowbox_ispro">Shadowbox 模式是专业版功能</string>
     <string name="general_nighttheme_ispro">自动夜间模式是专业版功能</string>
     <string name="general_backup_ispro">设置备份是专业版功能</string>
+    <string name="general_multicolumn_ispro">多列设置是专业版功能</string>
     <!-- Used when viewing a thread -->
     <string name="submission_info_unsaved">提交未保存</string>
     <string name="submission_info_saved">提交已保存</string>
@@ -105,6 +106,7 @@
     <string name="sidebar_wiki">版块维基</string>
     <string name="sidebar_mods">版块版主</string>
     <!-- User profile -->
+    <string name="profile_karma_total">总 karma 值</string>
     <string name="profile_karma_link">帖子 karma</string>
     <string name="profile_karma_comment">评论 karma</string>
     <string name="profile_message">私人信息</string>
@@ -139,14 +141,14 @@
     <string name="comment_gild">奖励评论</string>
     <string name="comment_share">分享评论</string>
     <string name="comment_delete">删除评论</string>
-    <string name="comment_delete_msg">您确定要删除此评论吗？此操作不可撤消</string>
+    <string name="comment_delete_msg">你真的想删除此评论？此操作不可撤消。</string>
     <string name="comment_delete_err">噢，出问题了。</string>
     <string name="comment_delete_err_msg">您想再试一次吗？</string>
     <string name="comment_deleted">[deleted]</string>
     <string name="comment_unsave">取消保存</string>
     <string name="comment_load_more">继续加载%1$d </string>
     <string name="comment_load_more_string_new">再加载 %1$s 条</string>
-    <string name="comment_loading_more">正在加载更多评论...</string>
+    <string name="comment_loading_more">正在加载更多评论&#8230;</string>
     <string name="comment_permalink">加载评论永久链接</string>
     <string name="comment_parent">显示上级评论</string>
     <!-- Welcome view (first time setup) -->
@@ -262,6 +264,7 @@
     <string name="multi_submit_which_sub">您要提交到哪个版块？</string>
     <string name="multi_saved_successfully">已成功保存</string>
     <string name="delete_multireddit_title">你真要删除 /m/%1$s 吗？</string>
+    <string name="multi_save_option">你想要保存这个由多个 reddit 子版集合成的部分吗？</string>
     <!-- Content types -->
     <string name="type_nsfw_img">NSFW 图片</string>
     <string name="type_nsfw_gif">NSFW 动图</string>
@@ -273,6 +276,8 @@
     <string name="type_album">相册</string>
     <string name="type_xkcd">XKCD</string>
     <string name="type_nsfw_album">NSFW 相册</string>
+    <string name="type_nsfw_gallery">NSFW 图库</string>
+    <string name="type_gallery">图库</string>
     <string name="type_img">图片</string>
     <string name="type_videos">视频</string>
     <string name="type_nsfw_video">NSFW 视频</string>
@@ -351,6 +356,7 @@
     <string name="btn_discard">丢弃</string>
     <string name="btn_done">完成</string>
     <string name="btn_go_back">返回</string>
+    <string name="btn_no_thanks">不，谢谢</string>
     <string name="btn_no">否</string>
     <string name="btn_ok">好</string>
     <string name="btn_remove">移除</string>
@@ -430,6 +436,12 @@
     <string name="mod_btn_unmark_nsfw">取消标记为 NSFW</string>
     <string name="mod_btn_mark_spoiler">标记为剧透</string>
     <string name="mod_btn_unmark_spoiler">取消标记为剧透</string>
+    <string name="mod_btn_lock_thread">锁定帖子</string>
+    <string name="mod_btn_unlock_thread">锁定帖子</string>
+    <string name="mod_btn_lock_comment">锁定评论</string>
+    <string name="mod_btn_unlock_comment">解锁评论</string>
+    <string name="mod_locked">已锁定</string>
+    <string name="mod_unlocked">已解锁</string>
     <string name="mod_btn_pin">置顶</string>
     <string name="mod_btn_unpin">取消置顶</string>
     <string name="mod_btn_remove">删除</string>
@@ -512,6 +524,7 @@
     <string name="settings_link_album">内部查看相册</string>
     <string name="settings_link_peek">预览内容（实验功能）</string>
     <string name="settings_link_gif">内部查看动图</string>
+    <string name="settings_link_hqgif">优质 Gfycat视频</string>
     <string name="settings_link_handling">链接处理方式</string>
     <string name="settings_link_image">内部查看图片</string>
     <string name="settings_mail_check">检查新邮件</string>
@@ -581,6 +594,7 @@
     <string name="settings_section_save_history">保存浏览记录</string>
     <string name="settings_section_clear_history">清除历史记录</string>
     <string name="settings_section_data_saving_mode">省流量模式</string>
+    <string name="settings_section_data_saving_quality">数据节省质量</string>
     <string name="settings_comment_color">多彩的评论深度指标</string>
     <string name="settings_volume_nav_comments">使用音量按钮在评论间移动</string>
     <string name="settings_synccit_remove">断开 SYNCCIT</string>
@@ -598,6 +612,8 @@
     <string name="settings_comment_collapse_description">也会禁用评论动画</string>
     <string name="settings_comment_collapse_default">默认折叠下级评论</string>
     <string name="settings_data_enable">启用节省数据设置</string>
+    <string name="settings_data_video_quality">启用数据节省时偏好低质量视频</string>
+    <string name="settings_comments_collapse_deleted">默认折叠已删除的评论</string>
     <string name="settings_backup_occurs">备份将发生在%1$s</string>
     <string name="settings_backup_none">没有版块会备份</string>
     <string name="settings_backup_will_backup">\u0020会备份</string>
@@ -614,6 +630,8 @@
     <string name="settings_layout_picture_mode">图片模式</string>
     <string name="settings_general_expanded_toolbar">扩展的工具栏菜单</string>
     <string name="settings_general_expanded_toolbar_desc">在版块工具栏上显示更多选项</string>
+    <string name="settings_always_show_floating_action_button">总是显示浮动操作按钮</string>
+    <string name="settings_always_show_floating_action_button_desc">滚动时永远不隐藏浮动操作按钮</string>
     <string name="settings_theme_tinting">提交颜色着色模式</string>
     <string name="settings_layout_actionbar_mode">操作栏模式</string>
     <string name="settings_theme_tint_outside_desc">仅在多版块、首页和「所有」的颜色背景</string>
@@ -687,6 +705,7 @@
     <string name="reorder_fab_domain">域名</string>
     <string name="reorder_fab_subreddit">版块</string>
     <string name="reorder_add_subscribe">添加 &amp; 订阅</string>
+    <string name="reorder_remove_unsubscribe">删除 &amp; 取消订阅</string>
     <string name="reorder_move">移至顶部</string>
     <string name="reorder_domain_placeholder">\u0020(仅域名)</string>
     <string name="reorder_not_found_err">版块未找到，这是一些建议</string>
@@ -938,6 +957,7 @@
     <string name="mode_centered">图片居中卡片</string>
     <string name="mode_card">卡片</string>
     <string name="mode_thumbnail">缩略图</string>
+    <string name="mode_no_thumbnails">无缩略图</string>
     <string name="mode_big_thumbnails">宽缩略图</string>
     <string name="mode_cropped">裁剪大图</string>
     <string name="mode_bigpic">大图</string>
@@ -1061,6 +1081,8 @@
     <string name="theme_pixel">像素</string>
     <string name="save_images_to_subreddit_specific_subfolders">将图片保存到特定版块的子文件夹</string>
     <string name="description_save_subfolders">在提交和评论视图中工作</string>
+    <string name="show_image_download_button">下载快捷方式</string>
+    <string name="description_image_download_button">在图像查看器中显示下载按钮</string>
     <string name="content_settings">内容设置</string>
     <string name="setting_titleTop">在信息行上方显示标题</string>
     <string name="setting_notification_piggybacking">通知捎带</string>
@@ -1084,4 +1106,9 @@
     <string name="show_collapse_expand_nav_bar">在评论导航栏中显示折叠/展开按钮</string>
     <string name="page_not_found">找不到页面</string>
     <string name="page_does_not_exist">您请求的页面不存在</string>
+    <string name="back_button_behavior_goto_first">转到第一个子版块</string>
+    <string name="settings_hide_post_awards">隐藏奖励</string>
+    <string name="settings_hide_comment_awards">隐藏奖励</string>
+    <string name="high_colorspace_images">高色彩空间图像</string>
+    <string name="description_high_colorspace">载入图像的完整的色彩空间，可能导致更高的内存用量</string>
 </resources>

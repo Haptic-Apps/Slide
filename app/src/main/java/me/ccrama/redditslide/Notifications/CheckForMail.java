@@ -46,6 +46,7 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.StringUtil;
 
 public class CheckForMail extends BroadcastReceiver {
 
@@ -438,7 +439,7 @@ public class CheckForMail extends BroadcastReceiver {
                 long lastTime = (System.currentTimeMillis() - (60000 * Reddit.notificationTime));
                 ArrayList<Submission> toReturn = new ArrayList<>();
                 ArrayList<String> rawSubs =
-                        Reddit.stringToArray(Reddit.appRestart.getString(SUBS_TO_GET, ""));
+                        StringUtil.stringToArray(Reddit.appRestart.getString(SUBS_TO_GET, ""));
                 subThresholds = new HashMap<>();
                 for (String s : rawSubs) {
                     try {

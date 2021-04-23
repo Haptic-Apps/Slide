@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import androidx.core.text.HtmlCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cocosw.bottomsheet.BottomSheet;
@@ -44,6 +43,8 @@ import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SubmissionViews.PopulateSubmissionViewHolder;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.CompatUtil;
+import me.ccrama.redditslide.util.JsonUtil;
 import me.ccrama.redditslide.util.LinkUtil;
 
 import static me.ccrama.redditslide.Notifications.ImageDownloadNotificationService.EXTRA_SUBMISSION_TITLE;
@@ -214,12 +215,13 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                             case DEVIANTART:
                             case XKCD:
                             case IMAGE:
-                                PopulateSubmissionViewHolder.openImage(type, main, submission, null, holder.getAdapterPosition());
+                                PopulateSubmissionViewHolder.openImage(type, main, submission, null, holder.getBindingAdapterPosition());
                                 break;
                             case EMBEDDED:
                                 if (SettingValues.video) {
-                                    String data = HtmlCompat.fromHtml(submission.getDataNode().get("media_embed").get("content").asText(),
-                                            HtmlCompat.FROM_HTML_MODE_LEGACY).toString();
+                                    String data = CompatUtil.fromHtml(
+                                            submission.getDataNode().get("media_embed").get("content").asText())
+                                            .toString();
                                     {
                                         Intent i = new Intent(main, FullscreenVideo.class);
                                         i.putExtra(FullscreenVideo.EXTRA_HTML, data);
@@ -276,15 +278,7 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
                                     JsonNode dataNode = submission.getDataNode();
                                     if (dataNode.has("gallery_data")) {
-                                        for (JsonNode identifier : dataNode.get("gallery_data").get("items")) {
-                                            if (dataNode.has("media_metadata") && dataNode.get(
-                                                    "media_metadata")
-                                                    .has(identifier.get("media_id").asText())) {
-                                                urls.add(new GalleryImage(dataNode.get("media_metadata")
-                                                        .get(identifier.get("media_id").asText())
-                                                        .get("s")));
-                                            }
-                                        }
+                                        JsonUtil.getGalleryData(dataNode, urls);
                                     }
 
                                     Bundle urlsBundle = new Bundle();
@@ -315,7 +309,7 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                                 }
                                 break;
                             case GIF:
-                                PopulateSubmissionViewHolder.openGif(main, submission,  holder.getAdapterPosition());
+                                PopulateSubmissionViewHolder.openGif(main, submission,  holder.getBindingAdapterPosition());
                                 break;
                             case NONE:
                             case SELF:

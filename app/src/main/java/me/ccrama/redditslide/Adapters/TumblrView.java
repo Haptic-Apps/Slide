@@ -13,16 +13,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.devspark.robototextview.RobotoTypefaces;
 
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.List;
 
 import me.ccrama.redditslide.Activities.MediaView;
@@ -60,13 +58,12 @@ public class TumblrView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 public void onClick(View v) {
                     LayoutInflater l = context.getLayoutInflater();
                     View body = l.inflate(R.layout.album_grid_dialog, null, false);
-                    AlertDialogWrapper.Builder b = new AlertDialogWrapper.Builder(context);
                     GridView gridview = body.findViewById(R.id.images);
                     gridview.setAdapter(new ImageGridAdapterTumblr(context, users));
 
-
-                    b.setView(body);
-                    final Dialog d = b.create();
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(context)
+                            .setView(body);
+                    final Dialog d = builder.create();
                     gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         public void onItemClick(AdapterView<?> parent, View v,
                                                 int position, long id) {
@@ -155,7 +152,7 @@ public class TumblrView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             {
                 if (user.getCaption() != null) {
                     List<String> text = SubmissionParser.getBlocks(user.getCaption());
-                    setTextWithLinks(text.get(0), holder.body);
+                    LinkUtil.setTextWithLinks(text.get(0), holder.body);
                     if (holder.body.getText().toString().isEmpty()) {
                         holder.body.setVisibility(View.GONE);
                     }
@@ -196,20 +193,6 @@ public class TumblrView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             holder2.itemView.findViewById(R.id.height).setLayoutParams(new LinearLayout.LayoutParams(holder2.itemView.getWidth(), paddingBottom ? height : main.findViewById(R.id.toolbar).getHeight()));
         }
 
-    }
-
-    public static void setTextWithLinks(String s, SpoilerRobotoTextView text) {
-        String[] parts = s.split("\\s+");
-
-        StringBuilder b = new StringBuilder();
-        for (String item : parts)
-            try {
-                URL url = new URL(item);
-                b.append(" <a href=\"").append(url).append("\">").append(url).append("</a>");
-            } catch (MalformedURLException e) {
-                b.append(" ").append(item);
-            }
-        text.setTextHtml(b.toString(), "no sub");
     }
 
     @Override

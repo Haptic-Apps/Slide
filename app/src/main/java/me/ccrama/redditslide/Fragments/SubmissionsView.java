@@ -1,11 +1,8 @@
 package me.ccrama.redditslide.Fragments;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.GestureDetector;
@@ -17,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.core.view.MarginLayoutParamsCompat;
 import androidx.fragment.app.Fragment;
@@ -24,7 +22,6 @@ import androidx.interpolator.view.animation.LinearOutSlowInInterpolator;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -86,7 +83,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         final CatchStaggeredGridLayoutManager mLayoutManager =
                 (CatchStaggeredGridLayoutManager) rv.getLayoutManager();
 
-        mLayoutManager.setSpanCount(getNumColumns(currentOrientation, getActivity()));
+        mLayoutManager.setSpanCount(LayoutUtils.getNumColumns(currentOrientation, getActivity()));
     }
 
     Runnable mLongPressRunnable;
@@ -110,7 +107,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         rv.setHasFixedSize(true);
 
         final RecyclerView.LayoutManager mLayoutManager =
-                createLayoutManager(getNumColumns(getResources().getConfiguration().orientation, getActivity()));
+                createLayoutManager(LayoutUtils.getNumColumns(getResources().getConfiguration().orientation, getActivity()));
 
         if (!(getActivity() instanceof SubredditView)) {
             v.findViewById(R.id.back).setBackground(null);
@@ -234,24 +231,16 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                     @Override
                     public void onClick(View v) {
                         if (!Reddit.fabClear) {
-                            new AlertDialogWrapper.Builder(getActivity()).setTitle(
-                                    R.string.settings_fabclear)
+                            new AlertDialog.Builder(getActivity())
+                                    .setTitle(R.string.settings_fabclear)
                                     .setMessage(R.string.settings_fabclear_msg)
-                                    .setPositiveButton(R.string.btn_ok,
-                                            new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog,
-                                                        int which) {
-                                                    Reddit.colors.edit()
-                                                            .putBoolean(
-                                                                    SettingValues.PREF_FAB_CLEAR,
-                                                                    true)
-                                                            .apply();
-                                                    Reddit.fabClear = true;
-                                                    clearSeenPosts(false);
-
-                                                }
-                                            })
+                                    .setPositiveButton(R.string.btn_ok, (dialog, which) -> {
+                                        Reddit.colors.edit()
+                                                .putBoolean(SettingValues.PREF_FAB_CLEAR, true)
+                                                .apply();
+                                        Reddit.fabClear = true;
+                                        clearSeenPosts(false);
+                                    })
                                     .show();
                         } else {
                             clearSeenPosts(false);
@@ -278,24 +267,16 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                     public void run() {
                         fab.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
                         if (!Reddit.fabClear) {
-                            new AlertDialogWrapper.Builder(getActivity()).setTitle(
-                                    R.string.settings_fabclear)
+                            new AlertDialog.Builder(getActivity())
+                                    .setTitle(R.string.settings_fabclear)
                                     .setMessage(R.string.settings_fabclear_msg)
-                                    .setPositiveButton(R.string.btn_ok,
-                                            new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog,
-                                                        int which) {
-                                                    Reddit.colors.edit()
-                                                            .putBoolean(
-                                                                    SettingValues.PREF_FAB_CLEAR,
-                                                                    true)
-                                                            .apply();
-                                                    Reddit.fabClear = true;
-                                                    clearSeenPosts(true);
-
-                                                }
-                                            })
+                                    .setPositiveButton(R.string.btn_ok, (dialog, which) -> {
+                                        Reddit.colors.edit()
+                                                .putBoolean(SettingValues.PREF_FAB_CLEAR, true)
+                                                .apply();
+                                        Reddit.fabClear = true;
+                                        clearSeenPosts(true);
+                                    })
                                     .show();
                         } else {
                             clearSeenPosts(true);
@@ -332,8 +313,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
 //            @Override
 //            public boolean onTouch(View v, MotionEvent event) {
 //                System.out.println("touched");
-//                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-//                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+//                KeyboardUtil.hideKeyboard(getActivity(), v.getWindowToken(), 0);
 //
 //                GO_TO_SUB_FIELD.setText("");
 //                GO_TO_SUB_FIELD.setVisibility(View.GONE);
@@ -365,23 +345,6 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
     public static RecyclerView.LayoutManager createLayoutManager(final int numColumns) {
         return new CatchStaggeredGridLayoutManager(numColumns,
                 CatchStaggeredGridLayoutManager.VERTICAL);
-    }
-
-    public static int getNumColumns(final int orientation, Activity context) {
-        final int numColumns;
-        boolean singleColumnMultiWindow = false;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            singleColumnMultiWindow = context.isInMultiWindowMode() && SettingValues.singleColumnMultiWindow;
-        }
-        if (orientation == Configuration.ORIENTATION_LANDSCAPE && SettingValues.isPro && !singleColumnMultiWindow) {
-            numColumns = Reddit.dpWidth;
-        } else if (orientation == Configuration.ORIENTATION_PORTRAIT
-                && SettingValues.dualPortrait) {
-            numColumns = 2;
-        } else {
-            numColumns = 1;
-        }
-        return numColumns;
     }
 
     public void doAdapter() {

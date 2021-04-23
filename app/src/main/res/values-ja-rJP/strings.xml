@@ -105,6 +105,7 @@
     <string name="sidebar_wiki">サブレディットのwiki</string>
     <string name="sidebar_mods">サブレディットのモデレーター</string>
     <!-- User profile -->
+    <string name="profile_karma_total">カルマ合計</string>
     <string name="profile_karma_link">投稿のカルマ</string>
     <string name="profile_karma_comment">コメントカルマ</string>
     <string name="profile_message">プライベートメッセージ</string>
@@ -262,6 +263,7 @@
     <string name="multi_submit_which_sub">どのサブに送信しますか?</string>
     <string name="multi_saved_successfully">正常に保存しました</string>
     <string name="delete_multireddit_title">削除してもよろしいですか /m/%1$s?</string>
+    <string name="multi_save_option">この Multireddit を保存しますか?</string>
     <!-- Content types -->
     <string name="type_nsfw_img">NSFW 画像</string>
     <string name="type_nsfw_gif">NSFW GIF</string>
@@ -273,6 +275,8 @@
     <string name="type_album">アルバム</string>
     <string name="type_xkcd">XKCD</string>
     <string name="type_nsfw_album">NSFWアルバム</string>
+    <string name="type_nsfw_gallery">NSFW ギャラリー</string>
+    <string name="type_gallery">ギャラリー</string>
     <string name="type_img">画像</string>
     <string name="type_videos">動画</string>
     <string name="type_nsfw_video">NSFWビデオ</string>
@@ -351,6 +355,7 @@
     <string name="btn_discard">破棄</string>
     <string name="btn_done">完了</string>
     <string name="btn_go_back">戻る</string>
+    <string name="btn_no_thanks">いいえ結構です</string>
     <string name="btn_no">いいえ</string>
     <string name="btn_ok">OK</string>
     <string name="btn_remove">削除</string>
@@ -430,6 +435,12 @@
     <string name="mod_btn_unmark_nsfw">NSFWタグを外す</string>
     <string name="mod_btn_mark_spoiler">ネタバレとしてマーク</string>
     <string name="mod_btn_unmark_spoiler">ネタバレとしてのマークを解除</string>
+    <string name="mod_btn_lock_thread">スレッドをロックする</string>
+    <string name="mod_btn_unlock_thread">スレッドのロックを解除</string>
+    <string name="mod_btn_lock_comment">コメントをロックする</string>
+    <string name="mod_btn_unlock_comment">コメントのロックを解除</string>
+    <string name="mod_locked">ロックされています</string>
+    <string name="mod_unlocked">ロック解除済み</string>
     <string name="mod_btn_pin">ピン留めする</string>
     <string name="mod_btn_unpin">ピン留め解除</string>
     <string name="mod_btn_remove">削除</string>
@@ -512,6 +523,7 @@
     <string name="settings_link_album">内部のアルバム表示</string>
     <string name="settings_link_peek">コンテンツをのぞき見 (実験的)</string>
     <string name="settings_link_gif">内部 GIF 表示</string>
+    <string name="settings_link_hqgif">高品質の Gfycat ビデオ</string>
     <string name="settings_link_handling">リンクの処理</string>
     <string name="settings_link_image">内部画像表示</string>
     <string name="settings_mail_check">新着メッセージをチェック</string>
@@ -581,6 +593,7 @@
     <string name="settings_section_save_history">履歴を保存</string>
     <string name="settings_section_clear_history">履歴を消去</string>
     <string name="settings_section_data_saving_mode">データ節約モード</string>
+    <string name="settings_section_data_saving_quality">データを保存する品質</string>
     <string name="settings_comment_color">カラフルなコメントの深さインジケーター</string>
     <string name="settings_volume_nav_comments">音量ボタンを使用してコメントを移動</string>
     <string name="settings_synccit_remove">SYNCCIT を切断</string>
@@ -598,6 +611,8 @@
     <string name="settings_comment_collapse_description">コメントのアニメーションも無効にします</string>
     <string name="settings_comment_collapse_default">デフォルトで子コメントを畳む</string>
     <string name="settings_data_enable">データ節約設定を有効にする</string>
+    <string name="settings_data_video_quality">データの節約が有効になっているときに低画質のビデオを優先</string>
+    <string name="settings_comments_collapse_deleted">デフォルトで削除されたコメントを折りたたむ</string>
     <string name="settings_backup_occurs">バックアップを行います %1$s</string>
     <string name="settings_backup_none">Subreddit はバックアップされません</string>
     <string name="settings_backup_will_backup">\u0020をバックアップします</string>
@@ -614,6 +629,8 @@
     <string name="settings_layout_picture_mode">画像モード</string>
     <string name="settings_general_expanded_toolbar">展開したツールバー メニュー</string>
     <string name="settings_general_expanded_toolbar_desc">Subreddit ツールバーに詳細オプションを表示します</string>
+    <string name="settings_always_show_floating_action_button">常にフローティングアクションボタンを表示する</string>
+    <string name="settings_always_show_floating_action_button_desc">スクロール時にフローティングアクションボタンを非表示にしません</string>
     <string name="settings_theme_tinting">サブミッション着色モード</string>
     <string name="settings_layout_actionbar_mode">アクションバー モード</string>
     <string name="settings_theme_tint_outside_desc">Multireddit、フロントページ、およびすべてで、背景色のみ</string>
@@ -687,6 +704,7 @@
     <string name="reorder_fab_domain">ドメイン</string>
     <string name="reorder_fab_subreddit">Subreddit</string>
     <string name="reorder_add_subscribe">追加 &amp; 購読</string>
+    <string name="reorder_remove_unsubscribe">削除 &amp; 購読解除</string>
     <string name="reorder_move">先頭に移動</string>
     <string name="reorder_domain_placeholder">\u0020(ドメイン名のみ)</string>
     <string name="reorder_not_found_err">Subreddit が見つかりません。いくつかの提案があります</string>
@@ -938,6 +956,7 @@
     <string name="mode_centered">中央に画像のあるカード</string>
     <string name="mode_card">カード</string>
     <string name="mode_thumbnail">サムネイル</string>
+    <string name="mode_no_thumbnails">サムネイルなし</string>
     <string name="mode_big_thumbnails">ワイド サムネイル</string>
     <string name="mode_cropped">トリミングした大きな画像</string>
     <string name="mode_bigpic">大型の画像</string>
@@ -1061,6 +1080,8 @@
     <string name="theme_pixel">ピクセル</string>
     <string name="save_images_to_subreddit_specific_subfolders">Subreddit 固有のサブフォルダーに画像を保存</string>
     <string name="description_save_subfolders">提出とコメント表示で動作します</string>
+    <string name="show_image_download_button">ショートカットをダウンロード</string>
+    <string name="description_image_download_button">画像ビューアにダウンロードボタンを表示する</string>
     <string name="content_settings">コンテンツの設定</string>
     <string name="setting_titleTop">情報行の上にタイトルを表示</string>
     <string name="setting_notification_piggybacking">通知のピギーバック</string>
@@ -1084,4 +1105,9 @@
     <string name="show_collapse_expand_nav_bar">コメントナビゲーションバーに折りたたみ/展開ボタンを表示する</string>
     <string name="page_not_found">ページが見つかりません</string>
     <string name="page_does_not_exist">リクエストしたページは存在しません</string>
+    <string name="back_button_behavior_goto_first">最初の Subreddit に移動</string>
+    <string name="settings_hide_post_awards">受賞を非表示</string>
+    <string name="settings_hide_comment_awards">受賞を非表示</string>
+    <string name="high_colorspace_images">高色空間の画像</string>
+    <string name="description_high_colorspace">画像のフルカラー空間を読み込み、メモリ使用量が増加する可能性があります</string>
 </resources>

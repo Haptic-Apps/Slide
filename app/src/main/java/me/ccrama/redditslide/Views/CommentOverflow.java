@@ -19,10 +19,10 @@ import com.devspark.robototextview.RobotoTypefaces;
 import java.util.List;
 
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.Visuals.ColorPreferences;
 import me.ccrama.redditslide.Visuals.FontPreferences;
+import me.ccrama.redditslide.util.DisplayUtil;
 
 /**
  * Class that provides methods to help bind submissions with
@@ -47,7 +47,7 @@ public class CommentOverflow extends LinearLayout {
         MARGIN_PARAMS.setMargins(0, 16, 0, 16);
 
         HR_PARAMS = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                Reddit.dpToPxVertical(2));
+                DisplayUtil.dpToPxVertical(2));
         HR_PARAMS.setMargins(0, 16, 0, 16);
     }
 
@@ -119,7 +119,7 @@ public class CommentOverflow extends LinearLayout {
                 scrollView.setScrollbarFadingEnabled(false);
                 TableLayout table = formatTable(block, subreddit, click, longClick);
                 scrollView.setLayoutParams(MARGIN_PARAMS);
-                table.setPaddingRelative(0, 0, 0, Reddit.dpToPxVertical(10));
+                table.setPaddingRelative(0, 0, 0, DisplayUtil.dpToPxVertical(10));
                 scrollView.addView(table);
                 addView(scrollView);
             } else if (block.equals("<hr/>")) {
@@ -135,7 +135,7 @@ public class CommentOverflow extends LinearLayout {
                 newTextView.setTextHtml(block, subreddit);
                 setStyle(newTextView, subreddit);
                 scrollView.setLayoutParams(MARGIN_PARAMS);
-                newTextView.setPaddingRelative(0, 0, 0, Reddit.dpToPxVertical(10));
+                newTextView.setPaddingRelative(0, 0, 0, DisplayUtil.dpToPxVertical(10));
                 scrollView.addView(newTextView);
                 if (click != null) newTextView.setOnClickListener(click);
                 if (longClick != null) newTextView.setOnLongClickListener(longClick);

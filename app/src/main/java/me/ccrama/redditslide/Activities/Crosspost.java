@@ -1,11 +1,8 @@
 package me.ccrama.redditslide.Activities;
 
-import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -13,9 +10,9 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.SwitchCompat;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import net.dean.jraw.ApiException;
@@ -32,6 +29,7 @@ import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.Views.CommentOverflow;
 import me.ccrama.redditslide.util.SubmissionParser;
+import me.ccrama.redditslide.util.stubs.SimpleTextWatcher;
 
 
 /**
@@ -73,23 +71,13 @@ public class Crosspost extends BaseActivity {
         subredditText.setAdapter(adapter);
         subredditText.setThreshold(2);
 
-        subredditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
+        subredditText.addTextChangedListener(new SimpleTextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (tchange != null) {
                     tchange.cancel(true);
                 }
                 findViewById(R.id.submittext).setVisibility(View.GONE);
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
             }
         });
 
@@ -123,8 +111,8 @@ public class Crosspost extends BaseActivity {
                                 }
                                 if (s.getSubredditType().equals("RESTRICTED")) {
                                     subredditText.setText("");
-                                    new AlertDialogWrapper.Builder(Crosspost.this).setTitle(
-                                            R.string.err_submit_restricted)
+                                    new AlertDialog.Builder(Crosspost.this)
+                                            .setTitle(R.string.err_submit_restricted)
                                             .setMessage(R.string.err_submit_restricted_text)
                                             .setPositiveButton(R.string.btn_ok, null)
                                             .show();
@@ -242,28 +230,16 @@ public class Crosspost extends BaseActivity {
 
 
     private void showErrorRetryDialog(String message) {
-        new AlertDialogWrapper.Builder(Crosspost.this).setTitle(R.string.err_title)
+        new AlertDialog.Builder(Crosspost.this)
+                .setTitle(R.string.err_title)
                 .setMessage(message)
-                .setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        finish();
-                    }
-                })
-                .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        ((FloatingActionButton) findViewById(R.id.send)).show();
-                    }
-                })
-                .setOnDismissListener(new DialogInterface.OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface dialog) {
-                        ((FloatingActionButton) findViewById(R.id.send)).show();
-                    }
-                })
+                .setNegativeButton(R.string.btn_no, (dialogInterface, i) ->
+                        finish())
+                .setPositiveButton(R.string.btn_yes, (dialogInterface, i) ->
+                        ((FloatingActionButton) findViewById(R.id.send)).show())
+                .setOnDismissListener(dialog ->
+                        ((FloatingActionButton) findViewById(R.id.send)).show())
                 .create()
                 .show();
     }
-
 }
