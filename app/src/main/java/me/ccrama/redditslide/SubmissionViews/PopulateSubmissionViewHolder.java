@@ -226,7 +226,9 @@ public class PopulateSubmissionViewHolder {
                                             JsonUtil.getGalleryData(dataNode, urls);
                                         } else if (dataNode.has("crosspost_parent_list")) { //Else, try getting crosspost gallery data
                                             JsonNode crosspost_parent = dataNode.get("crosspost_parent_list").get(0);
-                                            JsonUtil.getGalleryData(crosspost_parent, urls);
+                                            if (crosspost_parent.has("gallery_data")) {
+                                                JsonUtil.getGalleryData(crosspost_parent, urls);
+                                            }
                                         }
 
                                         Bundle urlsBundle = new Bundle();
