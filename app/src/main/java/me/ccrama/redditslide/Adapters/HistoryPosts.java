@@ -1,6 +1,7 @@
 package me.ccrama.redditslide.Adapters;
 
 import android.os.AsyncTask;
+import android.util.SparseArray;
 
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -12,10 +13,7 @@ import net.dean.jraw.models.Thing;
 import net.dean.jraw.paginators.FullnamesPaginator;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.TreeMap;
 
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.PostMatch;
@@ -24,9 +22,9 @@ import me.ccrama.redditslide.PostMatch;
  * Created by ccrama on 9/17/2015.
  */
 public class HistoryPosts extends GeneralPosts {
-    private SwipeRefreshLayout  refreshLayout;
+    private SwipeRefreshLayout refreshLayout;
     private ContributionAdapter adapter;
-    public  boolean             loading;
+    public boolean loading;
     String prefix = "";
 
     public HistoryPosts() {
@@ -112,7 +110,7 @@ public class HistoryPosts extends GeneralPosts {
             try {
                 if (reset || paginator == null) {
                     ArrayList<String> ids = new ArrayList<>();
-                    HashMap<Long, String> idsSorted = new HashMap<>();
+                    SparseArray<String> idsSorted = new SparseArray<>();
                     Map<String, String> values;
                     if (prefix.isEmpty()) {
                         values = KVStore.getInstance().getByContains("");
@@ -134,29 +132,27 @@ public class HistoryPosts extends GeneralPosts {
                                     ids.add("t3_" + entry.getKey());
                                 } else if (done instanceof Long) {
                                     if (entry.getKey().contains("_")) {
-                                        idsSorted.put((Long) done, entry.getKey());
+                                        idsSorted.put((int) done, entry.getKey());
                                     } else {
-                                        idsSorted.put((Long) done, "t3_" + entry.getKey());
+                                        idsSorted.put((int) done, "t3_" + entry.getKey());
                                     }
                                 }
                             }
                         } else {
                             String key = entry.getKey();
-                            if(!key.contains("_")){
+                            if (!key.contains("_")) {
                                 key = "t3_" + key;
                             }
-                            idsSorted.put((Long) done, key.replace(prefix, ""));
+                            idsSorted.put((int) done, key.replace(prefix, ""));
                         }
                     }
 
-                    if (!idsSorted.isEmpty()) {
-                        TreeMap<Long, String> result2 = new TreeMap<>(Collections.reverseOrder());
-                        result2.putAll(idsSorted);
-                        ids.addAll(0, result2.values());
+                    for (int i = 0; i < idsSorted.size(); i++) {
+                        ids.add(0, idsSorted.valueAt(i));
                     }
 
                     paginator = new FullnamesPaginator(Authentication.reddit,
-                            ids.toArray(new String[ids.size()-1]));
+                            ids.toArray(new String[ids.size() - 1]));
 
 
                 }
