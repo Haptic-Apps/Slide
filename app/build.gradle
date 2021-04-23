@@ -97,68 +97,110 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.2.0'
     implementation 'com.google.android.material:material:1.3.0'
 
-/** Third-party (Other) **/
+/** ExoPlayer **/
+    // Application level media player
     def exoPlayerVersion = '2.12.3'
     implementation "com.google.android.exoplayer:exoplayer-core:$exoPlayerVersion"
     implementation "com.google.android.exoplayer:exoplayer-dash:$exoPlayerVersion"
     implementation "com.google.android.exoplayer:exoplayer-ui:$exoPlayerVersion"
     implementation "com.google.android.exoplayer:extension-okhttp:$exoPlayerVersion"
 
-    implementation 'com.google.guava:guava:30.1.1-android'
+
+/** Third-party **/
+
+/**** Frontend (UI-related) ****/
+
+    // Custom dialogs
     implementation 'com.afollestad.material-dialogs:commons:0.9.6.0'
-    implementation 'com.jakewharton:process-phoenix:2.0.0'
+
+    // Snackbar engagement for rating
     implementation 'com.github.ligi.snackengage:snackengage-core:0.28'
     implementation 'com.github.ligi.snackengage:snackengage-playrate:0.28'
+
+    // Material design components for pre-Lollipop APIs
+    //  NOTE: Replace rey5137:material with AndroidX versions?
     implementation 'com.github.rey5137:material:1.3.1'
+
+    // Image loading, caching, and displaying
+    //  NOTE: Replace with Glide/Picasso
     implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
+
+    // Custom image view for photo galleries and large images
     implementation 'com.github.davemorrissey:subsampling-scale-image-view:173e421'
-    implementation 'com.cocosw:bottomsheet:1.5.0@aar'
-    implementation 'com.lusfold.androidkeyvaluestore:library:0.1.0@aar'
-    implementation 'org.apache.commons:commons-lang3:3.12.0'
-    implementation 'org.apache.commons:commons-text:1.9'
-    implementation 'commons-io:commons-io:2.8.0'
-    implementation 'jp.wasabeef:blurry:3.0.0'
-    implementation 'com.makeramen:roundedimageview:2.3.0'
-    implementation 'com.getbase:floatingactionbutton:1.10.1'
-    implementation 'com.sothree.slidinguppanel:library:3.4.0'
-    implementation 'com.github.suckgamony.RapidDecoder:library:7cdfca47fa'
-    implementation 'com.squareup.okhttp3:okhttp:3.12.13'
-    implementation 'com.google.code.gson:gson:2.8.6'
-    implementation 'com.github.ozodrukh.CircularReveal:circualreveal:2.1.0'
-    implementation 'com.mikepenz:itemanimators:1.1.0@aar'
-    implementation 'com.neovisionaries:nv-websocket-client:2.14'
+
+    // Image cropping
     implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.0'
+
+    // Bottom sheet implementation
+    //  NOTE: Deprecated in favor of official Google bottom sheets
+    implementation 'com.cocosw:bottomsheet:1.5.0@aar'
+
+    // Blurring
+    implementation 'jp.wasabeef:blurry:3.0.0'
+
+    // ImageView that supports rounded corners
+    implementation 'com.makeramen:roundedimageview:2.3.0'
+
+    // Floating action button implementation
+    //  NOTE: Migrate to using official Google material library's FAB
+    implementation 'com.getbase:floatingactionbutton:1.10.1'
+
+    // Draggable sliding up panel
+    implementation 'com.sothree.slidinguppanel:library:3.4.0'
+
+    // ViewAnimationUtils.createCircularReveal for pre-Lollipop APIs
+    implementation 'com.github.ozodrukh.CircularReveal:circualreveal:2.1.0'
+
+    // RecyclerView animations
+    implementation 'com.mikepenz:itemanimators:1.1.0@aar'
+
+    // iOS-like over-scrolling effect
     implementation 'me.everything:overscroll-decor-android:1.1.0'
+
+    // Library information
     implementation 'com.mikepenz:aboutlibraries:6.2.3'
+
+
+/**** Backend logic ****/
+
+    // Core Java libraries from Google
+    implementation 'com.google.guava:guava:30.1.1-android'
+
+    // Application restarting
+    implementation 'com.jakewharton:process-phoenix:2.0.0'
+
+    // KV store based on SQLite
+    implementation 'com.lusfold.androidkeyvaluestore:library:0.1.0@aar'
+
+    // Helper utilities for the java.lang API
+    implementation 'org.apache.commons:commons-lang3:3.12.0'
+
+    // Algorithms working on strings
+    implementation 'org.apache.commons:commons-text:1.9'
+
+    // Utilities to assist with developing IO functionality
+    implementation 'commons-io:commons-io:2.8.0'
+
+    // Simplified bitmap decoding and scaling
+    implementation 'com.github.suckgamony.RapidDecoder:library:7cdfca47fa'
+
+    // HTTP client
+    implementation 'com.squareup.okhttp3:okhttp:3.12.13'
+
+    // Convert Java objects into JSON and back
+    implementation 'com.google.code.gson:gson:2.8.6'
+
+    // WebSocket client
+    implementation 'com.neovisionaries:nv-websocket-client:2.14'
+
+    // Read, write, and create MP4 files
     implementation 'org.mp4parser:isoparser:1.9.41'
     implementation 'org.mp4parser:muxer:1.9.41'
+
 
 /** Testing **/
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.hamcrest:hamcrest:2.2'
     testImplementation 'org.robolectric:robolectric:4.5.1'
     testImplementation 'org.powermock:powermock-module-junit4:2.0.9'
-}
-
-tasks.named("dependencyUpdates").configure {
-    // Example 1: reject all non stable versions
-    rejectVersionIf {
-        isNonStable(it.candidate.version)
-    }
-
-    // Example 2: disallow release candidates as upgradable versions from stable versions
-    rejectVersionIf {
-        isNonStable(it.candidate.version) && !isNonStable(it.currentVersion)
-    }
-
-    // Example 3: using the full syntax
-    resolutionStrategy {
-        componentSelection {
-            all {
-                if (isNonStable(it.candidate.version) && !isNonStable(it.currentVersion)) {
-                    reject('Release candidate')
-                }
-            }
-        }
-    }
 }
