@@ -32,7 +32,7 @@ public class RemovalReasons {
 
     public String getHeader() {
         try {
-            return URLDecoder.decode(header, "UTF-8"); // header is url encoded
+            return URLDecoder.decode(StringEscapeUtils.unescapeJava(header.replace("%u", "\\u")), "UTF-8"); // header is url encoded
         } catch (UnsupportedEncodingException e) {
             return null;
         }
@@ -40,7 +40,7 @@ public class RemovalReasons {
 
     public String getFooter() {
         try {
-            return URLDecoder.decode(footer, "UTF-8"); // footer is url encoded
+            return URLDecoder.decode(StringEscapeUtils.unescapeJava(footer.replace("%u", "\\u")), "UTF-8"); // footer is url encoded
         } catch (UnsupportedEncodingException e) {
             return null;
         }
