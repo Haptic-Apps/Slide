@@ -23,7 +23,7 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 
 import com.google.android.exoplayer2.Player;
-import com.google.android.exoplayer2.ext.okhttp.OkHttpDataSourceFactory;
+import com.google.android.exoplayer2.ext.okhttp.OkHttpDataSource;
 import com.google.android.exoplayer2.source.dash.manifest.AdaptationSet;
 import com.google.android.exoplayer2.source.dash.manifest.DashManifest;
 import com.google.android.exoplayer2.source.dash.manifest.DashManifestParser;
@@ -204,7 +204,9 @@ public class GifUtils {
                     InputStream in = null;
 
                     try {
-                        DataSource.Factory downloader = new OkHttpDataSourceFactory(Reddit.client, a.getString(R.string.app_name));
+                        DataSource.Factory downloader =
+                                new OkHttpDataSource.Factory(Reddit.client)
+                                        .setUserAgent(a.getString(R.string.app_name));
                         DataSource.Factory cacheDataSourceFactory =
                                 new CacheDataSource.Factory()
                                         .setCache(Reddit.videoCache)
@@ -921,8 +923,9 @@ public class GifUtils {
                     e.printStackTrace();
                 }
             } else {
-                DataSource.Factory downloader = new OkHttpDataSourceFactory(Reddit.client,
-                        c.getString(R.string.app_name));
+                DataSource.Factory downloader =
+                        new OkHttpDataSource.Factory(Reddit.client)
+                                .setUserAgent(c.getString(R.string.app_name));
                 DataSource.Factory cacheDataSourceFactory =
                         new CacheDataSource.Factory()
                                 .setCache(Reddit.videoCache)
