@@ -45,56 +45,56 @@ public class SettingsCommentsFragment {
         commentsCropImageSwitch.setChecked(SettingValues.cropImage);
         commentsCropImageSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             SettingValues.cropImage = isChecked;
-            SettingValues.prefs.edit().putBoolean(SettingValues.PREF_CROP_IMAGE, isChecked).apply();
+            editSharedBooleanPreference(SettingValues.PREF_CROP_IMAGE, isChecked);
         });
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         commentsColorDepthSwitch.setChecked(SettingValues.colorCommentDepth);
         commentsColorDepthSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             SettingValues.colorCommentDepth = isChecked;
-            SettingValues.prefs.edit().putBoolean(SettingValues.PREF_COLOR_COMMENT_DEPTH, isChecked).apply();
+            editSharedBooleanPreference(SettingValues.PREF_COLOR_COMMENT_DEPTH, isChecked);
         });
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         commentsHighlightOpColorSwitch.setChecked(SettingValues.highlightCommentOP);
         commentsHighlightOpColorSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             SettingValues.highlightCommentOP = isChecked;
-            SettingValues.prefs.edit().putBoolean(SettingValues.PREF_HIGHLIGHT_COMMENT_OP, isChecked).apply();
+            editSharedBooleanPreference(SettingValues.PREF_HIGHLIGHT_COMMENT_OP, isChecked);
         });
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         commentsWideDepthSwitch.setChecked(SettingValues.largeDepth);
         commentsWideDepthSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             SettingValues.largeDepth = isChecked;
-            SettingValues.prefs.edit().putBoolean(SettingValues.PREF_LARGE_DEPTH, isChecked).apply();
+            editSharedBooleanPreference(SettingValues.PREF_LARGE_DEPTH, isChecked);
         });
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         commentsShowCreateFabSwitch.setChecked(SettingValues.fabComments);
         commentsShowCreateFabSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             SettingValues.fabComments = isChecked;
-            SettingValues.prefs.edit().putBoolean(SettingValues.PREF_COMMENT_FAB, isChecked).apply();
+            editSharedBooleanPreference(SettingValues.PREF_COMMENT_FAB, isChecked);
         });
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         commentsRightHandedCommentsSwitch.setChecked(SettingValues.rightHandedCommentMenu);
         commentsRightHandedCommentsSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             SettingValues.rightHandedCommentMenu = isChecked;
-            SettingValues.prefs.edit().putBoolean(SettingValues.PREF_RIGHT_HANDED_COMMENT_MENU, isChecked).apply();
+            editSharedBooleanPreference(SettingValues.PREF_RIGHT_HANDED_COMMENT_MENU, isChecked);
         });
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         commentsUpvotePercentSwitch.setChecked(SettingValues.upvotePercentage);
         commentsUpvotePercentSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             SettingValues.upvotePercentage = isChecked;
-            SettingValues.prefs.edit().putBoolean(SettingValues.PREF_UPVOTE_PERCENTAGE, isChecked).apply();
+            editSharedBooleanPreference(SettingValues.PREF_UPVOTE_PERCENTAGE, isChecked);
         });
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         commentsColoredTimeBubbleSwitch.setChecked(SettingValues.highlightTime);
         commentsColoredTimeBubbleSwitch.setEnabled(SettingValues.commentLastVisit);
         commentsColoredTimeBubbleSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             SettingValues.highlightTime = isChecked;
-            SettingValues.prefs.edit().putBoolean(SettingValues.PREF_HIGHLIGHT_TIME, isChecked).apply();
+            editSharedBooleanPreference(SettingValues.PREF_HIGHLIGHT_TIME, isChecked);
         });
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         commentsHideAwardsSwitch.setChecked(SettingValues.hideCommentAwards);
         commentsHideAwardsSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             SettingValues.hideCommentAwards = isChecked;
-            SettingValues.prefs.edit().putBoolean(SettingValues.PREF_HIDE_COMMENT_AWARDS, isChecked).apply();
+            editSharedBooleanPreference(SettingValues.PREF_HIDE_COMMENT_AWARDS, isChecked);
         });
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -102,7 +102,7 @@ public class SettingsCommentsFragment {
         commentsParentCommentNavSwitch.setChecked(SettingValues.fastscroll);
         commentsParentCommentNavSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             SettingValues.fastscroll = isChecked;
-            SettingValues.prefs.edit().putBoolean(SettingValues.PREF_FASTSCROLL, isChecked).apply();
+            editSharedBooleanPreference(SettingValues.PREF_FASTSCROLL, isChecked);
 
             //Disable autohidenav and showcollapseexpand if commentNav isn't checked
             if (!isChecked) {
@@ -127,7 +127,7 @@ public class SettingsCommentsFragment {
         }
         commentsAutohideNavbarSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             SettingValues.commentAutoHide = isChecked;
-            SettingValues.prefs.edit().putBoolean(SettingValues.PREF_AUTOHIDE_COMMENTS, isChecked).apply();
+            editSharedBooleanPreference(SettingValues.PREF_AUTOHIDE_COMMENTS, isChecked);
         });
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         commentsShowCollapseExpandSwitch.setChecked(SettingValues.showCollapseExpand);
@@ -137,19 +137,19 @@ public class SettingsCommentsFragment {
         }
         commentsShowCollapseExpandSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             SettingValues.showCollapseExpand = isChecked;
-            SettingValues.prefs.edit().putBoolean(SettingValues.PREF_SHOW_COLLAPSE_EXPAND, isChecked).apply();
+            editSharedBooleanPreference(SettingValues.PREF_SHOW_COLLAPSE_EXPAND, isChecked);
         });
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         commentsVolumeNavCommentsSwitch.setChecked(SettingValues.commentVolumeNav);
         commentsVolumeNavCommentsSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             SettingValues.commentVolumeNav = isChecked;
-            SettingValues.prefs.edit().putBoolean(SettingValues.PREF_COMMENT_NAV, isChecked).apply();
+            editSharedBooleanPreference(SettingValues.PREF_COMMENT_NAV, isChecked);
         });
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         commentsNavbarVoteGesturesSwitch.setChecked(SettingValues.voteGestures);
         commentsNavbarVoteGesturesSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             SettingValues.voteGestures = isChecked;
-            SettingValues.prefs.edit().putBoolean(SettingValues.PREF_VOTE_GESTURES, isChecked).apply();
+            editSharedBooleanPreference(SettingValues.PREF_VOTE_GESTURES, isChecked);
         });
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -157,25 +157,29 @@ public class SettingsCommentsFragment {
         commentsSwapLongpressTapSwitch.setChecked(SettingValues.swap);
         commentsSwapLongpressTapSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             SettingValues.swap = isChecked;
-            SettingValues.prefs.edit().putBoolean(SettingValues.PREF_SWAP, isChecked).apply();
+            editSharedBooleanPreference(SettingValues.PREF_SWAP, isChecked);
         });
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         commentsFullCollapseSwitch.setChecked(SettingValues.collapseComments);
         commentsFullCollapseSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             SettingValues.collapseComments = isChecked;
-            SettingValues.prefs.edit().putBoolean(SettingValues.PREF_COLLAPSE_COMMENTS, isChecked).apply();
+            editSharedBooleanPreference(SettingValues.PREF_COLLAPSE_COMMENTS, isChecked);
         });
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         commentsCollapseChildCommentsSwitch.setChecked(SettingValues.collapseCommentsDefault);
         commentsCollapseChildCommentsSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             SettingValues.collapseCommentsDefault = isChecked;
-            SettingValues.prefs.edit().putBoolean(SettingValues.PREF_COLLAPSE_COMMENTS_DEFAULT, isChecked).apply();
+            editSharedBooleanPreference(SettingValues.PREF_COLLAPSE_COMMENTS_DEFAULT, isChecked);
         });
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         commentsCollapseDeletedCommentsSwitch.setChecked(SettingValues.collapseDeletedComments);
         commentsCollapseDeletedCommentsSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             SettingValues.collapseDeletedComments = isChecked;
-            SettingValues.prefs.edit().putBoolean(SettingValues.PREF_COLLAPSE_DELETED_COMMENTS, isChecked).apply();
+            editSharedBooleanPreference(SettingValues.PREF_COLLAPSE_DELETED_COMMENTS, isChecked);
         });
+    }
+
+    private void editSharedBooleanPreference(final String settingValueString, final boolean isChecked) {
+        SettingValues.prefs.edit().putBoolean(settingValueString, isChecked).apply();
     }
 }
