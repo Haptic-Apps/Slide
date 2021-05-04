@@ -56,7 +56,7 @@
             </LinearLayout>
 
             <androidx.appcompat.widget.SwitchCompat
-                android:id="@+id/settings_reddit_nsfwcontent"
+                android:id="@+id/settings_reddit_wantToSeeNsfwContent"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:paddingEnd="16dp"
@@ -90,7 +90,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/settings_reddit_nsfwrpev_text"
+                    android:id="@+id/settings_reddit_hideAllNsfw_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/settings_disable_nsfw_photo"
@@ -99,7 +99,7 @@
             </LinearLayout>
 
             <androidx.appcompat.widget.SwitchCompat
-                android:id="@+id/settings_reddit_nsfwrpev"
+                android:id="@+id/settings_reddit_hideAllNsfw"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:paddingEnd="16dp"
@@ -135,14 +135,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/settings_reddit_nsfwcollection_text"
+                    android:id="@+id/settings_reddit_hideNsfwPreviewCollections_text"
                     android:text="Hide NSFW previews in collections (like /r/all)"
                     android:textColor="?attr/fontColor"
                     android:textSize="14sp" />
             </LinearLayout>
 
             <androidx.appcompat.widget.SwitchCompat
-                android:id="@+id/settings_reddit_nsfwcollection"
+                android:id="@+id/settings_reddit_hideNsfwPreviewCollections"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:paddingEnd="16dp"
@@ -183,7 +183,7 @@
             </LinearLayout>
 
             <androidx.appcompat.widget.SwitchCompat
-                android:id="@+id/settings_reddit_ignorepref"
+                android:id="@+id/settings_reddit_ignoreSubMediaPrefs"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:paddingEnd="16dp"
