@@ -33,7 +33,7 @@ public class SettingsHistoryFragment {
         storeHistorySwitch.setChecked(SettingValues.storeHistory);
         storeHistorySwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             SettingValues.storeHistory = isChecked;
-            SettingValues.prefs.edit().putBoolean(SettingValues.PREF_STORE_HISTORY, isChecked).apply();
+            editSharedBooleanPreference(SettingValues.PREF_STORE_HISTORY, isChecked);
 
             if (isChecked) {
                 scrollSeenSwitch.setEnabled(true);
@@ -42,44 +42,48 @@ public class SettingsHistoryFragment {
                 storeNsfwHistorySwitch.setChecked(false);
                 storeNsfwHistorySwitch.setEnabled(false);
                 SettingValues.storeNSFWHistory = false;
-                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_STORE_NSFW_HISTORY, false).apply();
+                editSharedBooleanPreference(SettingValues.PREF_STORE_NSFW_HISTORY, false);
 
                 scrollSeenSwitch.setChecked(false);
                 scrollSeenSwitch.setEnabled(false);
                 SettingValues.scrollSeen = false;
-                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_SCROLL_SEEN, false).apply();
+                editSharedBooleanPreference(SettingValues.PREF_SCROLL_SEEN, false);
             }
         });
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         storeNsfwHistorySwitch.setChecked(SettingValues.storeNSFWHistory);
         storeNsfwHistorySwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             SettingValues.storeNSFWHistory = isChecked;
-            SettingValues.prefs.edit().putBoolean(SettingValues.PREF_STORE_NSFW_HISTORY, isChecked).apply();
+            editSharedBooleanPreference(SettingValues.PREF_STORE_NSFW_HISTORY, isChecked);
         });
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         scrollSeenSwitch.setChecked(SettingValues.scrollSeen);
         scrollSeenSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             SettingValues.scrollSeen = isChecked;
-            SettingValues.prefs.edit().putBoolean(SettingValues.PREF_SCROLL_SEEN, isChecked).apply();
-
+            editSharedBooleanPreference(SettingValues.PREF_SCROLL_SEEN, isChecked);
         });
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //* Clear history */
         clearPostsLayout.setOnClickListener(v -> {
             KVStore.getInstance().clearTable();
-            new AlertDialog.Builder(context)
-                    .setTitle(R.string.alert_history_cleared)
-                    .setPositiveButton(android.R.string.ok, null)
-                    .show();
+            showHistoryClearedDialog();
         });
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         clearSubsLayout.setOnClickListener(v -> {
             UserSubscriptions.subscriptions.edit().remove("subhistory").apply();
-            new AlertDialog.Builder(context)
-                    .setTitle(R.string.alert_history_cleared)
-                    .setPositiveButton(android.R.string.ok, null)
-                    .show();
+            showHistoryClearedDialog();
         });
+    }
+
+    private void showHistoryClearedDialog() {
+        new AlertDialog.Builder(context)
+                .setTitle(R.string.alert_history_cleared)
+                .setPositiveButton(android.R.string.ok, null)
+                .show();
+    }
+
+    private void editSharedBooleanPreference(final String settingValueString, final boolean isChecked) {
+        SettingValues.prefs.edit().putBoolean(settingValueString, isChecked).apply();
     }
 }
