@@ -56,7 +56,7 @@ public class SettingsRedditFragment {
                 hideNsfwPrevCollectionsSwitch.setEnabled(false);
                 hideNsfwPrevCollectionsText.setAlpha(0.25f);
             }
-            SettingValues.prefs.edit().putBoolean(SettingValues.PREF_SHOW_NSFW_CONTENT, isChecked).apply();
+            editSharedBooleanPreference(SettingValues.PREF_SHOW_NSFW_CONTENT, isChecked);
         });
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -69,7 +69,7 @@ public class SettingsRedditFragment {
         }
         hideAllNsfwSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             Settings.changed = true;
-            SettingValues.prefs.edit().putBoolean(SettingValues.PREF_HIDE_NSFW_PREVIEW + Authentication.name, isChecked).apply();
+            editSharedBooleanPreference(SettingValues.PREF_HIDE_NSFW_PREVIEW + Authentication.name, isChecked);
         });
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -83,7 +83,7 @@ public class SettingsRedditFragment {
         hideNsfwPrevCollectionsSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             Settings.changed = true;
             SettingValues.hideNSFWCollection = isChecked;
-            SettingValues.prefs.edit().putBoolean(SettingValues.PREF_HIDE_NSFW_COLLECTION, isChecked).apply();
+            editSharedBooleanPreference(SettingValues.PREF_HIDE_NSFW_COLLECTION, isChecked);
         });
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -91,7 +91,7 @@ public class SettingsRedditFragment {
         ignoreSubMediaPrefsSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             Settings.changed = true;
             SettingValues.ignoreSubSetting = isChecked;
-            SettingValues.prefs.edit().putBoolean(SettingValues.PREF_IGNORE_SUB_SETTINGS, isChecked).apply();
+            editSharedBooleanPreference(SettingValues.PREF_IGNORE_SUB_SETTINGS, isChecked);
         });
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -99,5 +99,9 @@ public class SettingsRedditFragment {
         viewRedditPrefsLayout.setOnClickListener(v ->
                 LinkUtil.openUrl(
                         "https://www.reddit.com/prefs/", Palette.getDefaultColor(), context));
+    }
+
+    private void editSharedBooleanPreference(final String settingValueString, final boolean isChecked) {
+        SettingValues.prefs.edit().putBoolean(settingValueString, isChecked).apply();
     }
 }
