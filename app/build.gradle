@@ -129,7 +129,7 @@ dependencies {
     implementation 'com.github.davemorrissey:subsampling-scale-image-view:173e421'
 
     // Image cropping
-    implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.0'
+    implementation 'com.github.CanHub:Android-Image-Cropper:2.2.2'
 
     // Bottom sheet implementation
     //  NOTE: Deprecated in favor of official Google bottom sheets

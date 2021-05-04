@@ -345,7 +345,7 @@
                 android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode"
                 android:theme="@style/swipeable"/>
         <activity
-                android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+                android:name="com.canhub.cropper.CropImageActivity"
                 android:theme="@style/Theme.AppCompat"/>
         <activity
                 android:name=".Activities.Draw"
