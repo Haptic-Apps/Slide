@@ -344,7 +344,7 @@
                 app:robotoTypeface="roboto_medium"/>
 
             <com.devspark.robototextview.widget.RobotoRadioButton
-                android:id="@+id/settings_font_sregl"
+                android:id="@+id/settings_font_slight"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?android:selectableItemBackground"
@@ -380,7 +380,7 @@
                 app:robotoTypeface="roboto_condensed_regular"/>
 
             <com.devspark.robototextview.widget.RobotoRadioButton
-                android:id="@+id/scondl"
+                android:id="@+id/settings_font_scondl"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?android:selectableItemBackground"

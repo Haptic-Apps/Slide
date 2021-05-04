@@ -1,9 +1,7 @@
 package me.ccrama.redditslide.Fragments;
 
 import android.app.Activity;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.PopupMenu;
@@ -16,6 +14,12 @@ import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 
 public class SettingsFontFragment {
+
+    private final Activity context;
+
+    public SettingsFontFragment(Activity context) {
+        this.context = context;
+    }
 
     private static String getFontName(int resource) {
         switch (resource) {
@@ -37,294 +41,232 @@ public class SettingsFontFragment {
         }
     }
 
-    private Activity context;
-
-    public SettingsFontFragment(Activity context) {
-        this.context = context;
-    }
-
     public void Bind() {
-        final TextView colorComment = context.findViewById(R.id.settings_font_commentFont);
-        colorComment.setText(new FontPreferences(context).getCommentFontStyle().getTitle());
-        context.findViewById(R.id.settings_font_commentfontsize).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PopupMenu popup = new PopupMenu(context, v);
-                popup.getMenu().add(0, R.string.font_size_huge, 0, R.string.font_size_huge);
-                popup.getMenu().add(0, R.string.font_size_larger, 0, R.string.font_size_larger);
-                popup.getMenu().add(0, R.string.font_size_large, 0, R.string.font_size_large);
-                popup.getMenu().add(0, R.string.font_size_medium, 0, R.string.font_size_medium);
-                popup.getMenu().add(0, R.string.font_size_small, 0, R.string.font_size_small);
-                popup.getMenu().add(0, R.string.font_size_smaller, 0, R.string.font_size_smaller);
+        final SwitchCompat fontEnlargeLinksSwitch = context.findViewById(R.id.settings_font_enlarge_links);
+        final SwitchCompat fontLinkTypeSwitch = context.findViewById(R.id.settings_font_linktype);
 
-                //registering popup with OnMenuItemClickListener
-                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    public boolean onMenuItemClick(MenuItem item) {
+        final LinearLayout fontCommentFontSizeLayout = context.findViewById(R.id.settings_font_commentfontsize);
+        final TextView fontCommentFontView = context.findViewById(R.id.settings_font_commentFont);
 
-                        new FontPreferences(context).setCommentFontStyle(
-                                FontPreferences.FontStyleComment.valueOf(getFontName(item.getItemId())));
-                        colorComment.setText(new FontPreferences(context).getCommentFontStyle().getTitle());
-                        SettingsThemeFragment.changed = true;
-                        return true;
-                    }
-                });
+        final RobotoRadioButton fontCommentStyleRegularButton = context.findViewById(R.id.settings_font_creg);
+        final RobotoRadioButton fontCommentStyleSlabButton = context.findViewById(R.id.settings_font_cslab);
+        final RobotoRadioButton fontCommentStyleCondensedButton = context.findViewById(R.id.settings_font_ccond);
+        final RobotoRadioButton fontCommentStyleLightButton = context.findViewById(R.id.settings_font_clight);
+        final RobotoRadioButton fontCommentStyleSystemButton = context.findViewById(R.id.settings_font_cnone);
 
-                popup.show();
-            }
+        final LinearLayout fontPostFontSizeLayout = context.findViewById(R.id.settings_font_postfontsize);
+        final TextView fontPostFontView = context.findViewById(R.id.settings_font_postFont);
+
+        final RobotoRadioButton fontPostStyleRegularButton = context.findViewById(R.id.settings_font_sreg);
+        final RobotoRadioButton fontPostStyleBoldButton = context.findViewById(R.id.settings_font_sbold);
+        final RobotoRadioButton fontPostStyleMediumButton = context.findViewById(R.id.settings_font_smed);
+        final RobotoRadioButton fontPostStyleLightButton = context.findViewById(R.id.settings_font_slight);
+        final RobotoRadioButton fontPostStyleSlabButton = context.findViewById(R.id.settings_font_sslab);
+        final RobotoRadioButton fontPostStyleSlabLightButton = context.findViewById(R.id.settings_font_sslabl);
+        final RobotoRadioButton fontPostStyleCondensedButton = context.findViewById(R.id.settings_font_scond);
+        final RobotoRadioButton fontPostStyleCondensedLightButton = context.findViewById(R.id.settings_font_scondl);
+        final RobotoRadioButton fontPostStyleCondensedBoldButton = context.findViewById(R.id.settings_font_scondb);
+        final RobotoRadioButton fontPostStyleSystemButton = context.findViewById(R.id.settings_font_snone);
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//* Links */
+        fontEnlargeLinksSwitch.setChecked(SettingValues.largeLinks);
+        fontEnlargeLinksSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            SettingValues.largeLinks = isChecked;
+            SettingValues.prefs.edit().putBoolean(SettingValues.PREF_LARGE_LINKS, isChecked).apply();
         });
-        final TextView colorPost = context.findViewById(R.id.settings_font_postFont);
-        colorPost.setText(new FontPreferences(context).getPostFontStyle().getTitle());
-        context.findViewById(R.id.settings_font_postfontsize).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PopupMenu popup = new PopupMenu(context, v);
-                popup.getMenu().add(0, R.string.font_size_huge, 0, R.string.font_size_huge);
-                popup.getMenu().add(0, R.string.font_size_larger, 0, R.string.font_size_larger);
-                popup.getMenu().add(0, R.string.font_size_large, 0, R.string.font_size_large);
-                popup.getMenu().add(0, R.string.font_size_medium, 0, R.string.font_size_medium);
-                popup.getMenu().add(0, R.string.font_size_small, 0, R.string.font_size_small);
-                popup.getMenu().add(0, R.string.font_size_smaller, 0, R.string.font_size_smaller);
-                popup.getMenu().add(0, R.string.font_size_tiny, 0, R.string.font_size_tiny);
 
-                //registering popup with OnMenuItemClickListener
-                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    public boolean onMenuItemClick(MenuItem item) {
-
-                        new FontPreferences(context).setPostFontStyle(
-                                FontPreferences.FontStyle.valueOf(getFontName(item.getItemId())));
-                        colorPost.setText(new FontPreferences(context).getPostFontStyle().getTitle());
-                        SettingsThemeFragment.changed = true;
-                        return true;
-                    }
-                });
-
-                popup.show();
-            }
+        fontLinkTypeSwitch.setChecked(SettingValues.typeInText);
+        fontLinkTypeSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            SettingValues.typeInText = isChecked;
+            SettingValues.prefs.edit().putBoolean(SettingValues.PREF_TYPE_IN_TEXT, isChecked).apply();
         });
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//* Font styles */
+        fontCommentFontSizeLayout.setOnClickListener(v -> {
+            PopupMenu popup = new PopupMenu(context, v);
+            popup.getMenu().add(0, R.string.font_size_huge, 0, R.string.font_size_huge);
+            popup.getMenu().add(0, R.string.font_size_larger, 0, R.string.font_size_larger);
+            popup.getMenu().add(0, R.string.font_size_large, 0, R.string.font_size_large);
+            popup.getMenu().add(0, R.string.font_size_medium, 0, R.string.font_size_medium);
+            popup.getMenu().add(0, R.string.font_size_small, 0, R.string.font_size_small);
+            popup.getMenu().add(0, R.string.font_size_smaller, 0, R.string.font_size_smaller);
+
+            //registering popup with OnMenuItemClickListener
+            popup.setOnMenuItemClickListener(item -> {
+                new FontPreferences(context).setCommentFontStyle(
+                        FontPreferences.FontStyleComment.valueOf(getFontName(item.getItemId())));
+                fontCommentFontView.setText(new FontPreferences(context).getCommentFontStyle().getTitle());
+                SettingsThemeFragment.changed = true;
+                return true;
+            });
+            popup.show();
+        });
+        fontCommentFontView.setText(new FontPreferences(context).getCommentFontStyle().getTitle());
 
         switch (new FontPreferences(context).getFontTypeComment()) {
             case Regular:
-                ((RobotoRadioButton) context.findViewById(R.id.settings_font_creg)).setChecked(true);
+                fontCommentStyleRegularButton.setChecked(true);
                 break;
             case Slab:
-                ((RobotoRadioButton) context.findViewById(R.id.settings_font_cslab)).setChecked(true);
+                fontCommentStyleSlabButton.setChecked(true);
                 break;
             case Condensed:
-                ((RobotoRadioButton) context.findViewById(R.id.settings_font_ccond)).setChecked(true);
+                fontCommentStyleCondensedButton.setChecked(true);
                 break;
             case Light:
-                ((RobotoRadioButton) context.findViewById(R.id.settings_font_clight)).setChecked(true);
+                fontCommentStyleLightButton.setChecked(true);
                 break;
             case System:
-                ((RobotoRadioButton) context.findViewById(R.id.settings_font_cnone)).setChecked(true);
+                fontCommentStyleSystemButton.setChecked(true);
                 break;
-
         }
-        ((RobotoRadioButton) context.findViewById(R.id.settings_font_ccond)).setOnCheckedChangeListener(
-                new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    SettingsThemeFragment.changed = true;
-                    new FontPreferences(context).setCommentFont(FontPreferences.FontTypeComment.Condensed);
-                }
+        fontCommentStyleRegularButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                SettingsThemeFragment.changed = true;
+                new FontPreferences(context).setCommentFont(FontPreferences.FontTypeComment.Regular);
             }
         });
-        ((RobotoRadioButton) context.findViewById(R.id.settings_font_cslab)).setOnCheckedChangeListener(
-                new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    SettingsThemeFragment.changed = true;
-                    new FontPreferences(context).setCommentFont(FontPreferences.FontTypeComment.Slab);
-                }
+        fontCommentStyleSlabButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                SettingsThemeFragment.changed = true;
+                new FontPreferences(context).setCommentFont(FontPreferences.FontTypeComment.Slab);
             }
         });
-        ((RobotoRadioButton) context.findViewById(R.id.settings_font_creg)).setOnCheckedChangeListener(
-                new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    SettingsThemeFragment.changed = true;
-                    new FontPreferences(context).setCommentFont(FontPreferences.FontTypeComment.Regular);
-                }
+        fontCommentStyleCondensedButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                SettingsThemeFragment.changed = true;
+                new FontPreferences(context).setCommentFont(FontPreferences.FontTypeComment.Condensed);
             }
         });
-        ((RobotoRadioButton) context.findViewById(R.id.settings_font_clight)).setOnCheckedChangeListener(
-                new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    SettingsThemeFragment.changed = true;
-                    new FontPreferences(context).setCommentFont(FontPreferences.FontTypeComment.Light);
-                }
+        fontCommentStyleLightButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                SettingsThemeFragment.changed = true;
+                new FontPreferences(context).setCommentFont(FontPreferences.FontTypeComment.Light);
             }
         });
-        ((RobotoRadioButton) context.findViewById(R.id.settings_font_cnone)).setOnCheckedChangeListener(
-                new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    SettingsThemeFragment.changed = true;
-                    new FontPreferences(context).setCommentFont(FontPreferences.FontTypeComment.System);
-                }
+        fontCommentStyleSystemButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                SettingsThemeFragment.changed = true;
+                new FontPreferences(context).setCommentFont(FontPreferences.FontTypeComment.System);
             }
         });
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        fontPostFontSizeLayout.setOnClickListener(v -> {
+            PopupMenu popup = new PopupMenu(context, v);
+            popup.getMenu().add(0, R.string.font_size_huge, 0, R.string.font_size_huge);
+            popup.getMenu().add(0, R.string.font_size_larger, 0, R.string.font_size_larger);
+            popup.getMenu().add(0, R.string.font_size_large, 0, R.string.font_size_large);
+            popup.getMenu().add(0, R.string.font_size_medium, 0, R.string.font_size_medium);
+            popup.getMenu().add(0, R.string.font_size_small, 0, R.string.font_size_small);
+            popup.getMenu().add(0, R.string.font_size_smaller, 0, R.string.font_size_smaller);
+            popup.getMenu().add(0, R.string.font_size_tiny, 0, R.string.font_size_tiny);
+
+            //registering popup with OnMenuItemClickListener
+            popup.setOnMenuItemClickListener(item -> {
+                new FontPreferences(context).setPostFontStyle(
+                        FontPreferences.FontStyle.valueOf(getFontName(item.getItemId())));
+                fontPostFontView.setText(new FontPreferences(context).getPostFontStyle().getTitle());
+                SettingsThemeFragment.changed = true;
+                return true;
+            });
+            popup.show();
+        });
+        fontPostFontView.setText(new FontPreferences(context).getPostFontStyle().getTitle());
+
         switch (new FontPreferences(context).getFontTypeTitle()) {
             case Regular:
-                ((RobotoRadioButton) context.findViewById(R.id.settings_font_sreg)).setChecked(true);
-                break;
-            case Light:
-                ((RobotoRadioButton) context.findViewById(R.id.settings_font_sregl)).setChecked(true);
-                break;
-            case Slab:
-                ((RobotoRadioButton) context.findViewById(R.id.settings_font_sslabl)).setChecked(true);
-                break;
-            case SlabReg:
-                ((RobotoRadioButton) context.findViewById(R.id.settings_font_sslab)).setChecked(true);
-                break;
-            case CondensedReg:
-                ((RobotoRadioButton) context.findViewById(R.id.settings_font_scond)).setChecked(true);
-                break;
-            case CondensedBold:
-                ((RobotoRadioButton) context.findViewById(R.id.settings_font_scondb)).setChecked(true);
-                break;
-            case Condensed:
-                ((RobotoRadioButton) context.findViewById(R.id.scondl)).setChecked(true);
+                fontPostStyleRegularButton.setChecked(true);
                 break;
             case Bold:
-                ((RobotoRadioButton) context.findViewById(R.id.settings_font_sbold)).setChecked(true);
+                fontPostStyleBoldButton.setChecked(true);
                 break;
             case Medium:
-                ((RobotoRadioButton) context.findViewById(R.id.settings_font_smed)).setChecked(true);
+                fontPostStyleMediumButton.setChecked(true);
+                break;
+            case Light:
+                fontPostStyleLightButton.setChecked(true);
+                break;
+            case SlabRegular:
+                fontPostStyleSlabButton.setChecked(true);
+                break;
+            case SlabLight:
+                fontPostStyleSlabLightButton.setChecked(true);
+                break;
+            case CondensedRegular:
+                fontPostStyleCondensedButton.setChecked(true);
+                break;
+            case CondensedLight:
+                fontPostStyleCondensedLightButton.setChecked(true);
+                break;
+            case CondensedBold:
+                fontPostStyleCondensedBoldButton.setChecked(true);
                 break;
             case System:
-                ((RobotoRadioButton) context.findViewById(R.id.settings_font_snone)).setChecked(true);
+                fontPostStyleSystemButton.setChecked(true);
                 break;
         }
-        ((RobotoRadioButton) context.findViewById(R.id.settings_font_scond)).setOnCheckedChangeListener(
-                new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    SettingsThemeFragment.changed = true;
-                    new FontPreferences(context).setTitleFont(FontPreferences.FontTypeTitle.CondensedReg);
-                }
+        fontPostStyleRegularButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                SettingsThemeFragment.changed = true;
+                new FontPreferences(context).setTitleFont(FontPreferences.FontTypeTitle.Regular);
             }
         });
-        ((RobotoRadioButton) context.findViewById(R.id.settings_font_sslab)).setOnCheckedChangeListener(
-                new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    SettingsThemeFragment.changed = true;
-                    new FontPreferences(context).setTitleFont(FontPreferences.FontTypeTitle.SlabReg);
-                }
+        fontPostStyleBoldButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                SettingsThemeFragment.changed = true;
+                new FontPreferences(context).setTitleFont(FontPreferences.FontTypeTitle.Bold);
             }
         });
-        ((RobotoRadioButton) context.findViewById(R.id.scondl)).setOnCheckedChangeListener(
-                new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    SettingsThemeFragment.changed = true;
-                    new FontPreferences(context).setTitleFont(FontPreferences.FontTypeTitle.Condensed);
-                }
+        fontPostStyleMediumButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                SettingsThemeFragment.changed = true;
+                new FontPreferences(context).setTitleFont(FontPreferences.FontTypeTitle.Medium);
             }
         });
-        ((RobotoRadioButton) context.findViewById(R.id.settings_font_sbold)).setOnCheckedChangeListener(
-                new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    SettingsThemeFragment.changed = true;
-                    new FontPreferences(context).setTitleFont(FontPreferences.FontTypeTitle.Bold);
-                }
+        fontPostStyleLightButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                SettingsThemeFragment.changed = true;
+                new FontPreferences(context).setTitleFont(FontPreferences.FontTypeTitle.Light);
             }
         });
-        ((RobotoRadioButton) context.findViewById(R.id.settings_font_smed)).setOnCheckedChangeListener(
-                new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    SettingsThemeFragment.changed = true;
-                    new FontPreferences(context).setTitleFont(FontPreferences.FontTypeTitle.Medium);
-                }
+        fontPostStyleSlabButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                SettingsThemeFragment.changed = true;
+                new FontPreferences(context).setTitleFont(FontPreferences.FontTypeTitle.SlabRegular);
             }
         });
-        ((RobotoRadioButton) context.findViewById(R.id.settings_font_sslabl)).setOnCheckedChangeListener(
-                new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    SettingsThemeFragment.changed = true;
-                    new FontPreferences(context).setTitleFont(FontPreferences.FontTypeTitle.Slab);
-                }
+        fontPostStyleSlabLightButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                SettingsThemeFragment.changed = true;
+                new FontPreferences(context).setTitleFont(FontPreferences.FontTypeTitle.SlabLight);
             }
         });
-        ((RobotoRadioButton) context.findViewById(R.id.settings_font_sreg)).setOnCheckedChangeListener(
-                new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    SettingsThemeFragment.changed = true;
-                    new FontPreferences(context).setTitleFont(FontPreferences.FontTypeTitle.Regular);
-                }
+        fontPostStyleCondensedButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                SettingsThemeFragment.changed = true;
+                new FontPreferences(context).setTitleFont(FontPreferences.FontTypeTitle.CondensedRegular);
             }
         });
-        ((RobotoRadioButton) context.findViewById(R.id.settings_font_sregl)).setOnCheckedChangeListener(
-                new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    SettingsThemeFragment.changed = true;
-                    new FontPreferences(context).setTitleFont(FontPreferences.FontTypeTitle.Light);
-                }
+        fontPostStyleCondensedLightButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                SettingsThemeFragment.changed = true;
+                new FontPreferences(context).setTitleFont(FontPreferences.FontTypeTitle.CondensedLight);
             }
         });
-        ((RobotoRadioButton) context.findViewById(R.id.settings_font_snone)).setOnCheckedChangeListener(
-                new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    SettingsThemeFragment.changed = true;
-                    new FontPreferences(context).setTitleFont(FontPreferences.FontTypeTitle.System);
-                }
+        fontPostStyleCondensedBoldButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                SettingsThemeFragment.changed = true;
+                new FontPreferences(context).setTitleFont(FontPreferences.FontTypeTitle.CondensedBold);
             }
         });
-        ((RobotoRadioButton) context.findViewById(R.id.settings_font_scondb)).setOnCheckedChangeListener(
-                new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    SettingsThemeFragment.changed = true;
-                    new FontPreferences(context).setTitleFont(FontPreferences.FontTypeTitle.CondensedBold);
-                }
+        fontPostStyleSystemButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                SettingsThemeFragment.changed = true;
+                new FontPreferences(context).setTitleFont(FontPreferences.FontTypeTitle.System);
             }
         });
-
-        {
-            SwitchCompat single = context.findViewById(R.id.settings_font_linktype);
-            single.setChecked(SettingValues.typeInText);
-            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    SettingValues.typeInText = isChecked;
-                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_TYPE_IN_TEXT, isChecked).apply();
-                }
-            });
-        }
-        {
-            SwitchCompat single = context.findViewById(R.id.settings_font_enlarge_links);
-            single.setChecked(SettingValues.largeLinks);
-            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    SettingValues.largeLinks = isChecked;
-                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_LARGE_LINKS, isChecked).apply();
-                }
-            });
-        }
     }
-
 }
