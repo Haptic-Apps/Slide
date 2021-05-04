@@ -58,26 +58,17 @@ public class SettingsModerationFragment {
             popupMenu.setOnMenuItemClickListener(item -> {
                 switch (item.getItemId()) {
                     case R.id.slide:
-                        SettingValues.removalReasonType = SettingValues.RemovalReasonType.SLIDE.ordinal();
-                        SettingValues.prefs.edit().putInt(SettingValues.PREF_MOD_REMOVAL_TYPE,
-                                SettingValues.removalReasonType).apply();
-                        removalReasonsCurrentView.setText(
-                                context.getString(R.string.settings_mod_removal_slide));
+                        setModRemovalReasonType(removalReasonsCurrentView,
+                                RemovalReasonType.SLIDE.ordinal(), R.string.settings_mod_removal_slide);
                         break;
                     case R.id.toolbox:
-                        SettingValues.removalReasonType = SettingValues.RemovalReasonType.TOOLBOX.ordinal();
-                        SettingValues.prefs.edit().putInt(SettingValues.PREF_MOD_REMOVAL_TYPE,
-                                SettingValues.removalReasonType).apply();
-                        removalReasonsCurrentView.setText(
-                                context.getString(R.string.settings_mod_removal_toolbox));
+                        setModRemovalReasonType(removalReasonsCurrentView,
+                                RemovalReasonType.TOOLBOX.ordinal(), R.string.settings_mod_removal_toolbox);
                         break;
                     // For implementing reddit native removal reasons:
                     /*case R.id.reddit:
-                        SettingValues.removalReasonType = SettingValues.RemovalReasonType.REDDIT.ordinal();
-                        SettingValues.prefs.edit().putInt(SettingValues.PREF_MOD_REMOVAL_TYPE,
-                                SettingValues.removalReasonType).apply();
-                        removalReasonsCurrent.setText(
-                                context.getString(R.string.settings_mod_removal_reddit));
+                        setModRemovalReasonType(removalReasonsCurrentView,
+                                RemovalReasonType.REDDIT.ordinal(), R.string.settings_mod_removal_reddit);
                         break;*/
                 }
                 return true;
@@ -91,7 +82,7 @@ public class SettingsModerationFragment {
         enableToolboxSwitch.setChecked(SettingValues.toolboxEnabled);
         enableToolboxSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             SettingValues.toolboxEnabled = isChecked;
-            SettingValues.prefs.edit().putBoolean(SettingValues.PREF_MOD_TOOLBOX_ENABLED, isChecked).apply();
+            editSharedBooleanPreference(SettingValues.PREF_MOD_TOOLBOX_ENABLED, isChecked);
 
             removalMessageLayout.setEnabled(isChecked);
             sendMsgAsSubredditSwitch.setEnabled(isChecked);
@@ -100,10 +91,8 @@ public class SettingsModerationFragment {
             refreshLayout.setEnabled(isChecked);
 
             if (!isChecked) {
-                SettingValues.removalReasonType = SettingValues.RemovalReasonType.SLIDE.ordinal();
-                SettingValues.prefs.edit().putInt(SettingValues.PREF_MOD_REMOVAL_TYPE,
-                        SettingValues.removalReasonType).apply();
-                removalReasonsCurrentView.setText(context.getString(R.string.settings_mod_removal_slide));
+                setModRemovalReasonType(removalReasonsCurrentView,
+                        RemovalReasonType.SLIDE.ordinal(), R.string.settings_mod_removal_slide);
             }
 
             // download and cache toolbox stuff in the background unless it's already loaded
@@ -133,32 +122,20 @@ public class SettingsModerationFragment {
             popupMenu.setOnMenuItemClickListener(item -> {
                 switch (item.getItemId()) {
                     case R.id.comment:
-                        SettingValues.toolboxMessageType =
-                                SettingValues.ToolboxRemovalMessageType.COMMENT.ordinal();
-                        SettingValues.prefs.edit().putInt(SettingValues.PREF_MOD_REMOVAL_TYPE,
-                                SettingValues.toolboxMessageType).apply();
-                        removalMessageCurrentView.setText(context.getString(R.string.toolbox_removal_comment));
+                        setToolboxRemovalMessageType(removalMessageCurrentView,
+                                ToolboxRemovalMessageType.COMMENT.ordinal(), R.string.toolbox_removal_comment);
                         break;
                     case R.id.pm:
-                        SettingValues.toolboxMessageType =
-                                SettingValues.ToolboxRemovalMessageType.PM.ordinal();
-                        SettingValues.prefs.edit().putInt(SettingValues.PREF_MOD_REMOVAL_TYPE,
-                                SettingValues.toolboxMessageType).apply();
-                        removalMessageCurrentView.setText(context.getString(R.string.toolbox_removal_pm));
+                        setToolboxRemovalMessageType(removalMessageCurrentView,
+                                ToolboxRemovalMessageType.PM.ordinal(), R.string.toolbox_removal_pm);
                         break;
                     case R.id.both:
-                        SettingValues.toolboxMessageType =
-                                SettingValues.ToolboxRemovalMessageType.BOTH.ordinal();
-                        SettingValues.prefs.edit().putInt(SettingValues.PREF_MOD_REMOVAL_TYPE,
-                                SettingValues.toolboxMessageType).apply();
-                        removalMessageCurrentView.setText(context.getString(R.string.toolbox_removal_both));
+                        setToolboxRemovalMessageType(removalMessageCurrentView,
+                                ToolboxRemovalMessageType.BOTH.ordinal(), R.string.toolbox_removal_both);
                         break;
                     case R.id.none:
-                        SettingValues.toolboxMessageType =
-                                SettingValues.ToolboxRemovalMessageType.NONE.ordinal();
-                        SettingValues.prefs.edit().putInt(SettingValues.PREF_MOD_REMOVAL_TYPE,
-                                SettingValues.toolboxMessageType).apply();
-                        removalMessageCurrentView.setText(context.getString(R.string.toolbox_removal_none));
+                        setToolboxRemovalMessageType(removalMessageCurrentView,
+                                ToolboxRemovalMessageType.NONE.ordinal(), R.string.toolbox_removal_none);
                         break;
                 }
                 return true;
@@ -172,7 +149,7 @@ public class SettingsModerationFragment {
         sendMsgAsSubredditSwitch.setChecked(SettingValues.toolboxModmail);
         sendMsgAsSubredditSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             SettingValues.toolboxModmail = isChecked;
-            SettingValues.prefs.edit().putBoolean(SettingValues.PREF_MOD_TOOLBOX_MODMAIL, isChecked).apply();
+            editSharedBooleanPreference(SettingValues.PREF_MOD_TOOLBOX_MODMAIL, isChecked);
         });
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -181,7 +158,7 @@ public class SettingsModerationFragment {
         stickyMessageSwitch.setChecked(SettingValues.toolboxSticky);
         stickyMessageSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             SettingValues.toolboxSticky = isChecked;
-            SettingValues.prefs.edit().putBoolean(SettingValues.PREF_MOD_TOOLBOX_STICKY, isChecked).apply();
+            editSharedBooleanPreference(SettingValues.PREF_MOD_TOOLBOX_STICKY, isChecked);
         });
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -190,7 +167,7 @@ public class SettingsModerationFragment {
         lockAfterRemovalSwitch.setChecked(SettingValues.toolboxLock);
         lockAfterRemovalSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             SettingValues.toolboxLock = isChecked;
-            SettingValues.prefs.edit().putBoolean(SettingValues.PREF_MOD_TOOLBOX_LOCK, isChecked).apply();
+            editSharedBooleanPreference(SettingValues.PREF_MOD_TOOLBOX_LOCK, isChecked);
         });
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -204,6 +181,29 @@ public class SettingsModerationFragment {
                                 new AsyncRefreshToolboxTask(dialog).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR))
                         .cancelable(false)
                         .show());
+    }
+
+    private void setToolboxRemovalMessageType(final TextView textView, final int enumOrdinal, final int string) {
+        SettingValues.toolboxMessageType = enumOrdinal;
+        setBaseModerationType(textView, SettingValues.toolboxMessageType, string);
+    }
+
+    private void setModRemovalReasonType(final TextView textView, final int enumOrdinal, final int string) {
+        SettingValues.removalReasonType = enumOrdinal;
+        setBaseModerationType(textView, SettingValues.removalReasonType, string);
+    }
+
+    private void setBaseModerationType(final TextView textView, final int moderationType, final int string) {
+        editSharedIntPreference(SettingValues.PREF_MOD_REMOVAL_TYPE, moderationType);
+        textView.setText(context.getString(string));
+    }
+
+    private void editSharedIntPreference(final String settingValueString, final int i) {
+        SettingValues.prefs.edit().putInt(settingValueString, i).apply();
+    }
+
+    private void editSharedBooleanPreference(final String settingValueString, final boolean isChecked) {
+        SettingValues.prefs.edit().putBoolean(settingValueString, isChecked).apply();
     }
 
     private static class AsyncRefreshToolboxTask extends AsyncTask<Void, Void, Void> {
