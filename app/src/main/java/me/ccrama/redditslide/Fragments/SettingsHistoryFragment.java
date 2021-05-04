@@ -1,8 +1,7 @@
 package me.ccrama.redditslide.Fragments;
 
 import android.app.Activity;
-import android.view.View;
-import android.widget.CompoundButton;
+import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.SwitchCompat;
@@ -15,79 +14,72 @@ import me.ccrama.redditslide.UserSubscriptions;
 
 public class SettingsHistoryFragment {
 
-    private Activity context;
+    private final Activity context;
 
     public SettingsHistoryFragment(Activity context) {
         this.context = context;
     }
 
     public void Bind() {
-        {
-            SwitchCompat storeHistory = context.findViewById(R.id.settings_history_storehistory);
-            storeHistory.setChecked(SettingValues.storeHistory);
-            storeHistory.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    SettingValues.storeHistory = isChecked;
-                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_STORE_HISTORY, isChecked).apply();
+        final SwitchCompat storeHistorySwitch = context.findViewById(R.id.settings_history_storehistory);
+        final SwitchCompat storeNsfwHistorySwitch = context.findViewById(R.id.settings_history_storensfw);
+        final SwitchCompat scrollSeenSwitch = context.findViewById(R.id.settings_history_scrollseen);
 
-                    if (isChecked) {
-                        context.findViewById(R.id.settings_history_scrollseen).setEnabled(true);
-                        context.findViewById(R.id.settings_history_storensfw).setEnabled(true);
-                    } else {
-                        ((SwitchCompat) context.findViewById(R.id.settings_history_storensfw)).setChecked(false);
-                        context.findViewById(R.id.settings_history_storensfw).setEnabled(false);
-                        SettingValues.storeNSFWHistory = false;
-                        SettingValues.prefs.edit().putBoolean(SettingValues.PREF_STORE_NSFW_HISTORY, false).apply();
+        final RelativeLayout clearPostsLayout = context.findViewById(R.id.settings_history_clearposts);
+        final RelativeLayout clearSubsLayout = context.findViewById(R.id.settings_history_clearsubs);
 
-                        ((SwitchCompat) context.findViewById(R.id.settings_history_scrollseen)).setChecked(false);
-                        context.findViewById(R.id.settings_history_scrollseen).setEnabled(false);
-                        SettingValues.scrollSeen = false;
-                        SettingValues.prefs.edit().putBoolean(SettingValues.PREF_SCROLL_SEEN, false).apply();
-                    }
-                }
-            });
-        }
-        context.findViewById(R.id.settings_history_clearposts).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                KVStore.getInstance().clearTable();
-                new AlertDialog.Builder(context).setTitle(R.string.alert_history_cleared)
-                        .setPositiveButton(R.string.btn_ok, null).show();
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//* Save history */
+        storeHistorySwitch.setChecked(SettingValues.storeHistory);
+        storeHistorySwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            SettingValues.storeHistory = isChecked;
+            SettingValues.prefs.edit().putBoolean(SettingValues.PREF_STORE_HISTORY, isChecked).apply();
+
+            if (isChecked) {
+                scrollSeenSwitch.setEnabled(true);
+                storeNsfwHistorySwitch.setEnabled(true);
+            } else {
+                storeNsfwHistorySwitch.setChecked(false);
+                storeNsfwHistorySwitch.setEnabled(false);
+                SettingValues.storeNSFWHistory = false;
+                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_STORE_NSFW_HISTORY, false).apply();
+
+                scrollSeenSwitch.setChecked(false);
+                scrollSeenSwitch.setEnabled(false);
+                SettingValues.scrollSeen = false;
+                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_SCROLL_SEEN, false).apply();
             }
         });
-        context.findViewById(R.id.settings_history_clearsubs).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                UserSubscriptions.subscriptions.edit().remove("subhistory").apply();
-                new AlertDialog.Builder(context).setTitle(R.string.alert_history_cleared)
-                        .setPositiveButton(R.string.btn_ok, null).show();
-            }
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        storeNsfwHistorySwitch.setChecked(SettingValues.storeNSFWHistory);
+        storeNsfwHistorySwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            SettingValues.storeNSFWHistory = isChecked;
+            SettingValues.prefs.edit().putBoolean(SettingValues.PREF_STORE_NSFW_HISTORY, isChecked).apply();
         });
-        {
-            SwitchCompat nsfw = context.findViewById(R.id.settings_history_storensfw);
-            nsfw.setChecked(SettingValues.storeNSFWHistory);
-            nsfw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    SettingValues.storeNSFWHistory = isChecked;
-                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_STORE_NSFW_HISTORY, isChecked).apply();
-                }
-            });
-        }
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        scrollSeenSwitch.setChecked(SettingValues.scrollSeen);
+        scrollSeenSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            SettingValues.scrollSeen = isChecked;
+            SettingValues.prefs.edit().putBoolean(SettingValues.PREF_SCROLL_SEEN, isChecked).apply();
 
-        {
-            SwitchCompat single = context.findViewById(R.id.settings_history_scrollseen);
-            single.setChecked(SettingValues.scrollSeen);
-            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    SettingValues.scrollSeen = isChecked;
-                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_SCROLL_SEEN, isChecked).apply();
+        });
 
-                }
-            });
-        }
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//* Clear history */
+        clearPostsLayout.setOnClickListener(v -> {
+            KVStore.getInstance().clearTable();
+            new AlertDialog.Builder(context)
+                    .setTitle(R.string.alert_history_cleared)
+                    .setPositiveButton(android.R.string.ok, null)
+                    .show();
+        });
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        clearSubsLayout.setOnClickListener(v -> {
+            UserSubscriptions.subscriptions.edit().remove("subhistory").apply();
+            new AlertDialog.Builder(context)
+                    .setTitle(R.string.alert_history_cleared)
+                    .setPositiveButton(android.R.string.ok, null)
+                    .show();
+        });
     }
-
 }
