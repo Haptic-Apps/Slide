@@ -41,7 +41,7 @@
         </LinearLayout>
 
         <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/settings_comments_cropimage"
+            android:id="@+id/settings_comments_cropImage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingEnd="16dp"
@@ -83,7 +83,7 @@
         </LinearLayout>
 
         <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/settings_comments_color"
+            android:id="@+id/settings_comments_colorDepth"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingEnd="16dp"
@@ -125,7 +125,7 @@
         </LinearLayout>
 
         <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/settings_comments_opColor"
+            android:id="@+id/settings_comments_highlightOpColor"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingEnd="16dp"
@@ -166,7 +166,7 @@
         </LinearLayout>
 
         <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/settings_comments_wide"
+            android:id="@+id/settings_comments_wideDepth"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingEnd="16dp"
@@ -208,7 +208,7 @@
         </LinearLayout>
 
         <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/settings_comments_fab"
+            android:id="@+id/settings_comments_showCreateFab"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingEnd="16dp"
@@ -292,7 +292,7 @@
         </LinearLayout>
 
         <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/settings_comments_percentvote"
+            android:id="@+id/settings_comments_upvotePercent"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingEnd="16dp"
@@ -346,7 +346,7 @@
         </LinearLayout>
 
         <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/settings_comments_colored_time"
+            android:id="@+id/settings_comments_coloredTimeBubble"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignBottom="@+id/settings_comments_linearLayout"
@@ -391,7 +391,7 @@
         </LinearLayout>
 
         <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/settings_comments_hide_awards"
+            android:id="@+id/settings_comments_hideAwards"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingEnd="16dp"
@@ -448,7 +448,7 @@
         </LinearLayout>
 
         <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/settings_comments_commentnav"
+            android:id="@+id/settings_comments_parentCommentNav"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingEnd="16dp"
@@ -482,7 +482,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/settings_comments_auto_hide_the_comment_nav_bar_text"
+                android:id="@+id/settings_comments_autohideCommentNavbarView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/auto_hide_the_comment_nav_bar"
@@ -491,7 +491,7 @@
         </LinearLayout>
 
         <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/settings_comments_autohidenav"
+            android:id="@+id/settings_comments_autohideCommentNavbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingEnd="16dp"
@@ -525,7 +525,7 @@
                 android:orientation="vertical">
 
             <TextView
-                    android:id="@+id/show_collapse_expand_nav_bar"
+                    android:id="@+id/settings_comments_showCollapseExpandView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/show_collapse_expand_nav_bar"
@@ -534,7 +534,7 @@
         </LinearLayout>
 
         <androidx.appcompat.widget.SwitchCompat
-                android:id="@+id/settings_comments_show_collapse_expand"
+                android:id="@+id/settings_comments_showCollapseExpand"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:paddingEnd="16dp"
@@ -576,7 +576,7 @@
         </LinearLayout>
 
         <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/settings_comments_volumenavcomments"
+            android:id="@+id/settings_comments_volumeNavComments"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingEnd="16dp"
@@ -624,7 +624,7 @@
         </LinearLayout>
 
         <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/settings_comments_gestures"
+            android:id="@+id/settings_comments_navbarVoteGestures"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingEnd="16dp"
@@ -672,7 +672,7 @@
         </LinearLayout>
 
         <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/settings_comments_swapGesture"
+            android:id="@+id/settings_comments_swapLongpressTap"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingEnd="16dp"
@@ -721,7 +721,7 @@
         </LinearLayout>
 
         <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/settings_comments_collapse"
+            android:id="@+id/settings_comments_fullCollapse"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingEnd="16dp"
@@ -763,7 +763,7 @@
         </LinearLayout>
 
         <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/settings_comments_collapse_comments_default"
+            android:id="@+id/settings_comments_collapseChildComments"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingEnd="16dp"
@@ -805,7 +805,7 @@
         </LinearLayout>
 
         <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/settings_comments_collapse_deleted"
+            android:id="@+id/settings_comments_collapseDeletedComments"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingEnd="16dp"

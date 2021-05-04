@@ -1,7 +1,7 @@
 package me.ccrama.redditslide.Fragments;
 
 import android.app.Activity;
-import android.widget.CompoundButton;
+import android.widget.TextView;
 
 import androidx.appcompat.widget.SwitchCompat;
 
@@ -10,237 +10,172 @@ import me.ccrama.redditslide.SettingValues;
 
 public class SettingsCommentsFragment {
 
-    private Activity context;
+    private final Activity context;
 
     public SettingsCommentsFragment(Activity context) {
         this.context = context;
     }
 
     public void Bind() {
-        {
-            SwitchCompat single = context.findViewById(R.id.settings_comments_commentnav);
-            single.setChecked(SettingValues.fastscroll);
-            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    SettingValues.fastscroll = isChecked;
-                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_FASTSCROLL, isChecked).apply();
+        final SwitchCompat commentsCropImageSwitch = context.findViewById(R.id.settings_comments_cropImage);
+        final SwitchCompat commentsColorDepthSwitch = context.findViewById(R.id.settings_comments_colorDepth);
+        final SwitchCompat commentsHighlightOpColorSwitch = context.findViewById(R.id.settings_comments_highlightOpColor);
+        final SwitchCompat commentsWideDepthSwitch = context.findViewById(R.id.settings_comments_wideDepth);
+        final SwitchCompat commentsShowCreateFabSwitch = context.findViewById(R.id.settings_comments_showCreateFab);
+        final SwitchCompat commentsRightHandedCommentsSwitch = context.findViewById(R.id.settings_comments_rightHandedComments);
+        final SwitchCompat commentsUpvotePercentSwitch = context.findViewById(R.id.settings_comments_upvotePercent);
+        final SwitchCompat commentsColoredTimeBubbleSwitch = context.findViewById(R.id.settings_comments_coloredTimeBubble);
+        final SwitchCompat commentsHideAwardsSwitch = context.findViewById(R.id.settings_comments_hideAwards);
 
-                    //Disable autohidenav and showcollapseexpand if commentNav isn't checked
-                    if (!isChecked) {
-                        context.findViewById(R.id.settings_comments_autohidenav).setEnabled(false);
-                        ((SwitchCompat)context.findViewById(R.id.settings_comments_autohidenav)).setChecked(SettingValues.commentAutoHide);
-                        context.findViewById(R.id.settings_comments_auto_hide_the_comment_nav_bar_text).setAlpha(0.25f);
-                        context.findViewById(R.id.settings_comments_show_collapse_expand).setEnabled(false);
-                        ((SwitchCompat)context.findViewById(R.id.settings_comments_show_collapse_expand)).setChecked(SettingValues.commentAutoHide);
-                        context.findViewById(R.id.show_collapse_expand_nav_bar).setAlpha(0.25f);
-                    } else {
-                        context.findViewById(R.id.settings_comments_autohidenav).setEnabled(true);
-                        context.findViewById(R.id.settings_comments_auto_hide_the_comment_nav_bar_text).setAlpha(1f);
-                        context.findViewById(R.id.settings_comments_show_collapse_expand).setEnabled(true);
-                        context.findViewById(R.id.show_collapse_expand_nav_bar).setAlpha(1f);
-                    }
-                }
-            });
-        }
-        {
-            SwitchCompat single = context.findViewById(R.id.settings_comments_fab);
-            single.setChecked(SettingValues.fabComments);
-            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    SettingValues.fabComments = isChecked;
-                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_COMMENT_FAB, isChecked).apply();
-                }
-            });
-        }
-        {
-            SwitchCompat single = context.findViewById(R.id.settings_comments_show_collapse_expand);
-            single.setChecked(SettingValues.showCollapseExpand);
+        final SwitchCompat commentsParentCommentNavSwitch = context.findViewById(R.id.settings_comments_parentCommentNav);
+        final TextView commentsAutohideNavbarView = context.findViewById(R.id.settings_comments_autohideCommentNavbarView);
+        final SwitchCompat commentsAutohideNavbarSwitch = context.findViewById(R.id.settings_comments_autohideCommentNavbar);
+        final TextView commentsShowCollapseExpandView = context.findViewById(R.id.settings_comments_showCollapseExpandView);
+        final SwitchCompat commentsShowCollapseExpandSwitch = context.findViewById(R.id.settings_comments_showCollapseExpand);
+        final SwitchCompat commentsVolumeNavCommentsSwitch = context.findViewById(R.id.settings_comments_volumeNavComments);
+        final SwitchCompat commentsNavbarVoteGesturesSwitch = context.findViewById(R.id.settings_comments_navbarVoteGestures);
 
-            if (!((SwitchCompat) context.findViewById(R.id.settings_comments_commentnav)).isChecked()) {
-                single.setEnabled(false);
-                context.findViewById(R.id.show_collapse_expand_nav_bar).setAlpha(0.25f);
-            }
+        final SwitchCompat commentsSwapLongpressTapSwitch = context.findViewById(R.id.settings_comments_swapLongpressTap);
+        final SwitchCompat commentsFullCollapseSwitch = context.findViewById(R.id.settings_comments_fullCollapse);
+        final SwitchCompat commentsCollapseChildCommentsSwitch = context.findViewById(R.id.settings_comments_collapseChildComments);
+        final SwitchCompat commentsCollapseDeletedCommentsSwitch = context.findViewById(R.id.settings_comments_collapseDeletedComments);
 
-            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    SettingValues.showCollapseExpand = isChecked;
-                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_SHOW_COLLAPSE_EXPAND, isChecked).apply();
-                }
-            });
-        }
-        {
-            SwitchCompat single = context.findViewById(R.id.settings_comments_rightHandedComments);
-            single.setChecked(SettingValues.rightHandedCommentMenu);
-            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    SettingValues.rightHandedCommentMenu = isChecked;
-                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_RIGHT_HANDED_COMMENT_MENU, isChecked).apply();
-                }
-            });
-        }
-        {
-            SwitchCompat single = context.findViewById(R.id.settings_comments_color);
-            single.setChecked(SettingValues.colorCommentDepth);
-            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    SettingValues.colorCommentDepth = isChecked;
-                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_COLOR_COMMENT_DEPTH, isChecked).apply();
-                }
-            });
-        }
-        {
-            SwitchCompat single = context.findViewById(R.id.settings_comments_colored_time);
-            single.setChecked(SettingValues.highlightTime);
-            single.setEnabled(SettingValues.commentLastVisit);
-            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    SettingValues.highlightTime = isChecked;
-                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_HIGHLIGHT_TIME, isChecked).apply();
-                }
-            });
-        }
-        {
-            SwitchCompat single = context.findViewById(R.id.settings_comments_gestures);
-            single.setChecked(SettingValues.voteGestures);
-            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    SettingValues.voteGestures = isChecked;
-                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_VOTE_GESTURES, isChecked).apply();
-                }
-            });
-        }
-        {
-            SwitchCompat single = context.findViewById(R.id.settings_comments_percentvote);
-            single.setChecked(SettingValues.upvotePercentage);
-            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    SettingValues.upvotePercentage = isChecked;
-                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_UPVOTE_PERCENTAGE, isChecked).apply();
-                }
-            });
-        }
-        {
-            SwitchCompat single = context.findViewById(R.id.settings_comments_hide_awards);
-            single.setChecked(SettingValues.hideCommentAwards);
-            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    SettingValues.hideCommentAwards = isChecked;
-                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_HIDE_COMMENT_AWARDS, isChecked).apply();
-                }
-            });
-        }
-        {
-            SwitchCompat single = context.findViewById(R.id.settings_comments_autohidenav);
-            single.setChecked(SettingValues.commentAutoHide);
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//* Display */
+        commentsCropImageSwitch.setChecked(SettingValues.cropImage);
+        commentsCropImageSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            SettingValues.cropImage = isChecked;
+            SettingValues.prefs.edit().putBoolean(SettingValues.PREF_CROP_IMAGE, isChecked).apply();
+        });
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        commentsColorDepthSwitch.setChecked(SettingValues.colorCommentDepth);
+        commentsColorDepthSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            SettingValues.colorCommentDepth = isChecked;
+            SettingValues.prefs.edit().putBoolean(SettingValues.PREF_COLOR_COMMENT_DEPTH, isChecked).apply();
+        });
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        commentsHighlightOpColorSwitch.setChecked(SettingValues.highlightCommentOP);
+        commentsHighlightOpColorSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            SettingValues.highlightCommentOP = isChecked;
+            SettingValues.prefs.edit().putBoolean(SettingValues.PREF_HIGHLIGHT_COMMENT_OP, isChecked).apply();
+        });
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        commentsWideDepthSwitch.setChecked(SettingValues.largeDepth);
+        commentsWideDepthSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            SettingValues.largeDepth = isChecked;
+            SettingValues.prefs.edit().putBoolean(SettingValues.PREF_LARGE_DEPTH, isChecked).apply();
+        });
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        commentsShowCreateFabSwitch.setChecked(SettingValues.fabComments);
+        commentsShowCreateFabSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            SettingValues.fabComments = isChecked;
+            SettingValues.prefs.edit().putBoolean(SettingValues.PREF_COMMENT_FAB, isChecked).apply();
+        });
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        commentsRightHandedCommentsSwitch.setChecked(SettingValues.rightHandedCommentMenu);
+        commentsRightHandedCommentsSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            SettingValues.rightHandedCommentMenu = isChecked;
+            SettingValues.prefs.edit().putBoolean(SettingValues.PREF_RIGHT_HANDED_COMMENT_MENU, isChecked).apply();
+        });
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        commentsUpvotePercentSwitch.setChecked(SettingValues.upvotePercentage);
+        commentsUpvotePercentSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            SettingValues.upvotePercentage = isChecked;
+            SettingValues.prefs.edit().putBoolean(SettingValues.PREF_UPVOTE_PERCENTAGE, isChecked).apply();
+        });
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        commentsColoredTimeBubbleSwitch.setChecked(SettingValues.highlightTime);
+        commentsColoredTimeBubbleSwitch.setEnabled(SettingValues.commentLastVisit);
+        commentsColoredTimeBubbleSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            SettingValues.highlightTime = isChecked;
+            SettingValues.prefs.edit().putBoolean(SettingValues.PREF_HIGHLIGHT_TIME, isChecked).apply();
+        });
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        commentsHideAwardsSwitch.setChecked(SettingValues.hideCommentAwards);
+        commentsHideAwardsSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            SettingValues.hideCommentAwards = isChecked;
+            SettingValues.prefs.edit().putBoolean(SettingValues.PREF_HIDE_COMMENT_AWARDS, isChecked).apply();
+        });
 
-            if (!((SwitchCompat) context.findViewById(R.id.settings_comments_commentnav)).isChecked()) {
-                single.setEnabled(false);
-                context.findViewById(R.id.settings_comments_auto_hide_the_comment_nav_bar_text).setAlpha(0.25f);
-            }
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//* Navigation */
+        commentsParentCommentNavSwitch.setChecked(SettingValues.fastscroll);
+        commentsParentCommentNavSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            SettingValues.fastscroll = isChecked;
+            SettingValues.prefs.edit().putBoolean(SettingValues.PREF_FASTSCROLL, isChecked).apply();
 
-            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    SettingValues.commentAutoHide = isChecked;
-                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_AUTOHIDE_COMMENTS, isChecked).apply();
-                }
-            });
-        }
-        {
-            SwitchCompat single = context.findViewById(R.id.settings_comments_opColor);
-            single.setChecked(SettingValues.highlightCommentOP);
-            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    SettingValues.highlightCommentOP = isChecked;
-                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_HIGHLIGHT_COMMENT_OP, isChecked).apply();
-                }
-            });
-        }
-        {
-            SwitchCompat single = context.findViewById(R.id.settings_comments_collapse);
-            single.setChecked(SettingValues.collapseComments);
-            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    SettingValues.collapseComments = isChecked;
-                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_COLLAPSE_COMMENTS, isChecked).apply();
-                }
-            });
-        }
-        {
-            SwitchCompat single = context.findViewById(R.id.settings_comments_collapse_comments_default);
-            single.setChecked(SettingValues.collapseCommentsDefault);
-            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    SettingValues.collapseCommentsDefault = isChecked;
-                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_COLLAPSE_COMMENTS_DEFAULT, isChecked).apply();
-                }
-            });
-        }
-        SwitchCompat check = context.findViewById(R.id.settings_comments_swapGesture);
-        check.setChecked(SettingValues.swap);
-        check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                SettingValues.swap = isChecked;
-                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_SWAP, isChecked).apply();
+            //Disable autohidenav and showcollapseexpand if commentNav isn't checked
+            if (!isChecked) {
+                commentsAutohideNavbarSwitch.setEnabled(false);
+                commentsAutohideNavbarSwitch.setChecked(SettingValues.commentAutoHide);
+                commentsAutohideNavbarView.setAlpha(0.25f);
+                commentsShowCollapseExpandSwitch.setEnabled(false);
+                commentsShowCollapseExpandSwitch.setChecked(SettingValues.commentAutoHide);
+                commentsShowCollapseExpandView.setAlpha(0.25f);
+            } else {
+                commentsAutohideNavbarSwitch.setEnabled(true);
+                commentsAutohideNavbarView.setAlpha(1f);
+                commentsShowCollapseExpandSwitch.setEnabled(true);
+                commentsShowCollapseExpandView.setAlpha(1f);
             }
         });
-        {
-            SwitchCompat single = context.findViewById(R.id.settings_comments_volumenavcomments);
-            single.setChecked(SettingValues.commentVolumeNav);
-            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    SettingValues.commentVolumeNav = isChecked;
-                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_COMMENT_NAV, isChecked).apply();
-                }
-            });
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        commentsAutohideNavbarSwitch.setChecked(SettingValues.commentAutoHide);
+        if (!commentsParentCommentNavSwitch.isChecked()) {
+            commentsAutohideNavbarSwitch.setEnabled(false);
+            commentsAutohideNavbarView.setAlpha(0.25f);
         }
-        {
-            SwitchCompat single = context.findViewById(R.id.settings_comments_wide);
-            single.setChecked(SettingValues.largeDepth);
-            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    SettingValues.largeDepth = isChecked;
-                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_LARGE_DEPTH, isChecked).apply();
-                }
-            });
+        commentsAutohideNavbarSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            SettingValues.commentAutoHide = isChecked;
+            SettingValues.prefs.edit().putBoolean(SettingValues.PREF_AUTOHIDE_COMMENTS, isChecked).apply();
+        });
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        commentsShowCollapseExpandSwitch.setChecked(SettingValues.showCollapseExpand);
+        if (!commentsParentCommentNavSwitch.isChecked()) {
+            commentsShowCollapseExpandSwitch.setEnabled(false);
+            commentsShowCollapseExpandView.setAlpha(0.25f);
         }
-        {
-            SwitchCompat single = context.findViewById(R.id.settings_comments_cropimage);
-            single.setChecked(SettingValues.cropImage);
-            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    SettingValues.cropImage = isChecked;
-                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_CROP_IMAGE, isChecked).apply();
-                }
-            });
-        }
-        {
-            SwitchCompat single = context.findViewById(R.id.settings_comments_collapse_deleted);
-            single.setChecked(SettingValues.collapseDeletedComments);
-            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    SettingValues.collapseDeletedComments = isChecked;
-                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_COLLAPSE_DELETED_COMMENTS, isChecked).apply();
-                }
-            });
-        }
-    }
+        commentsShowCollapseExpandSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            SettingValues.showCollapseExpand = isChecked;
+            SettingValues.prefs.edit().putBoolean(SettingValues.PREF_SHOW_COLLAPSE_EXPAND, isChecked).apply();
+        });
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        commentsVolumeNavCommentsSwitch.setChecked(SettingValues.commentVolumeNav);
+        commentsVolumeNavCommentsSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            SettingValues.commentVolumeNav = isChecked;
+            SettingValues.prefs.edit().putBoolean(SettingValues.PREF_COMMENT_NAV, isChecked).apply();
+        });
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        commentsNavbarVoteGesturesSwitch.setChecked(SettingValues.voteGestures);
+        commentsNavbarVoteGesturesSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            SettingValues.voteGestures = isChecked;
+            SettingValues.prefs.edit().putBoolean(SettingValues.PREF_VOTE_GESTURES, isChecked).apply();
+        });
 
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//* Collapse actions */
+        commentsSwapLongpressTapSwitch.setChecked(SettingValues.swap);
+        commentsSwapLongpressTapSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            SettingValues.swap = isChecked;
+            SettingValues.prefs.edit().putBoolean(SettingValues.PREF_SWAP, isChecked).apply();
+        });
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        commentsFullCollapseSwitch.setChecked(SettingValues.collapseComments);
+        commentsFullCollapseSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            SettingValues.collapseComments = isChecked;
+            SettingValues.prefs.edit().putBoolean(SettingValues.PREF_COLLAPSE_COMMENTS, isChecked).apply();
+        });
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        commentsCollapseChildCommentsSwitch.setChecked(SettingValues.collapseCommentsDefault);
+        commentsCollapseChildCommentsSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            SettingValues.collapseCommentsDefault = isChecked;
+            SettingValues.prefs.edit().putBoolean(SettingValues.PREF_COLLAPSE_COMMENTS_DEFAULT, isChecked).apply();
+        });
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        commentsCollapseDeletedCommentsSwitch.setChecked(SettingValues.collapseDeletedComments);
+        commentsCollapseDeletedCommentsSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            SettingValues.collapseDeletedComments = isChecked;
+            SettingValues.prefs.edit().putBoolean(SettingValues.PREF_COLLAPSE_DELETED_COMMENTS, isChecked).apply();
+        });
+    }
 }
