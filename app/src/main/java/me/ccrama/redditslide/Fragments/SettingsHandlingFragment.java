@@ -2,14 +2,15 @@ package me.ccrama.redditslide.Fragments;
 
 import android.app.Activity;
 import android.os.Build;
-import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.IdRes;
@@ -28,12 +29,10 @@ import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.util.LinkUtil;
 
-
 public class SettingsHandlingFragment implements CompoundButton.OnCheckedChangeListener {
 
-    private Activity context;
-
-    EditText domain;
+    private final Activity context;
+    LinearLayout domainListLayout;
 
     public SettingsHandlingFragment(Activity context) {
         this.context = context;
@@ -41,93 +40,88 @@ public class SettingsHandlingFragment implements CompoundButton.OnCheckedChangeL
 
     public void Bind() {
         //todo web stuff
-        SwitchCompat image = context.findViewById(R.id.settings_handling_image);
+        SwitchCompat shortlink = context.findViewById(R.id.settings_handling_shortlink);
         SwitchCompat gif = context.findViewById(R.id.settings_handling_gif);
         SwitchCompat hqgif = context.findViewById(R.id.settings_handling_hqgif);
+        SwitchCompat image = context.findViewById(R.id.settings_handling_image);
         SwitchCompat album = context.findViewById(R.id.settings_handling_album);
         SwitchCompat peek = context.findViewById(R.id.settings_handling_peek);
-        SwitchCompat shortlink = context.findViewById(R.id.settings_handling_shortlink);
 
-        image.setChecked(SettingValues.image);
+        shortlink.setChecked(!SettingValues.shareLongLink);
         gif.setChecked(SettingValues.gif);
         hqgif.setChecked(SettingValues.hqgif);
+        image.setChecked(SettingValues.image);
         album.setChecked(SettingValues.album);
         peek.setChecked(SettingValues.peek);
-        shortlink.setChecked(!SettingValues.shareLongLink);
 
-        image.setOnCheckedChangeListener(this);
+        shortlink.setOnCheckedChangeListener(this);
         gif.setOnCheckedChangeListener(this);
         hqgif.setOnCheckedChangeListener(this);
+        image.setOnCheckedChangeListener(this);
         album.setOnCheckedChangeListener(this);
         peek.setOnCheckedChangeListener(this);
-        shortlink.setOnCheckedChangeListener(this);
-
-        if (!Reddit.videoPlugin) {
-            context.findViewById(R.id.settings_handling_video).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    LinkUtil.launchMarketUri(context, R.string.youtube_plugin_package);
-                }
-            });
-        } else {
-            context.findViewById(R.id.settings_handling_video).setVisibility(View.GONE);
-        }
 
         final SwitchCompat readerMode = context.findViewById(R.id.settings_handling_reader_mode);
-        readerMode.setChecked(SettingValues.readerMode);
-        readerMode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                SettingValues.readerMode = isChecked;
-                SettingValues.prefs.edit()
-                        .putBoolean(SettingValues.PREF_READER_MODE, SettingValues.readerMode)
-                        .apply();
-                context.findViewById(R.id.settings_handling_readernight)
-                        .setEnabled(SettingValues.NightModeState.isEnabled() && SettingValues.readerMode);
-            }
-        });
-
         final SwitchCompat readernight = context.findViewById(R.id.settings_handling_readernight);
-        readernight.setEnabled(SettingValues.NightModeState.isEnabled() && SettingValues.readerMode);
-        readernight.setChecked(SettingValues.readerNight);
-        readernight.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                SettingValues.readerNight = isChecked;
-                SettingValues.prefs.edit()
-                        .putBoolean(SettingValues.PREF_READER_NIGHT, isChecked)
-                        .apply();
-            }
-        });
 
+        final RelativeLayout handlingVideoLayout = context.findViewById(R.id.settings_handling_video);
+        domainListLayout = context.findViewById(R.id.settings_handling_domainlist);
+        final EditText domainListEditText = context.findViewById(R.id.settings_handling_domain_edit);
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//* Browser */
         setUpBrowserLinkHandling();
 
+
+        readerMode.setChecked(SettingValues.readerMode);
+        readerMode.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            SettingValues.readerMode = isChecked;
+            SettingValues.prefs.edit()
+                    .putBoolean(SettingValues.PREF_READER_MODE, SettingValues.readerMode)
+                    .apply();
+            readernight.setEnabled(SettingValues.NightModeState.isEnabled() && SettingValues.readerMode);
+        });
+
+
+        readernight.setEnabled(SettingValues.NightModeState.isEnabled() && SettingValues.readerMode);
+        readernight.setChecked(SettingValues.readerNight);
+        readernight.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            SettingValues.readerNight = isChecked;
+            SettingValues.prefs.edit().putBoolean(SettingValues.PREF_READER_NIGHT, isChecked).apply();
+        });
+
+        if (!Reddit.videoPlugin) {
+            handlingVideoLayout.setOnClickListener(v ->
+                    LinkUtil.launchMarketUri(context, R.string.youtube_plugin_package));
+        } else {
+            handlingVideoLayout.setVisibility(View.GONE);
+        }
+
         /* activity_settings_handling_child.xml does not load these elements so we need to null check */
-        if (context.findViewById(R.id.domain) != null & context.findViewById(R.id.domainlist) != null) {
-            domain = context.findViewById(R.id.domain);
-            domain.setOnEditorActionListener(new EditText.OnEditorActionListener() {
-                @Override
-                public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                    if (actionId == EditorInfo.IME_ACTION_DONE) {
-                        SettingValues.alwaysExternal.add(domain.getText().toString().toLowerCase(Locale.ENGLISH).trim());
-                        domain.setText("");
-                        updateFilters();
-                    }
-                    return false;
+        if (domainListEditText != null & domainListLayout != null) {
+            domainListEditText.setOnEditorActionListener((v, actionId, event) -> {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    SettingValues.alwaysExternal.add(
+                            domainListEditText.getText().toString().toLowerCase(Locale.ENGLISH).trim());
+                    domainListEditText.setText("");
+                    updateFilters();
                 }
+                return false;
             });
             updateFilters();
         }
     }
 
     private void setUpBrowserLinkHandling() {
-        RadioGroup radioGroup = context.findViewById(R.id.settings_handling_select_browser_type);
-        radioGroup.check(LinkHandlingMode.idResFromValue(SettingValues.linkHandlingMode));
-        radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
+        final RadioGroup browserTypeRadioGroup = context.findViewById(R.id.settings_handling_select_browser_type);
+        final RelativeLayout selectBrowserLayout = context.findViewById(R.id.settings_handling_select_browser_layout);
+        final TextView webBrowserView = context.findViewById(R.id.settings_handling_browser);
+
+        browserTypeRadioGroup.check(LinkHandlingMode.idResFromValue(SettingValues.linkHandlingMode));
+        browserTypeRadioGroup.setOnCheckedChangeListener((group, checkedId) -> {
             SettingValues.linkHandlingMode = LinkHandlingMode.valueFromIdRes(checkedId);
             SettingValues.prefs.edit()
-                    .putInt(SettingValues.PREF_LINK_HANDLING_MODE,
-                            SettingValues.linkHandlingMode)
+                    .putInt(SettingValues.PREF_LINK_HANDLING_MODE, SettingValues.linkHandlingMode)
                     .apply();
         });
 
@@ -138,13 +132,12 @@ public class SettingsHandlingFragment implements CompoundButton.OnCheckedChangeL
                     .putString(SettingValues.PREF_SELECTED_BROWSER, SettingValues.selectedBrowser)
                     .apply();
         }
-        ((TextView) context.findViewById(R.id.settings_handling_browser)).setText(
-                installedBrowsers.get(SettingValues.selectedBrowser));
+        webBrowserView.setText(installedBrowsers.get(SettingValues.selectedBrowser));
         if (installedBrowsers.size() <= 1) {
-            context.findViewById(R.id.settings_handling_select_browser).setVisibility(View.GONE);
+            selectBrowserLayout.setVisibility(View.GONE);
         } else {
-            context.findViewById(R.id.settings_handling_select_browser).setVisibility(View.VISIBLE);
-            context.findViewById(R.id.settings_handling_select_browser).setOnClickListener(v -> {
+            selectBrowserLayout.setVisibility(View.VISIBLE);
+            selectBrowserLayout.setOnClickListener(v -> {
                 final PopupMenu popupMenu = new PopupMenu(context, v);
                 final HashMap<MenuItem, String> packageNames = new HashMap<>();
 
@@ -163,9 +156,7 @@ public class SettingsHandlingFragment implements CompoundButton.OnCheckedChangeL
                             .putString(SettingValues.PREF_SELECTED_BROWSER,
                                     SettingValues.selectedBrowser)
                             .apply();
-                    ((TextView) context.findViewById(
-                            R.id.settings_handling_browser)).setText(
-                            item.getTitle());
+                    webBrowserView.setText(item.getTitle());
                     return true;
                 });
                 popupMenu.show();
@@ -176,9 +167,9 @@ public class SettingsHandlingFragment implements CompoundButton.OnCheckedChangeL
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         switch (buttonView.getId()) {
-            case R.id.settings_handling_image:
-                SettingValues.image = isChecked;
-                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_IMAGE, isChecked).apply();
+            case R.id.settings_handling_shortlink:
+                SettingValues.shareLongLink = !isChecked;
+                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_LONG_LINK, !isChecked).apply();
                 break;
             case R.id.settings_handling_gif:
                 SettingValues.gif = isChecked;
@@ -188,15 +179,13 @@ public class SettingsHandlingFragment implements CompoundButton.OnCheckedChangeL
                 SettingValues.hqgif = isChecked;
                 SettingValues.prefs.edit().putBoolean(SettingValues.PREF_HQGIF, isChecked).apply();
                 break;
+            case R.id.settings_handling_image:
+                SettingValues.image = isChecked;
+                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_IMAGE, isChecked).apply();
+                break;
             case R.id.settings_handling_album:
                 SettingValues.album = isChecked;
                 SettingValues.prefs.edit().putBoolean(SettingValues.PREF_ALBUM, isChecked).apply();
-                break;
-            case R.id.settings_handling_shortlink:
-                SettingValues.shareLongLink = !isChecked;
-                SettingValues.prefs.edit()
-                        .putBoolean(SettingValues.PREF_LONG_LINK, !isChecked)
-                        .apply();
                 break;
             case R.id.settings_handling_peek:
                 SettingValues.peek = isChecked;
@@ -206,17 +195,19 @@ public class SettingsHandlingFragment implements CompoundButton.OnCheckedChangeL
     }
 
     private void updateFilters() {
-        ((LinearLayout) context.findViewById(R.id.domainlist)).removeAllViews();
+        domainListLayout.removeAllViews();
         for (String s : SettingValues.alwaysExternal) {
-            if (!s.isEmpty() && (!Reddit.videoPlugin || (!s.contains("youtube.co") && !s.contains("youtu.be")))) {
+            if (!s.isEmpty() && (!Reddit.videoPlugin || !s.contains("youtube.co") && !s.contains("youtu.be"))) {
                 final View t = context.getLayoutInflater().inflate(R.layout.account_textview,
-                        context.findViewById(R.id.domainlist), false);
-                ((TextView) t.findViewById(R.id.name)).setText(s);
-                t.findViewById(R.id.remove).setOnClickListener(v -> {
+                        domainListLayout, false);
+                final TextView accountTextViewName = t.findViewById(R.id.name);
+                final ImageView accountTextViewRemove = t.findViewById(R.id.remove);
+                accountTextViewName.setText(s);
+                accountTextViewRemove.setOnClickListener(v -> {
                     SettingValues.alwaysExternal.remove(s);
                     updateFilters();
                 });
-                ((LinearLayout) context.findViewById(R.id.domainlist)).addView(t);
+                domainListLayout.addView(t);
             }
         }
     }
@@ -226,27 +217,19 @@ public class SettingsHandlingFragment implements CompoundButton.OnCheckedChangeL
         INTERNAL(1, R.id.settings_handling_browser_type_internal_browser),
         CUSTOM_TABS(2, R.id.settings_handling_browser_type_custom_tabs);
 
-        private static BiMap<Integer, Integer> sBiMap =
+        private static final BiMap<Integer, Integer> sBiMap =
                 HashBiMap.create(new HashMap<Integer, Integer>() {{
                     put(EXTERNAL.getValue(), EXTERNAL.getIdRes());
                     put(INTERNAL.getValue(), INTERNAL.getIdRes());
                     put(CUSTOM_TABS.getValue(), CUSTOM_TABS.getIdRes());
                 }});
-        private int mValue;
+        private final int mValue;
         @IdRes
-        private int mIdRes;
+        private final int mIdRes;
 
         LinkHandlingMode(int value, @IdRes int stringRes) {
             mValue = value;
             mIdRes = stringRes;
-        }
-
-        public int getValue() {
-            return mValue;
-        }
-
-        public int getIdRes() {
-            return mIdRes;
         }
 
         public static int idResFromValue(int value) {
@@ -255,6 +238,14 @@ public class SettingsHandlingFragment implements CompoundButton.OnCheckedChangeL
 
         public static int valueFromIdRes(@IdRes int idRes) {
             return sBiMap.inverse().get(idRes);
+        }
+
+        public int getValue() {
+            return mValue;
+        }
+
+        public int getIdRes() {
+            return mIdRes;
         }
     }
 }

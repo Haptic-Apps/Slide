@@ -6,7 +6,6 @@
     android:orientation="vertical">
 
     <TextView
-            android:id="@+id/settings_handling_browserHeader"
             style="@style/TextAppearance.AppCompat.Body2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -43,7 +42,7 @@
     </RadioGroup>
 
     <RelativeLayout
-            android:id="@+id/settings_handling_select_browser"
+            android:id="@+id/settings_handling_select_browser_layout"
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:background="?android:selectableItemBackground"
@@ -239,7 +238,6 @@
     </RelativeLayout>
 
     <TextView
-            android:id="@+id/settings_handling_internalViewersHeader"
             style="@style/TextAppearance.AppCompat.Body2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
