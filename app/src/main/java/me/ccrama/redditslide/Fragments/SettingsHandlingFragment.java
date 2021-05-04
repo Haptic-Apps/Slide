@@ -71,25 +71,24 @@ public class SettingsHandlingFragment implements CompoundButton.OnCheckedChangeL
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //* Browser */
         setUpBrowserLinkHandling();
-
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
         readerMode.setChecked(SettingValues.readerMode);
         readerMode.setOnCheckedChangeListener((buttonView, isChecked) -> {
             SettingValues.readerMode = isChecked;
-            SettingValues.prefs.edit()
-                    .putBoolean(SettingValues.PREF_READER_MODE, SettingValues.readerMode)
-                    .apply();
+            editSharedBooleanPreference(SettingValues.PREF_READER_MODE, SettingValues.readerMode);
             readernight.setEnabled(SettingValues.NightModeState.isEnabled() && SettingValues.readerMode);
         });
-
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
         readernight.setEnabled(SettingValues.NightModeState.isEnabled() && SettingValues.readerMode);
         readernight.setChecked(SettingValues.readerNight);
         readernight.setOnCheckedChangeListener((buttonView, isChecked) -> {
             SettingValues.readerNight = isChecked;
-            SettingValues.prefs.edit().putBoolean(SettingValues.PREF_READER_NIGHT, isChecked).apply();
+            editSharedBooleanPreference(SettingValues.PREF_READER_NIGHT, isChecked);
         });
 
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         if (!Reddit.videoPlugin) {
             handlingVideoLayout.setOnClickListener(v ->
                     LinkUtil.launchMarketUri(context, R.string.youtube_plugin_package));
@@ -97,6 +96,7 @@ public class SettingsHandlingFragment implements CompoundButton.OnCheckedChangeL
             handlingVideoLayout.setVisibility(View.GONE);
         }
 
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         /* activity_settings_handling_child.xml does not load these elements so we need to null check */
         if (domainListEditText != null & domainListLayout != null) {
             domainListEditText.setOnEditorActionListener((v, actionId, event) -> {
@@ -169,27 +169,27 @@ public class SettingsHandlingFragment implements CompoundButton.OnCheckedChangeL
         switch (buttonView.getId()) {
             case R.id.settings_handling_shortlink:
                 SettingValues.shareLongLink = !isChecked;
-                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_LONG_LINK, !isChecked).apply();
+                editSharedBooleanPreference(SettingValues.PREF_LONG_LINK, !isChecked);
                 break;
             case R.id.settings_handling_gif:
                 SettingValues.gif = isChecked;
-                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_GIF, isChecked).apply();
+                editSharedBooleanPreference(SettingValues.PREF_GIF, isChecked);
                 break;
             case R.id.settings_handling_hqgif:
                 SettingValues.hqgif = isChecked;
-                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_HQGIF, isChecked).apply();
+                editSharedBooleanPreference(SettingValues.PREF_HQGIF, isChecked);
                 break;
             case R.id.settings_handling_image:
                 SettingValues.image = isChecked;
-                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_IMAGE, isChecked).apply();
+                editSharedBooleanPreference(SettingValues.PREF_IMAGE, isChecked);
                 break;
             case R.id.settings_handling_album:
                 SettingValues.album = isChecked;
-                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_ALBUM, isChecked).apply();
+                editSharedBooleanPreference(SettingValues.PREF_ALBUM, isChecked);
                 break;
             case R.id.settings_handling_peek:
                 SettingValues.peek = isChecked;
-                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_PEEK, isChecked).apply();
+                editSharedBooleanPreference(SettingValues.PREF_PEEK, isChecked);
                 break;
         }
     }
@@ -210,6 +210,10 @@ public class SettingsHandlingFragment implements CompoundButton.OnCheckedChangeL
                 domainListLayout.addView(t);
             }
         }
+    }
+
+    private void editSharedBooleanPreference(final String settingValueString, final boolean isChecked) {
+        SettingValues.prefs.edit().putBoolean(settingValueString, isChecked).apply();
     }
 
     public enum LinkHandlingMode {
