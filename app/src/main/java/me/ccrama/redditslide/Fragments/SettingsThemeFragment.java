@@ -85,30 +85,13 @@ public class SettingsThemeFragment<ActivityType extends BaseActivity & SettingsF
             popup.setOnMenuItemClickListener(item -> {
                 switch (item.getItemId()) {
                     case R.id.none:
-                        SettingValues.colorBack = false;
-                        SettingValues.prefs.edit()
-                                .putBoolean(SettingValues.PREF_COLOR_BACK, false)
-                                .apply();
+                        setTintingMode(false, false);
                         break;
                     case R.id.background:
-                        SettingValues.colorBack = true;
-                        SettingValues.colorSubName = false;
-                        SettingValues.prefs.edit()
-                                .putBoolean(SettingValues.PREF_COLOR_BACK, true)
-                                .apply();
-                        SettingValues.prefs.edit()
-                                .putBoolean(SettingValues.PREF_COLOR_SUB_NAME, false)
-                                .apply();
+                        setTintingMode(true, false);
                         break;
                     case R.id.name:
-                        SettingValues.colorBack = true;
-                        SettingValues.colorSubName = true;
-                        SettingValues.prefs.edit()
-                                .putBoolean(SettingValues.PREF_COLOR_BACK, true)
-                                .apply();
-                        SettingValues.prefs.edit()
-                                .putBoolean(SettingValues.PREF_COLOR_SUB_NAME, true)
-                                .apply();
+                        setTintingMode(true, true);
                         break;
                 }
                 currentTintTextView.setText(
@@ -117,13 +100,12 @@ public class SettingsThemeFragment<ActivityType extends BaseActivity & SettingsF
                                 ? context.getString(R.string.subreddit_name_tint)
                                 : context.getString(R.string.card_background_tint)
                                 : context.getString(R.string.misc_none));
-                boolean enabled = !currentTintTextView.getText()
-                        .equals(context.getString(R.string.misc_none));
+                boolean enabled = !currentTintTextView.getText().equals(context.getString(R.string.misc_none));
                 tintEverywhereSwitch.setEnabled(enabled);
                 tintEverywhereSwitch.setChecked(SettingValues.colorEverywhere);
                 tintEverywhereSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
                     SettingValues.colorEverywhere = isChecked;
-                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_COLOR_EVERYWHERE, isChecked).apply();
+                    editSharedBooleanPreference(SettingValues.PREF_COLOR_EVERYWHERE, isChecked);
                 });
                 return true;
             });
@@ -145,7 +127,7 @@ public class SettingsThemeFragment<ActivityType extends BaseActivity & SettingsF
         tintEverywhereSwitch.setChecked(SettingValues.colorEverywhere);
         tintEverywhereSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             SettingValues.colorEverywhere = isChecked;
-            SettingValues.prefs.edit().putBoolean(SettingValues.PREF_COLOR_EVERYWHERE, isChecked).apply();
+            editSharedBooleanPreference(SettingValues.PREF_COLOR_EVERYWHERE, isChecked);
         });
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -153,12 +135,10 @@ public class SettingsThemeFragment<ActivityType extends BaseActivity & SettingsF
         colorNavbarSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             SettingsThemeFragment.changed = true;
             SettingValues.colorNavBar = isChecked;
-            SettingValues.prefs.edit().putBoolean(SettingValues.PREF_COLOR_NAV_BAR, isChecked).apply();
+            editSharedBooleanPreference(SettingValues.PREF_COLOR_NAV_BAR, isChecked);
             context.themeSystemBars("");
             if (!isChecked) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    context.getWindow().setNavigationBarColor(Color.TRANSPARENT);
-                }
+                context.getWindow().setNavigationBarColor(Color.TRANSPARENT);
             }
         });
 
@@ -166,32 +146,25 @@ public class SettingsThemeFragment<ActivityType extends BaseActivity & SettingsF
         colorIconSwitch.setChecked(SettingValues.colorIcon);
         colorIconSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             SettingValues.colorIcon = isChecked;
-            SettingValues.prefs.edit().putBoolean(SettingValues.PREF_COLOR_ICON, isChecked).apply();
+            editSharedBooleanPreference(SettingValues.PREF_COLOR_ICON, isChecked);
             if (isChecked) {
-                context.getPackageManager().setComponentEnabledSetting(
-                        new ComponentName(context,
-                                Slide.class.getPackage().getName() + ".Slide"),
-                        PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
-                        PackageManager.DONT_KILL_APP);
-                context.getPackageManager().setComponentEnabledSetting(
-                        new ComponentName(context,
-                                ColorPreferences.getIconName(context,
-                                        Reddit.colors.getInt("DEFAULTCOLOR", 0))),
-                        PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-                        PackageManager.DONT_KILL_APP);
-            } else {
-                context.getPackageManager().setComponentEnabledSetting(
-                        new ComponentName(context,
-                                ColorPreferences.getIconName(context,
-                                        Reddit.colors.getInt("DEFAULTCOLOR", 0))),
-                        PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
-                        PackageManager.DONT_KILL_APP);
+                setComponentState(
+                        Slide.class.getPackage().getName() + ".Slide",
+                        PackageManager.COMPONENT_ENABLED_STATE_DISABLED);
 
-                context.getPackageManager().setComponentEnabledSetting(
-                        new ComponentName(context,
-                                Slide.class.getPackage().getName() + ".Slide"),
-                        PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-                        PackageManager.DONT_KILL_APP);
+                setComponentState(
+                        ColorPreferences.getIconName(context,
+                                Reddit.colors.getInt("DEFAULTCOLOR", 0)),
+                        PackageManager.COMPONENT_ENABLED_STATE_ENABLED);
+            } else {
+                setComponentState(
+                        ColorPreferences.getIconName(context,
+                                Reddit.colors.getInt("DEFAULTCOLOR", 0)),
+                        PackageManager.COMPONENT_ENABLED_STATE_DISABLED);
+
+                setComponentState(
+                        Slide.class.getPackage().getName() + ".Slide",
+                        PackageManager.COMPONENT_ENABLED_STATE_ENABLED);
             }
         });
 
@@ -244,19 +217,14 @@ public class SettingsThemeFragment<ActivityType extends BaseActivity & SettingsF
 
             choosemainBinding.ok.setOnClickListener(v1 -> {
                 if (SettingValues.colorIcon) {
-                    context.getPackageManager().setComponentEnabledSetting(
-                            new ComponentName(context,
-                                    ColorPreferences.getIconName(context,
-                                            Reddit.colors.getInt("DEFAULTCOLOR", 0))),
-                            PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
-                            PackageManager.DONT_KILL_APP);
+                    setComponentState(
+                            ColorPreferences.getIconName(context,
+                                    Reddit.colors.getInt("DEFAULTCOLOR", 0)),
+                            PackageManager.COMPONENT_ENABLED_STATE_DISABLED);
 
-                    context.getPackageManager().setComponentEnabledSetting(
-                            new ComponentName(context,
-                                    ColorPreferences.getIconName(context,
-                                            colorPicker2.getColor())),
-                            PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-                            PackageManager.DONT_KILL_APP);
+                    setComponentState(
+                            ColorPreferences.getIconName(context, colorPicker2.getColor()),
+                            PackageManager.COMPONENT_ENABLED_STATE_ENABLED);
                 }
                 Reddit.colors.edit()
                         .putInt("DEFAULTCOLOR", colorPicker2.getColor())
@@ -424,8 +392,7 @@ public class SettingsThemeFragment<ActivityType extends BaseActivity & SettingsF
                         add("10pm");
                         add("11pm");
                     }};
-                    root.findViewById(R.id.start_spinner_layout)
-                            .setVisibility(View.VISIBLE);
+                    nightmodeBinding.startSpinnerLayout.setVisibility(View.VISIBLE);
                     final ArrayAdapter<String> startAdapter = new ArrayAdapter<>(context,
                             android.R.layout.simple_spinner_item, timesStart);
                     startAdapter.setDropDownViewResource(
@@ -471,8 +438,7 @@ public class SettingsThemeFragment<ActivityType extends BaseActivity & SettingsF
                         add("9am");
                         add("10am");
                     }};
-                    root.findViewById(R.id.end_spinner_layout)
-                            .setVisibility(View.VISIBLE);
+                    nightmodeBinding.endSpinnerLayout.setVisibility(View.VISIBLE);
                     final ArrayAdapter<String> endAdapter = new ArrayAdapter<>(context,
                             android.R.layout.simple_spinner_item, timesEnd);
                     endAdapter.setDropDownViewResource(
@@ -515,6 +481,24 @@ public class SettingsThemeFragment<ActivityType extends BaseActivity & SettingsF
                 }
             }
         });
+    }
+
+    private void setComponentState(final String cls, final int componentEnabledState) {
+        context.getPackageManager().setComponentEnabledSetting(
+                new ComponentName(context, cls),
+                componentEnabledState,
+                PackageManager.DONT_KILL_APP);
+    }
+
+    private void setTintingMode(boolean colorBack, boolean subName) {
+        SettingValues.colorBack = colorBack;
+        SettingValues.colorSubName = subName;
+        editSharedBooleanPreference(SettingValues.PREF_COLOR_BACK, colorBack);
+        editSharedBooleanPreference(SettingValues.PREF_COLOR_SUB_NAME, subName);
+    }
+
+    private void editSharedBooleanPreference(final String settingValueString, final boolean isChecked) {
+        SettingValues.prefs.edit().putBoolean(settingValueString, isChecked).apply();
     }
 
     private static class NightModeArrayAdapter {
