@@ -99,7 +99,7 @@ dependencies {
 
 /** ExoPlayer **/
     // Application level media player
-    def exoPlayerVersion = '2.12.3'
+    def exoPlayerVersion = '2.13.3'
     implementation "com.google.android.exoplayer:exoplayer-core:$exoPlayerVersion"
     implementation "com.google.android.exoplayer:exoplayer-dash:$exoPlayerVersion"
     implementation "com.google.android.exoplayer:exoplayer-ui:$exoPlayerVersion"
@@ -129,14 +129,14 @@ dependencies {
     implementation 'com.github.davemorrissey:subsampling-scale-image-view:173e421'
 
     // Image cropping
-    implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.0'
+    implementation 'com.github.CanHub:Android-Image-Cropper:2.2.2'
 
     // Bottom sheet implementation
     //  NOTE: Deprecated in favor of official Google bottom sheets
     implementation 'com.cocosw:bottomsheet:1.5.0@aar'
 
     // Blurring
-    implementation 'jp.wasabeef:blurry:3.0.0'
+    implementation 'com.github.wasabeef:Blurry:3.0.0'
 
     // ImageView that supports rounded corners
     implementation 'com.makeramen:roundedimageview:2.3.0'
@@ -155,7 +155,7 @@ dependencies {
     implementation 'com.mikepenz:itemanimators:1.1.0@aar'
 
     // iOS-like over-scrolling effect
-    implementation 'me.everything:overscroll-decor-android:1.1.0'
+    implementation 'io.github.everythingme:overscroll-decor-android:1.1.1'
 
     // Library information
     implementation 'com.mikepenz:aboutlibraries:6.2.3'
@@ -170,7 +170,8 @@ dependencies {
     implementation 'com.jakewharton:process-phoenix:2.0.0'
 
     // KV store based on SQLite
-    implementation 'com.lusfold.androidkeyvaluestore:library:0.1.0@aar'
+    //  equal to 0.1.0, but we can't use jcenter
+    implementation 'com.github.lusfold:AndroidKeyValueStore:620c363'
 
     // Helper utilities for the java.lang API
     implementation 'org.apache.commons:commons-lang3:3.12.0'

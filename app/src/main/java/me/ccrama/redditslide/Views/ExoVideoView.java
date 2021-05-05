@@ -22,13 +22,13 @@ import androidx.media.AudioManagerCompat;
 import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
-import com.google.android.exoplayer2.ext.okhttp.OkHttpDataSourceFactory;
+import com.google.android.exoplayer2.ext.okhttp.OkHttpDataSource;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.ProgressiveMediaSource;
 import com.google.android.exoplayer2.source.TrackGroupArray;
 import com.google.android.exoplayer2.source.dash.DashMediaSource;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
-import com.google.android.exoplayer2.trackselection.TrackSelection;
+import com.google.android.exoplayer2.trackselection.ExoTrackSelection;
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
 import com.google.android.exoplayer2.ui.PlayerControlView;
@@ -132,10 +132,11 @@ public class ExoVideoView extends RelativeLayout {
                         toLog.append("Format:\t").append(trackGroups.get(i).getFormat(j)).append("\n");
                     }
                 }
-                for (TrackSelection i : trackSelections.getAll()) {
+                // FIXME: How do I make onTracksChanged work with ExoTrackSelection?
+                /*for (TrackSelection i : trackSelections.getAll()) {
                     if (i != null)
                         toLog.append("Selected format:\t").append(i.getSelectedFormat()).append("\n");
-                }
+                }*/
                 Log.v(LogUtil.getTag(), toLog.toString());
             }
         });
@@ -172,7 +173,9 @@ public class ExoVideoView extends RelativeLayout {
      */
     public void setVideoURI(Uri uri, VideoType type, Player.EventListener listener) {
         // Create the data sources used to retrieve and cache the video
-        DataSource.Factory downloader = new OkHttpDataSourceFactory(Reddit.client, context.getString(R.string.app_name));
+        DataSource.Factory downloader =
+                new OkHttpDataSource.Factory(Reddit.client)
+                        .setUserAgent(context.getString(R.string.app_name));
         DataSource.Factory cacheDataSourceFactory =
                 new CacheDataSource.Factory()
                         .setCache(Reddit.videoCache)
@@ -272,8 +275,9 @@ public class ExoVideoView extends RelativeLayout {
                 }
                 // Loop through the tracks and check if any contain audio, if so set up the mute button
                 for (int i = 0; i < trackSelections.length; i++) {
-                    if (trackSelections.get(i) != null && trackSelections.get(i).getSelectedFormat() != null
-                            && MimeTypes.isAudio(trackSelections.get(i).getSelectedFormat().sampleMimeType)) {
+                    final ExoTrackSelection selection = (ExoTrackSelection) trackSelections.get(i);
+                    if (selection != null && selection.getSelectedFormat() != null
+                            && MimeTypes.isAudio(selection.getSelectedFormat().sampleMimeType)) {
 
                         mute.setVisibility(VISIBLE);
                         // Set initial mute state
