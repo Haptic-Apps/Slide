@@ -821,7 +821,7 @@ public class GifUtils {
 
             ExoVideoView.VideoType type = uri.getHost().equals("v.redd.it")
                     ? ExoVideoView.VideoType.DASH : ExoVideoView.VideoType.STANDARD;
-            video.setVideoURI(uri, type, new Player.EventListener() {
+            video.setVideoURI(uri, type, new Player.Listener() {
                 @Override
                 public void onPlaybackStateChanged(int playbackState) {
                     if (playbackState == Player.STATE_READY) {

@@ -14,6 +14,7 @@ import android.view.animation.AnimationSet;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.media.AudioAttributesCompat;
 import androidx.media.AudioFocusRequestCompat;
@@ -35,7 +36,7 @@ import com.google.android.exoplayer2.ui.PlayerControlView;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.cache.CacheDataSource;
 import com.google.android.exoplayer2.util.MimeTypes;
-import com.google.android.exoplayer2.video.VideoListener;
+import com.google.android.exoplayer2.video.VideoSize;
 
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
@@ -114,18 +115,21 @@ public class ExoVideoView extends RelativeLayout {
         audioFocusHelper = new AudioFocusHelper(ContextCompat.getSystemService(context, AudioManager.class));
 
         // Make the video use the correct aspect ratio
-        player.addVideoListener(new VideoListener() {
+        player.addVideoListener(new Player.Listener() {
             @Override
-            public void onVideoSizeChanged(int width, int height, int unappliedRotationDegrees,
-                    float pixelWidthHeightRatio) {
-                frame.setAspectRatio((height == 0 || width == 0) ? 1 : (width * pixelWidthHeightRatio) / height);
+            public void onVideoSizeChanged(@NonNull VideoSize videoSize) {
+                frame.setAspectRatio(
+                        videoSize.height == 0 || videoSize.width == 0
+                                ? 1
+                                : videoSize.width * videoSize.pixelWidthHeightRatio / videoSize.height);
             }
         });
 
         // Logging
-        player.addListener(new Player.EventListener() {
+        player.addListener(new Player.Listener() {
             @Override
-            public void onTracksChanged(TrackGroupArray trackGroups, TrackSelectionArray trackSelections) {
+            public void onTracksChanged(@NonNull TrackGroupArray trackGroups,
+                                        @NonNull TrackSelectionArray trackSelections) {
                 StringBuilder toLog = new StringBuilder();
                 for (int i = 0; i < trackGroups.length; i++) {
                     for (int j = 0; j < trackGroups.get(i).length; j++) {
@@ -171,7 +175,7 @@ public class ExoVideoView extends RelativeLayout {
      * @param type     Type of video
      * @param listener EventLister attached to the player, helpful for player state
      */
-    public void setVideoURI(Uri uri, VideoType type, Player.EventListener listener) {
+    public void setVideoURI(Uri uri, VideoType type, Player.Listener listener) {
         // Create the data sources used to retrieve and cache the video
         DataSource.Factory downloader =
                 new OkHttpDataSource.Factory(Reddit.client)
@@ -263,9 +267,10 @@ public class ExoVideoView extends RelativeLayout {
         // Hide the mute button by default
         mute.setVisibility(GONE);
 
-        player.addListener(new Player.EventListener() {
+        player.addListener(new Player.Listener() {
             @Override
-            public void onTracksChanged(TrackGroupArray trackGroups, TrackSelectionArray trackSelections) {
+            public void onTracksChanged(@NonNull TrackGroupArray trackGroups,
+                                        @NonNull TrackSelectionArray trackSelections) {
                 // We only need to run this on the first track change, i.e. when the video is loaded
                 // Skip this if mute has already been configured, otherwise mark it as configured
                 if (muteAttached && trackGroups.length > 0) {
@@ -321,9 +326,10 @@ public class ExoVideoView extends RelativeLayout {
         // Hidden by default - we don't yet know if we'll have multiple qualities to select from
         hq.setVisibility(GONE);
 
-        player.addListener(new Player.EventListener() {
+        player.addListener(new Player.Listener() {
             @Override
-            public void onTracksChanged(TrackGroupArray trackGroups, TrackSelectionArray trackSelections) {
+            public void onTracksChanged(@NonNull TrackGroupArray trackGroups,
+                                        @NonNull TrackSelectionArray trackSelections) {
                 if (hqAttached || trackGroups.length == 0
                         || trackSelector.getParameters().forceHighestSupportedBitrate) {
                     return;
