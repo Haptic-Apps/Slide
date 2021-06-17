@@ -177,6 +177,7 @@ public class MultiredditPosts implements PostLoader {
 
             if (reset || paginator == null) {
                 offline = false;
+
                 paginator = new MultiRedditPaginator(Authentication.reddit, subredditPaginators[0]);
                 paginator.setSorting(SettingValues.getSubmissionSort(
                         "multi" + subredditPaginators[0].getDisplayName().toLowerCase(Locale.ENGLISH)));

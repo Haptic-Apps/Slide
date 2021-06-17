@@ -79,7 +79,7 @@ dependencies {
     withGPlayImplementation 'com.google.android.gms:play-services-drive:11.4.2'
 
 /** Custom **/
-    implementation 'com.github.ccrama:JRAW:01ad691c3b'
+    implementation 'com.github.ccrama:JRAW:9c8a410a06'
     implementation 'com.github.ccrama:TedBottomPicker:496623c9b6'
     implementation 'com.github.ccrama.commonmark-java:commonmark:07b304b575'
     implementation 'com.github.ccrama.commonmark-java:commonmark-ext-gfm-strikethrough:07b304b575'

@@ -49,6 +49,7 @@ import me.ccrama.redditslide.Views.CreateCardView;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.handler.ToolbarScrollHideHandler;
 import me.ccrama.redditslide.util.LayoutUtils;
+import me.ccrama.redditslide.util.LogUtil;
 
 public class MultiredditView extends Fragment implements SubmissionDisplay {
 

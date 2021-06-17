@@ -553,6 +553,7 @@ public class MultiredditOverview extends BaseActivityAnim {
     private void setDataSet(List<MultiReddit> data) {
         try {
             usedArray = data;
+
             if (usedArray.isEmpty()) {
                 buildDialog();
             } else {
