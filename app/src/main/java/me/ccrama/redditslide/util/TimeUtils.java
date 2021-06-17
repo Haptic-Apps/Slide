@@ -3,6 +3,8 @@ package me.ccrama.redditslide.util;
 import android.content.Context;
 import android.content.res.Resources;
 
+import net.dean.jraw.paginators.TimePeriod;
+
 import me.ccrama.redditslide.R;
 
 /**
@@ -105,4 +107,12 @@ public class TimeUtils {
         return hour.isEmpty() ? minute : hour + " " + minute ;
     }
 
+    public static TimePeriod stringToTimePeriod(String time) {
+        for (TimePeriod timePeriod: TimePeriod.values()) {
+            if (timePeriod.toString().equalsIgnoreCase(time)) {
+                return timePeriod;
+            }
+        }
+        return null;
+    }
 }

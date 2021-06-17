@@ -37,6 +37,7 @@ import me.ccrama.redditslide.handler.ToolbarScrollHideHandler;
 import me.ccrama.redditslide.util.CompatUtil;
 import me.ccrama.redditslide.util.LayoutUtils;
 import me.ccrama.redditslide.util.SortingUtil;
+import me.ccrama.redditslide.util.TimeUtils;
 
 public class Search extends BaseActivityAnim {
 
@@ -50,6 +51,7 @@ public class Search extends BaseActivityAnim {
     public static final String EXTRA_SELF = "self";
     public static final String EXTRA_NSFW = "nsfw";
     public static final String EXTRA_AUTHOR = "author";
+    public static final String EXTRA_TIME = "t";
 
     private int totalItemCount;
     private int visibleItemCount;
@@ -221,6 +223,8 @@ public class Search extends BaseActivityAnim {
         setContentView(R.layout.activity_search);
         where = getIntent().getExtras().getString(EXTRA_TERM, "");
 
+        time = TimePeriod.ALL;
+
         if (getIntent().hasExtra(EXTRA_MULTIREDDIT)) {
             multireddit = true;
             subreddit  = getIntent().getExtras().getString(EXTRA_MULTIREDDIT);
@@ -240,6 +244,12 @@ public class Search extends BaseActivityAnim {
             if (getIntent().hasExtra(EXTRA_URL)) {
                 where = where + "&url=" + getIntent().getExtras().getString(EXTRA_URL);
             }
+            if (getIntent().hasExtra(EXTRA_TIME)) {
+                TimePeriod timePeriod = TimeUtils.stringToTimePeriod(getIntent().getExtras().getString(EXTRA_TIME));
+                if (timePeriod != null) {
+                    time = timePeriod;
+                }
+            }
 
             subreddit = getIntent().getExtras().getString(EXTRA_SUBREDDIT, "");
         }
@@ -247,8 +257,6 @@ public class Search extends BaseActivityAnim {
         where = StringEscapeUtils.unescapeHtml4(where);
 
         setupSubredditAppBar(R.id.toolbar, "Search", true, subreddit.toLowerCase(Locale.ENGLISH));
-
-        time = TimePeriod.ALL;
 
         getSupportActionBar().setTitle(CompatUtil.fromHtml(where));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

@@ -134,6 +134,7 @@ public class OpenRedditLink {
                 putExtraIfParamExists(i, uri, Search.EXTRA_AUTHOR, "author");
                 putExtraIfParamExists(i, uri, Search.EXTRA_URL, "url");
                 putExtraIfParamExists(i, uri, Search.EXTRA_SITE, "site");
+                putExtraIfParamExists(i, uri, Search.EXTRA_TIME, "t");
 
                 putExtraIfParamEquals(i, uri, Search.EXTRA_NSFW, "nsfw", "yes");
                 putExtraIfParamEquals(i, uri, Search.EXTRA_SELF, "self", "yes");
@@ -284,7 +285,7 @@ public class OpenRedditLink {
      * @param builder Uri builder to append the path segments to
      * @param segments A list of path segments to append to the builder
      *
-     * @see Uri#getPathSegments() 
+     * @see Uri#getPathSegments()
      */
     private static void appendPathSegments(Uri.Builder builder, List<String> segments) {
         for (String segment : segments) {
