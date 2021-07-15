@@ -14,6 +14,7 @@
     <string name="general_shadowbox_ispro">Le mode Shadowbox est une fonctionnalité Pro</string>
     <string name="general_nighttheme_ispro">Mode nuit automatique est une fonctionnalité Pro</string>
     <string name="general_backup_ispro">Sauvegarde des paramètres est une fonctionnalité Pro</string>
+    <string name="general_multicolumn_ispro">Les paramètres multi-colonnes sont une fonctionnalité Pro</string>
     <!-- Used when viewing a thread -->
     <string name="submission_info_unsaved">Message désenregistré</string>
     <string name="submission_info_saved">Message enregistré</string>
@@ -108,6 +109,7 @@
     <string name="sidebar_wiki">Wiki du subreddit</string>
     <string name="sidebar_mods">Modérateurs du subreddit</string>
     <!-- User profile -->
+    <string name="profile_karma_total">Karma total</string>
     <string name="profile_karma_link">Karma de publication</string>
     <string name="profile_karma_comment">Karma du commentaire</string>
     <string name="profile_message">Message privé</string>
@@ -276,6 +278,7 @@
     <string name="type_album">Album</string>
     <string name="type_xkcd">XKCD</string>
     <string name="type_nsfw_album">Album NSFW</string>
+    <string name="type_gallery">Galerie</string>
     <string name="type_img">Image</string>
     <string name="type_videos">Vidéos</string>
     <string name="type_nsfw_video">Vidéo NSFW</string>
@@ -356,6 +359,7 @@
     <string name="btn_discard">Supprimer</string>
     <string name="btn_done">OK</string>
     <string name="btn_go_back">Retour</string>
+    <string name="btn_no_thanks">Non merci</string>
     <string name="btn_no">Non</string>
     <string name="btn_ok">OK</string>
     <string name="btn_remove">Enlever</string>
@@ -435,6 +439,8 @@
     <string name="mod_btn_unmark_nsfw">Enlever le NSFW</string>
     <string name="mod_btn_mark_spoiler">Marquer comme Spoiler</string>
     <string name="mod_btn_unmark_spoiler">Retirer marquage Spoiler</string>
+    <string name="mod_btn_lock_thread">Verrouiller le fil</string>
+    <string name="mod_btn_unlock_thread">Déverouiller le fil</string>
     <string name="mod_btn_pin">Épingler</string>
     <string name="mod_btn_unpin">Désépingler</string>
     <string name="mod_btn_remove">Supprimer</string>
@@ -518,6 +524,7 @@
     <string name="settings_link_album">Voir les albums en interne</string>
     <string name="settings_link_peek">Coup d\'œil sur le contenu (expérimental)</string>
     <string name="settings_link_gif">Voir les gif en interne</string>
+    <string name="settings_link_hqgif">Vidéos Gfycat de haute qualité</string>
     <string name="settings_link_handling">Gestion des liens</string>
     <string name="settings_link_image">Voir les images en interne</string>
     <string name="settings_mail_check">Rafraîchir les messages</string>
@@ -587,6 +594,7 @@
     <string name="settings_section_save_history">Sauvegarder l\'historique</string>
     <string name="settings_section_clear_history">Effacer l\'historique</string>
     <string name="settings_section_data_saving_mode">Mode économie de données</string>
+    <string name="settings_section_data_saving_quality">Qualité de l\'enregistrement des données</string>
     <string name="settings_comment_color">Indicateurs colorés de la profondeur des commentaires</string>
     <string name="settings_volume_nav_comments">Naviguer à l\'aide des boutons de volume</string>
     <string name="settings_synccit_remove">DÉCONNECTER SYNCCIT</string>
@@ -604,6 +612,7 @@
     <string name="settings_comment_collapse_description">Désactive également les animations de commentaire</string>
     <string name="settings_comment_collapse_default">Réduire les réponses aux commentaires par défaut</string>
     <string name="settings_data_enable">Activer les paramètres d\'économie de données</string>
+    <string name="settings_data_video_quality">Préférer les vidéos de faible qualité lorsque l\'enregistrement des données est activé</string>
     <string name="settings_backup_occurs">La sauvegarde aura lieu à %1$s</string>
     <string name="settings_backup_none">Aucun subreddits ne sera sauvegardé</string>
     <string name="settings_backup_will_backup">\u0020sera sauvegardé</string>
@@ -620,6 +629,8 @@
     <string name="settings_layout_picture_mode">Mode d\'affichage des images</string>
     <string name="settings_general_expanded_toolbar">Étendre la barre d\'outil du menu</string>
     <string name="settings_general_expanded_toolbar_desc">Afficher plus d\'options dans la barre d\'outils subreddit</string>
+    <string name="settings_always_show_floating_action_button">Afficher le bouton d\'action flottant</string>
+    <string name="settings_always_show_floating_action_button_desc">Ne jamais masquer le bouton d\'action flottant lors du défilement</string>
     <string name="settings_theme_tinting">Mode de teinte des soumissions</string>
     <string name="settings_layout_actionbar_mode">ActionBar mode</string>
     <string name="settings_theme_tint_outside_desc">Colore le fond d\'écran dans les multireddits, frontpage et all uniquement</string>
@@ -693,6 +704,7 @@
     <string name="reorder_fab_domain">Domaine</string>
     <string name="reorder_fab_subreddit">Subreddit</string>
     <string name="reorder_add_subscribe">Ajouter &amp; s\'abonner</string>
+    <string name="reorder_remove_unsubscribe">Supprimer &amp; se désabonner</string>
     <string name="reorder_move">Déplacer en haut</string>
     <string name="reorder_domain_placeholder">\u0020(seulement le nom de domaine)</string>
     <string name="reorder_not_found_err">Subreddit introuvable, voici quelques suggestions</string>
@@ -920,8 +932,6 @@
     <string name="comments_depth">Profondeur des commentaires à mettre en cache</string>
     <string name="comments_count">Nombre de commentaires à mettre en cache</string>
     <!-- Saving location setting -->
-    <string name="set_gif_save_loc">Définir l\'emplacement d\'enregistrement des gifs</string>
-    <string name="set_gif_save_loc_msg">L’emplacement d\'enregistrement des gifs n\'a pas encore été défini. Voulez-vous le définir ?</string>
     <string name="set_save_location">Définir l\'emplacement d\'enregistrement des images</string>
     <string name="set_save_location_msg">L’emplacement d\'enregistrement des images n\'a pas encore été défini. Voulez-vous le définir ?</string>
     <!-- Report flow -->
@@ -953,6 +963,7 @@
     <string name="mode_centered">Carte avec image centrée</string>
     <string name="mode_card">Carte</string>
     <string name="mode_thumbnail">Vignette</string>
+    <string name="mode_no_thumbnails">Aucune vignette</string>
     <string name="mode_big_thumbnails">Larges vignettes</string>
     <string name="mode_cropped">Grandes images rognées</string>
     <string name="mode_bigpic">Grandes images</string>
@@ -1100,4 +1111,5 @@
     <string name="show_collapse_expand_nav_bar">Afficher le bouton minimiser/maximiser dans la barre de navigation des commentaires</string>
     <string name="page_not_found">Page introuvable</string>
     <string name="page_does_not_exist">La page demandée n\'existe pas</string>
+    <string name="back_button_behavior_goto_first">Aller au premier subreddit</string>
 </resources>

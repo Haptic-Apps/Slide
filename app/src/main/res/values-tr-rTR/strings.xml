@@ -920,8 +920,6 @@
     <string name="comments_depth">Önbelleğe alınacak yorumların derinliği</string>
     <string name="comments_count">Önbelleğe alınacak yorumların sayısı</string>
     <!-- Saving location setting -->
-    <string name="set_gif_save_loc">GIF kaydetme konumunu seçin</string>
-    <string name="set_gif_save_loc_msg">Slide\'ın GIF kaydetme konumu henüz ayarlanmamış. Şimdi ayarlamak ister misiniz?</string>
     <string name="set_save_location">Görüntü kaydetme konumunu seçin</string>
     <string name="set_save_location_msg">Slide\'ın görüntü kaydetme konumu henüz ayarlanmamış. Şimdi ayarlamak ister misiniz?</string>
     <!-- Report flow -->

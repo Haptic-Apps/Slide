@@ -72,6 +72,7 @@ import me.ccrama.redditslide.Views.SubsamplingScaleImageView;
 import me.ccrama.redditslide.Visuals.ColorPreferences;
 import me.ccrama.redditslide.util.AnimatorUtil;
 import me.ccrama.redditslide.util.CompatUtil;
+import me.ccrama.redditslide.util.DialogUtil;
 import me.ccrama.redditslide.util.FileUtil;
 import me.ccrama.redditslide.util.GifUtils;
 import me.ccrama.redditslide.util.HttpUtil;
@@ -1228,50 +1229,14 @@ public class MediaView extends FullScreenActivity
         }
     }
 
-    public void showFirstDialog() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-
-                    new AlertDialog.Builder(MediaView.this)
-                            .setTitle(R.string.set_save_location)
-                            .setMessage(R.string.set_save_location_msg)
-                            .setPositiveButton(R.string.btn_yes, (dialog, which) ->
-                                    new FolderChooserDialogCreate.Builder(MediaView.this)
-                                            .chooseButton(R.string.btn_select) // changes label of the choose button
-                                            .initialPath(Environment.getExternalStorageDirectory()
-                                                    .getPath()) // changes initial path, defaults to external storage directory
-                                            .allowNewFolder(true, 0)
-                                            .show(MediaView.this))
-                            .setNegativeButton(R.string.btn_no, null)
-                            .show();
-                } catch (Exception ignored) {
-
-                }
-
-            }
-        });
+    private void showFirstDialog() {
+        runOnUiThread(() ->
+                DialogUtil.showFirstDialog(MediaView.this));
     }
 
-    public void showErrorDialog() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                new AlertDialog.Builder(MediaView.this)
-                        .setTitle(R.string.err_something_wrong)
-                        .setMessage(R.string.err_couldnt_save_choose_new)
-                        .setPositiveButton(R.string.btn_yes, (dialog, which) ->
-                                new FolderChooserDialogCreate.Builder(MediaView.this)
-                                        .chooseButton(R.string.btn_select) // changes label of the choose button
-                                        .initialPath(Environment.getExternalStorageDirectory()
-                                                .getPath()) // changes initial path, defaults to external storage directory
-                                        .allowNewFolder(true, 0)
-                                        .show(MediaView.this))
-                        .setNegativeButton(R.string.btn_no, null)
-                        .show();
-            }
-        });
+    private void showErrorDialog() {
+        runOnUiThread(() ->
+                DialogUtil.showErrorDialog(MediaView.this));
     }
 
     @Override

@@ -941,8 +941,6 @@
     <string name="comments_depth">Głębokość komentarzy do zapisu</string>
     <string name="comments_count">Liczba komentarzy do zapisania</string>
     <!-- Saving location setting -->
-    <string name="set_gif_save_loc">Ustaw lokalizację zapisu GIFów</string>
-    <string name="set_gif_save_loc_msg">Lokalizacja zapisywania GIFów Slide nie została wybrana. Czy chcesz to zrobić teraz?</string>
     <string name="set_save_location">Ustaw lokalizację zapisu obrazów</string>
     <string name="set_save_location_msg">Lokalizacja zapisywania obrazów Slide nie została wybrana. Czy chcesz to zrobić teraz?</string>
     <!-- Report flow -->

@@ -9,7 +9,6 @@ import android.graphics.Color;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Environment;
 import android.os.Looper;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -62,7 +61,6 @@ import java.util.Locale;
 
 import me.ccrama.redditslide.Activities.MediaView;
 import me.ccrama.redditslide.Activities.Website;
-import me.ccrama.redditslide.Fragments.FolderChooserDialogCreate;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
@@ -107,44 +105,12 @@ public class GifUtils {
         );
     }
 
-    /**
-     * Show an error dialog for failed GIF saving
-     *
-     * @param a
-     */
     private static void showErrorDialog(final Activity a) {
-        new AlertDialog.Builder(a)
-                .setTitle(R.string.err_something_wrong)
-                .setMessage(R.string.err_couldnt_save_choose_new)
-                .setPositiveButton(R.string.btn_yes, (dialog, which) ->
-                        new FolderChooserDialogCreate.Builder((MediaView) a)
-                                .chooseButton(R.string.btn_select) // changes label of the choose button
-                                .initialPath(Environment.getExternalStorageDirectory()
-                                        .getPath()) // changes initial path, defaults to external storage directory
-                                .allowNewFolder(true, 0)
-                                .show((MediaView) a))
-                .setNegativeButton(R.string.btn_no, null)
-                .show();
+        DialogUtil.showErrorDialog((MediaView) a);
     }
 
-    /**
-     * Show the first-save dialog
-     *
-     * @param a
-     */
     private static void showFirstDialog(final Activity a) {
-        new AlertDialog.Builder(a)
-                .setTitle(R.string.set_gif_save_loc)
-                .setMessage(R.string.set_gif_save_loc_msg)
-                .setPositiveButton(R.string.btn_yes, (dialog, which) ->
-                        new FolderChooserDialogCreate.Builder((MediaView) a)
-                                .chooseButton(R.string.btn_select) // changes label of the choose button
-                                .initialPath(Environment.getExternalStorageDirectory()
-                                        .getPath()) // changes initial path, defaults to external storage directory
-                                .allowNewFolder(true, 0)
-                                .show((MediaView) a))
-                .setNegativeButton(R.string.btn_no, null)
-                .show();
+        DialogUtil.showFirstDialog((MediaView) a);
     }
 
     /**

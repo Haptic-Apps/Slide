@@ -8,6 +8,7 @@
     <string name="general_sub_sync">Sinkronigas abonojn</string>
     <!-- Used when viewing a thread -->
     <string name="submission_post_saved">Afiŝo konservita</string>
+    <string name="submission_stickied">Pingl\'</string>
     <string name="submission_link_copy">Kopii ligilon</string>
     <string name="submission_link_share">Konigi ligilon</string>
     <string name="submission_share_reddit">Reddit-ligilo</string>
@@ -16,7 +17,23 @@
     <string name="submission_report">Raporti afiŝon</string>
     <string name="submission_gild">Malfermi en retumilo</string>
     <string name="submission_save">Konservi afiŝon</string>
+    <string name="submission_save_image">Konservi bildon</string>
+    <string name="submission_not_found">Ho ve, afiŝo netrovita!</string>
+    <string name="submission_not_found_msg">Bedaŭrinde, netrovis ĉi tiu afiŝon</string>
     <string name="submission_copy_text">Kopii tekston</string>
+    <string name="submission_comment_saved">Konservis komenton</string>
+    <string name="submission_comment_unsaved">Malkonservis komenton</string>
+    <string name="submission_share_permalink">Konigi ligilon</string>
+    <string name="submission_comment_copied">Komenta teksto kopiita</string>
+    <string name="submission_link_copied">Ligilo kopiita</string>
+    <plurals name="new_messages">
+        <item quantity="one">%d nova mesaĝo</item>
+        <item quantity="other">%d novaj mesaĝoj</item>
+    </plurals>
+    <plurals name="points">
+        <item quantity="one">pnt</item>
+        <item quantity="other">pntj</item>
+    </plurals>
     <plurals name="comments">
         <item quantity="one">kmt</item>
         <item quantity="other">kmtj</item>
@@ -27,6 +44,7 @@
     <string name="theme_black">AMOLED-nigra</string>
     <string name="theme_dark_blue">Malhelblua</string>
     <string name="night_mode">Nokta Reĝimo</string>
+    <string name="disabled">Malŝaltita</string>
     <string name="theme_default_color">Ĉefa koloro</string>
     <string name="theme_subreddit_color">Ŝanĝi koloron</string>
     <string name="theme_accent_color">Akcento koloro</string>
@@ -40,30 +58,45 @@
     <string name="font_size_medium">Meza</string>
     <string name="font_size_small">Malgranda</string>
     <string name="font_size_smaller">Pli malgranda</string>
+    <string name="font_size_tiny">Eta</string>
     <!-- For editing the submission card layout -->
     <!-- Settings for Multi-column view -->
     <string name="multi_column_landscape">Horizontala orientiĝo</string>
     <!-- Drawer items (That's the one on the left) -->
+    <string name="drawer_profile">Vi</string>
     <string name="drawer_add_account">Aldoni konton</string>
     <string name="drawer_hello">Saluton,</string>
     <!-- Sidebar items (That's the one on the right) -->
     <!-- User profile -->
     <string name="profile_karma_comment">karmo el komentoj</string>
     <string name="profile_message">Privata mesaĝo</string>
-    <string name="profile_saved">savita</string>
-    <string name="profile_err_title">Uzanto ne trovita</string>
+    <string name="profile_saved">Konservita</string>
+    <string name="profile_upvoted">Porvoĉdonita</string>
+    <string name="profile_err_title">Uzanto netrovita</string>
     <string name="profile_overview">superrigardo</string>
     <string name="profile_comments">komentoj</string>
-    <string name="profile_submitted">afiŝita</string>
-    <string name="profile_gilded">origita</string>
-    <string name="profile_hidden">kaŝita</string>
+    <string name="profile_submitted">Afiŝita</string>
+    <string name="profile_gilded">Origita</string>
+    <string name="profile_downvoted">Kontraŭvoĉdonita</string>
+    <string name="profile_hidden">Kaŝita</string>
     <string name="profile_friend">Amiko</string>
     <string name="profile_add_friend">Aldoni amikon</string>
     <string name="profile_remove_friend">Forigi amikon</string>
+    <string name="profile_remove">Forigi konton</string>
+    <string name="profile_history">Historio</string>
+    <string name="profile_share">%s-a profilo</string>
+    <string name="profile_tag">Etikedo</string>
+    <string name="profile_tag_set">Agordi etikedon por %s</string>
+    <string name="profile_btn_tag">Agordi etikedon</string>
+    <string name="profile_btn_untag">Forigi etikedon</string>
+    <string name="profile_block_user">Bloki uzanton</string>
     <!-- Comment text options -->
     <string name="comment_share">Konigi komenton</string>
     <string name="comment_delete">Forigi komenton</string>
+    <string name="comment_delete_err">Ho ve, io misokazis</string>
+    <string name="comment_delete_err_msg">Ĉu vi volus reprovi?</string>
     <string name="comment_deleted">[forigita]</string>
+    <string name="comment_unsave">Malkonservi</string>
     <!-- Welcome view (first time setup) -->
     <!-- Sorting options -->
     <string name="sorting_best">Plej bonaj</string>
@@ -73,96 +106,164 @@
     <string name="sorting_old">Malnovaj</string>
     <string name="sorting_controversial">Debatataj</string>
     <string name="sorting_rising">Kreskantaj</string>
+    <string name="sorting_hour">horo</string>
+    <string name="sorting_day">24 horoj</string>
+    <string name="sorting_week">semajno</string>
+    <string name="sorting_month">monato</string>
+    <string name="sorting_year">jaro</string>
+    <string name="sorting_all">ĉiam</string>
     <!-- Editor (save/submit a post) actions -->
     <string name="editor_url">Ligilo</string>
     <string name="editor_text">Teksto</string>
+    <string name="editor_title_link">Enmeti ligilon</string>
     <string name="editor_title">Titolo</string>
+    <string name="editor_select_img">Elekti bildon</string>
     <string name="editor_submit">Afiŝi</string>
     <string name="editor_hint_subreddit">Subreddit</string>
     <!-- Editor buttons -->
+    <string name="editor_insert_image">Enmeti bildon</string>
+    <string name="editor_quote">Citaĵo</string>
+    <string name="editor_spoiler">Malkaŝaĵo</string>
     <!-- General information / information without a category -->
     <string name="info_photo_saved">Foto konservita</string>
+    <string name="gif_saved">Movbildo konservita</string>
     <!-- General errors / errors without a category -->
+    <string name="err_title">Ho ve, io misokazis!</string>
     <string name="err_invalid_url">Malvalida ligilo</string>
+    <string name="err_general">Ho ve, eraro okazis</string>
+    <string name="err_permission">Permeson neis!</string>
+    <string name="error_video_not_found">Videaĵo netrovita</string>
+    <string name="err_file_not_found">Dosiero netrovita</string>
     <!-- Gif -->
     <string name="gif_err_title">Movbildo ne trovita</string>
     <!-- Multireddits -->
+    <string name="multireddit_title_empty">Titolo ne povas esti malplena</string>
+    <string name="multi_add_to">Aldoni /r/%s al</string>
     <!-- Content types -->
-    <string name="type_nsfw_img">MPL/NSFW-bildo</string>
-    <string name="type_nsfw_gif">MPL/NSFW-movbildo</string>
+    <string name="type_nsfw_img">MDPL/NSFW-bildo</string>
+    <string name="type_nsfw_gif">MDPL/NSFW-movbildo</string>
     <string name="type_reddit">Reddit-ligilo</string>
     <string name="type_link">Ligilo</string>
-    <string name="type_nsfw_link">MPL/NSFW-ligilo</string>
+    <string name="type_nsfw_link">MDPL/NSFW-ligilo</string>
     <string name="type_gif">Movbildo</string>
     <string name="type_album">Albumo</string>
+    <string name="type_nsfw_album">MDPL/NSFW-albumo</string>
     <string name="type_img">Bildo</string>
+    <string name="type_nsfw_video">MDPL/NSFW-videaĵo</string>
     <!-- Content types plural (Content filters) -->
+    <string name="type_nsfw_content">MDPL/NSFW-enhavo</string>
+    <string name="type_links">Ligiloj</string>
     <!-- Inbox/mail -->
     <string name="mail_author_wrote">%1$s skribis&#8230;</string>
     <string name="mail_hint_recipient">Ricevonto</string>
     <string name="mail_hint_subject">Temo</string>
+    <string name="mail_hint_body">Teksto</string>
     <string name="mail_send_to">Sendi mesaĝon al %1$s</string>
     <string name="mail_send">Sendi mesaĝon</string>
+    <string name="mail_notification_msg_from">Nova mesaĝo de %1$s</string>
     <string name="mail_reply_to">Respondi al %1$s</string>
     <string name="mail_notification_author">%1$s de %2$s</string>
+    <string name="mail_mark_read">Marki legita</string>
+    <string name="mail_mark_unread">Marki nelegita</string>
     <plurals name="mail_notification_title">
         <item quantity="one">Vi havas %d novan mesaĝon!</item>
         <item quantity="other">Vi havas %d novajn mesaĝojn!</item>
     </plurals>
     <!-- Miscellaneous/generic things that don't have a category or strings that are used for multiple categories -->
     <string name="misc_err">Eraro</string>
+    <string name="misc_subscribed">Abonita</string>
     <string name="misc_continue">Daŭrigi</string>
+    <string name="misc_unsubscribed">Malabonita</string>
+    <string name="misc_please_wait">Bonvole atendu...</string>
     <string name="misc_copy_text">Kopii tekston</string>
+    <string name="misc_more_info">Pliaj informoj</string>
     <!-- Goto User -->
     <string name="user_enter">Tajpu uzantnomon</string>
     <!-- Buttons -->
     <string name="btn_add">Aldoni</string>
     <string name="btn_cancel">Nuligi</string>
     <string name="btn_close">Fermi</string>
+    <string name="btn_open">Malfermi</string>
     <string name="btn_discard">Ignori</string>
     <string name="btn_done">Farita</string>
     <string name="btn_go_back">Reen</string>
+    <string name="btn_no_thanks">Ne, dankon</string>
     <string name="btn_no">Ne</string>
     <string name="btn_ok">Bone</string>
     <string name="btn_remove">Forigi</string>
     <string name="btn_reply">Respondi</string>
     <string name="btn_save">Konservi</string>
+    <string name="btn_sure">Certe!</string>
     <string name="btn_undo">Malfari</string>
     <string name="btn_yes">Jes</string>
+    <string name="btn_yes_exclaim">Jes!</string>
     <string name="btn_delete">Forigi</string>
+    <string name="btn_select">Elekti</string>
+    <string name="btn_changelog">Ŝanĝoprotokolo</string>
     <!-- Buttons Content labels for TalkBack accessibility-->
+    <string name="btn_edit">Redakti</string>
+    <string name="btn_hide">Kaŝi</string>
+    <string name="btn_upvote">Porvoĉdoni</string>
+    <string name="btn_downvote">Kontraŭvoĉdoni</string>
+    <string name="btn_menu">Menuo</string>
     <!-- Buttons Content labels for TalkBack accessibility active states-->
+    <string name="btn_upvoted">Porvoĉdonis</string>
+    <string name="btn_downvoted">Kontraŭvoĉdonis</string>
+    <string name="btn_unsave">Malkonservi</string>
     <!-- Backup -->
     <string name="backup_btn">Savkopii</string>
     <string name="backup_btn_restore">Restaŭri</string>
     <!-- Vote -->
     <!-- Moderation tools -->
-    <string name="mod_approved">Afiŝo aprobita.</string>
+    <string name="mod_approved">Afiŝo aprobita</string>
     <string name="mod_btn_approve">Aprobi</string>
+    <string name="mod_btn_mark_nsfw">Marki kiel MBPL/NSFW</string>
+    <string name="mod_btn_unmark_nsfw">Malmarki kiel MBPL/NSFW</string>
+    <string name="mod_btn_pin">Alpingli</string>
+    <string name="mod_btn_unpin">Depingli</string>
+    <string name="mod_btn_remove">Forigi</string>
     <!-- Toolbox-related stuff -->
     <!-- If he did -->
     <!-- Subreddit Wiki -->
     <!-- Subreddits -->
+    <string name="subreddit_subscribers_string">%1$s abonantoj</string>
+    <string name="subreddit_active_users_string_new">Nun %1$s ĉi tie</string>
     <!-- Search -->
     <string name="search_title">Serĉi</string>
+    <string name="search_subreddit">Serĉi en %1$s</string>
+    <string name="search_comments">Komentoj</string>
     <!-- Settings -->
     <string name="share_link">Konigi ligilon</string>
     <string name="share_image">Konigi bildon</string>
     <string name="settings_libs">Malfermitkodaj bibliotekoj</string>
     <string name="settings_bugs">Raporti cimojn</string>
+    <string name="settings_font_comment">Komenta tiparo</string>
     <!-- Settings titles displayed in settings activity-->
     <string name="settings_title_general">Ĝenerala</string>
+    <string name="settings_title_history">Historio</string>
     <string name="settings_title_notifications">Sciigoj</string>
     <string name="settings_title_support">Donaci</string>
     <string name="settings_title_about">Pri</string>
     <string name="settings_title_comments">Komentoj</string>
+    <string name="settings_title_font">Tiparo</string>
+    <string name="settings_section_appearance">Aspekto</string>
+    <string name="settings_synccit_username">Uzantnomo</string>
+    <string name="settings_section_content">Enhavo</string>
     <!-- Quick setting toggles in the drawer -->
+    <string name="toggle_nsfw">Malkaŝi MDPL/NSFW-enhavon</string>
     <!-- View types -->
     <!--Search methods -->
     <!-- Back button behavior -->
     <!-- Subscription managing -->
+    <string name="reorder_subscribed_toast">Abonis al /r/%1$s</string>
+    <string name="reorder_unsubscribed_toast">Malabonis el /r/%1$s</string>
+    <string name="deleting">Forigas...</string>
+    <string name="subscribe_caps">ABONI</string>
+    <string name="unsubscribe_caps">MALABONI</string>
     <!-- Save categories -->
     <!-- Setting subheaders -->
+    <string name="app_theme">Apa etoso</string>
+    <string name="nsfw">MDPL/NSFW-enhavo</string>
     <!-- Titles displayed in action bar / head / recents overview-->
     <string name="title_edit_theme">Redakti etoson</string>
     <string name="title_submit_post">Afiŝi</string>
@@ -174,6 +275,19 @@
     <!-- Offline mode -->
     <!-- Website -->
     <!-- Time -->
+    <string name="time_just_now">Ĵus</string>
+    <plurals name="time_years">
+        <item quantity="one">%d jaro</item>
+        <item quantity="other">%d jaroj</item>
+    </plurals>
+    <plurals name="time_months">
+        <item quantity="one">%d monato</item>
+        <item quantity="other">%d monatoj</item>
+    </plurals>
+    <plurals name="time_days">
+        <item quantity="one">%d tago</item>
+        <item quantity="other">%d tagoj</item>
+    </plurals>
     <plurals name="time_hours">
         <item quantity="one">%d horo</item>
         <item quantity="other">%d horoj</item>
@@ -182,18 +296,41 @@
         <item quantity="one">%d minuto</item>
         <item quantity="other">%d minutoj</item>
     </plurals>
+    <plurals name="time_seconds">
+        <item quantity="one">%d sekundo</item>
+        <item quantity="other">%d sekundoj</item>
+    </plurals>
     <!-- Time: shorthand durations for example 1 hour → 1h -->
+    <string name="time_years_short">%dj</string>
+    <string name="time_days_short">%dt</string>
+    <string name="time_hours_short">%dh</string>
+    <string name="time_minutes_short">%dm</string>
     <!-- Strings present during the login process -->
     <!-- Over 18 prompt when visiting a NSFW subreddit -->
     <!-- Subreddit color synchronization - https://redd.it/41054l -->
     <!-- Discover section: find -->
+    <string name="discover_search">Serĉi terminoj aŭ temoj</string>
+    <string name="discover_popular">Popularaj</string>
     <!-- Subreddit post notifications -->
+    <string name="sub_post_notify">Sciigi</string>
+    <string name="sub_post_notifs_notification_title">Nova afiŝo en /r/%1$s</string>
     <!-- Internal browser -->
     <!-- Live thread -->
     <!-- Used when viewing media -->
+    <string name="mediaview_notif_title">Elŝutas bildon...</string>
+    <string name="mediaview_save">Konservi %1$s</string>
+    <string name="mediaview_saving">Konservas %1$s</string>
     <!-- Drafts -->
     <!-- Strings for widgets -->
+    <string name="widget_theme_dark">MALLUMA</string>
+    <string name="widget_theme_light">LUMA</string>
+    <string name="widget_theme_clear">KLARA</string>
+    <string name="widget_posttype_list">LISTO</string>
+    <string name="widget_posttype_bigpic">BILDEGO</string>
+    <string name="widget_content">Enhavo</string>
+    <string name="widget_creation_title">Nova fenestraĵo</string>
     <!-- Strings for alert dialogs -->
+    <string name="choose_color_title">Elekti koloron</string>
     <!-- Sidebar strings (multis, flairs) -->
     <!--Filtering dialog -->
     <!-- Caching -->

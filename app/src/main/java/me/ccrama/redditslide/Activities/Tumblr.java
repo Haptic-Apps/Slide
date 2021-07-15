@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,7 +15,6 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
@@ -41,6 +39,7 @@ import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Views.ToolbarColorizeHelper;
 import me.ccrama.redditslide.Visuals.ColorPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.DialogUtil;
 import me.ccrama.redditslide.util.LinkUtil;
 
 /**
@@ -114,9 +113,9 @@ public class Tumblr extends FullScreenActivity implements FolderChooserDialogCre
     public void doImageSave(boolean isGif, String contentUrl) {
         if (!isGif) {
             if (Reddit.appRestart.getString("imagelocation", "").isEmpty()) {
-                showFirstDialog();
+                DialogUtil.showFirstDialog(Tumblr.this);
             } else if (!new File(Reddit.appRestart.getString("imagelocation", "")).exists()) {
-                showErrorDialog();
+                DialogUtil.showErrorDialog(Tumblr.this);
             } else {
                 Intent i = new Intent(this, ImageDownloadNotificationService.class);
                 i.putExtra("actuallyLoaded", contentUrl);
@@ -126,40 +125,6 @@ public class Tumblr extends FullScreenActivity implements FolderChooserDialogCre
         } else {
             MediaView.doOnClick.run();
         }
-    }
-
-    public void showFirstDialog() {
-        try {
-            new AlertDialog.Builder(this)
-                    .setTitle(R.string.set_save_location)
-                    .setMessage(R.string.set_save_location_msg)
-                    .setPositiveButton(R.string.btn_yes, (dialog, which) ->
-                            new FolderChooserDialogCreate.Builder(Tumblr.this)
-                                    .chooseButton(R.string.btn_select) // changes label of the choose button
-                                    .initialPath(Environment.getExternalStorageDirectory()
-                                            .getPath()) // changes initial path, defaults to external storage directory
-                                    .allowNewFolder(true, 0)
-                                    .show(Tumblr.this))
-                    .setNegativeButton(R.string.btn_no, null)
-                    .show();
-        } catch (Exception ignored) {
-
-        }
-    }
-
-    public void showErrorDialog() {
-        new AlertDialog.Builder(Tumblr.this)
-                .setTitle(R.string.err_something_wrong)
-                .setMessage(R.string.err_couldnt_save_choose_new)
-                .setPositiveButton(R.string.btn_yes, (dialog, which) ->
-                        new FolderChooserDialogCreate.Builder(Tumblr.this)
-                                .chooseButton(R.string.btn_select) // changes label of the choose button
-                                .initialPath(Environment.getExternalStorageDirectory()
-                                        .getPath()) // changes initial path, defaults to external storage directory
-                                .allowNewFolder(true, 0)
-                                .show(Tumblr.this))
-                .setNegativeButton(R.string.btn_no, null)
-                .show();
     }
 
     public String url;
