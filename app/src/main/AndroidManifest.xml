@@ -302,12 +302,12 @@
         <activity android:name=".Activities.MakeExternal"/>
 
         <activity
-                android:name=".Activities.SettingsSynccit"
+                android:name=".ui.settings.SettingsSynccit"
                 android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode"
                 android:theme="@style/swipeable"
                 android:windowSoftInputMode="adjustResize"/>
         <activity
-                android:name=".Activities.ManageOfflineContent"
+                android:name=".ui.settings.ManageOfflineContent"
                 android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode"
                 android:theme="@style/swipeable"
                 android:windowSoftInputMode="adjustResize"/>
@@ -337,11 +337,11 @@
                 android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode"
                 android:theme="@style/swipeable"/>
         <activity
-                android:name=".Activities.SettingsViewType"
+                android:name=".ui.settings.SettingsViewType"
                 android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode"
                 android:theme="@style/swipeable"/>
         <activity
-                android:name=".Activities.SettingsFilter"
+                android:name=".ui.settings.SettingsFilter"
                 android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode"
                 android:theme="@style/swipeable"/>
         <activity
@@ -385,7 +385,7 @@
                 android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode"
                 android:theme="@style/swipeable"/>
         <activity
-                android:name=".Activities.SettingsComments"
+                android:name=".ui.settings.SettingsComments"
                 android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode"
                 android:theme="@style/swipeable"/>
         <activity
@@ -393,7 +393,7 @@
                 android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode"
                 android:theme="@style/swipeable"/>
         <activity
-                android:name=".Activities.SettingsFont"
+                android:name=".ui.settings.SettingsFont"
                 android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode"
                 android:theme="@style/swipeable"/>
         <activity
@@ -441,7 +441,7 @@
                 android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode"
                 android:theme="@style/swipeable"/>
         <activity
-                android:name=".Activities.SettingsReddit"
+                android:name=".ui.settings.SettingsReddit"
                 android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode"
                 android:theme="@style/swipeable"/>
         <activity
@@ -507,7 +507,7 @@
             </intent-filter>
         </activity>
         <activity
-                android:name=".Activities.SettingsGeneral"
+                android:name=".ui.settings.SettingsGeneral"
                 android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode"
                 android:theme="@style/swipeable"/>
         <activity
@@ -562,7 +562,7 @@
                 android:name=".Activities.Tutorial"
                 android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode"/>
         <activity
-                android:name=".Activities.DonateView"
+                android:name=".ui.settings.DonateView"
                 android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode"
                 android:theme="@style/swipeable"/>
         <activity
@@ -576,7 +576,7 @@
                 android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode"
                 android:theme="@style/swipeable"/>
         <activity
-                android:name=".Activities.Settings"
+                android:name=".ui.settings.Settings"
                 android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode"
                 android:theme="@style/swipeable"
                 android:windowSoftInputMode="adjustNothing" >
@@ -586,11 +586,11 @@
             </intent-filter>
         </activity>
         <activity
-                android:name=".Activities.SettingsTheme"
+                android:name=".ui.settings.SettingsTheme"
                 android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode"
                 android:theme="@style/swipeable"/>
         <activity
-                android:name=".Activities.SettingsSubreddit"
+                android:name=".ui.settings.SettingsSubreddit"
                 android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode"
                 android:theme="@style/swipeable"/>
         <activity
@@ -598,11 +598,11 @@
                 android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode"
                 android:theme="@style/swipeable"/>
         <activity
-                android:name=".Activities.SettingsAbout"
+                android:name=".ui.settings.SettingsAbout"
                 android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode"
                 android:theme="@style/swipeable"/>
         <activity
-                android:name=".Activities.SettingsLibs"
+                android:name=".ui.settings.SettingsLibs"
                 android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode"
                 android:theme="@style/swipeable"/>
         <activity
@@ -610,11 +610,11 @@
                 android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode"
                 android:theme="@style/swipeable"/>
         <activity
-                android:name=".Activities.SettingsHandling"
+                android:name=".ui.settings.SettingsHandling"
                 android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode"
                 android:theme="@style/swipeable"/>
         <activity
-                android:name=".Activities.EditCardsLayout"
+                android:name=".ui.settings.EditCardsLayout"
                 android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode"
                 android:theme="@style/swipeable"/>
         <activity
@@ -622,7 +622,7 @@
                 android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode"
                 android:theme="@style/swipeable"/>
         <activity
-                android:name=".DragSort.ReorderSubreddits"
+                android:name=".ui.settings.dragSort.ReorderSubreddits"
                 android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode"
                 android:theme="@style/swipeable"/>
         <activity
@@ -638,19 +638,19 @@
         <activity android:name=".Activities.CancelSubNotifs"/>
         <activity android:name=".Activities.DeleteFile"/>
         <activity
-                android:name=".Activities.SettingsData"
+                android:name=".ui.settings.SettingsData"
                 android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode"
                 android:theme="@style/swipeable"/>
         <activity
-                android:name=".Activities.SettingsBackup"
+                android:name=".ui.settings.SettingsBackup"
                 android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode"
                 android:theme="@style/swipeable"/>
         <activity
-                android:name=".Activities.SettingsHistory"
+                android:name=".ui.settings.SettingsHistory"
                 android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode"
                 android:theme="@style/swipeable"/>
         <activity
-                android:name=".Activities.SettingsModeration"
+                android:name=".ui.settings.SettingsModeration"
                 android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode"
                 android:theme="@style/swipeable"/>
         <activity

@@ -12,9 +12,9 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
 
-import me.ccrama.redditslide.Fragments.SettingsHandlingFragment;
 import me.ccrama.redditslide.Views.CreateCardView;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.ui.settings.SettingsHandlingFragment;
 import me.ccrama.redditslide.util.SortingUtil;
 
 /**

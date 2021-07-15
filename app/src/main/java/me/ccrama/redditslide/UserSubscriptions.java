@@ -30,8 +30,8 @@ import me.ccrama.redditslide.Activities.Login;
 import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Activities.MultiredditOverview;
 import me.ccrama.redditslide.Activities.NewsActivity;
-import me.ccrama.redditslide.DragSort.ReorderSubreddits;
 import me.ccrama.redditslide.Toolbox.Toolbox;
+import me.ccrama.redditslide.ui.settings.dragSort.ReorderSubreddits;
 import me.ccrama.redditslide.util.NetworkUtil;
 import me.ccrama.redditslide.util.StringUtil;
 
