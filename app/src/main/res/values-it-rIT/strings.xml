@@ -939,8 +939,6 @@
     <string name="comments_depth">Profondità dei commenti da memorizzare</string>
     <string name="comments_count">Numero di commenti da memorizzare</string>
     <!-- Saving location setting -->
-    <string name="set_gif_save_loc">Imposta cartella di salvataggio delle GIF</string>
-    <string name="set_gif_save_loc_msg">La cartella di salvataggio delle GIF non è stata ancora impostata. Vuoi farlo adesso?</string>
     <string name="set_save_location">Imposta cartella di salvataggio delle immagini</string>
     <string name="set_save_location_msg">La cartella di salvataggio delle immagini non è stata ancora impostata. Vuoi farlo adesso?</string>
     <!-- Report flow -->

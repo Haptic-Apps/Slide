@@ -187,6 +187,8 @@
     <string name="editor_submit">提交一个帖子</string>
     <string name="editor_hint_subreddit">版块</string>
     <string name="editor_finding_title">查找标题</string>
+    <string name="submit_findingflairs">正在查找签名</string>
+    <string name="submit_flairchoices">/r/%s 签名</string>
     <string name="edit_selftext">编辑帖文</string>
     <string name="delete_submission">删除提交</string>
     <string name="set_submission_flair">设置提交的签名</string>
@@ -924,8 +926,6 @@
     <string name="comments_depth">要缓存的评论深度</string>
     <string name="comments_count">要缓存的评论数</string>
     <!-- Saving location setting -->
-    <string name="set_gif_save_loc">设置动图保存位置</string>
-    <string name="set_gif_save_loc_msg">Slide 的动图保存位置还没设置，你想现在设置吗？</string>
     <string name="set_save_location">设置图片保存位置</string>
     <string name="set_save_location_msg">Slide 的图片保存位置还没设置，你想现在设置吗？</string>
     <!-- Report flow -->
@@ -1111,4 +1111,6 @@
     <string name="settings_hide_comment_awards">隐藏奖励</string>
     <string name="high_colorspace_images">高色彩空间图像</string>
     <string name="description_high_colorspace">载入图像的完整的色彩空间，可能导致更高的内存用量</string>
+    <string name="editor_btn_select_flair">选择签名</string>
+    <string name="submit_selected_flair">选定的签名： %s</string>
 </resources>

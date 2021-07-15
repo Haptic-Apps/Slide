@@ -905,8 +905,6 @@
     <string name="comments_depth">Cantidad de comentarios para guardar en caché</string>
     <string name="comments_count">Número de comentarios a guardar en caché</string>
     <!-- Saving location setting -->
-    <string name="set_gif_save_loc">Establecer ubicación para guardar GIF</string>
-    <string name="set_gif_save_loc_msg">Aún no se ha configurado una ubicación para guardar GIFs de Slide. ¿Quieres hacerlo ahora?</string>
     <string name="set_save_location">Establecer ubicación para guardar imágenes</string>
     <string name="set_save_location_msg">Aún no se ha configurado una ubicación para el guardado de imágenes de Slide. ¿Quieres configurarla ahora?</string>
     <!-- Report flow -->

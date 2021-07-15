@@ -659,8 +659,6 @@
     <string name="cache_subreddits_now">Cache subreddits nu</string>
     <string name="cache_wifi_only">Alleen cachen met WiFi</string>
     <!-- Saving location setting -->
-    <string name="set_gif_save_loc">Selecteer opslaglocatie voor GIF bestanden</string>
-    <string name="set_gif_save_loc_msg">Slide\'s opslaglocatie voor GIF bestanden is nog niet ingesteld. Wil je dit nu doen?</string>
     <string name="set_save_location">Selecteer opslaglocatie voor afbeeldingen</string>
     <string name="set_save_location_msg">Slide\'s opslaglocatie voor afbeeldingen van is nog niet ingesteld. Wil je dit nu doen?</string>
     <!-- Report flow -->

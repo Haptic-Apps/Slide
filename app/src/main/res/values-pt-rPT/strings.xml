@@ -879,8 +879,6 @@
     <string name="comments_depth">Profundidade dos comentários para cache</string>
     <string name="comments_count">Número de comentários para cache</string>
     <!-- Saving location setting -->
-    <string name="set_gif_save_loc">Definir local para gravar GIFs</string>
-    <string name="set_gif_save_loc_msg">Local para gravar GIFs no Slide ainda não foi definido. Gostaria de definir isso agora?</string>
     <string name="set_save_location">Definir local para gravar imagens</string>
     <string name="set_save_location_msg">Local para gravar imagens no Slide ainda não foi definido. Gostaria de definir isso agora?</string>
     <!-- Report flow -->

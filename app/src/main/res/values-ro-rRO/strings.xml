@@ -639,7 +639,6 @@
     <string name="cache_no_comments_found_snackbar">Nu s-au găsit comentarii memorate</string>
     <string name="cache_wifi_only">Cache doar pe WiFi</string>
     <!-- Saving location setting -->
-    <string name="set_gif_save_loc">Selectează locația de salvare pentru GIFuri</string>
     <string name="set_save_location">Selectează locația pentru imagini</string>
     <!-- Report flow -->
     <string name="btn_report">Reportează</string>

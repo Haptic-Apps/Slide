@@ -950,8 +950,6 @@
     <string name="comments_depth">Hloubka komentářů v mezipaměti</string>
     <string name="comments_count">Počet komentářů v mezipaměti</string>
     <!-- Saving location setting -->
-    <string name="set_gif_save_loc">Nastavit místo uložení GIF</string>
-    <string name="set_gif_save_loc_msg">Místo uloženého souboru GIF zatím nebylo nastaveno. Chcete to nyní nastavit?</string>
     <string name="set_save_location">Nastavit místo uložení obrázků</string>
     <string name="set_save_location_msg">Místo ukládání obrázků zatím nebylo nastaveno. Chcete to nyní nastavit?</string>
     <!-- Report flow -->
