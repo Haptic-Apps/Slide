@@ -52,8 +52,8 @@ import me.ccrama.redditslide.util.stubs.SimpleTextWatcher;
 /**
  * Created by ccrama on 3/5/2015.
  */
-public class Settings extends BaseActivity
-        implements FolderChooserDialogCreate.FolderCallback, SettingsFragment.RestartActivity {
+public class SettingsActivity extends BaseActivity
+        implements FolderChooserDialogCreate.FolderCallback, RestartActivity {
 
     private final static int RESTART_SETTINGS_RESULT = 2;
     private       int                                                scrollY;
@@ -94,7 +94,7 @@ public class Settings extends BaseActivity
     }
 
     public void restartActivity() {
-        Intent i = new Intent(Settings.this, Settings.class);
+        Intent i = new Intent(SettingsActivity.this, SettingsActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         i.putExtra("position", scrollY);
         i.putExtra("prev_text", prev_text);
@@ -229,7 +229,7 @@ public class Settings extends BaseActivity
         prefsListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
             @Override
             public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-                Settings.changed = true;
+                SettingsActivity.changed = true;
             }
         };
 
@@ -320,7 +320,7 @@ public class Settings extends BaseActivity
             pro.setOnClickListener(new OnSingleClickListener() {
                 @Override
                 public void onSingleClick(View v) {
-                    ProUtil.proUpgradeMsg(Settings.this, R.string.settings_support_slide)
+                    ProUtil.proUpgradeMsg(SettingsActivity.this, R.string.settings_support_slide)
                             .setNegativeButton(R.string.btn_no_thanks, (dialog, whichButton) ->
                                     dialog.dismiss())
                             .show();
@@ -342,7 +342,7 @@ public class Settings extends BaseActivity
         findViewById(R.id.settings_child_general).setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
-                Intent i = new Intent(Settings.this, SettingsGeneral.class);
+                Intent i = new Intent(SettingsActivity.this, SettingsGeneral.class);
                 startActivityForResult(i, RESTART_SETTINGS_RESULT);
             }
         });
@@ -350,7 +350,7 @@ public class Settings extends BaseActivity
         findViewById(R.id.settings_child_history).setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
-                Intent i = new Intent(Settings.this, SettingsHistory.class);
+                Intent i = new Intent(SettingsActivity.this, SettingsHistory.class);
                 startActivity(i);
             }
         });
@@ -358,7 +358,7 @@ public class Settings extends BaseActivity
         findViewById(R.id.settings_child_about).setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
-                Intent i = new Intent(Settings.this, SettingsAbout.class);
+                Intent i = new Intent(SettingsActivity.this, SettingsAbout.class);
                 startActivity(i);
             }
         });
@@ -366,7 +366,7 @@ public class Settings extends BaseActivity
         findViewById(R.id.settings_child_offline).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(Settings.this, ManageOfflineContent.class);
+                Intent i = new Intent(SettingsActivity.this, ManageOfflineContent.class);
                 startActivity(i);
             }
         });
@@ -374,7 +374,7 @@ public class Settings extends BaseActivity
         findViewById(R.id.settings_child_datasave).setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
-                Intent i = new Intent(Settings.this, SettingsData.class);
+                Intent i = new Intent(SettingsActivity.this, SettingsData.class);
                 startActivity(i);
             }
         });
@@ -382,7 +382,7 @@ public class Settings extends BaseActivity
         findViewById(R.id.settings_child_subtheme).setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
-                Intent i = new Intent(Settings.this, SettingsSubreddit.class);
+                Intent i = new Intent(SettingsActivity.this, SettingsSubreddit.class);
                 startActivityForResult(i, RESTART_SETTINGS_RESULT);
             }
         });
@@ -391,7 +391,7 @@ public class Settings extends BaseActivity
             @Override
             public void onSingleClick(View v) {
 
-                Intent i = new Intent(Settings.this, SettingsFilter.class);
+                Intent i = new Intent(SettingsActivity.this, SettingsFilter.class);
                 startActivity(i);
             }
         });
@@ -400,7 +400,7 @@ public class Settings extends BaseActivity
             @Override
             public void onSingleClick(View v) {
 
-                Intent i = new Intent(Settings.this, SettingsSynccit.class);
+                Intent i = new Intent(SettingsActivity.this, SettingsSynccit.class);
                 startActivity(i);
             }
         });
@@ -408,8 +408,8 @@ public class Settings extends BaseActivity
         findViewById(R.id.settings_child_reorder).setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
-                Intent inte = new Intent(Settings.this, ReorderSubreddits.class);
-                Settings.this.startActivity(inte);
+                Intent inte = new Intent(SettingsActivity.this, ReorderSubreddits.class);
+                startActivity(inte);
             }
         });
 
@@ -417,7 +417,7 @@ public class Settings extends BaseActivity
             @Override
             public void onSingleClick(View v) {
 
-                Intent i = new Intent(Settings.this, SettingsTheme.class);
+                Intent i = new Intent(SettingsActivity.this, SettingsTheme.class);
                 startActivityForResult(i, RESTART_SETTINGS_RESULT);
             }
         });
@@ -425,7 +425,7 @@ public class Settings extends BaseActivity
         findViewById(R.id.settings_child_handling).setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
-                Intent i = new Intent(Settings.this, SettingsHandling.class);
+                Intent i = new Intent(SettingsActivity.this, SettingsHandling.class);
                 startActivity(i);
             }
         });
@@ -433,7 +433,7 @@ public class Settings extends BaseActivity
         findViewById(R.id.settings_child_layout).setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
-                Intent i = new Intent(Settings.this, EditCardsLayout.class);
+                Intent i = new Intent(SettingsActivity.this, EditCardsLayout.class);
                 startActivity(i);
             }
         });
@@ -441,7 +441,7 @@ public class Settings extends BaseActivity
         findViewById(R.id.settings_child_backup).setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
-                Intent i = new Intent(Settings.this, SettingsBackup.class);
+                Intent i = new Intent(SettingsActivity.this, SettingsBackup.class);
                 startActivity(i);
             }
         });
@@ -449,7 +449,7 @@ public class Settings extends BaseActivity
         findViewById(R.id.settings_child_font).setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
-                Intent i = new Intent(Settings.this, SettingsFont.class);
+                Intent i = new Intent(SettingsActivity.this, SettingsFont.class);
                 startActivity(i);
             }
         });
@@ -485,7 +485,7 @@ public class Settings extends BaseActivity
                                     res.getQuantityString(R.plurals.landscape_columns,
                                             landscape.getProgress() + 1,
                                             landscape.getProgress() + 1));
-                            Settings.changed = true;
+                            SettingsActivity.changed = true;
                         }
 
                         @Override
@@ -498,7 +498,7 @@ public class Settings extends BaseActivity
 
                         }
                     });
-                    final AlertDialog.Builder builder = new AlertDialog.Builder(Settings.this)
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(SettingsActivity.this)
                             .setView(dialoglayout);
                     final Dialog dialog = builder.create();
                     dialog.show();
@@ -545,7 +545,7 @@ public class Settings extends BaseActivity
                         }
                     });
                 } else {
-                    ProUtil.proUpgradeMsg(Settings.this, R.string.general_multicolumn_ispro)
+                    ProUtil.proUpgradeMsg(SettingsActivity.this, R.string.general_multicolumn_ispro)
                             .setNegativeButton(R.string.btn_no_thanks, (dialog, whichButton) ->
                                     dialog.dismiss())
                             .show();
@@ -563,8 +563,8 @@ public class Settings extends BaseActivity
                     Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=56FKCCYLX7L72"));
                     startActivity(browserIntent);
                 } else {
-                    Intent inte = new Intent(Settings.this, DonateView.class);
-                    Settings.this.startActivity(inte);
+                    Intent inte = new Intent(SettingsActivity.this, DonateView.class);
+                    startActivity(inte);
                 }
             }
         });
@@ -572,8 +572,8 @@ public class Settings extends BaseActivity
         findViewById(R.id.settings_child_comments).setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
-                Intent inte = new Intent(Settings.this, SettingsComments.class);
-                Settings.this.startActivity(inte);
+                Intent inte = new Intent(SettingsActivity.this, SettingsComments.class);
+                startActivity(inte);
             }
         });
 
@@ -581,7 +581,7 @@ public class Settings extends BaseActivity
             findViewById(R.id.settings_child_reddit_settings).setOnClickListener(new OnSingleClickListener() {
                 @Override
                 public void onSingleClick(View v) {
-                    Intent i = new Intent(Settings.this, SettingsReddit.class);
+                    Intent i = new Intent(SettingsActivity.this, SettingsReddit.class);
                     startActivity(i);
                 }
             });
@@ -595,7 +595,7 @@ public class Settings extends BaseActivity
             findViewById(R.id.settings_child_moderation).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent i = new Intent(Settings.this, SettingsModeration.class);
+                    Intent i = new Intent(SettingsActivity.this, SettingsModeration.class);
                     startActivity(i);
                 }
             });

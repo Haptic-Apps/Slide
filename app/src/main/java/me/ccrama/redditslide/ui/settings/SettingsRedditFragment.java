@@ -35,7 +35,7 @@ public class SettingsRedditFragment {
         wantToSeeNsfwSwitch.setChecked(SettingValues.showNSFWContent);
         wantToSeeNsfwSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             SettingValues.showNSFWContent = isChecked;
-            Settings.changed = true;
+            SettingsActivity.changed = true;
 
             if (isChecked) {
                 hideAllNsfwSwitch.setEnabled(true);
@@ -67,7 +67,7 @@ public class SettingsRedditFragment {
             hideAllNsfwSwitch.setChecked(SettingValues.getIsNSFWEnabled());
         }
         hideAllNsfwSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            Settings.changed = true;
+            SettingsActivity.changed = true;
             editSharedBooleanPreference(SettingValues.PREF_HIDE_NSFW_PREVIEW + Authentication.name, isChecked);
         });
 
@@ -80,7 +80,7 @@ public class SettingsRedditFragment {
             hideNsfwPrevCollectionsSwitch.setChecked(SettingValues.hideNSFWCollection);
         }
         hideNsfwPrevCollectionsSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            Settings.changed = true;
+            SettingsActivity.changed = true;
             SettingValues.hideNSFWCollection = isChecked;
             editSharedBooleanPreference(SettingValues.PREF_HIDE_NSFW_COLLECTION, isChecked);
         });
@@ -88,7 +88,7 @@ public class SettingsRedditFragment {
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         ignoreSubMediaPrefsSwitch.setChecked(SettingValues.ignoreSubSetting);
         ignoreSubMediaPrefsSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            Settings.changed = true;
+            SettingsActivity.changed = true;
             SettingValues.ignoreSubSetting = isChecked;
             editSharedBooleanPreference(SettingValues.PREF_IGNORE_SUB_SETTINGS, isChecked);
         });

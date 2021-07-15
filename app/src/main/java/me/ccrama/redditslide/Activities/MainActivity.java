@@ -165,7 +165,7 @@ import me.ccrama.redditslide.Views.ToggleSwipeViewPager;
 import me.ccrama.redditslide.Visuals.ColorPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.ui.settings.ManageOfflineContent;
-import me.ccrama.redditslide.ui.settings.Settings;
+import me.ccrama.redditslide.ui.settings.SettingsActivity;
 import me.ccrama.redditslide.ui.settings.SettingsGeneralFragment;
 import me.ccrama.redditslide.ui.settings.SettingsSubAdapter;
 import me.ccrama.redditslide.ui.settings.SettingsThemeFragment;
@@ -1263,7 +1263,7 @@ public class MainActivity extends BaseActivity
             setToolbarClick();
         }*/
         //Only refresh the view if a Setting was altered
-        if (Settings.changed || SettingsThemeFragment.changed) {
+        if (SettingsActivity.changed || SettingsThemeFragment.changed) {
 
             reloadSubs();
             //If the user changed a Setting regarding the app's theme, restartTheme()
@@ -1292,7 +1292,7 @@ public class MainActivity extends BaseActivity
                 SettingsGeneralFragment.searchChanged = false;
             }
             SettingsThemeFragment.changed = false;
-            Settings.changed = false;
+            SettingsActivity.changed = false;
             setToolbarClick();
         }
     }
@@ -2032,7 +2032,7 @@ public class MainActivity extends BaseActivity
         header.findViewById(R.id.settings).setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
-                Intent i = new Intent(MainActivity.this, Settings.class);
+                Intent i = new Intent(MainActivity.this, SettingsActivity.class);
                 startActivity(i);
                 // Cancel sub loading because exiting the settings will reload it anyway
                 if (mAsyncGetSubreddit != null) mAsyncGetSubreddit.cancel(true);

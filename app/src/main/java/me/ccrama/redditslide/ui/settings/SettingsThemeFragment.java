@@ -49,7 +49,7 @@ import me.ccrama.redditslide.util.OnSingleClickListener;
 import me.ccrama.redditslide.util.ProUtil;
 import uz.shift.colorpicker.LineColorPicker;
 
-public class SettingsThemeFragment<ActivityType extends BaseActivity & SettingsFragment.RestartActivity> {
+public class SettingsThemeFragment<ActivityType extends BaseActivity & RestartActivity> {
 
     public static boolean changed;
     private final ActivityType context;
