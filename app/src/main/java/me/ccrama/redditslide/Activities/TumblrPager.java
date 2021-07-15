@@ -365,12 +365,9 @@ public class TumblrPager extends FullScreenActivity
 
             final String url = ((TumblrPager) getActivity()).images.get(i).getOriginalSize().getUrl();
 
-            new GifUtils.AsyncLoadGif(getActivity(), rootView.findViewById(R.id.gif), loader, null, new Runnable() {
-                @Override
-                public void run() {
-
-                }
-            }, false, true, rootView.findViewById(R.id.size),  ((TumblrPager) getActivity()).subreddit, null).execute(url);
+            new GifUtils.AsyncLoadGif(getActivity(), rootView.findViewById(R.id.gif), loader, null, null,
+                    false, true, rootView.findViewById(R.id.size),
+                    ((TumblrPager) getActivity()).subreddit, null).execute(url);
             rootView.findViewById(R.id.more).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

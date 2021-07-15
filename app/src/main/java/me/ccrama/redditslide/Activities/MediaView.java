@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.PointF;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
@@ -1008,36 +1007,11 @@ public class MediaView extends FullScreenActivity
             if (f != null && f.exists()) {
                 imageShown = true;
 
-                i.setOnImageEventListener(new SubsamplingScaleImageView.OnImageEventListener() {
-                    @Override
-                    public void onReady() {
-
-                    }
-
-                    @Override
-                    public void onImageLoaded() {
-
-                    }
-
-                    @Override
-                    public void onPreviewLoadError(Exception e) {
-
-                    }
-
+                i.setOnImageEventListener(new SubsamplingScaleImageView.DefaultOnImageEventListener() {
                     @Override
                     public void onImageLoadError(Exception e) {
                         imageShown = false;
                         LogUtil.v("No image displayed");
-                    }
-
-                    @Override
-                    public void onTileLoadError(Exception e) {
-
-                    }
-
-                    @Override
-                    public void onPreviewReleased() {
-
                     }
                 });
                 try {
@@ -1055,7 +1029,7 @@ public class MediaView extends FullScreenActivity
                     @Override
                     public void run() {
                         i.setOnStateChangedListener(
-                                new SubsamplingScaleImageView.OnStateChangedListener() {
+                                new SubsamplingScaleImageView.DefaultOnStateChangedListener() {
                                     @Override
                                     public void onScaleChanged(float newScale, int origin) {
                                         if (newScale > previous && !hidden && newScale > base) {
@@ -1096,11 +1070,6 @@ public class MediaView extends FullScreenActivity
                                             //unhide
                                         }
                                         previous = newScale;
-                                    }
-
-                                    @Override
-                                    public void onCenterChanged(PointF newCenter, int origin) {
-
                                     }
                                 });
                     }
@@ -1150,7 +1119,7 @@ public class MediaView extends FullScreenActivity
                                         previous = i.scale;
                                         final float base = i.scale;
                                         i.setOnStateChangedListener(
-                                                new SubsamplingScaleImageView.OnStateChangedListener() {
+                                                new SubsamplingScaleImageView.DefaultOnStateChangedListener() {
                                                     @Override
                                                     public void onScaleChanged(float newScale, int origin) {
                                                         if (newScale > previous
@@ -1201,11 +1170,6 @@ public class MediaView extends FullScreenActivity
                                                             //unhide
                                                         }
                                                         previous = newScale;
-                                                    }
-
-                                                    @Override
-                                                    public void onCenterChanged(PointF newCenter, int origin) {
-
                                                     }
                                                 });
                                     }

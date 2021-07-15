@@ -551,36 +551,11 @@ public class PeekMediaView extends RelativeLayout {
             if (f != null && f.exists()) {
                 imageShown = true;
 
-                i.setOnImageEventListener(new SubsamplingScaleImageView.OnImageEventListener() {
-                    @Override
-                    public void onReady() {
-
-                    }
-
-                    @Override
-                    public void onImageLoaded() {
-
-                    }
-
-                    @Override
-                    public void onPreviewLoadError(Exception e) {
-
-                    }
-
+                i.setOnImageEventListener(new SubsamplingScaleImageView.DefaultOnImageEventListener() {
                     @Override
                     public void onImageLoadError(Exception e) {
                         imageShown = false;
                         LogUtil.v("No image displayed");
-                    }
-
-                    @Override
-                    public void onTileLoadError(Exception e) {
-
-                    }
-
-                    @Override
-                    public void onPreviewReleased() {
-
                     }
                 });
                 try {

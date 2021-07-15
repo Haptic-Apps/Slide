@@ -382,12 +382,9 @@ public class AlbumPager extends FullScreenActivity
 
             final String url = ((AlbumPager) getActivity()).images.get(i).getImageUrl();
 
-            new GifUtils.AsyncLoadGif(getActivity(), rootView.findViewById(R.id.gif), loader, null, new Runnable() {
-                @Override
-                public void run() {
-
-                }
-            }, false, true, rootView.findViewById(R.id.size), ((AlbumPager)getActivity()).subreddit, getActivity().getIntent().getStringExtra(EXTRA_SUBMISSION_TITLE)).execute(url);
+            new GifUtils.AsyncLoadGif(getActivity(), rootView.findViewById(R.id.gif), loader, null, null,
+                    false, true, rootView.findViewById(R.id.size),
+                    ((AlbumPager)getActivity()).subreddit, getActivity().getIntent().getStringExtra(EXTRA_SUBMISSION_TITLE)).execute(url);
             rootView.findViewById(R.id.more).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

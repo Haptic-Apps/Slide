@@ -30,7 +30,6 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -1137,14 +1136,7 @@ public class PopulateSubmissionViewHolder {
                                                 R.string.category_set_name)
                                                 .input(mContext.getString(
                                                         R.string.category_set_name_hint), null,
-                                                        false, new MaterialDialog.InputCallback() {
-                                                            @Override
-                                                            public void onInput(
-                                                                    MaterialDialog dialog,
-                                                                    CharSequence input) {
-
-                                                            }
-                                                        })
+                                                        false, (dialog1, input) -> {})
                                                 .positiveText(R.string.btn_set)
                                                 .onPositive(
                                                         new MaterialDialog.SingleButtonCallback() {
@@ -1594,13 +1586,6 @@ public class PopulateSubmissionViewHolder {
                         })
                 .inputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
                 .neutralText(R.string.mod_remove_insert_draft)
-                .onNeutral(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog,
-                            @NonNull DialogAction which) {
-
-                    }
-                })
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(final MaterialDialog dialog, DialogAction which) {
@@ -1793,12 +1778,7 @@ public class PopulateSubmissionViewHolder {
             final FlairTemplate t, final SubmissionViewHolder holder) {
         new MaterialDialog.Builder(mContext).title(R.string.sidebar_select_flair_text)
                 .input(mContext.getString(R.string.mod_flair_hint), t.getText(), true,
-                        new MaterialDialog.InputCallback() {
-                            @Override
-                            public void onInput(MaterialDialog dialog, CharSequence input) {
-
-                            }
-                        })
+                        (dialog, input) -> {})
                 .positiveText(R.string.btn_set)
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
@@ -3151,14 +3131,7 @@ public class PopulateSubmissionViewHolder {
                                                                                         R.string.mod_flair_hint),
                                                                                         t.getText(),
                                                                                         true,
-                                                                                        new MaterialDialog.InputCallback() {
-                                                                                            @Override
-                                                                                            public void onInput(
-                                                                                                    MaterialDialog dialog,
-                                                                                                    CharSequence input) {
-
-                                                                                            }
-                                                                                        })
+                                                                                        (dialog14, input) -> {})
                                                                                 .positiveText(
                                                                                         R.string.btn_set)
                                                                                 .onPositive(

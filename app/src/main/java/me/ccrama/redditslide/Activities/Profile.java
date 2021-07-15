@@ -559,12 +559,9 @@ public class Profile extends BaseActivityAnim {
                         public void onClick(View v) {
                             MaterialDialog.Builder b = new MaterialDialog.Builder(Profile.this)
                                     .title(getString(R.string.profile_tag_set, name))
-                                    .input(getString(R.string.profile_tag), UserTags.getUserTag(name), false, new MaterialDialog.InputCallback() {
-                                        @Override
-                                        public void onInput(MaterialDialog dialog, CharSequence input) {
-
-                                        }
-                                    }).positiveText(R.string.profile_btn_tag)
+                                    .input(getString(R.string.profile_tag), UserTags.getUserTag(name), false,
+                                            (dialog, input) -> {})
+                                    .positiveText(R.string.profile_btn_tag)
                                     .neutralText(R.string.btn_cancel);
 
                             if (UserTags.isUserTagged(name)) {

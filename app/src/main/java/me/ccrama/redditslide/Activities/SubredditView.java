@@ -731,14 +731,7 @@ public class SubredditView extends BaseActivity {
                                                                 .input(getString(
                                                                         R.string.mod_flair_hint),
                                                                         t.getText(), true,
-                                                                        new MaterialDialog.InputCallback() {
-                                                                            @Override
-                                                                            public void onInput(
-                                                                                    MaterialDialog dialog,
-                                                                                    CharSequence input) {
-
-                                                                            }
-                                                                        })
+                                                                        (dialog1, input) -> {})
                                                                 .positiveText(R.string.btn_set)
                                                                 .onPositive(
                                                                         new MaterialDialog.SingleButtonCallback() {
@@ -1289,15 +1282,7 @@ public class SubredditView extends BaseActivity {
                                                                                     getString(
                                                                                             R.string.multi_error),
                                                                                     Snackbar.LENGTH_LONG)
-                                                                                    .setAction(
-                                                                                            R.string.btn_ok,
-                                                                                            new View.OnClickListener() {
-                                                                                                @Override
-                                                                                                public void onClick(
-                                                                                                        View v) {
-
-                                                                                                }
-                                                                                            })
+                                                                                    .setAction(R.string.btn_ok, null)
                                                                                     .show();
                                                                         }
                                                                     });
