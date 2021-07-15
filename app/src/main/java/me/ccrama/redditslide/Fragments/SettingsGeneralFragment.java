@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -51,6 +50,7 @@ import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.DialogUtil;
 import me.ccrama.redditslide.util.ImageLoaderUtils;
 import me.ccrama.redditslide.util.OnSingleClickListener;
 import me.ccrama.redditslide.util.SortingUtil;
@@ -323,12 +323,7 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
                 context.findViewById(R.id.settings_general_download).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        new FolderChooserDialogCreate.Builder(SettingsGeneralFragment.this.context)
-                                .chooseButton(R.string.btn_select) // changes label of the choose button
-                                .initialPath(Environment.getExternalStorageDirectory()
-                                        .getPath()) // changes initial path, defaults to external storage directory
-                                .allowNewFolder(true, 0)
-                                .show(SettingsGeneralFragment.this.context);
+                        DialogUtil.showFolderChooserDialog(context);
                     }
                 });
             }
