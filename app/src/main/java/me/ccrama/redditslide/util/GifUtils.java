@@ -495,7 +495,7 @@ public class GifUtils {
                         ucon.setInstanceFollowRedirects(false);
                         String secondURL = new URL(ucon.getHeaderField("location")).toString();
                         if (secondURL.contains("gifdeliverynetwork")){
-                            return Uri.parse(getUrlFromApi(getApiResponse("redgifs", name)));
+                            return Uri.parse(getUrlFromApi(getApiResponse("redgifs", name.toLowerCase())));
                         }
 
                     } catch (IOException e) {
