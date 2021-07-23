@@ -17,11 +17,11 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
 import androidx.appcompat.widget.Toolbar;
+import androidx.webkit.WebViewClientCompat;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -340,7 +340,7 @@ public class Website extends BaseActivityAnim {
 
 
     //Method adapted from http://www.hidroh.com/2016/05/19/hacking-up-ad-blocker-android/
-    public class AdBlockWebViewClient extends WebViewClient {
+    public class AdBlockWebViewClient extends WebViewClientCompat {
         private Map<String, Boolean> loadedUrls = new HashMap<>();
 
         @Override
