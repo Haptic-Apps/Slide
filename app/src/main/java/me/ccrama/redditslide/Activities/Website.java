@@ -2,6 +2,7 @@ package me.ccrama.redditslide.Activities;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -183,15 +184,20 @@ public class Website extends BaseActivityAnim {
         webClient = new AdBlockWebViewClient();
 
         if (!SettingValues.cookies) {
-            CookieSyncManager.createInstance(this);
-            CookieManager cookieManager = CookieManager.getInstance();
-            try {
+            final CookieManager cookieManager = CookieManager.getInstance();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 cookieManager.removeAllCookies(null);
-                CookieManager.getInstance().flush();
-                cookieManager.setAcceptCookie(false);
-            } catch(NoSuchMethodError e){
-                //Although these were added in api 12, some devices don't have this method
+                cookieManager.flush();
+            } else {
+                final CookieSyncManager cookieSyncMngr = CookieSyncManager.createInstance(this);
+                cookieSyncMngr.startSync();
+                cookieManager.removeAllCookie();
+                cookieManager.removeSessionCookie();
+                cookieSyncMngr.stopSync();
+                cookieSyncMngr.sync();
             }
+            cookieManager.setAcceptCookie(false);
+
             WebSettings ws = v.getSettings();
             ws.setSaveFormData(false);
             ws.setSavePassword(false);
