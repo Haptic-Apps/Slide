@@ -88,11 +88,11 @@ dependencies {
     implementation 'com.github.Alexendoo.Android-RobotoTextView:robototextview:f6d0eb5ac7'
 
 /** AndroidX **/
-    implementation 'androidx.appcompat:appcompat:1.3.0'
+    implementation 'androidx.appcompat:appcompat:1.3.1'
     implementation 'androidx.browser:browser:1.3.0'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.core:core:1.6.0'
-    implementation 'androidx.fragment:fragment:1.3.5'
+    implementation 'androidx.fragment:fragment:1.3.6'
     implementation 'androidx.media:media:1.3.1'
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
@@ -100,7 +100,7 @@ dependencies {
 
 /** ExoPlayer **/
     // Application level media player
-    def exoPlayerVersion = '2.14.1'
+    def exoPlayerVersion = '2.14.2'
     implementation "com.google.android.exoplayer:exoplayer-core:$exoPlayerVersion"
     implementation "com.google.android.exoplayer:exoplayer-dash:$exoPlayerVersion"
     implementation "com.google.android.exoplayer:exoplayer-ui:$exoPlayerVersion"
