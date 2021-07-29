@@ -139,12 +139,12 @@ public class Inbox extends BaseActivityAnim {
 
                         if (Reddit.notificationTime != -1) {
                             Reddit.notifications = new NotificationJobScheduler(Inbox.this);
-                            Reddit.notifications.start(getApplicationContext());
+                            Reddit.notifications.start();
                         }
 
                         if (Reddit.cachedData.contains("toCache")) {
                             Reddit.autoCache = new AutoCacheScheduler(Inbox.this);
-                            Reddit.autoCache.start(getApplicationContext());
+                            Reddit.autoCache.start();
                         }
 
                         final String name = Authentication.me.getFullName();

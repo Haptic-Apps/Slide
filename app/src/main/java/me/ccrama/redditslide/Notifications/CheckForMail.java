@@ -71,7 +71,7 @@ public class CheckForMail extends BroadcastReceiver {
             new AsyncGetSubs(c).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         }
 
-        if (Reddit.notificationTime != -1) new NotificationJobScheduler(context).start(context);
+        if (Reddit.notificationTime != -1) new NotificationJobScheduler(context).start();
     }
 
 
@@ -428,7 +428,7 @@ public class CheckForMail extends BroadcastReceiver {
                     }
                 }
             }
-            if (Reddit.notificationTime != -1) new NotificationJobScheduler(c).start(c);
+            if (Reddit.notificationTime != -1) new NotificationJobScheduler(c).start();
         }
 
         HashMap<String, Integer> subThresholds;

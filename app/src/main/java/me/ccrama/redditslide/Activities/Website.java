@@ -2,6 +2,7 @@ package me.ccrama.redditslide.Activities;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,11 +17,11 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
 import androidx.appcompat.widget.Toolbar;
+import androidx.webkit.WebViewClientCompat;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -183,15 +184,20 @@ public class Website extends BaseActivityAnim {
         webClient = new AdBlockWebViewClient();
 
         if (!SettingValues.cookies) {
-            CookieSyncManager.createInstance(this);
-            CookieManager cookieManager = CookieManager.getInstance();
-            try {
+            final CookieManager cookieManager = CookieManager.getInstance();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 cookieManager.removeAllCookies(null);
-                CookieManager.getInstance().flush();
-                cookieManager.setAcceptCookie(false);
-            } catch(NoSuchMethodError e){
-                //Although these were added in api 12, some devices don't have this method
+                cookieManager.flush();
+            } else {
+                final CookieSyncManager cookieSyncMngr = CookieSyncManager.createInstance(this);
+                cookieSyncMngr.startSync();
+                cookieManager.removeAllCookie();
+                cookieManager.removeSessionCookie();
+                cookieSyncMngr.stopSync();
+                cookieSyncMngr.sync();
             }
+            cookieManager.setAcceptCookie(false);
+
             WebSettings ws = v.getSettings();
             ws.setSaveFormData(false);
             ws.setSavePassword(false);
@@ -334,7 +340,7 @@ public class Website extends BaseActivityAnim {
 
 
     //Method adapted from http://www.hidroh.com/2016/05/19/hacking-up-ad-blocker-android/
-    public class AdBlockWebViewClient extends WebViewClient {
+    public class AdBlockWebViewClient extends WebViewClientCompat {
         private Map<String, Boolean> loadedUrls = new HashMap<>();
 
         @Override

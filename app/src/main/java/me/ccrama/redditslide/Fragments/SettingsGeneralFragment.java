@@ -116,7 +116,7 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
                     checkBox.setText(context.getString(R.string.settings_mail_check));
                     landscape.setValue(0, true);
                     if (Reddit.notifications != null) {
-                        Reddit.notifications.cancel(context.getApplication());
+                        Reddit.notifications.cancel();
                     }
                 } else {
                     Reddit.notificationTime = 60;
@@ -149,8 +149,8 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
                         Reddit.notifications =
                                 new NotificationJobScheduler(context.getApplication());
                     }
-                    Reddit.notifications.cancel(context.getApplication());
-                    Reddit.notifications.start(context.getApplication());
+                    Reddit.notifications.cancel();
+                    Reddit.notifications.start();
                 }
             }
         });
@@ -168,8 +168,8 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
                         Reddit.notifications =
                                 new NotificationJobScheduler(context.getApplication());
                     }
-                    Reddit.notifications.cancel(context.getApplication());
-                    Reddit.notifications.start(context.getApplication());
+                    Reddit.notifications.cancel();
+                    Reddit.notifications.start();
                     dialog.dismiss();
                     if (context instanceof me.ccrama.redditslide.Activities.SettingsGeneral) {
                         ((TextView) context.findViewById(R.id.settings_general_notifications_current)).setText(
@@ -184,7 +184,7 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
                         Reddit.notifications =
                                 new NotificationJobScheduler(context.getApplication());
                     }
-                    Reddit.notifications.cancel(context.getApplication());
+                    Reddit.notifications.cancel();
                     dialog.dismiss();
                     if (context instanceof me.ccrama.redditslide.Activities.SettingsGeneral) {
                         ((TextView) context.findViewById(R.id.settings_general_notifications_current)).setText(

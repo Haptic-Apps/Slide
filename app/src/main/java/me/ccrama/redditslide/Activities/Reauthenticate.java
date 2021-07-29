@@ -3,6 +3,7 @@ package me.ccrama.redditslide.Activities;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -53,8 +54,12 @@ public class Reauthenticate extends BaseActivityAnim {
         authorizationUrl = authorizationUrl.replace("www.", "i.");
         authorizationUrl = authorizationUrl.replace("%3A%2F%2Fi", "://www");
         Log.v(LogUtil.getTag(), "Auth URL: " + authorizationUrl);
-        CookieManager cookieManager = CookieManager.getInstance();
-        cookieManager.removeAllCookie();
+        final CookieManager cookieManager = CookieManager.getInstance();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            cookieManager.removeAllCookies(null);
+        } else {
+            cookieManager.removeAllCookie();
+        }
         final WebView webView = (WebView) findViewById(R.id.web);
 
         webView.loadUrl(authorizationUrl);

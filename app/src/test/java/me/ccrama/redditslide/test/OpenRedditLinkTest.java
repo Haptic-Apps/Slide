@@ -3,8 +3,6 @@ package me.ccrama.redditslide.test;
 import android.net.Uri;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.robolectric.RobolectricTestRunner;
 
 import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.OpenRedditLink.RedditLinkType;
@@ -14,7 +12,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertNull;
 
 
-@RunWith(RobolectricTestRunner.class)
 public class OpenRedditLinkTest {
 
     // Less characters

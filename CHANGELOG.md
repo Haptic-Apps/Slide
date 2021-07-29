@@ -1,3 +1,54 @@
+### CHANGELOG
+
+The non-abridged changelog can be read in the [releases page](https://github.com/ccrama/Slide/releases).
+
+UPCOMING / 202X-XX-XX
+==================
+* Fix bug from 6.7.1 where History and Read Later no longer worked
+* Updated translations
+* Other bug fixes and improvements
+
+6.7.1 / 2021-06-17
+==================
+* Fixed an issue where some multireddits would not load
+* Other bug fixes and improvements
+
+6.7 / 2021-04-23
+==================
+* Added ability to set subreddit flair in the Submit screen
+* Support for Reddit API changes to post creation
+* Images and gifs will now be saved as their post title
+* Updated translations
+* Fixed system night mode disabling while opening comments in some cases
+* Fixed cases where Mod Toolbox integration could be wiped
+* Other bug fixes and improvements
+
+6.6.1-4 / 2021-01-21
+==================
+* Fixed issues with file management on Android 10
+* New option for "60 fps" Gfycat videos
+
+6.6.1 / 2020-11-24
+==================
+* Fixed crash caused by un-initialized FlairImageLoader
+* Fixed flair syncing if you are opted into the Reddit redesign
+* Fixed high colorspace option on SubsamplingScaleImageView
+* Fixed Reddit Gallery support on crossposts
+* Fixed image download notification "hanging" (thank you @budde25!)
+* Downloaded images will now have filenames based off the submission title (thank you @ZianeA!)
+
+6.6 / 2020-11-08
+==================
+* Lots of library updates and repository changes, huge thank you to @TacoTheDank for heading this up!
+* Fixes downloading audio from Reddit videos
+* New option to enable high-colorspace images, which will reduce JPEG banding but increase memory usage
+* Support for Reddit Galleries
+* Support for sound on more video sites, fixed video redirections (thank you @gringofe)
+* Option to collapse deleted comments by default (thank you @Barrett97)
+* Option to disable thumbnails completely (thank you @Barrett97)
+* Total Karma count in Profile view (thank you @Barrett97)
+* New setting to hide awards on posts and comments (thank you @Admicos)
+
 6.5 / 2020-07-12
 ==================
 * Huge Video rewrite, thank you to @timawesomeness! Contains support for DASH videos, uses newer ExoPlayer code, and cleans up some older video sites
@@ -2160,7 +2211,7 @@ alpha / 2015-10-03
 ==================
 **Faster and more stable**
   * Faster start up times
-  * Show post as read  
+  * Show post as read
   * Colorize icons when voting
   * Switch vote icon order
   * allow reddit.com/u/me links
