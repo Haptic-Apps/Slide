@@ -18,22 +18,22 @@ import me.ccrama.redditslide.Reddit;
 
 public class AutoCacheScheduler {
     private final PendingIntent pendingIntent;
+    private final AlarmManager manager;
 
     public AutoCacheScheduler(Context context) {
-        Intent alarmIntent = new Intent(context, CacheAll.class);
+        final Intent alarmIntent = new Intent(context, CacheAll.class);
         pendingIntent = PendingIntent.getBroadcast(context, 0, alarmIntent, 0);
-        start(context);
+        manager = ContextCompat.getSystemService(context, AlarmManager.class);
+        start();
     }
 
-    public void start(Context c) {
-
-        AlarmManager manager = ContextCompat.getSystemService(c, AlarmManager.class);
-        Calendar cal = Calendar.getInstance();
+    public void start() {
+        final Calendar cal = Calendar.getInstance();
         cal.set(Calendar.HOUR_OF_DAY, Reddit.cachedData.getInt("hour", 0));
         cal.set(Calendar.MINUTE, Reddit.cachedData.getInt("minute", 0));
 
-        if(cal.getTimeInMillis() <System.currentTimeMillis()){
-            cal.set(Calendar.DAY_OF_YEAR , cal.get(Calendar.DAY_OF_YEAR) + 1);
+        if (cal.getTimeInMillis() < System.currentTimeMillis()) {
+            cal.set(Calendar.DAY_OF_YEAR, cal.get(Calendar.DAY_OF_YEAR) + 1);
         }
         if (manager != null) {
             manager.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),
@@ -41,12 +41,9 @@ public class AutoCacheScheduler {
         }
     }
 
-    public void cancel(Context c) {
-        AlarmManager manager = ContextCompat.getSystemService(c, AlarmManager.class);
+    public void cancel() {
         if (manager != null) {
             manager.cancel(pendingIntent);
         }
     }
-
-
 }

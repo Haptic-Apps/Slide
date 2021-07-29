@@ -4299,11 +4299,11 @@ public class MainActivity extends BaseActivity
 
                     if (Reddit.notificationTime != -1) {
                         Reddit.notifications = new NotificationJobScheduler(MainActivity.this);
-                        Reddit.notifications.start(getApplicationContext());
+                        Reddit.notifications.start();
                     }
                     if (Reddit.cachedData.contains("toCache")) {
                         Reddit.autoCache = new AutoCacheScheduler(MainActivity.this);
-                        Reddit.autoCache.start(getApplicationContext());
+                        Reddit.autoCache.start();
                     }
                     final String name = me.getFullName();
                     Authentication.name = name;
