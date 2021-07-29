@@ -4,8 +4,6 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Application;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.app.UiModeManager;
 import android.content.Context;
 import android.content.Intent;
@@ -26,7 +24,10 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.NotificationChannelCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.multidex.MultiDexApplication;
 
 import com.google.android.exoplayer2.database.DatabaseProvider;
@@ -527,39 +528,36 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static final String CHANNEL_SUBCHECKING   = "SUB_CHECK_NOTIFY";
 
     public void setupNotificationChannels() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             // Each triple contains the channel ID, name, and importance level
             List<Triple<String, String, Integer>> notificationTripleList =
                     new ArrayList<Triple<String, String, Integer>>() {{
                         add(Triple.of(CHANNEL_IMG, "Image downloads",
-                                NotificationManager.IMPORTANCE_LOW));
+                                NotificationManagerCompat.IMPORTANCE_LOW));
                         add(Triple.of(CHANNEL_COMMENT_CACHE, "Comment caching",
-                                NotificationManager.IMPORTANCE_LOW));
+                                NotificationManagerCompat.IMPORTANCE_LOW));
                         add(Triple.of(CHANNEL_MAIL, "Reddit mail",
-                                NotificationManager.IMPORTANCE_HIGH));
+                                NotificationManagerCompat.IMPORTANCE_HIGH));
                         add(Triple.of(CHANNEL_MODMAIL, "Reddit modmail",
-                                NotificationManager.IMPORTANCE_HIGH));
+                                NotificationManagerCompat.IMPORTANCE_HIGH));
                         add(Triple.of(CHANNEL_SUBCHECKING, "Submission post checking",
-                                NotificationManager.IMPORTANCE_LOW));
+                                NotificationManagerCompat.IMPORTANCE_LOW));
                     }};
 
-            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            final NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
 
             for (Triple<String, String, Integer> notificationTriple : notificationTripleList) {
-                NotificationChannel notificationChannel =
-                        new NotificationChannel(notificationTriple.getLeft(),
-                                notificationTriple.getMiddle(), notificationTriple.getRight());
-                notificationChannel.enableLights(true);
-                notificationChannel.setShowBadge(
-                        notificationTriple.getRight() == NotificationManager.IMPORTANCE_HIGH);
-                notificationChannel.setLightColor(
-                        notificationTriple.getLeft().contains("MODMAIL") ? getResources().getColor(
-                                R.color.md_red_500, null) : Palette.getColor(""));
-                if (notificationManager != null) {
-                    notificationManager.createNotificationChannel(notificationChannel);
-                }
+                final NotificationChannelCompat notificationChannel =
+                        new NotificationChannelCompat.Builder(
+                                notificationTriple.getLeft(), notificationTriple.getRight())
+                                .setName(notificationTriple.getMiddle())
+                                .setLightsEnabled(true)
+                                .setShowBadge(notificationTriple.getRight() == NotificationManagerCompat.IMPORTANCE_HIGH)
+                                .setLightColor(notificationTriple.getLeft().contains("MODMAIL")
+                                        ? ResourcesCompat.getColor(this.getResources(), R.color.md_red_500, null)
+                                        : Palette.getColor(""))
+                                .build();
+                notificationManager.createNotificationChannel(notificationChannel);
             }
-        }
     }
 
     private static class SetupIAB extends AsyncTask<Void, Void, Void> {
