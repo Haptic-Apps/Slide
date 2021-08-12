@@ -101,6 +101,7 @@ dependencies {
 
 /** ExoPlayer **/
     // Application level media player
+    // Cannot update beyond this point: extension's minimum SDK version is 21 in 2.15.0 and above
     def exoPlayerVersion = '2.14.2'
     implementation "com.google.android.exoplayer:exoplayer-core:$exoPlayerVersion"
     implementation "com.google.android.exoplayer:exoplayer-dash:$exoPlayerVersion"
