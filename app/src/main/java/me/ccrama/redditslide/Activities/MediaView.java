@@ -109,6 +109,8 @@ public class MediaView extends FullScreenActivity
     public String  actuallyLoaded;
     public boolean isGif;
 
+    public SettingsData sdata = new SettingsData();
+
     private NotificationManager        mNotifyManager;
     private NotificationCompat.Builder mBuilder;
     private long                       stopPosition;
@@ -1184,6 +1186,10 @@ public class MediaView extends FullScreenActivity
                                     public void onProgressUpdate(String imageUri, View view,
                                             int current, int total) {
                                         size.setText(FileUtil.readableFileSize(total));
+                                        int dlimit = sdata.getDataLimit();
+                                        if(dlimit!=-1 && dlimit<total){
+                                            Toast.makeText(MediaView.this,R.string.err_media_greaterThanLimit,Toast.LENGTH_SHORT).show();
+                                        }
 
                                         ((ProgressBar) findViewById(R.id.progress)).setProgress(
                                                 Math.round(100.0f * current / total));

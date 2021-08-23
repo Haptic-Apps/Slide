@@ -7,6 +7,7 @@ import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.KeyguardManager;
 import android.app.NotificationManager;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -22,6 +23,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -249,9 +251,16 @@ public class MainActivity extends BaseActivity
     private AsyncGetSubreddit mAsyncGetSubreddit = null;
     private int headerHeight; //height of the header
     public int reloadItemNumber = -2;
+    private static final int INTENT_AUTHENTICATE = 202 ;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == INTENT_AUTHENTICATE) {
+            if (resultCode == RESULT_OK) {
+                Toast.makeText(this,R.string.welcome,Toast.LENGTH_SHORT).show();
+            }
+        }
         if (requestCode == SETTINGS_RESULT) {
             int current = pager.getCurrentItem();
             if (commentPager && current == currentComment) {
@@ -828,16 +837,17 @@ public class MainActivity extends BaseActivity
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         inNightMode = SettingValues.isNight();
         disableSwipeBackLayout();
-        super.onCreate(savedInstanceState);
-        if ((getIntent().getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0) {
-            // Activity was brought to front and not created
-            finish();
-            return;
-        }
-        if (!Slide.hasStarted) {
-            Slide.hasStarted = true;
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            KeyguardManager km = (KeyguardManager) getSystemService(KEYGUARD_SERVICE);
+
+            if (km.isKeyguardSecure()) {
+                Intent authIntent = km.createConfirmDeviceCredentialIntent("Slide", "Enter device pin to continue");
+                startActivityForResult(authIntent, INTENT_AUTHENTICATE);
+            }
         }
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -1051,21 +1061,15 @@ public class MainActivity extends BaseActivity
                 findViewById(R.id.content_view);
 
         singleMode = SettingValues.single;
-        if (singleMode)
-
-        {
+        if (singleMode) {
             commentPager = SettingValues.commentPager;
         }
         // Inflate tabs if single mode is disabled
-        if (!singleMode)
-
-        {
+        if (!singleMode) {
             mTabLayout = (TabLayout) ((ViewStub) findViewById(R.id.stub_tabs)).inflate();
         }
         // Disable swiping if single mode is enabled
-        if (singleMode)
-
-        {
+        if (singleMode) {
             pager.setSwipingEnabled(false);
         }
 
@@ -1078,16 +1082,12 @@ public class MainActivity extends BaseActivity
                 findViewById(R.id.commentOverflow);
 
         if (!Reddit.appRestart.getBoolean("isRestarting", false) && Reddit.colors.contains(
-                "Tutorial"))
-
-        {
+                "Tutorial")) {
             LogUtil.v("Starting main " + Authentication.name);
             Authentication.isLoggedIn = Reddit.appRestart.getBoolean("loggedin", false);
             Authentication.name = Reddit.appRestart.getString("name", "LOGGEDOUT");
             UserSubscriptions.doMainActivitySubs(this);
-        } else if (!first)
-
-        {
+        } else if (!first) {
             LogUtil.v("Starting main 2 " + Authentication.name);
             Authentication.isLoggedIn = Reddit.appRestart.getBoolean("loggedin", false);
             Authentication.name = Reddit.appRestart.getString("name", "LOGGEDOUT");
@@ -1102,9 +1102,7 @@ public class MainActivity extends BaseActivity
 
                 isEmpty()
 
-                || !Reddit.appRestart.contains("hasCleared"))
-
-        {
+                || !Reddit.appRestart.contains("hasCleared")) {
 
             new AsyncTask<Void, Void, Void>() {
                 @Override
@@ -1160,9 +1158,7 @@ public class MainActivity extends BaseActivity
         }
 
 
-        if (!BuildConfig.isFDroid && Authentication.isLoggedIn && NetworkUtil.isConnected(MainActivity.this))
-
-        {
+        if (!BuildConfig.isFDroid && Authentication.isLoggedIn && NetworkUtil.isConnected(MainActivity.this)) {
             // Display an snackbar that asks the user to rate the app after this
             // activity was created 6 times, never again when once clicked or with a maximum of
             // two times.
@@ -1181,9 +1177,7 @@ public class MainActivity extends BaseActivity
         }
 
         if (SettingValues.subredditSearchMethod == Constants.SUBREDDIT_SEARCH_METHOD_TOOLBAR
-                || SettingValues.subredditSearchMethod == Constants.SUBREDDIT_SEARCH_METHOD_BOTH)
-
-        {
+                || SettingValues.subredditSearchMethod == Constants.SUBREDDIT_SEARCH_METHOD_BOTH) {
             setupSubredditSearchToolbar();
         }
 
@@ -1196,7 +1190,7 @@ public class MainActivity extends BaseActivity
         networkStateReceiver.addListener(this);
         try {
             this.registerReceiver(networkStateReceiver,
-                    new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION));
+                    new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
         } catch (Exception e) {
 
         }
@@ -1205,10 +1199,10 @@ public class MainActivity extends BaseActivity
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_VIEW);
         intent.setData(Uri.parse("http://ccrama.me/"));
-                List<ResolveInfo> allApps = getPackageManager().queryIntentActivities (intent,
-                        PackageManager.GET_DISABLED_COMPONENTS);
-        for(ResolveInfo i : allApps){
-            if(i.activityInfo.isEnabled())
+        List<ResolveInfo> allApps = getPackageManager().queryIntentActivities(intent,
+                PackageManager.GET_DISABLED_COMPONENTS);
+        for (ResolveInfo i : allApps) {
+            if (i.activityInfo.isEnabled())
                 LogUtil.v(i.activityInfo.packageName);
         }
     }

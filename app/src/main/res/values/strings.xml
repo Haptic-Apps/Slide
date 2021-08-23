@@ -175,6 +175,7 @@
     <!-- Welcome view (first time setup) -->
     <string name="welcome_start">Get started</string>
     <string name="welcome_personalize">Personalize</string>
+    <string name="welcome">Welcome</string>
 
 
     <!-- Sorting options -->
@@ -272,6 +273,7 @@
     <string name="err_comment_post_message">\n\nYour message has been saved as a draft. Please try again later.</string>
     <string name="err_connection_failed_msg">The connection to Reddit failed. Please check your internet connection and try again, or enter offline mode.</string>
     <string name="err_block_user">Error blocking user</string>
+    <string name="err_media_greaterThanLimit">Media size is greater than the alert limit</string>
 
     <!-- Gif -->
     <string name="gif_err_title">GIF not found</string>
@@ -585,6 +587,8 @@
     <string name="settings_reddit_prefs">Reddit preferences</string>
     <string name="settings_accent_title">Edit accent color</string>
     <string name="settings_delete_sub_settings">Do you really want to delete settings for %1$s?</string>
+    <string name="settings_section_data_saving_data_limit_header">Data Alert Limit</string>  <!--New-->
+    <string name="settings_section_data_saving_data_limit">Enter the limit in MB</string>     <!--New-->
     <string name="settings_layout_default">Post layout</string>
     <string name="settings_link_album">Internal album view</string>
     <string name="settings_link_peek">Peek content (experimental)</string>
@@ -634,6 +638,7 @@
     <string name="settings_general_title_drawer_items">Drawer Items</string>
     <string name="settings_general_subtitle_drawer_items">Select which drawer items to display</string>
     <string name="settings_moderation">Moderation</string>
+    <string name="settings_dataLimit_default">Please enter a limit to continue</string>
 
 
     <!-- Settings titles displayed in settings activity-->

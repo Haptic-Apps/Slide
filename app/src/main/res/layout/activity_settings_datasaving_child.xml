@@ -103,6 +103,56 @@
             </LinearLayout>
         </RelativeLayout>
 
+        <TextView
+            style="@style/TextAppearance.AppCompat.Body2"
+            android:id="@+id/settings_datasaving_dataLimitHeader"
+            android:text="@string/settings_section_data_saving_data_limit_header"
+            android:tag="label"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="16dp"
+            android:layout_width="match_parent"
+            android:textColor="?attr/colorAccent"
+            android:layout_height="wrap_content" />
+
+        <RelativeLayout
+            android:id="@+id/settings_datasaving_dataLimit"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="?android:selectableItemBackground"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:id="@+id/myLayout"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="70"
+                    android:id="@+id/settings_dataAlertLimit"
+                    android:focusedByDefault="false"
+                    android:textSize="14sp"
+                    android:inputType="number"
+                    android:hint="@string/settings_section_data_saving_data_limit"/>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/btn_submit"
+                    android:onClick="setDataLimit"
+                    android:id="@+id/btn_submitDataLimit" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
         <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/settings_datasaving_videoquality"
                 android:layout_width="match_parent"
