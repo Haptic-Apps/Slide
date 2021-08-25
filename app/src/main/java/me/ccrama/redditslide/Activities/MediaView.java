@@ -4,8 +4,10 @@ import android.animation.ValueAnimator;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -18,6 +20,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.text.Layout;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -108,8 +111,6 @@ public class MediaView extends FullScreenActivity
     public boolean imageShown;
     public String  actuallyLoaded;
     public boolean isGif;
-
-    public SettingsData sdata = new SettingsData();
 
     private NotificationManager        mNotifyManager;
     private NotificationCompat.Builder mBuilder;
@@ -1186,10 +1187,6 @@ public class MediaView extends FullScreenActivity
                                     public void onProgressUpdate(String imageUri, View view,
                                             int current, int total) {
                                         size.setText(FileUtil.readableFileSize(total));
-                                        int dlimit = sdata.getDataLimit();
-                                        if(dlimit!=-1 && dlimit<total){
-                                            Toast.makeText(MediaView.this,R.string.err_media_greaterThanLimit,Toast.LENGTH_SHORT).show();
-                                        }
 
                                         ((ProgressBar) findViewById(R.id.progress)).setProgress(
                                                 Math.round(100.0f * current / total));
@@ -1231,5 +1228,24 @@ public class MediaView extends FullScreenActivity
 
     @Override
     public void onFolderChooserDismissed(@NonNull FolderChooserDialogCreate dialog) {
+    }
+
+
+    //this function raises a toast in case the size of the requested file is greater than the alert limit set
+    //the idea is to use the text view that we already have in the layout which stores the size of the media file.
+    //we compare the set alert limit with the text in the textview and process accordingly.
+    public void saveMedia(View view) {
+        View relLayout = findViewById(R.id.gifheader);
+        ImageView save = (ImageView)relLayout.findViewById(R.id.save);
+        TextView txtMediaSize = (TextView)relLayout.findViewById(R.id.size);
+        if (txtMediaSize.getText()!=null && txtMediaSize.getText().toString().length()!=0){
+            String size = txtMediaSize.getText().toString();
+            size=size.substring(0,size.length()-1);  // to remove 'MB'
+            SharedPreferences preferences = getSharedPreferences("prefs", Context.MODE_PRIVATE);
+            String alertLimit = preferences.getString("limit","1000");  //we can set 1000 MB to be default data alert limit
+            if(Integer.parseInt(size)>Integer.parseInt((alertLimit))){
+                Toast.makeText(MediaView.this,R.string.err_media_greaterThanLimit,Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }
