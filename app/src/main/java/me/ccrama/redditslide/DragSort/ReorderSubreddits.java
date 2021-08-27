@@ -22,7 +22,6 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -36,18 +35,17 @@ import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatCheckBox;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.getbase.floatingactionbutton.FloatingActionButton;
-import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.google.android.material.snackbar.Snackbar;
+import com.nambimobile.widgets.efab.FabOption;
 
 import net.dean.jraw.models.MultiReddit;
 import net.dean.jraw.models.MultiSubreddit;
@@ -313,18 +311,12 @@ public class ReorderSubreddits extends BaseActivityAnim {
                     public void onDragStop() {
                     }
                 });
-        final FloatingActionsMenu fab = (FloatingActionsMenu) findViewById(R.id.add);
-
 
         {
-            FloatingActionButton collection = (FloatingActionButton) findViewById(R.id.collection);
-            Drawable icon =
-                    ResourcesCompat.getDrawable(getResources(), R.drawable.ic_folder, null);
-            collection.setIconDrawable(icon);
-            collection.setOnClickListener(new View.OnClickListener() {
+            final FabOption collectionFab = (FabOption) findViewById(R.id.sort_fabOption_collection);
+            collectionFab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    fab.collapse();
                     if (UserSubscriptions.multireddits != null
                             && !UserSubscriptions.multireddits.isEmpty()) {
                         new AlertDialog.Builder(ReorderSubreddits.this)
@@ -382,13 +374,10 @@ public class ReorderSubreddits extends BaseActivityAnim {
             });
         }
         {
-            FloatingActionButton collection = (FloatingActionButton) findViewById(R.id.sub);
-            Drawable icon = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_bookmark_border, null);
-            collection.setIconDrawable(icon);
-            collection.setOnClickListener(new View.OnClickListener() {
+            final FabOption subFab = (FabOption) findViewById(R.id.sort_fabOption_sub);
+            subFab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    fab.collapse();
                     MaterialDialog.Builder b =
                             new MaterialDialog.Builder(ReorderSubreddits.this).title(
                                     R.string.reorder_add_or_search_subreddit)
@@ -415,13 +404,10 @@ public class ReorderSubreddits extends BaseActivityAnim {
             });
         }
         {
-            FloatingActionButton collection = (FloatingActionButton) findViewById(R.id.domain);
-            Drawable icon = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_link, null);
-            collection.setIconDrawable(icon);
-            collection.setOnClickListener(new View.OnClickListener() {
+            final FabOption domainFab = (FabOption) findViewById(R.id.sort_fabOption_domain);
+            domainFab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    fab.collapse();
                     new MaterialDialog.Builder(ReorderSubreddits.this).title(
                             R.string.reorder_add_domain)
                             .alwaysCallInputCallback()
@@ -490,19 +476,13 @@ public class ReorderSubreddits extends BaseActivityAnim {
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 if (recyclerView.getScrollState() == RecyclerView.SCROLL_STATE_DRAGGING) {
                     diff += dy;
                 } else {
                     diff = 0;
                 }
-                if (dy <= 0 && fab.getId() != 0) {
-
-                } else {
-                    fab.collapse();
-                }
-
             }
         });
     }

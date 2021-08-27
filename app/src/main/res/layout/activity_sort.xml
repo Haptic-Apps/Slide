@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/card_background"
@@ -65,49 +64,61 @@
         android:orientation="vertical"
         android:scrollbars="vertical" />
 
-    <com.getbase.floatingactionbutton.FloatingActionsMenu
-        android:id="@+id/add"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="16dp"
-        android:layout_marginStart="16dp"
-        app:srcCompat="@drawable/ic_add"
-        fab:fab_addButtonColorNormal="?attr/colorAccent"
-        fab:fab_addButtonColorPressed="?attr/colorAccent"
-        fab:fab_addButtonPlusIconColor="@android:color/white"
-        fab:fab_addButtonSize="normal"
-        fab:fab_labelStyle="@style/menu_labels_style"
-        fab:fab_labelsPosition="left">
+    <com.nambimobile.widgets.efab.ExpandableFabLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        <com.getbase.floatingactionbutton.FloatingActionButton
+        <com.nambimobile.widgets.efab.Overlay
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:overlay_orientation="portrait" />
+
+        <com.nambimobile.widgets.efab.ExpandableFab
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="16dp"
+            app:efab_color="?attr/colorAccent"
+            app:efab_icon="@drawable/ic_add"
+            app:efab_openingAnimationDurationMs="100"
+            app:efab_orientation="portrait"
+            app:efab_size="normal"
+            app:label_backgroundColor="#B2000000"
+            app:label_position="left"
+            app:label_textColor="@android:color/white" />
+
+        <com.nambimobile.widgets.efab.FabOption
             android:id="@+id/sort_fabOption_sub"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            fab:fab_colorNormal="@color/md_amber_A400"
-            fab:fab_colorPressed="@color/md_amber_A400"
-            fab:fab_size="mini"
-            fab:fab_title="@string/reorder_fab_subreddit" />
+            app:fab_color="@color/md_amber_A400"
+            app:fab_icon="@drawable/ic_bookmark_border"
+            app:fab_orientation="portrait"
+            app:label_text="@string/reorder_fab_subreddit" />
 
-        <com.getbase.floatingactionbutton.FloatingActionButton
+        <com.nambimobile.widgets.efab.FabOption
             android:id="@+id/sort_fabOption_collection"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            fab:fab_colorNormal="@color/md_deep_orange_A400"
-            fab:fab_colorPressed="@color/md_deep_orange_A400"
-            fab:fab_size="mini"
-            fab:fab_title="@string/reorder_fab_collection" />
+            app:fab_color="@color/md_deep_orange_A400"
+            app:fab_icon="@drawable/ic_folder"
+            app:fab_orientation="portrait"
+            app:label_text="@string/reorder_fab_collection" />
 
-        <com.getbase.floatingactionbutton.FloatingActionButton
+        <com.nambimobile.widgets.efab.FabOption
             android:id="@+id/sort_fabOption_domain"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            fab:fab_colorNormal="@color/md_indigo_A400"
-            fab:fab_colorPressed="@color/md_indigo_A400"
-            fab:fab_size="mini"
-            fab:fab_title="@string/reorder_fab_domain" />
+            app:fab_color="@color/md_indigo_A400"
+            app:fab_icon="@drawable/ic_link"
+            app:fab_orientation="portrait"
+            app:label_text="@string/reorder_fab_domain" />
 
-    </com.getbase.floatingactionbutton.FloatingActionsMenu>
+    </com.nambimobile.widgets.efab.ExpandableFabLayout>
 
 </RelativeLayout>

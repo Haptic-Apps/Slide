@@ -144,9 +144,8 @@ dependencies {
     // ImageView that supports rounded corners
     implementation 'com.makeramen:roundedimageview:2.3.0'
 
-    // Floating action button implementation
-    //  NOTE: Migrate to using official Google material library's FAB
-    implementation 'com.getbase:floatingactionbutton:1.10.1'
+    // Floating action button menu implementation
+    implementation 'com.nambimobile.widgets:expandable-fab:1.1.1'
 
     // Draggable sliding up panel
     implementation 'com.sothree.slidinguppanel:library:3.4.0'
