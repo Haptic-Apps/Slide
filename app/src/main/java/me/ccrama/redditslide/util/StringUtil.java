@@ -45,4 +45,17 @@ public class StringUtil {
         final String abrevMarker = "...";
         return str.substring(0, maxWidth - 3) + abrevMarker;
     }
+
+    public static String sanitizeString(final String input) {
+        final char[] allowed =
+                "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-_".toCharArray();
+        final char[] charArray = input.toCharArray();
+        StringBuilder result = new StringBuilder();
+        for (final char c : charArray) {
+            for (final char a : allowed) {
+                if (c == a) result.append(a);
+            }
+        }
+        return result.toString();
+    }
 }

@@ -35,7 +35,7 @@ import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.KeyboardUtil;
-import me.ccrama.redditslide.util.SanitizeField;
+import me.ccrama.redditslide.util.StringUtil;
 
 
 /**
@@ -151,7 +151,7 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
             }
 
             final String subreddit = (sub.contains("+") || sub.contains("/m/")) ? sub
-                    : SanitizeField.sanitizeString(
+                    : StringUtil.sanitizeString(
                             sub.replace(getContext().getString(R.string.search_goto) + " ", ""));
 
             convertView.findViewById(R.id.color).setBackgroundResource(R.drawable.circle);

@@ -105,12 +105,12 @@ import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SubmissionCache;
 import me.ccrama.redditslide.Toolbox.ToolboxUI;
 import me.ccrama.redditslide.UserSubscriptions;
-import me.ccrama.redditslide.Views.AnimateHelper;
 import me.ccrama.redditslide.Views.CreateCardView;
 import me.ccrama.redditslide.Views.DoEditorActions;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.Vote;
+import me.ccrama.redditslide.util.AnimatorUtil;
 import me.ccrama.redditslide.util.ClipboardUtil;
 import me.ccrama.redditslide.util.CompatUtil;
 import me.ccrama.redditslide.util.DisplayUtil;
@@ -1070,7 +1070,7 @@ public class PopulateSubmissionViewHolder {
                             });
                         }
 
-                        AnimateHelper.setFlashAnimation(holder.itemView, holder.save,
+                        AnimatorUtil.setFlashAnimation(holder.itemView, holder.save,
                                 ContextCompat.getColor(mContext, R.color.md_amber_500));
                     } else {
                         s = Snackbar.make(holder.itemView, R.string.submission_info_unsaved,
@@ -2773,7 +2773,7 @@ public class PopulateSubmissionViewHolder {
                                         PorterDuff.Mode.SRC_ATOP);
                                 downvotebutton.setContentDescription(mContext.getString(R.string.btn_downvoted));
 
-                                AnimateHelper.setFlashAnimation(holder.itemView, downvotebutton,
+                                AnimatorUtil.setFlashAnimation(holder.itemView, downvotebutton,
                                         ContextCompat.getColor(mContext, R.color.md_blue_500));
                                 holder.score.setTypeface(null, Typeface.BOLD);
                                 final int DOWNVOTE_SCORE = (SUBMISSION_SCORE == 0) ? 0 :
@@ -2833,7 +2833,7 @@ public class PopulateSubmissionViewHolder {
                                         PorterDuff.Mode.SRC_ATOP);
                                 upvotebutton.setContentDescription(mContext.getString(R.string.btn_upvoted));
 
-                                AnimateHelper.setFlashAnimation(holder.itemView, upvotebutton,
+                                AnimatorUtil.setFlashAnimation(holder.itemView, upvotebutton,
                                         ContextCompat.getColor(mContext, R.color.md_orange_500));
                                 holder.score.setTypeface(null, Typeface.BOLD);
 

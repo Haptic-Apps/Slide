@@ -11,6 +11,9 @@ import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 
+/**
+ * Created by TacoTheDank on 12/11/2020.
+ */
 public class PhotoLoader {
 
     public static void loadPhoto(final Context c, final Submission submission) {

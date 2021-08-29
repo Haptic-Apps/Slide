@@ -9,6 +9,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import me.ccrama.redditslide.Fragments.FolderChooserDialogCreate;
 import me.ccrama.redditslide.R;
 
+/**
+ * Created by TacoTheDank on 07/14/2021.
+ */
 public class DialogUtil {
     public static void showErrorDialog(final AppCompatActivity activity) {
         showBaseChooserDialog(activity,
