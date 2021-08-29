@@ -2,8 +2,13 @@ package me.ccrama.redditslide.util;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
+import android.net.wifi.WifiManager;
+import android.os.Build;
 
+import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
 
 import me.ccrama.redditslide.Reddit;
@@ -15,9 +20,6 @@ import me.ccrama.redditslide.Reddit;
  */
 public class NetworkUtil {
 
-    // Assigned a random value that is not a value of ConnectivityManager.TYPE_*
-    private static final int CONST_NO_NETWORK = 525138;
-
     private NetworkUtil() {
     }
 
@@ -28,11 +30,26 @@ public class NetworkUtil {
      * @return A non-null value defined in {@link Status}.
      */
     private static Status getConnectivityStatus(final Context context) {
-        final ConnectivityManager cm = ContextCompat.getSystemService(context, ConnectivityManager.class);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            return getConnectivityStatusPre23(context);
+        }
+        return getConnectivityStatusNew(context);
+    }
 
-        assert cm != null;
+    /**
+     * For devices running pre-Marshmallow.
+     */
+    private static Status getConnectivityStatusPre23(final Context context) {
+        final ConnectivityManager cm = ContextCompat.getSystemService(context, ConnectivityManager.class);
+        if (cm == null) {
+            return Status.NONE;
+        }
+
         final NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        switch (activeNetwork != null ? activeNetwork.getType() : CONST_NO_NETWORK) {
+        if (activeNetwork == null) {
+            return Status.NONE;
+        }
+        switch (activeNetwork.getType()) {
             case ConnectivityManager.TYPE_WIFI:
             case ConnectivityManager.TYPE_ETHERNET:
                 if (cm.isActiveNetworkMetered())
@@ -45,6 +62,49 @@ public class NetworkUtil {
             default:
                 return Status.NONE;
         }
+    }
+
+    /**
+     * For devices running Marshmallow and above.
+     */
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private static Status getConnectivityStatusNew(final Context context) {
+        final ConnectivityManager cm = ContextCompat.getSystemService(context, ConnectivityManager.class);
+        if (cm == null) {
+            return Status.NONE;
+        }
+
+        final Network activeNetwork = cm.getActiveNetwork();
+        if (activeNetwork == null) {
+            return Status.NONE;
+        }
+
+        final NetworkCapabilities nwCapabilities = cm.getNetworkCapabilities(activeNetwork);
+        if (nwCapabilities == null) {
+            return Status.NONE;
+        }
+
+        if (!isConnectedToInternet(nwCapabilities)) {
+            return Status.NONE;
+        }
+
+        final WifiManager wifiManager = ContextCompat.getSystemService(context, WifiManager.class);
+        if (wifiManager == null) {
+            return Status.NONE;
+        }
+        //nwCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
+        // isWifiEnabled() supports detecting Wi-Fi connections over VPN
+        if (wifiManager.isWifiEnabled() ||
+                nwCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
+            if (cm.isActiveNetworkMetered())
+                return Status.MOBILE; // respect metered wifi networks as mobile
+            return Status.WIFI;
+        }
+        if (nwCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
+                || nwCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_BLUETOOTH)) {
+            return Status.MOBILE;
+        }
+        return Status.NONE;
     }
 
     /**
@@ -71,6 +131,12 @@ public class NetworkUtil {
      */
     public static boolean isConnectedWifi(Context context) {
         return getConnectivityStatus(context) == Status.WIFI;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    private static boolean isConnectedToInternet(final NetworkCapabilities nwCapabilities) {
+        return nwCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) &&
+                nwCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED);
     }
 
     /**
