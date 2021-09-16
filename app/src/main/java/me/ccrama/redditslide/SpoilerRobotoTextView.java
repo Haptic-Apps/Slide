@@ -417,7 +417,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                     }
                     break;
                 case REDDIT:
-                    new OpenRedditLink(activity, url);
+                    OpenRedditLink.openUrl(activity, url, true);
                     break;
                 case LINK:
                     LogUtil.v("Opening link");

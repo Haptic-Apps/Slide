@@ -161,7 +161,7 @@ public class CommentAdapterHelper {
                                 + adapter.submission.getPermalink()
                                 + n.getFullName().substring(3)
                                 + "?context=3";
-                        new OpenRedditLink(mContext, s);
+                        OpenRedditLink.openUrl(mContext, s, true);
                     }
                     break;
                     case 50: {

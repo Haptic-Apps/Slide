@@ -339,7 +339,7 @@ public class PopulateSubmissionViewHolder {
     }
 
     public static void openRedditContent(String url, Context c) {
-        new OpenRedditLink(c, url);
+        OpenRedditLink.openUrl(c, url, true);
     }
 
     public static void openImage(ContentType.Type type, Activity contextActivity,

@@ -295,7 +295,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 public void onClick(View v) {
                     String url = "www.reddit.com" + submission.getPermalink();
                     url = url.replace("?ref=search_posts", "");
-                    new OpenRedditLink(mContext, url);
+                    OpenRedditLink.openUrl(mContext, url, true);
                     if (SettingValues.storeHistory) {
                         if (SettingValues.storeNSFWHistory && submission.isNsfw() || !submission.isNsfw())
                             HasSeen.addSeen(submission.getFullName());
@@ -394,13 +394,13 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    new OpenRedditLink(mContext, comment.getSubmissionId(), comment.getSubredditName(), comment.getId());
+                    OpenRedditLink.openUrl(mContext, comment.getSubmissionId(), comment.getSubredditName(), comment.getId());
                 }
             });
             holder.content.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    new OpenRedditLink(mContext, comment.getSubmissionId(), comment.getSubredditName(), comment.getId());
+                    OpenRedditLink.openUrl(mContext, comment.getSubmissionId(), comment.getSubredditName(), comment.getId());
                 }
             });
 

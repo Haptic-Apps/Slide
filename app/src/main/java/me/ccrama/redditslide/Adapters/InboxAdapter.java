@@ -335,9 +335,9 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                 break;
                                 case 30: {
                                     String context = comment.getDataNode().get("context").asText();
-                                    new OpenRedditLink(mContext,
+                                    OpenRedditLink.openUrl(mContext,
                                             "https://reddit.com" + context.substring(0,
-                                                    context.lastIndexOf("/")));
+                                                    context.lastIndexOf("/")), true);
                                 }
                                 break;
                             }
@@ -358,8 +358,8 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             i.putExtra(SendMessage.EXTRA_REPLY, true);
                             mContext.startActivity(i);
                         } else {
-                            new OpenRedditLink(mContext,
-                                    comment.getDataNode().get("context").asText());
+                            OpenRedditLink.openUrl(mContext,
+                                    comment.getDataNode().get("context").asText(), true);
                         }
                     } else {
                         comment.read = true;

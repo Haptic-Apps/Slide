@@ -180,7 +180,7 @@ public class MediaFragmentComment extends Fragment {
                                                     + "/nothing/"
                                                     + c.getId()
                                                     + "?context=3";
-                                            new OpenRedditLink(getActivity(), url);
+                                            OpenRedditLink.openUrl(getActivity(), url, true);
                                         }
                                     });
                         } else {

@@ -69,7 +69,7 @@ public class SettingsAbout extends BaseActivityAnim {
         findViewById(R.id.sub).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new OpenRedditLink(SettingsAbout.this, "https://reddit.com/r/slideforreddit");
+                OpenRedditLink.openUrl(SettingsAbout.this, "https://reddit.com/r/slideforreddit", true);
             }
         });
         findViewById(R.id.rate).setOnClickListener(new View.OnClickListener() {

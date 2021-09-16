@@ -640,7 +640,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                 + submission.getPermalink()
                                 + baseNode.comment.getComment().getId()
                                 + "?context=0";
-                        new OpenRedditLink(mContext, toGoTo, true);
+                        OpenRedditLink.openUrl(mContext, toGoTo, true);
                     } else if (progress.getVisibility() == View.GONE) {
                         progress.setVisibility(View.VISIBLE);
                         holder.content.setText(R.string.comment_loading_more);

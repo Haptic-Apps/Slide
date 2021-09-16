@@ -495,11 +495,11 @@ public class Submit extends BaseActivity {
                         Submission s = new AccountManager(Authentication.reddit).submit(builder);
                         new AccountManager(Authentication.reddit).sendRepliesToInbox(s,
                                 inboxReplies.isChecked());
-                        new OpenRedditLink(Submit.this,
+                       OpenRedditLink.openUrl(Submit.this,
                                 "reddit.com/r/" + ((AutoCompleteTextView) findViewById(
                                         R.id.subreddittext)).getText().toString() + "/comments/" + s
                                         .getFullName()
-                                        .substring(3));
+                                        .substring(3), true);
                         Submit.this.finish();
                     } catch (final ApiException e) {
                         Drafts.addDraft(text);
@@ -527,11 +527,11 @@ public class Submit extends BaseActivity {
                                                 .toString()));
                         new AccountManager(Authentication.reddit).sendRepliesToInbox(s,
                                 inboxReplies.isChecked());
-                        new OpenRedditLink(Submit.this,
+                        OpenRedditLink.openUrl(Submit.this,
                                 "reddit.com/r/" + ((AutoCompleteTextView) findViewById(
                                         R.id.subreddittext)).getText().toString() + "/comments/" + s
                                         .getFullName()
-                                        .substring(3));
+                                        .substring(3), true);
 
                         Submit.this.finish();
                     } catch (final ApiException e) {
@@ -566,11 +566,11 @@ public class Submit extends BaseActivity {
                                                 .toString()));
                         new AccountManager(Authentication.reddit).sendRepliesToInbox(s,
                                 inboxReplies.isChecked());
-                        new OpenRedditLink(Submit.this,
+                        OpenRedditLink.openUrl(Submit.this,
                                 "reddit.com/r/" + ((AutoCompleteTextView) findViewById(
                                         R.id.subreddittext)).getText().toString() + "/comments/" + s
                                         .getFullName()
-                                        .substring(3));
+                                        .substring(3), true);
 
                         Submit.this.finish();
                     } catch (final Exception e) {
