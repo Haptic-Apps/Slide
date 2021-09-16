@@ -549,7 +549,7 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                                                                         int i1) {
                                                                     Calendar c = Calendar.getInstance();
                                                                     sortTime = c.getTimeInMillis()
-                                                                            - i1 * 1000;
+                                                                            - i1 * 1000L;
 
                                                                     int commentcount = 0;
                                                                     for (CommentObject o : adapter.currentComments) {

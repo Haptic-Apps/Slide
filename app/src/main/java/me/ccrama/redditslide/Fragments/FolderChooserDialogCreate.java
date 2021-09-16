@@ -106,7 +106,7 @@ public class FolderChooserDialogCreate extends DialogFragment implements Materia
                 new MaterialDialog.Builder(getActivity())
                         .typeface(getBuilder().mediumFont, getBuilder().regularFont)
                         .title(parentFolder.getAbsolutePath())
-                        .items((CharSequence[]) getContentsArray())
+                        .items(getContentsArray())
                         .itemsCallback(this)
                         .onPositive((dialog, which) -> {
                             dialog.dismiss();
@@ -190,7 +190,7 @@ public class FolderChooserDialogCreate extends DialogFragment implements Materia
         final MaterialDialog dialog = (MaterialDialog) getDialog();
         dialog.setTitle(parentFolder.getAbsolutePath());
         getArguments().putString("current_path", parentFolder.getAbsolutePath());
-        dialog.setItems((CharSequence[]) getContentsArray());
+        dialog.setItems(getContentsArray());
     }
 
     @Override

@@ -436,7 +436,7 @@ public class CheckForMail extends BroadcastReceiver {
         @Override
         protected List<Submission> doInBackground(Void... params) {
             try {
-                long lastTime = (System.currentTimeMillis() - (60000 * Reddit.notificationTime));
+                long lastTime = (System.currentTimeMillis() - (60000L * Reddit.notificationTime));
                 ArrayList<Submission> toReturn = new ArrayList<>();
                 ArrayList<String> rawSubs =
                         StringUtil.stringToArray(Reddit.appRestart.getString(SUBS_TO_GET, ""));

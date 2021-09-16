@@ -522,7 +522,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                             b.append(s);
                             b.append("+");
                         }
-                        String finalS = b.toString().substring(0, b.length() - 1);
+                        String finalS = b.substring(0, b.length() - 1);
                         Log.v(LogUtil.getTag(), finalS);
                         int pos = addSubAlphabetically(finalS);
                         adapter.notifyDataSetChanged();
