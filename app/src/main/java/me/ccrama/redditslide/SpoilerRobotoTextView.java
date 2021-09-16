@@ -9,8 +9,6 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -50,6 +48,7 @@ import org.apache.commons.text.StringEscapeUtils;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -71,6 +70,7 @@ import me.ccrama.redditslide.Views.CustomQuoteSpan;
 import me.ccrama.redditslide.Views.PeekMediaView;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.handler.TextViewLinkHandler;
+import me.ccrama.redditslide.util.BlendModeUtil;
 import me.ccrama.redditslide.util.ClipboardUtil;
 import me.ccrama.redditslide.util.CompatUtil;
 import me.ccrama.redditslide.util.GifUtils;
@@ -578,11 +578,10 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
 
                 int color = ta.getColor(0, Color.WHITE);
                 Drawable open = getResources().getDrawable(R.drawable.ic_open_in_new);
-                open.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
                 Drawable share = getResources().getDrawable(R.drawable.ic_share);
-                share.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
                 Drawable copy = getResources().getDrawable(R.drawable.ic_content_copy);
-                copy.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
+                final List<Drawable> drawableSet = Arrays.asList(open, share, copy);
+                BlendModeUtil.tintDrawablesAsSrcAtop(drawableSet, color);
 
                 ta.recycle();
 

@@ -20,8 +20,6 @@ import android.app.Dialog;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -67,6 +65,7 @@ import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.Visuals.ColorPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.BlendModeUtil;
 import me.ccrama.redditslide.util.DisplayUtil;
 import me.ccrama.redditslide.util.LogUtil;
 
@@ -801,10 +800,9 @@ public class ReorderSubreddits extends BaseActivityAnim {
                                 isSubscribed.put(origPos.toLowerCase(Locale.ENGLISH), isChecked);
                             }
                         });
-                holder.itemView.findViewById(R.id.color).setBackgroundResource(R.drawable.circle);
-                holder.itemView.findViewById(R.id.color)
-                        .getBackground()
-                        .setColorFilter(new PorterDuffColorFilter(Palette.getColor(origPos), PorterDuff.Mode.MULTIPLY));
+                final View colorView = holder.itemView.findViewById(R.id.color);
+                colorView.setBackgroundResource(R.drawable.circle);
+                BlendModeUtil.tintDrawableAsModulate(colorView.getBackground(), Palette.getColor(origPos));
                 if (UserSubscriptions.getPinned().contains(origPos)) {
                     holder.itemView.findViewById(R.id.pinned).setVisibility(View.VISIBLE);
                 } else {

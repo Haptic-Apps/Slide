@@ -1,7 +1,6 @@
 package me.ccrama.redditslide.Views;
 
 import android.animation.ValueAnimator;
-import android.graphics.PorterDuff;
 import android.os.Build;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -19,6 +18,7 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.AnimatorUtil;
+import me.ccrama.redditslide.util.BlendModeUtil;
 import me.ccrama.redditslide.util.DisplayUtil;
 
 /**
@@ -115,8 +115,7 @@ public class CreateCardView {
             if (v2 instanceof TextView) {
                 ((TextView) v2).setTextColor(Palette.getCurrentFontColor(v2.getContext()));
             } else if (v2 instanceof ImageView) {
-                ((ImageView) v2).setColorFilter(Palette.getCurrentTintColor(v2.getContext()));
-
+                BlendModeUtil.tintImageViewAsSrcAtop((ImageView) v2, Palette.getCurrentTintColor(v2.getContext()));
             }
         }
     }
@@ -126,8 +125,7 @@ public class CreateCardView {
             if (v2 instanceof TextView) {
                 ((TextView) v2).setTextColor(Palette.getCurrentTintColor(v2.getContext()));
             } else if (v2 instanceof ImageView) {
-                ((ImageView) v2).setColorFilter(Palette.getCurrentTintColor(v2.getContext()));
-
+                BlendModeUtil.tintImageViewAsSrcAtop((ImageView) v2, Palette.getCurrentTintColor(v2.getContext()));
             }
         }
     }
@@ -137,8 +135,7 @@ public class CreateCardView {
             if (v2 instanceof TextView) {
                 ((TextView) v2).setTextColor(Palette.getWhiteFontColor());
             } else if (v2 instanceof ImageView) {
-                ((ImageView) v2).setColorFilter(Palette.getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
-
+                BlendModeUtil.tintImageViewAsSrcAtop((ImageView) v2, Palette.getWhiteTintColor());
             }
         }
     }

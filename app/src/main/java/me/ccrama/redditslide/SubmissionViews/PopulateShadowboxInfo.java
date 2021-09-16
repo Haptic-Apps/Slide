@@ -5,8 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
@@ -41,6 +39,8 @@ import net.dean.jraw.models.Submission;
 import net.dean.jraw.models.SubredditRule;
 import net.dean.jraw.models.VoteDirection;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 
 import me.ccrama.redditslide.ActionStates;
@@ -56,6 +56,7 @@ import me.ccrama.redditslide.Views.TitleTextView;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.Vote;
 import me.ccrama.redditslide.util.AnimatorUtil;
+import me.ccrama.redditslide.util.BlendModeUtil;
 import me.ccrama.redditslide.util.ClipboardUtil;
 import me.ccrama.redditslide.util.CompatUtil;
 import me.ccrama.redditslide.util.LinkUtil;
@@ -113,37 +114,38 @@ public class PopulateShadowboxInfo {
                     switch (ActionStates.getVoteDirection(s)) {
                         case UPVOTE: {
                             ((TextView) rootView.findViewById(R.id.score)).setTextColor(ContextCompat.getColor(c, R.color.md_orange_500));
-                            upvotebutton.setColorFilter(ContextCompat.getColor(c, R.color.md_orange_500), PorterDuff.Mode.SRC_ATOP);
+                            BlendModeUtil.tintImageViewAsSrcAtop(upvotebutton, ContextCompat.getColor(c, R.color.md_orange_500));
                             ((TextView) rootView.findViewById(R.id.score)).setTypeface(null, Typeface.BOLD);
                             ((TextView) rootView.findViewById(R.id.score)).setText(String.format(Locale.getDefault(), "%d", (s.getScore() + ((s.getAuthor().equals(Authentication.name)) ? 0 : 1))));
-                            downvotebutton.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+                            BlendModeUtil.tintImageViewAsSrcAtop(downvotebutton, Color.WHITE);
                             break;
                         }
                         case DOWNVOTE: {
                             ((TextView) rootView.findViewById(R.id.score)).setTextColor(ContextCompat.getColor(c, R.color.md_blue_500));
-                            downvotebutton.setColorFilter(ContextCompat.getColor(c, R.color.md_blue_500), PorterDuff.Mode.SRC_ATOP);
+                            BlendModeUtil.tintImageViewAsSrcAtop(downvotebutton, ContextCompat.getColor(c, R.color.md_blue_500));
                             ((TextView) rootView.findViewById(R.id.score)).setTypeface(null, Typeface.BOLD);
                             ((TextView) rootView.findViewById(R.id.score)).setText(String.format(Locale.getDefault(), "%d", (s.getScore() + ((s.getAuthor().equals(Authentication.name)) ? 0 : -1))));
-                            upvotebutton.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+                            BlendModeUtil.tintImageViewAsSrcAtop(upvotebutton, Color.WHITE);
                             break;
                         }
                         case NO_VOTE: {
                             ((TextView) rootView.findViewById(R.id.score)).setTextColor(((TextView) rootView.findViewById(R.id.comments)).getCurrentTextColor());
                             ((TextView) rootView.findViewById(R.id.score)).setText(String.format(Locale.getDefault(), "%d", s.getScore()));
                             ((TextView) rootView.findViewById(R.id.score)).setTypeface(null, Typeface.NORMAL);
-                            downvotebutton.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
-                            upvotebutton.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+                            final List<ImageView> imageViewSet = Arrays.asList(downvotebutton, upvotebutton);
+                            BlendModeUtil.tintImageViewsAsSrcAtop(imageViewSet, Color.WHITE);
                             break;
                         }
                     }
                 }
+                final ImageView save = (ImageView) rootView.findViewById(R.id.save);
                 if (Authentication.isLoggedIn && Authentication.didOnline) {
                     if (ActionStates.isSaved(s)) {
-                        ((ImageView) rootView.findViewById(R.id.save)).setColorFilter(ContextCompat.getColor(c, R.color.md_amber_500), PorterDuff.Mode.SRC_ATOP);
+                        BlendModeUtil.tintImageViewAsSrcAtop(save, ContextCompat.getColor(c, R.color.md_amber_500));
                     } else {
-                        ((ImageView) rootView.findViewById(R.id.save)).setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+                        BlendModeUtil.tintImageViewAsSrcAtop(save, Color.WHITE);
                     }
-                    rootView.findViewById(R.id.save).setOnClickListener(new View.OnClickListener() {
+                    save.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
 
@@ -171,10 +173,10 @@ public class PopulateShadowboxInfo {
                                     ((SlidingUpPanelLayout) rootView.findViewById(R.id.sliding_layout)).setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
 
                                     if (ActionStates.isSaved(s)) {
-                                        ((ImageView) rootView.findViewById(R.id.save)).setColorFilter(ContextCompat.getColor(c, R.color.md_amber_500), PorterDuff.Mode.SRC_ATOP);
-                                        AnimatorUtil.setFlashAnimation(rootView, rootView.findViewById(R.id.save), ContextCompat.getColor(c, R.color.md_amber_500));
+                                        BlendModeUtil.tintImageViewAsSrcAtop(save, ContextCompat.getColor(c, R.color.md_amber_500));
+                                        AnimatorUtil.setFlashAnimation(rootView, save, ContextCompat.getColor(c, R.color.md_amber_500));
                                     } else {
-                                        ((ImageView) rootView.findViewById(R.id.save)).setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+                                        BlendModeUtil.tintImageViewAsSrcAtop(save, Color.WHITE);
                                     }
 
                                 }
@@ -186,7 +188,7 @@ public class PopulateShadowboxInfo {
                 }
 
                 if (!Authentication.isLoggedIn || !Authentication.didOnline) {
-                    rootView.findViewById(R.id.save).setVisibility(View.GONE);
+                    save.setVisibility(View.GONE);
                 }
                 try {
                     final TextView points = rootView.findViewById(R.id.score);
@@ -206,8 +208,8 @@ public class PopulateShadowboxInfo {
                                     }
                                     if (ActionStates.getVoteDirection(s) != VoteDirection.DOWNVOTE) { //has not been downvoted
                                         points.setTextColor(ContextCompat.getColor(c, R.color.md_blue_500));
-                                        downvotebutton.setColorFilter(ContextCompat.getColor(c, R.color.md_blue_500), PorterDuff.Mode.SRC_ATOP);
-                                        upvotebutton.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+                                        BlendModeUtil.tintImageViewAsSrcAtop(downvotebutton, ContextCompat.getColor(c, R.color.md_blue_500));
+                                        BlendModeUtil.tintImageViewAsSrcAtop(upvotebutton, Color.WHITE);
 
                                         AnimatorUtil.setFlashAnimation(rootView, downvotebutton, ContextCompat.getColor(c, R.color.md_blue_500));
                                         ((TextView) rootView.findViewById(R.id.score)).setTypeface(null, Typeface.BOLD);
@@ -221,7 +223,7 @@ public class PopulateShadowboxInfo {
                                         ((TextView) rootView.findViewById(R.id.score)).setTypeface(null, Typeface.NORMAL);
                                         ((TextView) rootView.findViewById(R.id.score)).setText(String.format(Locale.getDefault(), "%d", s.getScore()));
                                         ActionStates.setVoteDirection(s, VoteDirection.NO_VOTE);
-                                        downvotebutton.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+                                        BlendModeUtil.tintImageViewAsSrcAtop(downvotebutton, Color.WHITE);
                                     }
                                 }
                             });
@@ -240,8 +242,8 @@ public class PopulateShadowboxInfo {
 
                                     if (ActionStates.getVoteDirection(s) != VoteDirection.UPVOTE) { //has not been upvoted
                                         points.setTextColor(ContextCompat.getColor(c, R.color.md_orange_500));
-                                        upvotebutton.setColorFilter(ContextCompat.getColor(c, R.color.md_orange_500), PorterDuff.Mode.SRC_ATOP);
-                                        downvotebutton.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+                                        BlendModeUtil.tintImageViewAsSrcAtop(upvotebutton, ContextCompat.getColor(c, R.color.md_orange_500));
+                                        BlendModeUtil.tintImageViewAsSrcAtop(downvotebutton, Color.WHITE);
 
                                         AnimatorUtil.setFlashAnimation(rootView, upvotebutton, ContextCompat.getColor(c, R.color.md_orange_500));
                                         ((TextView) rootView.findViewById(R.id.score)).setTypeface(null, Typeface.BOLD);
@@ -254,7 +256,7 @@ public class PopulateShadowboxInfo {
                                         ((TextView) rootView.findViewById(R.id.score)).setTypeface(null, Typeface.NORMAL);
                                         ((TextView) rootView.findViewById(R.id.score)).setText(String.format(Locale.getDefault(), "%d", s.getScore()));
                                         ActionStates.setVoteDirection(s, VoteDirection.NO_VOTE);
-                                        upvotebutton.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+                                        BlendModeUtil.tintImageViewAsSrcAtop(upvotebutton, Color.WHITE);
                                     }
                                 }
                             });
@@ -338,37 +340,38 @@ public class PopulateShadowboxInfo {
                     switch (ActionStates.getVoteDirection(s)) {
                         case UPVOTE: {
                             ((TextView) rootView.findViewById(R.id.score)).setTextColor(ContextCompat.getColor(c, R.color.md_orange_500));
-                            upvotebutton.setColorFilter(ContextCompat.getColor(c, R.color.md_orange_500), PorterDuff.Mode.SRC_ATOP);
+                            BlendModeUtil.tintImageViewAsSrcAtop(upvotebutton, ContextCompat.getColor(c, R.color.md_orange_500));
                             ((TextView) rootView.findViewById(R.id.score)).setTypeface(null, Typeface.BOLD);
                             ((TextView) rootView.findViewById(R.id.score)).setText(String.format(Locale.getDefault(), "%d", (s.getScore() + ((s.getAuthor().equals(Authentication.name)) ? 0 : 1))));
-                            downvotebutton.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+                            BlendModeUtil.tintImageViewAsSrcAtop(downvotebutton, Color.WHITE);
                             break;
                         }
                         case DOWNVOTE: {
                             ((TextView) rootView.findViewById(R.id.score)).setTextColor(ContextCompat.getColor(c, R.color.md_blue_500));
-                            downvotebutton.setColorFilter(ContextCompat.getColor(c, R.color.md_blue_500), PorterDuff.Mode.SRC_ATOP);
+                            BlendModeUtil.tintImageViewAsSrcAtop(downvotebutton, ContextCompat.getColor(c, R.color.md_blue_500));
                             ((TextView) rootView.findViewById(R.id.score)).setTypeface(null, Typeface.BOLD);
                             ((TextView) rootView.findViewById(R.id.score)).setText(String.format(Locale.getDefault(), "%d", (s.getScore() + ((s.getAuthor().equals(Authentication.name)) ? 0 : -1))));
-                            upvotebutton.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+                            BlendModeUtil.tintImageViewAsSrcAtop(upvotebutton, Color.WHITE);
                             break;
                         }
                         case NO_VOTE: {
                             ((TextView) rootView.findViewById(R.id.score)).setTextColor(((TextView) rootView.findViewById(R.id.comments)).getCurrentTextColor());
                             ((TextView) rootView.findViewById(R.id.score)).setText(String.format(Locale.getDefault(), "%d", s.getScore()));
                             ((TextView) rootView.findViewById(R.id.score)).setTypeface(null, Typeface.NORMAL);
-                            downvotebutton.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
-                            upvotebutton.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+                            final List<ImageView> imageViewSet = Arrays.asList(downvotebutton, upvotebutton);
+                            BlendModeUtil.tintImageViewsAsSrcAtop(imageViewSet, Color.WHITE);
                             break;
                         }
                     }
                 }
+                final ImageView save = (ImageView) rootView.findViewById(R.id.save);
                 if (Authentication.isLoggedIn && Authentication.didOnline) {
                     if (ActionStates.isSaved(s)) {
-                        ((ImageView) rootView.findViewById(R.id.save)).setColorFilter(ContextCompat.getColor(c, R.color.md_amber_500), PorterDuff.Mode.SRC_ATOP);
+                        BlendModeUtil.tintImageViewAsSrcAtop(save, ContextCompat.getColor(c, R.color.md_amber_500));
                     } else {
-                        ((ImageView) rootView.findViewById(R.id.save)).setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+                        BlendModeUtil.tintImageViewAsSrcAtop(save, Color.WHITE);
                     }
-                    rootView.findViewById(R.id.save).setOnClickListener(new View.OnClickListener() {
+                    save.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
 
@@ -396,10 +399,10 @@ public class PopulateShadowboxInfo {
                                     ((SlidingUpPanelLayout) rootView.findViewById(R.id.sliding_layout)).setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
 
                                     if (ActionStates.isSaved(s)) {
-                                        ((ImageView) rootView.findViewById(R.id.save)).setColorFilter(ContextCompat.getColor(c, R.color.md_amber_500), PorterDuff.Mode.SRC_ATOP);
-                                        AnimatorUtil.setFlashAnimation(rootView, rootView.findViewById(R.id.save), ContextCompat.getColor(c, R.color.md_amber_500));
+                                        BlendModeUtil.tintImageViewAsSrcAtop(save, ContextCompat.getColor(c, R.color.md_amber_500));
+                                        AnimatorUtil.setFlashAnimation(rootView, save, ContextCompat.getColor(c, R.color.md_amber_500));
                                     } else {
-                                        ((ImageView) rootView.findViewById(R.id.save)).setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+                                        BlendModeUtil.tintImageViewAsSrcAtop(save, Color.WHITE);
                                     }
 
                                 }
@@ -411,7 +414,7 @@ public class PopulateShadowboxInfo {
                 }
 
                 if (!Authentication.isLoggedIn || !Authentication.didOnline) {
-                    rootView.findViewById(R.id.save).setVisibility(View.GONE);
+                    save.setVisibility(View.GONE);
                 }
                 try {
                     final TextView points = rootView.findViewById(R.id.score);
@@ -426,8 +429,8 @@ public class PopulateShadowboxInfo {
 
                                     if (ActionStates.getVoteDirection(s) != VoteDirection.DOWNVOTE) { //has not been downvoted
                                         points.setTextColor(ContextCompat.getColor(c, R.color.md_blue_500));
-                                        downvotebutton.setColorFilter(ContextCompat.getColor(c, R.color.md_blue_500), PorterDuff.Mode.SRC_ATOP);
-                                        upvotebutton.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+                                        BlendModeUtil.tintImageViewAsSrcAtop(downvotebutton, ContextCompat.getColor(c, R.color.md_blue_500));
+                                        BlendModeUtil.tintImageViewAsSrcAtop(upvotebutton, Color.WHITE);
 
                                         AnimatorUtil.setFlashAnimation(rootView, downvotebutton, ContextCompat.getColor(c, R.color.md_blue_500));
                                         ((TextView) rootView.findViewById(R.id.score)).setTypeface(null, Typeface.BOLD);
@@ -441,7 +444,7 @@ public class PopulateShadowboxInfo {
                                         ((TextView) rootView.findViewById(R.id.score)).setTypeface(null, Typeface.NORMAL);
                                         ((TextView) rootView.findViewById(R.id.score)).setText(String.format(Locale.getDefault(), "%d", s.getScore()));
                                         ActionStates.setVoteDirection(s, VoteDirection.NO_VOTE);
-                                        downvotebutton.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+                                        BlendModeUtil.tintImageViewAsSrcAtop(downvotebutton, Color.WHITE);
                                     }
                                 }
                             });
@@ -453,8 +456,8 @@ public class PopulateShadowboxInfo {
                                     ((SlidingUpPanelLayout) rootView.findViewById(R.id.sliding_layout)).setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
                                     if (ActionStates.getVoteDirection(s) != VoteDirection.UPVOTE) { //has not been upvoted
                                         points.setTextColor(ContextCompat.getColor(c, R.color.md_orange_500));
-                                        upvotebutton.setColorFilter(ContextCompat.getColor(c, R.color.md_orange_500), PorterDuff.Mode.SRC_ATOP);
-                                        downvotebutton.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+                                        BlendModeUtil.tintImageViewAsSrcAtop(upvotebutton, ContextCompat.getColor(c, R.color.md_orange_500));
+                                        BlendModeUtil.tintImageViewAsSrcAtop(downvotebutton, Color.WHITE);
 
                                         AnimatorUtil.setFlashAnimation(rootView, upvotebutton, ContextCompat.getColor(c, R.color.md_orange_500));
                                         ((TextView) rootView.findViewById(R.id.score)).setTypeface(null, Typeface.BOLD);
@@ -467,7 +470,7 @@ public class PopulateShadowboxInfo {
                                         ((TextView) rootView.findViewById(R.id.score)).setTypeface(null, Typeface.NORMAL);
                                         ((TextView) rootView.findViewById(R.id.score)).setText(String.format(Locale.getDefault(), "%d", s.getScore()));
                                         ActionStates.setVoteDirection(s, VoteDirection.NO_VOTE);
-                                        upvotebutton.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+                                        BlendModeUtil.tintImageViewAsSrcAtop(upvotebutton, Color.WHITE);
                                     }
                                 }
                             });
@@ -498,13 +501,9 @@ public class PopulateShadowboxInfo {
         Drawable link = mContext.getResources().getDrawable(R.drawable.ic_link);
         Drawable reddit = mContext.getResources().getDrawable(R.drawable.ic_forum);
 
-        profile.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
-        sub.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
-        report.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
-        copy.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
-        open.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
-        link.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
-        reddit.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
+        final List<Drawable> drawableSet = Arrays.asList(
+                profile, sub, report, copy, open, link, reddit);
+        BlendModeUtil.tintDrawablesAsSrcAtop(drawableSet, color);
 
         ta.recycle();
 

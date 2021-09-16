@@ -5,8 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -32,6 +30,7 @@ import com.cocosw.bottomsheet.BottomSheet;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import me.ccrama.redditslide.Adapters.ImageGridAdapter;
@@ -44,6 +43,7 @@ import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Views.ToolbarColorizeHelper;
 import me.ccrama.redditslide.Visuals.ColorPreferences;
+import me.ccrama.redditslide.util.BlendModeUtil;
 import me.ccrama.redditslide.util.DialogUtil;
 import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
@@ -271,10 +271,8 @@ public class RedditGalleryPager extends FullScreenActivity
         Drawable image = getResources().getDrawable(R.drawable.ic_image);
         Drawable save = getResources().getDrawable(R.drawable.ic_get_app);
 
-        external.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
-        share.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
-        image.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
-        save.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
+        final List<Drawable> drawableSet = Arrays.asList(external, share, image, save);
+        BlendModeUtil.tintDrawablesAsSrcAtop(drawableSet, color);
 
         ta.recycle();
         BottomSheet.Builder b = new BottomSheet.Builder(this).title(contentUrl);

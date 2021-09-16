@@ -3,8 +3,6 @@ package me.ccrama.redditslide.Activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Spannable;
@@ -55,6 +53,7 @@ import me.ccrama.redditslide.Views.CatchStaggeredGridLayoutManager;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Visuals.ColorPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.BlendModeUtil;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.ProUtil;
 import me.ccrama.redditslide.util.SortingUtil;
@@ -639,10 +638,9 @@ public class MultiredditOverview extends BaseActivityAnim {
             final TextView t = convertView.findViewById(R.id.name);
             t.setText(subreddit);
 
-            convertView.findViewById(R.id.color).setBackgroundResource(R.drawable.circle);
-            convertView.findViewById(R.id.color)
-                    .getBackground()
-                    .setColorFilter(new PorterDuffColorFilter(Palette.getColor(subreddit), PorterDuff.Mode.MULTIPLY));
+            final View colorView = convertView.findViewById(R.id.color);
+            colorView.setBackgroundResource(R.drawable.circle);
+            BlendModeUtil.tintDrawableAsModulate(colorView.getBackground(), Palette.getColor(subreddit));
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

@@ -13,8 +13,6 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -60,6 +58,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -92,6 +91,7 @@ import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.Vote;
 import me.ccrama.redditslide.util.AnimatorUtil;
+import me.ccrama.redditslide.util.BlendModeUtil;
 import me.ccrama.redditslide.util.DisplayUtil;
 import me.ccrama.redditslide.util.KeyboardUtil;
 import me.ccrama.redditslide.util.LogUtil;
@@ -1086,13 +1086,14 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             final ImageView downvote = baseView.findViewById(R.id.downvote);
             View discard = baseView.findViewById(R.id.discard);
             final EditText replyLine = baseView.findViewById(R.id.replyLine);
+            final ImageView mod = baseView.findViewById(R.id.mod);
 
             final Comment comment = baseNode.getComment();
             if (ActionStates.getVoteDirection(comment) == VoteDirection.UPVOTE) {
-                upvote.setColorFilter(holder.textColorUp, PorterDuff.Mode.MULTIPLY);
+                BlendModeUtil.tintImageViewAsModulate(upvote, holder.textColorUp);
                 upvote.setContentDescription(mContext.getResources().getString(R.string.btn_upvoted));
             } else if (ActionStates.getVoteDirection(comment) == VoteDirection.DOWNVOTE) {
-                downvote.setColorFilter(holder.textColorDown, PorterDuff.Mode.MULTIPLY);
+                BlendModeUtil.tintImageViewAsModulate(downvote, holder.textColorDown);
                 downvote.setContentDescription(mContext.getResources().getString(R.string.btn_downvoted));
             } else {
                 downvote.clearColorFilter();
@@ -1100,35 +1101,30 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 upvote.clearColorFilter();
                 upvote.setContentDescription(mContext.getResources().getString(R.string.btn_upvote));
             }
-            {
-                final ImageView mod = baseView.findViewById(R.id.mod);
-                try {
-                    if (UserSubscriptions.modOf.contains(submission.getSubredditName())) {
-                        //todo
-                        mod.setVisibility(View.GONE);
 
-                    } else {
-                        mod.setVisibility(View.GONE);
-                    }
-                } catch (Exception e) {
-                    Log.d(LogUtil.getTag(), "Error loading mod " + e.toString());
+            try {
+                if (UserSubscriptions.modOf.contains(submission.getSubredditName())) {
+                    //todo
+                    mod.setVisibility(View.GONE);
+                } else {
+                    mod.setVisibility(View.GONE);
                 }
+            } catch (Exception e) {
+                Log.d(LogUtil.getTag(), "Error loading mod " + e.toString());
             }
 
             if (UserSubscriptions.modOf != null && UserSubscriptions.modOf.contains(
                     submission.getSubredditName().toLowerCase(Locale.ENGLISH))) {
-                baseView.findViewById(R.id.mod).setVisibility(View.VISIBLE);
+                mod.setVisibility(View.VISIBLE);
                 final Map<String, Integer> reports = comment.getUserReports();
                 final Map<String, String> reports2 = comment.getModeratorReports();
                 if (reports.size() + reports2.size() > 0) {
-                    ((ImageView) baseView.findViewById(R.id.mod)).setColorFilter(
-                            ContextCompat.getColor(mContext, R.color.md_red_300),
-                            PorterDuff.Mode.SRC_ATOP);
+                    BlendModeUtil.tintImageViewAsSrcAtop(
+                            mod, ContextCompat.getColor(mContext, R.color.md_red_300));
                 } else {
-                    ((ImageView) baseView.findViewById(R.id.mod)).setColorFilter(Color.WHITE,
-                            PorterDuff.Mode.SRC_ATOP);
+                    BlendModeUtil.tintImageViewAsSrcAtop(mod, Color.WHITE);
                 }
-                baseView.findViewById(R.id.mod).setOnClickListener(new OnSingleClickListener() {
+                mod.setOnClickListener(new OnSingleClickListener() {
                     @Override
                     public void onSingleClick(View v) {
                         CommentAdapterHelper.showModBottomSheet(CommentAdapter.this, mContext,
@@ -1136,7 +1132,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     }
                 });
             } else {
-                baseView.findViewById(R.id.mod).setVisibility(View.GONE);
+                mod.setVisibility(View.GONE);
             }
 
             final ImageView edit = baseView.findViewById(R.id.edit);
@@ -1272,35 +1268,25 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                         //If the base theme is Light or Sepia, tint the Editor actions to be white
                         if (SettingValues.currentTheme == 1 || SettingValues.currentTheme == 5) {
-                            ((ImageView) replyArea.findViewById(R.id.savedraft)).setColorFilter(
-                                    Color.WHITE);
-                            ((ImageView) replyArea.findViewById(R.id.draft)).setColorFilter(
-                                    Color.WHITE);
-                            ((ImageView) replyArea.findViewById(R.id.imagerep)).setColorFilter(
-                                    Color.WHITE);
-                            ((ImageView) replyArea.findViewById(R.id.link)).setColorFilter(
-                                    Color.WHITE);
-                            ((ImageView) replyArea.findViewById(R.id.bold)).setColorFilter(
-                                    Color.WHITE);
-                            ((ImageView) replyArea.findViewById(R.id.italics)).setColorFilter(
-                                    Color.WHITE);
-                            ((ImageView) replyArea.findViewById(R.id.bulletlist)).setColorFilter(
-                                    Color.WHITE);
-                            ((ImageView) replyArea.findViewById(R.id.numlist)).setColorFilter(
-                                    Color.WHITE);
-                            ((ImageView) replyArea.findViewById(R.id.draw)).setColorFilter(
-                                    Color.WHITE);
-                            ((ImageView) replyArea.findViewById(R.id.quote)).setColorFilter(
-                                    Color.WHITE);
-                            ((ImageView) replyArea.findViewById(R.id.size)).setColorFilter(
-                                    Color.WHITE);
-                            ((ImageView) replyArea.findViewById(R.id.strike)).setColorFilter(
-                                    Color.WHITE);
-                            ((ImageView) replyArea.findViewById(R.id.author)).setColorFilter(
-                                    Color.WHITE);
-                            ((ImageView) replyArea.findViewById(R.id.spoiler)).setColorFilter(Color.WHITE);
-                            replyLine.getBackground()
-                                    .setColorFilter(new PorterDuffColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN));
+                            final ImageView saveDraft = (ImageView) replyArea.findViewById(R.id.savedraft);
+                            final ImageView draft = (ImageView) replyArea.findViewById(R.id.draft);
+                            final ImageView imagerep = (ImageView) replyArea.findViewById(R.id.imagerep);
+                            final ImageView link = (ImageView) replyArea.findViewById(R.id.link);
+                            final ImageView bold = (ImageView) replyArea.findViewById(R.id.bold);
+                            final ImageView italics = (ImageView) replyArea.findViewById(R.id.italics);
+                            final ImageView bulletlist = (ImageView) replyArea.findViewById(R.id.bulletlist);
+                            final ImageView numlist = (ImageView) replyArea.findViewById(R.id.numlist);
+                            final ImageView draw = (ImageView) replyArea.findViewById(R.id.draw);
+                            final ImageView quote = (ImageView) replyArea.findViewById(R.id.quote);
+                            final ImageView size = (ImageView) replyArea.findViewById(R.id.size);
+                            final ImageView strike = (ImageView) replyArea.findViewById(R.id.strike);
+                            final ImageView author = (ImageView) replyArea.findViewById(R.id.author);
+                            final ImageView spoiler = (ImageView) replyArea.findViewById(R.id.spoiler);
+                            final List<ImageView> imageViewSet = Arrays.asList(
+                                    saveDraft, draft, imagerep, link, bold, italics, bulletlist,
+                                    numlist, draw, quote, size, strike, author, spoiler);
+                            BlendModeUtil.tintImageViewsAsSrcAtop(imageViewSet, Color.WHITE);
+                            BlendModeUtil.tintDrawableAsSrcIn(replyLine.getBackground(), Color.WHITE);
                         }
 
                         replyArea.setVisibility(View.VISIBLE);
@@ -1460,7 +1446,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         ActionStates.setVoteDirection(comment, VoteDirection.UPVOTE);
                         downvote.clearColorFilter(); // reset colour
                         doScoreText(holder, n, CommentAdapter.this);
-                        upvote.setColorFilter(holder.textColorUp, PorterDuff.Mode.MULTIPLY);
+                        BlendModeUtil.tintImageViewAsModulate(upvote, holder.textColorUp);
                     }
                 }
             });
@@ -1480,7 +1466,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         ActionStates.setVoteDirection(comment, VoteDirection.DOWNVOTE);
                         upvote.clearColorFilter(); // reset colour
                         doScoreText(holder, n, CommentAdapter.this);
-                        downvote.setColorFilter(holder.textColorDown, PorterDuff.Mode.MULTIPLY);
+                        BlendModeUtil.tintImageViewAsModulate(downvote, holder.textColorDown);
                     }
                 }
             });

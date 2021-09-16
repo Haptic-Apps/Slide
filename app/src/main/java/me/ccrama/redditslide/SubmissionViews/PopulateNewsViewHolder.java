@@ -8,8 +8,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.text.SpannableStringBuilder;
@@ -42,6 +40,7 @@ import net.dean.jraw.models.SubredditRule;
 import org.apache.commons.text.StringEscapeUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -78,6 +77,7 @@ import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SubmissionCache;
 import me.ccrama.redditslide.Views.CreateCardView;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.BlendModeUtil;
 import me.ccrama.redditslide.util.ClipboardUtil;
 import me.ccrama.redditslide.util.CompatUtil;
 import me.ccrama.redditslide.util.DisplayUtil;
@@ -421,17 +421,10 @@ public class PopulateNewsViewHolder {
         Drawable filter =
                 ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_filter_list, null);
 
-        profile.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
-        sub.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
-        saved.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
-        hide.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
-        report.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
-        copy.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
-        open.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
-        link.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
-        reddit.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
-        readLater.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
-        filter.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
+        final List<Drawable> drawableSet = Arrays.asList(
+                profile, sub, saved, hide, report, copy,
+                open, link, reddit, readLater, filter);
+        BlendModeUtil.tintDrawablesAsSrcAtop(drawableSet, color);
 
         ta.recycle();
 

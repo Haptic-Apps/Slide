@@ -2,7 +2,6 @@ package me.ccrama.redditslide.Views;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.util.AttributeSet;
@@ -41,6 +40,7 @@ import com.google.android.exoplayer2.video.VideoSize;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
+import me.ccrama.redditslide.util.BlendModeUtil;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 
@@ -286,11 +286,11 @@ public class ExoVideoView extends RelativeLayout {
                         // Set initial mute state
                         if (!SettingValues.isMuted) {
                             player.setVolume(1f);
-                            mute.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+                            BlendModeUtil.tintImageViewAsSrcAtop(mute, Color.WHITE);
                             audioFocusHelper.gainFocus();
                         } else {
                             player.setVolume(0f);
-                            mute.setColorFilter(getResources().getColor(R.color.md_red_500), PorterDuff.Mode.SRC_ATOP);
+                            BlendModeUtil.tintImageViewAsSrcAtop(mute, getResources().getColor(R.color.md_red_500));
                         }
 
                         mute.setOnClickListener((v) -> {
@@ -298,13 +298,13 @@ public class ExoVideoView extends RelativeLayout {
                                 player.setVolume(1f);
                                 SettingValues.isMuted = false;
                                 SettingValues.prefs.edit().putBoolean(SettingValues.PREF_MUTE, false).apply();
-                                mute.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+                                BlendModeUtil.tintImageViewAsSrcAtop(mute, Color.WHITE);
                                 audioFocusHelper.gainFocus();
                             } else {
                                 player.setVolume(0f);
                                 SettingValues.isMuted = true;
                                 SettingValues.prefs.edit().putBoolean(SettingValues.PREF_MUTE, true).apply();
-                                mute.setColorFilter(getResources().getColor(R.color.md_red_500), PorterDuff.Mode.SRC_ATOP);
+                                BlendModeUtil.tintImageViewAsSrcAtop(mute, getResources().getColor(R.color.md_red_500));
                                 audioFocusHelper.loseFocus();
                             }
                         });

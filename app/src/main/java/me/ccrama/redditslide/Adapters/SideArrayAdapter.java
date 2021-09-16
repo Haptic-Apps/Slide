@@ -3,8 +3,6 @@ package me.ccrama.redditslide.Adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,6 +32,7 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.BlendModeUtil;
 import me.ccrama.redditslide.util.KeyboardUtil;
 import me.ccrama.redditslide.util.StringUtil;
 
@@ -154,10 +153,9 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
                     : StringUtil.sanitizeString(
                             sub.replace(getContext().getString(R.string.search_goto) + " ", ""));
 
-            convertView.findViewById(R.id.color).setBackgroundResource(R.drawable.circle);
-            convertView.findViewById(R.id.color)
-                    .getBackground()
-                    .setColorFilter(new PorterDuffColorFilter(Palette.getColor(subreddit), PorterDuff.Mode.MULTIPLY));
+            final View colorView = convertView.findViewById(R.id.color);
+            colorView.setBackgroundResource(R.drawable.circle);
+            BlendModeUtil.tintDrawableAsModulate(colorView.getBackground(), Palette.getColor(subreddit));
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

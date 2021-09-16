@@ -9,8 +9,6 @@ import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
@@ -54,6 +52,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 import me.ccrama.redditslide.ContentType;
@@ -70,6 +70,7 @@ import me.ccrama.redditslide.Views.ImageSource;
 import me.ccrama.redditslide.Views.SubsamplingScaleImageView;
 import me.ccrama.redditslide.Visuals.ColorPreferences;
 import me.ccrama.redditslide.util.AnimatorUtil;
+import me.ccrama.redditslide.util.BlendModeUtil;
 import me.ccrama.redditslide.util.CompatUtil;
 import me.ccrama.redditslide.util.DialogUtil;
 import me.ccrama.redditslide.util.FileUtil;
@@ -151,13 +152,9 @@ public class MediaView extends FullScreenActivity
         Drawable file = getResources().getDrawable(R.drawable.ic_save);
         Drawable thread = getResources().getDrawable(R.drawable.ic_forum);
 
-        external.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
-        share.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
-        image.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
-        save.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
-        collection.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
-        file.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
-        thread.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
+        final List<Drawable> drawableSet = Arrays.asList(
+                external, share, image, save, collection, file, thread);
+        BlendModeUtil.tintDrawablesAsSrcAtop(drawableSet, color);
 
         ta.recycle();
 

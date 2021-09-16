@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +26,7 @@ import me.ccrama.redditslide.Activities.Shortcut;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.Widget.SubredditWidgetProvider;
+import me.ccrama.redditslide.util.BlendModeUtil;
 import me.ccrama.redditslide.util.DrawableUtil;
 import me.ccrama.redditslide.util.ImageUtil;
 import me.ccrama.redditslide.util.LogUtil;
@@ -94,9 +93,9 @@ public class SubChooseAdapter extends ArrayAdapter<String> {
 
         final String subreddit = fitems.get(position);
 
-        convertView.findViewById(R.id.color).setBackgroundResource(R.drawable.circle);
-        convertView.findViewById(R.id.color).getBackground().setColorFilter(new PorterDuffColorFilter(
-                Palette.getColor(subreddit), PorterDuff.Mode.MULTIPLY));
+        final View colorView = convertView.findViewById(R.id.color);
+        colorView.setBackgroundResource(R.drawable.circle);
+        BlendModeUtil.tintDrawableAsModulate(colorView.getBackground(), Palette.getColor(subreddit));
 
         if(getContext() instanceof SetupWidget){
             convertView.setOnClickListener(new View.OnClickListener() {
@@ -126,12 +125,12 @@ public class SubChooseAdapter extends ArrayAdapter<String> {
                         final Paint paint = new Paint();
                         final Bitmap bm1 = Bitmap.createBitmap(src.getWidth(), src.getHeight(), Bitmap.Config.ARGB_8888);
                         Canvas c = new Canvas(bm1);
-                        paint.setColorFilter(new PorterDuffColorFilter(overlayColor, PorterDuff.Mode.OVERLAY));
+                        BlendModeUtil.tintPaintAsOverlay(paint, overlayColor);
                         c.drawBitmap(src, 0, 0, paint);
 
                         bm2 = Bitmap.createBitmap(src.getWidth(), src.getHeight(), Bitmap.Config.ARGB_8888);
                         c = new Canvas(bm2);
-                        paint.setColorFilter(new PorterDuffColorFilter(overlayColor, PorterDuff.Mode.SRC_ATOP));
+                        BlendModeUtil.tintPaintAsSrcAtop(paint, overlayColor);
                         c.drawBitmap(src, 0, 0, paint);
 
                         //paint.setColorFilter(null);

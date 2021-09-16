@@ -3,8 +3,6 @@ package me.ccrama.redditslide.Activities;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
@@ -32,6 +30,7 @@ import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Views.CanvasView;
 import me.ccrama.redditslide.Views.DoEditorActions;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.BlendModeUtil;
 import me.ccrama.redditslide.util.FileUtil;
 
 
@@ -135,8 +134,7 @@ public class Draw extends BaseActivity implements ColorChooserDialog.ColorCallba
         if (result.isSuccessful()) {
             bitmap = result.getBitmap(this)
                     .copy(Bitmap.Config.RGB_565, true);
-            color.getBackground().setColorFilter(
-                    new PorterDuffColorFilter(getLastColor(), PorterDuff.Mode.MULTIPLY));
+            BlendModeUtil.tintDrawableAsModulate(color.getBackground(), getLastColor());
             color.setOnClickListener(v ->
                     new ColorChooserDialog.Builder(Draw.this, R.string.choose_color_title)
                             .allowUserColorInput(true)
@@ -153,7 +151,7 @@ public class Draw extends BaseActivity implements ColorChooserDialog.ColorCallba
     @Override
     public void onColorSelection(@NonNull ColorChooserDialog dialog, @ColorInt int selectedColor) {
         drawView.setPaintStrokeColor(selectedColor);
-        color.getBackground().setColorFilter(new PorterDuffColorFilter(selectedColor, PorterDuff.Mode.MULTIPLY));
+        BlendModeUtil.tintDrawableAsModulate(color.getBackground(), selectedColor);
 
         Reddit.colors.edit().putInt("drawColor", selectedColor).commit();
     }

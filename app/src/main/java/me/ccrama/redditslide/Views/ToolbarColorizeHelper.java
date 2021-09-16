@@ -15,8 +15,6 @@ limitations under the License.
 */
 
 import android.app.Activity;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -30,6 +28,7 @@ import androidx.appcompat.widget.Toolbar;
 import java.util.ArrayList;
 
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.util.BlendModeUtil;
 
 
 /**
@@ -49,15 +48,13 @@ public class ToolbarColorizeHelper {
      * @param activity          reference to activity needed to register observers
      */
     public static void colorizeToolbar(Toolbar toolbarView, int toolbarIconsColor, Activity activity) {
-        final PorterDuffColorFilter colorFilter = new PorterDuffColorFilter(toolbarIconsColor, PorterDuff.Mode.MULTIPLY);
-
         for (int i = 0; i < toolbarView.getChildCount(); i++) {
             final View v = toolbarView.getChildAt(i);
 
             //Step 1 : Changing the color of back button (or open drawer button).
             if (v instanceof ImageButton) {
                 //Action Bar back button
-                ((ImageButton) v).getDrawable().setColorFilter(colorFilter);
+                BlendModeUtil.tintDrawableAsModulate(((ImageButton) v).getDrawable(), toolbarIconsColor);
             }
 
 
@@ -77,7 +74,9 @@ public class ToolbarColorizeHelper {
                                 innerView.post(new Runnable() {
                                     @Override
                                     public void run() {
-                                        ((ActionMenuItemView) innerView).getCompoundDrawables()[finalK].setColorFilter(colorFilter);
+                                        BlendModeUtil.tintDrawableAsModulate(
+                                                ((ActionMenuItemView) innerView).getCompoundDrawables()[finalK],
+                                                toolbarIconsColor);
                                     }
                                 });
                             }
@@ -91,7 +90,7 @@ public class ToolbarColorizeHelper {
             toolbarView.setSubtitleTextColor(toolbarIconsColor);
 
             //Step 4: Changing the color of the Overflow Menu icon.
-            setOverflowButtonColor(activity, colorFilter);
+            setOverflowButtonColor(activity, toolbarIconsColor);
         }
     }
 
@@ -100,9 +99,9 @@ public class ToolbarColorizeHelper {
      * to the overflow icon. Check: res/values/styles.xml
      *
      * @param activity
-     * @param colorFilter
+     * @param toolbarIconsColor
      */
-    private static void setOverflowButtonColor(final Activity activity, final PorterDuffColorFilter colorFilter) {
+    private static void setOverflowButtonColor(final Activity activity, final int toolbarIconsColor) {
         final String overflowDescription = activity.getString(R.string.abc_action_menu_overflow_description);
         final ViewGroup decorView = (ViewGroup) activity.getWindow().getDecorView();
         final ViewTreeObserver viewTreeObserver = decorView.getViewTreeObserver();
@@ -116,7 +115,7 @@ public class ToolbarColorizeHelper {
                     return;
                 }
                 ImageView overflow = (ImageView) outViews.get(0);
-                overflow.setColorFilter(colorFilter);
+                BlendModeUtil.tintImageViewAsModulate(overflow, toolbarIconsColor);
                 removeOnGlobalLayoutListener(decorView, this);
             }
         });

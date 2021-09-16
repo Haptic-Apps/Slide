@@ -7,8 +7,6 @@ import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
@@ -49,6 +47,7 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import me.ccrama.redditslide.Adapters.ImageGridAdapter;
@@ -68,6 +67,7 @@ import me.ccrama.redditslide.Views.SubsamplingScaleImageView;
 import me.ccrama.redditslide.Views.ToolbarColorizeHelper;
 import me.ccrama.redditslide.Visuals.ColorPreferences;
 import me.ccrama.redditslide.Visuals.FontPreferences;
+import me.ccrama.redditslide.util.BlendModeUtil;
 import me.ccrama.redditslide.util.DialogUtil;
 import me.ccrama.redditslide.util.FileUtil;
 import me.ccrama.redditslide.util.GifUtils;
@@ -426,10 +426,8 @@ public class AlbumPager extends FullScreenActivity
         Drawable image = getResources().getDrawable(R.drawable.ic_image);
         Drawable save = getResources().getDrawable(R.drawable.ic_get_app);
 
-        external.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
-        share.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
-        image.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
-        save.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
+        final List<Drawable> drawableSet = Arrays.asList(external, share, image, save);
+        BlendModeUtil.tintDrawablesAsSrcAtop(drawableSet, color);
 
         ta.recycle();
         BottomSheet.Builder b = new BottomSheet.Builder(this).title(contentUrl);
