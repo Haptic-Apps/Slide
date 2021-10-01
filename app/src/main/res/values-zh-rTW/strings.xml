@@ -791,7 +791,6 @@
     <string name="cache_subreddits_now">現在緩存 subreddits</string>
     <string name="cache_wifi_only">使用 WiFi 時緩存</string>
     <!-- Saving location setting -->
-    <string name="set_gif_save_loc">設定 GIF 儲存位置</string>
     <string name="set_save_location">設定圖片儲存位置</string>
     <!-- Report flow -->
     <string name="btn_report">檢舉</string>

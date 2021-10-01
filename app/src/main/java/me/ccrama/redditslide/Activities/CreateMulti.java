@@ -211,11 +211,7 @@ public class CreateMulti extends BaseActivityAnim {
                                     }
                                 })
                                 .negativeText(R.string.btn_cancel)
-                                .onNegative(new MaterialDialog.SingleButtonCallback() {
-                                    @Override
-                                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                    }
-                                }).show())
+                                .show())
                 .show();
     }
 

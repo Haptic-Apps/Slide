@@ -90,13 +90,13 @@ public class Login extends BaseActivityAnim {
         webSettings.setMinimumFontSize(1);
         webSettings.setMinimumLogicalFontSize(1);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-            CookieManager.getInstance().removeAllCookies(null);
-            CookieManager.getInstance().flush();
+        final CookieManager cookieManager = CookieManager.getInstance();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            cookieManager.removeAllCookies(null);
+            cookieManager.flush();
         } else {
-            CookieSyncManager cookieSyncMngr = CookieSyncManager.createInstance(this);
+            final CookieSyncManager cookieSyncMngr = CookieSyncManager.createInstance(this);
             cookieSyncMngr.startSync();
-            CookieManager cookieManager = CookieManager.getInstance();
             cookieManager.removeAllCookie();
             cookieManager.removeSessionCookie();
             cookieSyncMngr.stopSync();

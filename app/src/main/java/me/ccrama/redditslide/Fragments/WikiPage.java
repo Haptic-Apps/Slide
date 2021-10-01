@@ -8,11 +8,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.webkit.WebViewClientCompat;
 
 import net.dean.jraw.managers.WikiManager;
 
@@ -80,7 +80,7 @@ public class WikiPage extends Fragment {
         webView.getSettings().setJavaScriptEnabled(true);
         webView.addJavascriptInterface(new WikiPageJavaScriptInterface(), "Slide");
 
-        webView.setWebViewClient(new WebViewClient() {
+        webView.setWebViewClient(new WebViewClientCompat() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 if (url.toLowerCase().startsWith(wikiUrl.toLowerCase()) && listener != null) {

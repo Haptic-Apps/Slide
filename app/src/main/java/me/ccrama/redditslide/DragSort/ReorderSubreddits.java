@@ -409,14 +409,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                                             new AsyncGetSubreddit().execute(input);
                                         }
                                     })
-                                    .negativeText(R.string.btn_cancel)
-                                    .onNegative(new MaterialDialog.SingleButtonCallback() {
-                                        @Override
-                                        public void onClick(MaterialDialog dialog,
-                                                DialogAction which) {
-
-                                        }
-                                    });
+                                    .negativeText(R.string.btn_cancel);
                     b.show();
                 }
             });
@@ -478,12 +471,6 @@ public class ReorderSubreddits extends BaseActivityAnim {
 
                             })
                             .negativeText(R.string.btn_cancel)
-                            .onNegative(new MaterialDialog.SingleButtonCallback() {
-                                @Override
-                                public void onClick(MaterialDialog dialog, DialogAction which) {
-
-                                }
-                            })
                             .show();
                 }
             });

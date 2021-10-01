@@ -8,7 +8,6 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Rect;
-import android.util.SparseArray;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -24,6 +23,9 @@ import androidx.annotation.IdRes;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import jp.wasabeef.blurry.Blurry;
 import me.ccrama.redditslide.ForceTouch.builder.PeekViewOptions;
@@ -94,13 +96,12 @@ public class PeekView extends FrameLayout {
                 return;
             }
         }
-        for (int i = 0; i < buttons.size(); i++){
-            int key = buttons.keyAt(i);
-            final View v = content.findViewById(key);
+        for (Integer i : buttons.keySet()) {
+            final View v = content.findViewById(i);
             Rect outRect = new Rect();
             v.getGlobalVisibleRect(outRect);
-            if(outRect.contains((int) event.getX(), (int) event.getY()) && key != currentHighlight){
-                currentHighlight = key;
+            if(outRect.contains((int) event.getX(), (int) event.getY()) && i != currentHighlight){
+                currentHighlight = i;
                 ValueAnimator animator = ValueAnimator.ofInt(eight * 2, eight);
                 animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                     @Override
@@ -134,17 +135,15 @@ public class PeekView extends FrameLayout {
         init(context, options, content, callbacks);
     }
 
-    SparseArray<OnButtonUp> buttons = new SparseArray<>();
+    HashMap<Integer, OnButtonUp> buttons = new HashMap<>();
 
     public void checkButtons(MotionEvent event) {
-        for (int i = 0; i < buttons.size(); i++) {
-            int key = buttons.keyAt(i);
-            OnButtonUp value = buttons.get(key);
-            View v = content.findViewById(key);
+        for (Map.Entry<Integer, OnButtonUp> entry : buttons.entrySet()) {
+            View v = content.findViewById(entry.getKey());
             Rect outRect = new Rect();
             v.getGlobalVisibleRect(outRect);
-            if (outRect.contains((int) event.getX(), (int) event.getY())) {
-                value.onButtonUp();
+            if(outRect.contains((int) event.getX(), (int) event.getY())){
+                entry.getValue().onButtonUp();
             }
         }
     }

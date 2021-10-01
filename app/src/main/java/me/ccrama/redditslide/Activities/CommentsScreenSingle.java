@@ -128,12 +128,12 @@ public class CommentsScreenSingle extends BaseActivityAnim {
 
                             if (Reddit.notificationTime != -1) {
                                 Reddit.notifications = new NotificationJobScheduler(CommentsScreenSingle.this);
-                                Reddit.notifications.start(getApplicationContext());
+                                Reddit.notifications.start();
                             }
 
                             if (Reddit.cachedData.contains("toCache")) {
                                 Reddit.autoCache = new AutoCacheScheduler(CommentsScreenSingle.this);
-                                Reddit.autoCache.start(getApplicationContext());
+                                Reddit.autoCache.start();
                             }
 
                             final String name = Authentication.me.getFullName();

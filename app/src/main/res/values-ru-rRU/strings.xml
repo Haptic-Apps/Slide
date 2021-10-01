@@ -14,6 +14,7 @@
     <string name="general_shadowbox_ispro">Галерея изображений доступна только в Pro версии</string>
     <string name="general_nighttheme_ispro">Автоматический ночной режим доступен только в Pro версии</string>
     <string name="general_backup_ispro">Резервирование доступно только в Pro версии</string>
+    <string name="general_multicolumn_ispro">Настройки нескольких колонок являются Pro функцией</string>
     <!-- Used when viewing a thread -->
     <string name="submission_info_unsaved">Несохранённый пост</string>
     <string name="submission_info_saved">Публикация сохранена</string>
@@ -195,6 +196,8 @@
     <string name="editor_submit">Сделать запись</string>
     <string name="editor_hint_subreddit">Сабреддит</string>
     <string name="editor_finding_title">Поиск по названию выполняется</string>
+    <string name="submit_findingflairs">Поиск флейров</string>
+    <string name="submit_flairchoices">/r/%s флейров</string>
     <string name="edit_selftext">Редактировать описание</string>
     <string name="delete_submission">Удалить подписку</string>
     <string name="set_submission_flair">Установить флейр подписки</string>
@@ -968,8 +971,6 @@
     <string name="comments_depth">Глубина кэшируемых комментариев</string>
     <string name="comments_count">Количество кэшируемых комментариев</string>
     <!-- Saving location setting -->
-    <string name="set_gif_save_loc">Выберите место для сохранения GIF</string>
-    <string name="set_gif_save_loc_msg">Место для сохранения GIF не было выбрано. Хотите сделать это сейчас?</string>
     <string name="set_save_location">Выберите место для сохранения изображений</string>
     <string name="set_save_location_msg">Место для сохранения изображений не было выбрано. Хотите сделать это сейчас?</string>
     <!-- Report flow -->
@@ -1158,4 +1159,6 @@
     <string name="settings_hide_comment_awards">Скрыть награды</string>
     <string name="high_colorspace_images">Высокоцветные изображения</string>
     <string name="description_high_colorspace">Загружать полноцветное пространство на изображениях, что может привести к большему использованию памяти</string>
+    <string name="editor_btn_select_flair">Выберите флейр</string>
+    <string name="submit_selected_flair">Выбранный флейр: %s</string>
 </resources>

@@ -35,7 +35,6 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.FragmentManager;
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
@@ -473,14 +472,7 @@ public class CommentAdapterHelper {
                                                 R.string.category_set_name)
                                                 .input(mContext.getString(
                                                         R.string.category_set_name_hint), null,
-                                                        false, new MaterialDialog.InputCallback() {
-                                                            @Override
-                                                            public void onInput(
-                                                                    MaterialDialog dialog,
-                                                                    CharSequence input) {
-
-                                                            }
-                                                        })
+                                                        false, (dialog1, input) -> {})
                                                 .positiveText(R.string.btn_set)
                                                 .onPositive(
                                                         new MaterialDialog.SingleButtonCallback() {
@@ -1139,20 +1131,9 @@ public class CommentAdapterHelper {
                 .alwaysCallInputCallback()
                 .input(mContext.getString(R.string.mod_remove_hint),
                         mContext.getString(R.string.mod_remove_template), false,
-                        new MaterialDialog.InputCallback() {
-                            @Override
-                            public void onInput(MaterialDialog dialog, CharSequence input) {
-                            }
-                        })
+                        (dialog, input) -> {})
                 .inputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
                 .neutralText(R.string.mod_remove_insert_draft)
-                .onNeutral(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog,
-                            @NonNull DialogAction which) {
-
-                    }
-                })
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(final MaterialDialog dialog, DialogAction which) {

@@ -920,8 +920,6 @@
     <string name="comments_depth">Quantitat de comentaris a guardar a la memòria cau</string>
     <string name="comments_count">Número de comentaris desats a la memòria cau</string>
     <!-- Saving location setting -->
-    <string name="set_gif_save_loc">Establir la ubicació d\'emmagatzematge dels GIFs</string>
-    <string name="set_gif_save_loc_msg">Encara no heu establert cap ubicació d\'emmagatzematge per a GIFs. Voldrieu establir-la ara?</string>
     <string name="set_save_location">Establir la ubicació d\'emmagatzematge de les imatges</string>
     <string name="set_save_location_msg">Encara no heu establert cap ubicació d\'emmagatzematge per a imatges. Voldrieu establir-la ara?</string>
     <!-- Report flow -->

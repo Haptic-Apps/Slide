@@ -4,7 +4,6 @@ import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.PointF;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -262,12 +261,7 @@ public class MediaFragment extends Fragment {
                         title.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                     }
                 });
-        slideLayout.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
-            @Override
-            public void onPanelSlide(View panel, float slideOffset) {
-
-            }
-
+        slideLayout.addPanelSlideListener(new SlidingUpPanelLayout.SimplePanelSlideListener() {
             @Override
             public void onPanelStateChanged(View panel,
                     SlidingUpPanelLayout.PanelState previousState,
@@ -870,7 +864,7 @@ public class MediaFragment extends Fragment {
 
                 previous = i.scale;
                 final float base = i.scale;
-                i.setOnStateChangedListener(new SubsamplingScaleImageView.OnStateChangedListener() {
+                i.setOnStateChangedListener(new SubsamplingScaleImageView.DefaultOnStateChangedListener() {
                     @Override
                     public void onScaleChanged(float newScale, int origin) {
                         if (newScale > previous && !hidden && newScale > base) {
@@ -905,11 +899,6 @@ public class MediaFragment extends Fragment {
                             //unhide
                         }
                         previous = newScale;
-                    }
-
-                    @Override
-                    public void onCenterChanged(PointF newCenter, int origin) {
-
                     }
                 });
             } else {
@@ -957,7 +946,7 @@ public class MediaFragment extends Fragment {
                                         previous = i.scale;
                                         final float base = i.scale;
                                         i.setOnStateChangedListener(
-                                                new SubsamplingScaleImageView.OnStateChangedListener() {
+                                                new SubsamplingScaleImageView.DefaultOnStateChangedListener() {
                                                     @Override
                                                     public void onScaleChanged(float newScale, int origin) {
                                                         if (newScale > previous
@@ -1008,11 +997,6 @@ public class MediaFragment extends Fragment {
                                                             //unhide
                                                         }
                                                         previous = newScale;
-                                                    }
-
-                                                    @Override
-                                                    public void onCenterChanged(PointF newCenter, int origin) {
-
                                                     }
                                                 });
                                     }

@@ -931,8 +931,6 @@ Möchten Sie Slide for Reddit unterstützen?</string>
     <string name="comments_depth">Zu cachende Kommentar Tiefe</string>
     <string name="comments_count">Anzahl der zu cachenden Kommentare</string>
     <!-- Saving location setting -->
-    <string name="set_gif_save_loc">GIF Speicher-Verzeichnis festlegen</string>
-    <string name="set_gif_save_loc_msg">Es wurde noch kein GIF Speicher-Verzeichnis ausgewählt. Möchtest du jetzt eines setzen?</string>
     <string name="set_save_location">Bild Speicher-Verzeichnis festlegen</string>
     <string name="set_save_location_msg">Es wurde noch kein Bild Speicher-Verzeichnis ausgewählt. Möchtest du jetzt einen setzen?</string>
     <!-- Report flow -->

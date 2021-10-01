@@ -66,8 +66,6 @@ public class Related extends BaseActivityAnim {
                     .setPositiveButton(R.string.btn_ok, (dialogInterface, i) ->
                             finish())
                     .show();
-        } else {
-
         }
 
         setupAppBar(R.id.toolbar, "Related links", true, true);

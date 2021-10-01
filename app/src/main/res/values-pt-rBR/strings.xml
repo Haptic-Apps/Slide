@@ -190,6 +190,8 @@
     <string name="editor_submit">Enviar um post</string>
     <string name="editor_hint_subreddit">Subreddit</string>
     <string name="editor_finding_title">Encontrando o título</string>
+    <string name="submit_findingflairs">Encontrando flairs</string>
+    <string name="submit_flairchoices">/r/%s flairs</string>
     <string name="edit_selftext">Editar post de texto</string>
     <string name="delete_submission">Apagar post</string>
     <string name="set_submission_flair">Definir flair do post</string>
@@ -939,8 +941,6 @@
     <string name="comments_depth">Profundidade dos comentários em cache</string>
     <string name="comments_count">Número de comentários em cache</string>
     <!-- Saving location setting -->
-    <string name="set_gif_save_loc">Definir local para salvar GIFs</string>
-    <string name="set_gif_save_loc_msg">O local para salvar GIFs no Slide ainda não foi definido. Deseja definir isso agora?</string>
     <string name="set_save_location">Definir local para salvar imagens</string>
     <string name="set_save_location_msg">O local para salvar imagens no Slide ainda não foi definido. Deseja definir isso agora?</string>
     <!-- Report flow -->
@@ -1127,4 +1127,6 @@
     <string name="settings_hide_comment_awards">Ocultar prêmios</string>
     <string name="high_colorspace_images">Imagens com ampla gama de cores</string>
     <string name="description_high_colorspace">Carregar toda a gama de cores nas imagens, potencialmente levando a um maior uso de memória</string>
+    <string name="editor_btn_select_flair">Selecionar flair</string>
+    <string name="submit_selected_flair">Flair selecionado: %s</string>
 </resources>

@@ -1325,15 +1325,7 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                                                                                                                                 getString(
                                                                                                                                         R.string.multi_error),
                                                                                                                                 Snackbar.LENGTH_LONG)
-                                                                                                                                .setAction(
-                                                                                                                                        R.string.btn_ok,
-                                                                                                                                        new View.OnClickListener() {
-                                                                                                                                            @Override
-                                                                                                                                            public void onClick(
-                                                                                                                                                    View v) {
-
-                                                                                                                                            }
-                                                                                                                                        })
+                                                                                                                                .setAction(R.string.btn_ok, null)
                                                                                                                                 .show();
                                                                                                                     }
                                                                                                                 });

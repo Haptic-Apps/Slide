@@ -923,8 +923,6 @@
     <string name="comments_depth">キャッシュするコメントの深さ</string>
     <string name="comments_count">キャッシュするコメントの数</string>
     <!-- Saving location setting -->
-    <string name="set_gif_save_loc">GIF の保存場所を設定</string>
-    <string name="set_gif_save_loc_msg">Slide の GIF の保存場所が設定されていません。今すぐ設定しますか?</string>
     <string name="set_save_location">画像の保存場所を設定</string>
     <string name="set_save_location_msg">Slide の画像保存場所が設定されていません。今すぐ設定しますか?</string>
     <!-- Report flow -->

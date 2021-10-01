@@ -907,8 +907,6 @@ ini juga akan menghapus ikon dari layar depan anda.</string>
     <string name="comments_depth">Dalamkan komentar ke cache</string>
     <string name="comments_count">Jumlah komentar untuk cache</string>
     <!-- Saving location setting -->
-    <string name="set_gif_save_loc">Setel lokasi penyimpanan GIF</string>
-    <string name="set_gif_save_loc_msg">Lokasi penyimpanan GIF Slide belum ditetapkan. Apakah Anda ingin mengatur ini sekarang?</string>
     <string name="set_save_location">Setel lokasi penyimpanan gambar</string>
     <string name="set_save_location_msg">Lokasi penyimpanan gambar Slide belum ditetapkan. Apakah Anda ingin mengatur ini sekarang?</string>
     <!-- Report flow -->

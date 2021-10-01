@@ -8,7 +8,7 @@
 <li> Always ad-free and open source</li>
 <li> Image Flair support lets you show off your unique flair in your favorite communities, including /r/collegebasketball and /r/soccer</li>
 <li> Reply to comments and submissions inline without opening a reply window, and upload images straight into to your submissions/comments</li>
-<li> Support for many content sites, including Imgur, Tumblr, Gfycat, and Vid.me</li>
+<li> Support for many content sites, including Imgur, Tumblr and Gfycat</li>
 <li> Most feature-rich and easy to use moderation suite on Android</li>
 <li> Hundreds of customization options to make Slide work exactly how you like it</li>
 <li> Lightweight and blazing fast</li>

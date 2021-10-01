@@ -17,24 +17,25 @@ import me.ccrama.redditslide.Reddit;
 
 public class NotificationJobScheduler {
     private final PendingIntent pendingIntent;
+    private final AlarmManager manager;
 
     public NotificationJobScheduler(Context context) {
-        Intent alarmIntent = new Intent(context, CheckForMail.class);
+        final Intent alarmIntent = new Intent(context, CheckForMail.class);
         pendingIntent = PendingIntent.getBroadcast(context, 0, alarmIntent, 0);
-        start(context);
+        manager = ContextCompat.getSystemService(context, AlarmManager.class);
+        start();
     }
 
-    public void start(Context c) {
-        AlarmManager manager = ContextCompat.getSystemService(c, AlarmManager.class);
-        int interval = 1000 * 60 * Reddit.notificationTime;
-        long currentTime = System.currentTimeMillis();
+    public void start() {
+        final int interval = 1000 * 60 * Reddit.notificationTime;
+        final long currentTime = System.currentTimeMillis();
         if (manager != null) {
-            AlarmManagerCompat.setAndAllowWhileIdle(manager, AlarmManager.RTC_WAKEUP, currentTime + interval, pendingIntent);
+            AlarmManagerCompat.setAndAllowWhileIdle(
+                    manager, AlarmManager.RTC_WAKEUP, currentTime + interval, pendingIntent);
         }
     }
 
-    public void cancel(Context c) {
-        AlarmManager manager = ContextCompat.getSystemService(c, AlarmManager.class);
+    public void cancel() {
         if (manager != null) {
             manager.cancel(pendingIntent);
         }

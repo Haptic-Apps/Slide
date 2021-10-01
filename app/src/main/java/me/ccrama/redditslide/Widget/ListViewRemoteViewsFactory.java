@@ -68,12 +68,12 @@ public class ListViewRemoteViewsFactory implements RemoteViewsService.RemoteView
 
                         if (Reddit.notificationTime != -1) {
                             Reddit.notifications = new NotificationJobScheduler(mContext);
-                            Reddit.notifications.start(mContext.getApplicationContext());
+                            Reddit.notifications.start();
                         }
 
                         if (Reddit.cachedData.contains("toCache")) {
                             Reddit.autoCache = new AutoCacheScheduler(mContext);
-                            Reddit.autoCache.start(mContext.getApplicationContext());
+                            Reddit.autoCache.start();
                         }
 
                         final String name = Authentication.me.getFullName();

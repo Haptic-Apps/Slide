@@ -17,14 +17,11 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.content.pm.ShortcutInfo;
-import android.content.pm.ShortcutManager;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Icon;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -74,7 +71,10 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.pm.ShortcutInfoCompat;
+import androidx.core.content.pm.ShortcutManagerCompat;
 import androidx.core.content.res.ResourcesCompat;
+import androidx.core.graphics.drawable.IconCompat;
 import androidx.core.view.GravityCompat;
 import androidx.customview.widget.ViewDragHelper;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -402,8 +402,9 @@ public class MainActivity extends BaseActivity
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == 1) {// If request is cancelled, the result arrays are empty.
             if (grantResults.length > 0
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -2364,15 +2365,7 @@ public class MainActivity extends BaseActivity
                                                                                     getString(
                                                                                             R.string.multi_error),
                                                                                     Snackbar.LENGTH_LONG)
-                                                                                    .setAction(
-                                                                                            R.string.btn_ok,
-                                                                                            new View.OnClickListener() {
-                                                                                                @Override
-                                                                                                public void onClick(
-                                                                                                        View v) {
-
-                                                                                                }
-                                                                                            })
+                                                                                    .setAction(R.string.btn_ok, null)
                                                                                     .show();
                                                                         }
                                                                     });
@@ -2941,14 +2934,7 @@ public class MainActivity extends BaseActivity
                                                                 .input(getString(
                                                                         R.string.mod_flair_hint),
                                                                         t.getText(), true,
-                                                                        new MaterialDialog.InputCallback() {
-                                                                            @Override
-                                                                            public void onInput(
-                                                                                    MaterialDialog dialog,
-                                                                                    CharSequence input) {
-
-                                                                            }
-                                                                        })
+                                                                        (dialog1, input) -> {})
                                                                 .positiveText(R.string.btn_set)
                                                                 .onPositive(
                                                                         new MaterialDialog.SingleButtonCallback() {
@@ -3885,21 +3871,21 @@ public class MainActivity extends BaseActivity
         }
 
         if (NetworkUtil.isConnected(MainActivity.this)) {
-            if (Authentication.isLoggedIn
-                    && Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-                ShortcutManager shortcutManager = getSystemService(ShortcutManager.class);
-                ArrayList<ShortcutInfo> shortcuts = new ArrayList<>();
-                shortcuts.add(new ShortcutInfo.Builder(this, "inbox").setShortLabel("Inbox")
+            final ArrayList<ShortcutInfoCompat> shortcuts = new ArrayList<>();
+            if (Authentication.isLoggedIn) {
+                shortcuts.add(new ShortcutInfoCompat.Builder(this, "inbox")
+                        .setShortLabel("Inbox")
                         .setLongLabel("Open your Inbox")
                         .setIcon(getIcon("inbox", R.drawable.ic_email))
-                        .setIntent(new Intent(Intent.ACTION_VIEW, new Uri.Builder().build(), this,
+                        .setIntent(new Intent(Intent.ACTION_VIEW, null, this,
                                 Inbox.class))
                         .build());
 
-                shortcuts.add(new ShortcutInfo.Builder(this, "submit").setShortLabel("Submit")
+                shortcuts.add(new ShortcutInfoCompat.Builder(this, "submit")
+                        .setShortLabel("Submit")
                         .setLongLabel("Create new Submission")
                         .setIcon(getIcon("submit", R.drawable.ic_edit))
-                        .setIntent(new Intent(Intent.ACTION_VIEW, new Uri.Builder().build(), this,
+                        .setIntent(new Intent(Intent.ACTION_VIEW, null, this,
                                 Submit.class))
                         .build());
 
@@ -3910,12 +3896,12 @@ public class MainActivity extends BaseActivity
                         break;
                     }
                     if (!s.contains("/m/")) {
-                        Intent sub = new Intent(Intent.ACTION_VIEW, new Uri.Builder().build(), this,
+                        Intent sub = new Intent(Intent.ACTION_VIEW, null, this,
                                 SubredditView.class);
                         sub.putExtra(SubredditView.EXTRA_SUBREDDIT, s);
                         String frontpage = (s.equalsIgnoreCase("frontpage") ? "" : "/r/") + s;
-                        shortcuts.add(new ShortcutInfo.Builder(this, "sub" + s).setShortLabel(
-                                frontpage)
+                        shortcuts.add(new ShortcutInfoCompat.Builder(this, "sub" + s)
+                                .setShortLabel(frontpage)
                                 .setLongLabel(frontpage)
                                 .setIcon(getIcon(s, R.drawable.ic_bookmark_border))
                                 .setIntent(sub)
@@ -3924,12 +3910,7 @@ public class MainActivity extends BaseActivity
                     }
                 }
 
-                Collections.reverse(shortcuts);
-
-                shortcutManager.setDynamicShortcuts(shortcuts);
-            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-                ShortcutManager shortcutManager = getSystemService(ShortcutManager.class);
-                ArrayList<ShortcutInfo> shortcuts = new ArrayList<>();
+            } else {
                 int count = 0;
                 for (String s : subs) {
                     if (count == 4 || count == subs.size()) {
@@ -3937,12 +3918,12 @@ public class MainActivity extends BaseActivity
                     }
                     if (!s.contains("/m/")) {
 
-                        Intent sub = new Intent(Intent.ACTION_VIEW, new Uri.Builder().build(), this,
+                        Intent sub = new Intent(Intent.ACTION_VIEW, null, this,
                                 SubredditView.class);
                         sub.putExtra(SubredditView.EXTRA_SUBREDDIT, s);
                         String frontpage = (s.equalsIgnoreCase("frontpage") ? "" : "/r/") + s;
-                        new ShortcutInfo.Builder(this, "sub" + s).setShortLabel(
-                                frontpage)
+                        new ShortcutInfoCompat.Builder(this, "sub" + s)
+                                .setShortLabel(frontpage)
                                 .setLongLabel(frontpage)
                                 .setIcon(getIcon(s, R.drawable.ic_bookmark_border))
                                 .setIntent(sub)
@@ -3951,14 +3932,13 @@ public class MainActivity extends BaseActivity
                     }
                 }
 
-                Collections.reverse(shortcuts);
-
-                shortcutManager.setDynamicShortcuts(shortcuts);
             }
+            Collections.reverse(shortcuts);
+            ShortcutManagerCompat.setDynamicShortcuts(this, shortcuts);
         }
     }
 
-    private Icon getIcon(String subreddit, @DrawableRes int overlay) {
+    private IconCompat getIcon(String subreddit, @DrawableRes int overlay) {
         Bitmap color = Bitmap.createBitmap(
                 DensityUtils.toDp(this, 148),
                 DensityUtils.toDp(this, 148), Bitmap.Config.RGB_565);
@@ -3971,10 +3951,7 @@ public class MainActivity extends BaseActivity
         canvas.drawBitmap(over, color.getWidth() / 2.0f - (over.getWidth() / 2.0f),
                 color.getHeight() / 2.0f - (over.getHeight() / 2.0f), null);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            return Icon.createWithBitmap(color);
-        }
-        return null;
+        return IconCompat.createWithBitmap(color);
     }
 
     private void changeSubscription(Subreddit subreddit, boolean isChecked) {
@@ -4322,11 +4299,11 @@ public class MainActivity extends BaseActivity
 
                     if (Reddit.notificationTime != -1) {
                         Reddit.notifications = new NotificationJobScheduler(MainActivity.this);
-                        Reddit.notifications.start(getApplicationContext());
+                        Reddit.notifications.start();
                     }
                     if (Reddit.cachedData.contains("toCache")) {
                         Reddit.autoCache = new AutoCacheScheduler(MainActivity.this);
-                        Reddit.autoCache.start(getApplicationContext());
+                        Reddit.autoCache.start();
                     }
                     final String name = me.getFullName();
                     Authentication.name = name;

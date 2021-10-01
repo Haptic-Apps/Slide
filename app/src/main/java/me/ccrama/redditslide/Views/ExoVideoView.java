@@ -114,8 +114,8 @@ public class ExoVideoView extends RelativeLayout {
         // Create audio focus helper
         audioFocusHelper = new AudioFocusHelper(ContextCompat.getSystemService(context, AudioManager.class));
 
-        // Make the video use the correct aspect ratio
-        player.addVideoListener(new Player.Listener() {
+        player.addListener(new Player.Listener() {
+            // Make the video use the correct aspect ratio
             @Override
             public void onVideoSizeChanged(@NonNull VideoSize videoSize) {
                 frame.setAspectRatio(
@@ -123,10 +123,8 @@ public class ExoVideoView extends RelativeLayout {
                                 ? 1
                                 : videoSize.width * videoSize.pixelWidthHeightRatio / videoSize.height);
             }
-        });
 
-        // Logging
-        player.addListener(new Player.Listener() {
+            // Logging
             @Override
             public void onTracksChanged(@NonNull TrackGroupArray trackGroups,
                                         @NonNull TrackSelectionArray trackSelections) {
@@ -234,7 +232,7 @@ public class ExoVideoView extends RelativeLayout {
      * Stops the video and releases the player
      */
     public void stop() {
-        player.stop(false);
+        player.stop();
         player.release();
         audioFocusHelper.loseFocus(); // do this last so audio doesn't overlap
     }
@@ -416,7 +414,7 @@ public class ExoVideoView extends RelativeLayout {
             // Pause on audiofocus loss, play on gain
             if (focusChange == AudioManager.AUDIOFOCUS_LOSS) {
                 wasPlaying = player.getPlayWhenReady();
-                player.setPlayWhenReady(false);
+                player.pause();
             } else if (focusChange == AudioManager.AUDIOFOCUS_GAIN) {
                 player.setPlayWhenReady(wasPlaying);
             }
