@@ -16,7 +16,11 @@ public class GalleryImage implements Serializable {
     public int height;
 
     public GalleryImage(JsonNode data) {
-        url = StringEscapeUtils.unescapeHtml4(data.get("u").asText());
+        if(data.has("u")) {
+            url = StringEscapeUtils.unescapeHtml4(data.get("u").asText());
+        } else if(data.has("gif")) {
+            url = StringEscapeUtils.unescapeHtml4(data.get("gif").asText());
+        }
         width = data.get("x").asInt();
         height = data.get("y").asInt();
     }

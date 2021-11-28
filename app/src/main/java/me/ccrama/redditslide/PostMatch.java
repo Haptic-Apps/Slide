@@ -163,6 +163,7 @@ public class PostMatch {
                     contentMatch = true;
                 }
                 break;
+            case VREDDIT_REDIRECT:
             case GIF:
                 if (gifs) {
                     contentMatch = true;
