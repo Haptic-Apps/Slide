@@ -206,7 +206,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
             final int BAR_WIDTH = 4;
             final int GAP = 5;
 
-            spannable.setSpan(new CustomQuoteSpan(Color.TRANSPARENT, //background color
+            spannable.setSpan(new CustomQuoteSpan(
                             barColor, //bar color
                             BAR_WIDTH, //bar width
                             GAP), //bar + text gap

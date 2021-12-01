@@ -1,52 +1,68 @@
 package me.ccrama.redditslide.Views;
 
+import android.annotation.ColorInt;
+import android.annotation.IntRange;
+import android.annotation.NonNull;
+import android.annotation.Px;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.text.Layout;
 import android.text.style.LeadingMarginSpan;
 import android.text.style.LineBackgroundSpan;
+import android.text.style.QuoteSpan;
 
 /**
- * android.text.style.QuoteSpan hard-codes the strip color and gap; so this will change that
+ * A custom implementation of {@link QuoteSpan} that implements stripe and gap width
+ * while maintaining support for APIs 27 and below. Also adds transparent background support.
  */
 public class CustomQuoteSpan implements LeadingMarginSpan, LineBackgroundSpan {
-    private final int backgroundColor;
-    private final int stripeColor;
-    private final float stripeWidth;
-    private final float gap;
 
-    public CustomQuoteSpan(int backgroundColor, int stripeColor, float stripeWidth, float gap) {
-        this.backgroundColor = backgroundColor;
-        this.stripeColor = stripeColor;
-        this.stripeWidth = stripeWidth;
-        this.gap = gap;
+    @ColorInt
+    private final int mColor;
+    @Px
+    private final int mStripeWidth;
+    @Px
+    private final int mGapWidth;
+
+    public CustomQuoteSpan(@ColorInt int color, @IntRange(from = 0) int stripeWidth,
+                           @IntRange(from = 0) int gapWidth) {
+        mColor = color;
+        mStripeWidth = stripeWidth;
+        mGapWidth = gapWidth;
     }
 
     @Override
     public int getLeadingMargin(boolean first) {
-        return ((int) (stripeWidth + gap));
+        return mStripeWidth + mGapWidth;
     }
 
     @Override
-    public void drawLeadingMargin(Canvas c, Paint p, int x, int dir, int top, int baseline, int bottom,
-                                  CharSequence text, int start, int end, boolean first, Layout layout) {
+    public void drawLeadingMargin(@NonNull Canvas c, @NonNull Paint p, int x, int dir,
+                                  int top, int baseline, int bottom,
+                                  @NonNull CharSequence text, int start, int end,
+                                  boolean first, @NonNull Layout layout) {
         Paint.Style style = p.getStyle();
-        int paintColor = p.getColor();
+        int color = p.getColor();
 
         p.setStyle(Paint.Style.FILL);
-        p.setColor(stripeColor);
+        p.setColor(mColor);
 
-        c.drawRect(x, top, x + dir * stripeWidth, bottom, p);
+        c.drawRect(x, top, x + dir * mStripeWidth, bottom, p);
 
         p.setStyle(style);
-        p.setColor(paintColor);
+        p.setColor(color);
     }
 
     @Override
-    public void drawBackground(Canvas c, Paint p, int left, int right, int top, int baseline, int bottom, CharSequence text, int start, int end, int lnum) {
-        int paintColor = p.getColor();
-        p.setColor(backgroundColor);
-        c.drawRect(left, top, right, bottom, p);
-        p.setColor(paintColor);
+    public void drawBackground(@NonNull Canvas canvas, @NonNull Paint paint,
+                               @Px int left, @Px int right,
+                               @Px int top, @Px int baseline, @Px int bottom,
+                               @NonNull CharSequence text, int start, int end,
+                               int lineNumber) {
+        final int paintColor = paint.getColor();
+        paint.setColor(Color.TRANSPARENT);
+        canvas.drawRect(left, top, right, bottom, paint);
+        paint.setColor(paintColor);
     }
 }
