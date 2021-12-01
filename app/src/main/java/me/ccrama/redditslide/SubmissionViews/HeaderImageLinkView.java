@@ -7,8 +7,6 @@ import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.util.AttributeSet;
@@ -30,6 +28,9 @@ import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
 import net.dean.jraw.models.Submission;
 
+import java.util.Arrays;
+import java.util.List;
+
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.ForceTouch.PeekView;
 import me.ccrama.redditslide.ForceTouch.PeekViewActivity;
@@ -45,6 +46,7 @@ import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Views.PeekMediaView;
 import me.ccrama.redditslide.Views.TransparentTagTextView;
+import me.ccrama.redditslide.util.BlendModeUtil;
 import me.ccrama.redditslide.util.CompatUtil;
 import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
@@ -599,11 +601,10 @@ public class HeaderImageLinkView extends RelativeLayout {
 
                 int color = ta.getColor(0, Color.WHITE);
                 Drawable open = getResources().getDrawable(R.drawable.ic_open_in_new);
-                open.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
                 Drawable share = getResources().getDrawable(R.drawable.ic_share);
-                share.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
                 Drawable copy = getResources().getDrawable(R.drawable.ic_content_copy);
-                copy.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
+                final List<Drawable> drawableSet = Arrays.asList(open, share, copy);
+                BlendModeUtil.tintDrawablesAsSrcAtop(drawableSet, color);
 
                 ta.recycle();
 

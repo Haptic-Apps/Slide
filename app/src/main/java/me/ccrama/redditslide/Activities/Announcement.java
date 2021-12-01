@@ -50,7 +50,7 @@ public class Announcement extends BaseActivity {
         okBtn.setOnClickListener(v -> finish());
 
         commentsBtn.setOnClickListener(v -> {
-            new OpenRedditLink(Announcement.this, Reddit.appRestart.getString("url", ""));
+            OpenRedditLink.openUrl(Announcement.this, Reddit.appRestart.getString("url", ""), true);
             finish();
         });
     }

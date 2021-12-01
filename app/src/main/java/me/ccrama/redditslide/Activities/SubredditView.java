@@ -1040,7 +1040,7 @@ public class SubredditView extends BaseActivity {
         final Spannable[] base = SortingUtil.getSortingSpannables(subreddit);
         for (Spannable s : base) {
             // Do not add option for "Best" in any subreddit except for the frontpage.
-            if (!subreddit.toLowerCase().equals("frontpage") && s.toString().equals(getString(R.string.sorting_best))) {
+            if (!subreddit.equalsIgnoreCase("frontpage") && s.toString().equals(getString(R.string.sorting_best))) {
                 continue;
             }
             MenuItem m = popup.getMenu().add(s);
@@ -1172,8 +1172,7 @@ public class SubredditView extends BaseActivity {
                 canSubmit = !subreddit.getDataNode()
                         .get("subreddit_type")
                         .asText()
-                        .toUpperCase()
-                        .equals("RESTRICTED");
+                        .equalsIgnoreCase("RESTRICTED");
             }
             if (subreddit.getSidebar() != null && !subreddit.getSidebar().isEmpty()) {
                 findViewById(R.id.sidebar_text).setVisibility(View.VISIBLE);

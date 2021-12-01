@@ -995,9 +995,7 @@ public class GifUtils {
      */
     private static boolean mux(String videoFile, String audioFile, String outputFile) {
         Movie rawVideo;
-
         try {
-            new MovieCreator();
             rawVideo = MovieCreator.build(videoFile);
         } catch (RuntimeException | IOException e) {
             e.printStackTrace();
@@ -1006,7 +1004,6 @@ public class GifUtils {
 
         Movie audio;
         try {
-            new MovieCreator();
             audio = MovieCreator.build(audioFile);
         } catch (IOException | NullPointerException e) {
             e.printStackTrace();

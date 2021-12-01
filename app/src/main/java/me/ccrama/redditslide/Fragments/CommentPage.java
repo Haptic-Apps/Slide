@@ -7,8 +7,6 @@ import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Layout;
@@ -110,6 +108,7 @@ import me.ccrama.redditslide.Views.PreCachingLayoutManagerComments;
 import me.ccrama.redditslide.Visuals.ColorPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.handler.ToolbarScrollHideHandler;
+import me.ccrama.redditslide.util.BlendModeUtil;
 import me.ccrama.redditslide.util.LayoutUtils;
 import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.MiscUtil;
@@ -352,7 +351,7 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                         final int TINT = ContextCompat.getColor(getContext(), R.color.md_grey_600);
 
                         e.setHintTextColor(TINT);
-                        e.getBackground().setColorFilter(new PorterDuffColorFilter(TINT, PorterDuff.Mode.SRC_IN));
+                        BlendModeUtil.tintDrawableAsSrcIn(e.getBackground(), TINT);
                     }
 
                     DoEditorActions.doActions(e, replyView,
@@ -550,7 +549,7 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                                                                         int i1) {
                                                                     Calendar c = Calendar.getInstance();
                                                                     sortTime = c.getTimeInMillis()
-                                                                            - i1 * 1000;
+                                                                            - i1 * 1000L;
 
                                                                     int commentcount = 0;
                                                                     for (CommentObject o : adapter.currentComments) {

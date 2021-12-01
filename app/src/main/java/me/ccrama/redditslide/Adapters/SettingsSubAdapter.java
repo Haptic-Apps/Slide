@@ -2,8 +2,6 @@ package me.ccrama.redditslide.Adapters;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +23,7 @@ import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Visuals.ColorPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.BlendModeUtil;
 import me.ccrama.redditslide.util.LogUtil;
 import uz.shift.colorpicker.LineColorPicker;
 import uz.shift.colorpicker.OnColorChangedListener;
@@ -56,8 +55,9 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
         t.setText(objects.get(position));
 
         final String subreddit = objects.get(position);
-        convertView.findViewById(R.id.color).setBackgroundResource(R.drawable.circle);
-        convertView.findViewById(R.id.color).getBackground().setColorFilter(new PorterDuffColorFilter(Palette.getColor(subreddit), PorterDuff.Mode.MULTIPLY));
+        final View colorView = convertView.findViewById(R.id.color);
+        colorView.setBackgroundResource(R.drawable.circle);
+        BlendModeUtil.tintDrawableAsModulate(colorView.getBackground(), Palette.getColor(subreddit));
 
         final String DELETE_SUB_SETTINGS_TITLE = (subreddit.contains("/m/")) ? subreddit : ("/r/" + subreddit);
         convertView.findViewById(R.id.remove).setOnClickListener(new View.OnClickListener() {

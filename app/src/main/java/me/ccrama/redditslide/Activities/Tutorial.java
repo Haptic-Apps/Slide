@@ -30,7 +30,7 @@ import me.ccrama.redditslide.databinding.ChoosemainBinding;
 import me.ccrama.redditslide.databinding.ChoosethemesmallBinding;
 import me.ccrama.redditslide.databinding.FragmentPersonalizeBinding;
 import me.ccrama.redditslide.databinding.FragmentWelcomeBinding;
-
+import me.ccrama.redditslide.util.BlendModeUtil;
 
 /**
  * Created by ccrama on 3/5/2015.
@@ -114,10 +114,10 @@ public class Tutorial extends AppCompatActivity {
 
             personalizeBinding = FragmentPersonalizeBinding.inflate(inflater, container, false);
 
-            personalizeBinding.secondaryColorPreview.setColorFilter(
-                    getActivity().getResources().getColor(
-                            new ColorPreferences(getContext()).getFontStyle().getColor()));
-            personalizeBinding.primaryColorPreview.setColorFilter(Palette.getDefaultColor());
+            final int getFontColor = getActivity().getResources().getColor(
+                    new ColorPreferences(getContext()).getFontStyle().getColor());
+            BlendModeUtil.tintImageViewAsSrcAtop(personalizeBinding.secondaryColorPreview, getFontColor);
+            BlendModeUtil.tintImageViewAsSrcAtop(personalizeBinding.primaryColorPreview, Palette.getDefaultColor());
             personalizeBinding.header.setBackgroundColor(Palette.getDefaultColor());
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 final Window window = getActivity().getWindow();

@@ -903,7 +903,7 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
             }
         }
         if (!subs.toString().isEmpty()) {
-            subText = subs.toString().substring(0, subs.toString().length() - 2);
+            subText = subs.substring(0, subs.toString().length() - 2);
         }
         ((TextView) context.findViewById(R.id.settings_general_sub_notifs_current)).setText(subText);
     }

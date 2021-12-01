@@ -3,8 +3,6 @@ package me.ccrama.redditslide.Activities;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
@@ -12,12 +10,15 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 
 import com.afollestad.materialdialogs.color.ColorChooserDialog;
-import com.canhub.cropper.CropImage;
+import com.canhub.cropper.CropImageContract;
+import com.canhub.cropper.CropImageContractOptions;
+import com.canhub.cropper.CropImageOptions;
 import com.canhub.cropper.CropImageView;
 
 import java.io.File;
@@ -29,6 +30,7 @@ import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Views.CanvasView;
 import me.ccrama.redditslide.Views.DoEditorActions;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.BlendModeUtil;
 import me.ccrama.redditslide.util.FileUtil;
 
 
@@ -37,11 +39,14 @@ import me.ccrama.redditslide.util.FileUtil;
  */
 public class Draw extends BaseActivity implements ColorChooserDialog.ColorCallback {
 
-    CanvasView drawView;
-    View       color;
-    Bitmap     bitmap;
-    public static Uri             uri;
+    public static Uri uri;
     public static DoEditorActions editor;
+    CanvasView drawView;
+    View color;
+    Bitmap bitmap;
+    boolean enabled;
+    private final ActivityResultLauncher<CropImageContractOptions> cropImageLauncher =
+            registerForActivityResult(new CropImageContract(), this::cropImageResult);
 
     @Override
     public void onCreate(Bundle savedInstance) {
@@ -53,7 +58,9 @@ public class Draw extends BaseActivity implements ColorChooserDialog.ColorCallba
         drawView = (CanvasView) findViewById(R.id.paintView);
         drawView.setBaseColor(Color.parseColor("#303030"));
         color = findViewById(R.id.color);
-        CropImage.activity(uri).setGuidelines(CropImageView.Guidelines.ON).start(this);
+        final CropImageContractOptions options = new CropImageContractOptions(uri, new CropImageOptions())
+                .setGuidelines(CropImageView.Guidelines.ON);
+        cropImageLauncher.launch(options);
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
         setupAppBar(R.id.toolbar, "", true, Color.parseColor("#212121"), R.id.toolbar);
     }
@@ -69,7 +76,7 @@ public class Draw extends BaseActivity implements ColorChooserDialog.ColorCallba
         if (id == android.R.id.home) {
             onBackPressed();
         }
-        if(id == R.id.done && enabled){
+        if (id == R.id.done && enabled) {
             File image; //image to share
             //check to see if the cache/shared_images directory is present
             final File imagesDir = new File(
@@ -123,34 +130,19 @@ public class Draw extends BaseActivity implements ColorChooserDialog.ColorCallba
         return true;
     }
 
-    boolean enabled ;
-
-    @Override
-    protected void onActivityResult(int code, int resultC, Intent data) {
-        super.onActivityResult(code, resultC, data);
-        if (code == 10001 && data != null) {
-            Uri selectedImageUri = data.getData();
-            CropImage.activity(selectedImageUri)
-                    .setGuidelines(CropImageView.Guidelines.ON)
-                    .start(this);
-        } else if (data != null) {
-            final CropImage.ActivityResult result = CropImage.getActivityResult(data);
+    private void cropImageResult(final CropImageView.CropResult result) {
+        if (result.isSuccessful()) {
             bitmap = result.getBitmap(this)
                     .copy(Bitmap.Config.RGB_565, true);
-            color.getBackground().setColorFilter(new PorterDuffColorFilter(getLastColor(), PorterDuff.Mode.MULTIPLY));
-            color.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+            BlendModeUtil.tintDrawableAsModulate(color.getBackground(), getLastColor());
+            color.setOnClickListener(v ->
                     new ColorChooserDialog.Builder(Draw.this, R.string.choose_color_title)
                             .allowUserColorInput(true)
-                            .show(Draw.this);
-                }
-            });
+                            .show(Draw.this));
             drawView.drawBitmap(bitmap);
             drawView.setPaintStrokeColor(getLastColor());
             drawView.setPaintStrokeWidth(20f);
             enabled = true;
-
         } else {
             finish();
         }
@@ -159,7 +151,7 @@ public class Draw extends BaseActivity implements ColorChooserDialog.ColorCallba
     @Override
     public void onColorSelection(@NonNull ColorChooserDialog dialog, @ColorInt int selectedColor) {
         drawView.setPaintStrokeColor(selectedColor);
-        color.getBackground().setColorFilter(new PorterDuffColorFilter(selectedColor, PorterDuff.Mode.MULTIPLY));
+        BlendModeUtil.tintDrawableAsModulate(color.getBackground(), selectedColor);
 
         Reddit.colors.edit().putInt("drawColor", selectedColor).commit();
     }

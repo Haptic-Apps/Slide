@@ -59,6 +59,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts.RequestPermission;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -69,7 +71,6 @@ import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.pm.ShortcutInfoCompat;
 import androidx.core.content.pm.ShortcutManagerCompat;
@@ -401,42 +402,24 @@ public class MainActivity extends BaseActivity
         }
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == 1) {// If request is cancelled, the result arrays are empty.
-            if (grantResults.length > 0
-                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                // permission was granted, yay! Do the
-                // contacts-related task you need to do.
-
-            } else {
-
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        new AlertDialog.Builder(MainActivity.this)
-                                .setTitle(R.string.err_permission)
-                                .setMessage(R.string.err_permission_msg)
-                                .setPositiveButton(R.string.btn_yes, (dialog, which) ->
-                                        ActivityCompat.requestPermissions(
-                                                MainActivity.this, new String[]{
-                                                        Manifest.permission.WRITE_EXTERNAL_STORAGE
-                                                }, 1))
-                                .setNegativeButton(R.string.btn_no, (dialog, which) ->
-                                        dialog.dismiss())
-                                .show();
-                    }
-                });
-
-            }
-
-            // other 'case' lines to check for other
-            // permissions this app might request
-        }
+    private void requestPermission() {
+        requestPermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE);
     }
+
+    private final ActivityResultLauncher<String> requestPermissionLauncher =
+            registerForActivityResult(new RequestPermission(), isGranted -> {
+                if (!isGranted) {
+                    runOnUiThread(() ->
+                            new AlertDialog.Builder(MainActivity.this)
+                                    .setTitle(R.string.err_permission)
+                                    .setMessage(R.string.err_permission_msg)
+                                    .setPositiveButton(R.string.btn_yes, (dialog, which) ->
+                                            requestPermission())
+                                    .setNegativeButton(R.string.btn_no, (dialog, which) ->
+                                            dialog.dismiss())
+                                    .show());
+                }
+            });
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
@@ -842,25 +825,7 @@ public class MainActivity extends BaseActivity
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
-
-            // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-
-                // Show an expanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
-
-            } else {
-
-                // No explanation needed, we can request the permission.
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
-
-                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                // app-defined int constant. The callback method gets the
-                // result of the request.
-            }
+            requestPermission();
         }
         boolean first = false;
         if (Reddit.colors != null && !Reddit.colors.contains("firstStart53")) {

@@ -40,7 +40,7 @@ public class OpenContent extends Activity {
             return;
         }
         url = url.toLowerCase(Locale.ENGLISH);
-        new OpenRedditLink(this, url);
+        OpenRedditLink.openUrl(this, url, true);
     }
 
     boolean second = false;
@@ -80,6 +80,6 @@ public class OpenContent extends Activity {
         Log.v(LogUtil.getTag(), url);
 
 
-        new OpenRedditLink(this, url);
+        OpenRedditLink.openUrl(this, url, true);
     }
 }

@@ -97,8 +97,8 @@ public class SubmissionParser {
 
         int i = firstIndex;
         while (i < html.length() - 4 && i != -1) {
-            if (html.substring(i, i + 3).equals("<ol") || html.substring(i, i + 3).equals("<ul")) {
-                if (html.substring(i, i + 3).equals("<ol")) {
+            if (html.startsWith("<ol", i) || html.startsWith("<ul", i)) {
+                if (html.startsWith("<ol", i)) {
                     isNumbered = true;
                     indent++;
                     listNumbers.add(indent, 1);
@@ -106,7 +106,7 @@ public class SubmissionParser {
                     isNumbered = false;
                 }
                 i = html.indexOf("<li", i);
-            } else if (html.substring(i, i + 3).equals("<li")) {
+            } else if (html.startsWith("<li", i)) {
                 int tagEnd = html.indexOf(">", i);
                 int itemClose = html.indexOf("</li", tagEnd);
                 int ulClose = html.indexOf("<ul", tagEnd);
@@ -142,7 +142,7 @@ public class SubmissionParser {
                 }
             } else {
                 i = html.indexOf("<", i + 1);
-                if (i != -1 && html.substring(i, i + 4).equals("</ol")) {
+                if (i != -1 && html.startsWith("</ol", i)) {
                     indent--;
                     if(indent == -1){
                         isNumbered = false;

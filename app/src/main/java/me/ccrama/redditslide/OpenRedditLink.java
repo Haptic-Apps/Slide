@@ -29,14 +29,6 @@ import me.ccrama.redditslide.util.LogUtil;
 
 public class OpenRedditLink {
 
-    public OpenRedditLink(Context context, String url) {
-        openUrl(context, url, true);
-    }
-
-    public OpenRedditLink(Context context, String url, boolean openIfOther) {
-        openUrl(context, url, openIfOther);
-    }
-
     /**
      * If the Uri has a query parameter called key, call intent.putExtra with the corresponding
      * query paramter value as a String.
@@ -271,7 +263,7 @@ public class OpenRedditLink {
         return true;
     }
 
-    public OpenRedditLink(Context c, String submission, String subreddit, String id) {
+    public static void openUrl(Context c, String submission, String subreddit, String id) {
         Intent i = new Intent(c, CommentsScreenSingle.class);
         i.putExtra(CommentsScreenSingle.EXTRA_SUBREDDIT, subreddit);
         i.putExtra(CommentsScreenSingle.EXTRA_CONTEXT, id);

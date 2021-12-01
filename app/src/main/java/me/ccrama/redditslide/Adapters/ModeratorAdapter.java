@@ -11,8 +11,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
@@ -48,6 +46,7 @@ import net.dean.jraw.models.PublicContribution;
 import net.dean.jraw.models.Submission;
 import net.dean.jraw.models.VoteDirection;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -69,6 +68,7 @@ import me.ccrama.redditslide.Views.CreateCardView;
 import me.ccrama.redditslide.Views.RoundedBackgroundSpan;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.BlendModeUtil;
 import me.ccrama.redditslide.util.CompatUtil;
 import me.ccrama.redditslide.util.LayoutUtils;
 import me.ccrama.redditslide.util.LinkUtil;
@@ -296,7 +296,7 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 public void onClick(View v) {
                     String url = "www.reddit.com" + submission.getPermalink();
                     url = url.replace("?ref=search_posts", "");
-                    new OpenRedditLink(mContext, url);
+                    OpenRedditLink.openUrl(mContext, url, true);
                 }
             });
 
@@ -363,39 +363,34 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             titleString.append(time);
             titleString.append(spacer);
 
-            {
-                final ImageView mod = holder.itemView.findViewById(R.id.mod);
-                try {
-                    if (UserSubscriptions.modOf.contains(comment.getSubredditName())) {
-                        //todo
-                        mod.setVisibility(View.GONE);
-
-                    } else {
-                        mod.setVisibility(View.GONE);
-                    }
-                } catch (Exception e) {
-                    Log.d(LogUtil.getTag(), "Error loading mod " + e.toString());
+            final ImageView mod = holder.itemView.findViewById(R.id.mod);
+            try {
+                if (UserSubscriptions.modOf.contains(comment.getSubredditName())) {
+                    //todo
+                    mod.setVisibility(View.GONE);
+                } else {
+                    mod.setVisibility(View.GONE);
                 }
+            } catch (Exception e) {
+                Log.d(LogUtil.getTag(), "Error loading mod " + e.toString());
             }
 
             if ((UserSubscriptions.modOf != null) && UserSubscriptions.modOf.contains(
                     comment.getSubredditName().toLowerCase(Locale.ENGLISH))) {
-                holder.itemView.findViewById(R.id.mod).setVisibility(View.VISIBLE);
+                mod.setVisibility(View.VISIBLE);
                 final Map<String, Integer> reports = comment.getUserReports();
                 final Map<String, String> reports2 = comment.getModeratorReports();
                 if (reports.size() + reports2.size() > 0) {
-                    ((ImageView) holder.itemView.findViewById(R.id.mod)).setColorFilter(
-                            ContextCompat.getColor(mContext, R.color.md_red_300),
-                            PorterDuff.Mode.SRC_ATOP);
+                    BlendModeUtil.tintImageViewAsSrcAtop(
+                            mod, ContextCompat.getColor(mContext, R.color.md_red_300));
                 } else {
                     int[] attrs = new int[]{R.attr.tintColor};
                     TypedArray ta = mContext.obtainStyledAttributes(attrs);
                     int color = ta.getColor(0, Color.WHITE);
-                    ((ImageView)holder.itemView.findViewById(R.id.mod)).setColorFilter(color,
-                            PorterDuff.Mode.SRC_ATOP);
+                    BlendModeUtil.tintImageViewAsSrcAtop(mod, color);
                     ta.recycle();
                 }
-                holder.itemView.findViewById(R.id.mod).setOnClickListener(new OnSingleClickListener() {
+                mod.setOnClickListener(new OnSingleClickListener() {
                     @Override
                     public void onSingleClick(View v) {
                         showModBottomSheet(mContext,
@@ -403,7 +398,7 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     }
                 });
             } else {
-                holder.itemView.findViewById(R.id.mod).setVisibility(View.GONE);
+                mod.setVisibility(View.GONE);
             }
             if (comment.getSubredditName() != null) {
                 String subname = comment.getSubredditName();
@@ -444,13 +439,13 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    new OpenRedditLink(mContext, comment.getSubmissionId(), comment.getSubredditName(), comment.getId());
+                    OpenRedditLink.openUrl(mContext, comment.getSubmissionId(), comment.getSubredditName(), comment.getId());
                 }
             });
             holder.content.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    new OpenRedditLink(mContext, comment.getSubmissionId(), comment.getSubredditName(), comment.getId());
+                    OpenRedditLink.openUrl(mContext, comment.getSubmissionId(), comment.getSubredditName(), comment.getId());
                 }
             });
 
@@ -521,18 +516,10 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         final Drawable lock = mContext.getResources().getDrawable(R.drawable.ic_lock);
 
         //Tint drawables
-        profile.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
-        report.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
-        approve.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
-        nsfw.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
-        distinguish.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
-        remove.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
-        pin.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
-        ban.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
-        spam.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
-        note.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
-        removeReason.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
-        lock.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
+        final List<Drawable> drawableSet = Arrays.asList(
+                profile, report, approve, nsfw, distinguish, remove,
+                pin, ban, spam, note, removeReason, lock);
+        BlendModeUtil.tintDrawablesAsSrcAtop(drawableSet, color);
 
         ta.recycle();
 

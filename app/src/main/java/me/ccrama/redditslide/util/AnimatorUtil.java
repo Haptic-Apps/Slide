@@ -2,11 +2,16 @@ package me.ccrama.redditslide.util;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
 
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
+
+import io.codetail.animation.ViewAnimationUtils;
+import me.ccrama.redditslide.R;
 
 /**
  * Created by TacoTheDank on 03/15/2021.
@@ -75,5 +80,49 @@ public class AnimatorUtil {
         animator.addUpdateListener(valueAnimator ->
                 view.setAlpha((Float) valueAnimator.getAnimatedValue()));
         return animator;
+    }
+
+    public static void setFlashAnimation(final View vBig, final View from, final int color) {
+        // get the center for the clipping circle
+        final View v = vBig.findViewById(R.id.vote);
+        v.post(() -> {
+            v.setBackgroundColor(color);
+            v.setVisibility(View.VISIBLE);
+            v.setAlpha(1f);
+
+            final int cx = (from.getLeft() + from.getRight()) / 2;
+            final int cy = vBig.getHeight() - from.getHeight() / 2;
+            //from.getRight() - ( from.getWidth()/ 2);
+
+            // get the final radius for the clipping circle
+            final int dx = Math.max(cx, vBig.getWidth() - cx);
+            final int dy = Math.max(cy, vBig.getHeight() - cy);
+            final float finalRadius = (float) Math.hypot(dx, dy);
+
+            try {
+                final Animator animator =
+                        ViewAnimationUtils.createCircularReveal(v, cx, cy, 0, finalRadius);
+                animator.setInterpolator(new FastOutSlowInInterpolator());
+                animator.setDuration(250);
+                animator.start();
+
+                v.postDelayed(() -> {
+                    final ObjectAnimator animator2 = ObjectAnimator.ofFloat(v, View.ALPHA, 1f, 0f);
+
+                    animator2.setInterpolator(new AccelerateDecelerateInterpolator());
+                    animator2.setDuration(450);
+                    animator2.addListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            v.setVisibility(View.GONE);
+                        }
+                    });
+                    animator2.start();
+
+                }, 450);
+            } catch (Exception e) {
+                v.setVisibility(View.GONE);
+            }
+        });
     }
 }

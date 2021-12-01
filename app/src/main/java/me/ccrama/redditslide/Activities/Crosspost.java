@@ -191,12 +191,12 @@ public class Crosspost extends BaseActivity {
                             "");
                     new AccountManager(Authentication.reddit).sendRepliesToInbox(s,
                             inboxReplies.isChecked());
-                    new OpenRedditLink(Crosspost.this,
+                    OpenRedditLink.openUrl(Crosspost.this,
                             "reddit.com/r/"
                                     + ((AutoCompleteTextView) findViewById(
                                     R.id.subreddittext)).getText().toString()
                                     + "/comments/"
-                                    + s.getFullName().substring(3));
+                                    + s.getFullName().substring(3), true);
                     Crosspost.this.finish();
                 } catch (final ApiException e) {
                     e.printStackTrace();

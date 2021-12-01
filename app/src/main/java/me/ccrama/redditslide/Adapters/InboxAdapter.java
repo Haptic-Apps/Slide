@@ -11,8 +11,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
@@ -44,6 +42,7 @@ import net.dean.jraw.models.Captcha;
 import net.dean.jraw.models.Message;
 import net.dean.jraw.models.PrivateMessage;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -62,6 +61,7 @@ import me.ccrama.redditslide.Views.DoEditorActions;
 import me.ccrama.redditslide.Views.RoundedBackgroundSpan;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.BlendModeUtil;
 import me.ccrama.redditslide.util.ClipboardUtil;
 import me.ccrama.redditslide.util.CompatUtil;
 import me.ccrama.redditslide.util.LayoutUtils;
@@ -263,12 +263,9 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     Drawable copy = mContext.getResources().getDrawable(R.drawable.ic_content_copy);
                     Drawable reddit = mContext.getResources().getDrawable(R.drawable.ic_forum);
 
-                    profile.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
-                    hide.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
-                    copy.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
-                    reddit.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
-                    reply.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
-                    unhide.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
+                    final List<Drawable> drawableSet = Arrays.asList(
+                            profile, hide, copy, reddit, reply, unhide);
+                    BlendModeUtil.tintDrawablesAsSrcAtop(drawableSet, color);
 
                     ta.recycle();
 
@@ -338,9 +335,9 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                 break;
                                 case 30: {
                                     String context = comment.getDataNode().get("context").asText();
-                                    new OpenRedditLink(mContext,
+                                    OpenRedditLink.openUrl(mContext,
                                             "https://reddit.com" + context.substring(0,
-                                                    context.lastIndexOf("/")));
+                                                    context.lastIndexOf("/")), true);
                                 }
                                 break;
                             }
@@ -361,8 +358,8 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             i.putExtra(SendMessage.EXTRA_REPLY, true);
                             mContext.startActivity(i);
                         } else {
-                            new OpenRedditLink(mContext,
-                                    comment.getDataNode().get("context").asText());
+                            OpenRedditLink.openUrl(mContext,
+                                    comment.getDataNode().get("context").asText(), true);
                         }
                     } else {
                         comment.read = true;

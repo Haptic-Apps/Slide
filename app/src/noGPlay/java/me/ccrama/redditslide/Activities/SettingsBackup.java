@@ -250,7 +250,7 @@ public class SettingsBackup extends BaseActivityAnim {
                                     && !s.contains("HIDDEN_POSTS")))) {
                                 FileReader fr = null;
                                 try {
-                                    fr = new FileReader(new File(prefsdir + File.separator + s));
+                                    fr = new FileReader(prefsdir + File.separator + s);
                                     int c = fr.read();
                                     fw.write("<START" + new File(s).getName() + ">");
                                     while (c != -1) {

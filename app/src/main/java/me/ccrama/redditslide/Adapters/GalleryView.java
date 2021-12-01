@@ -4,8 +4,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.HapticFeedbackConstants;
@@ -24,6 +22,8 @@ import net.dean.jraw.models.Submission;
 import net.dean.jraw.models.Thumbnails;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import me.ccrama.redditslide.Activities.Album;
 import me.ccrama.redditslide.Activities.AlbumPager;
@@ -43,6 +43,7 @@ import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SubmissionViews.PopulateSubmissionViewHolder;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.BlendModeUtil;
 import me.ccrama.redditslide.util.CompatUtil;
 import me.ccrama.redditslide.util.JsonUtil;
 import me.ccrama.redditslide.util.LinkUtil;
@@ -160,11 +161,10 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
                         int color = ta.getColor(0, Color.WHITE);
                         Drawable open = main.getResources().getDrawable(R.drawable.ic_open_in_new);
-                        open.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
                         Drawable share = main.getResources().getDrawable(R.drawable.ic_share);
-                        share.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
                         Drawable copy = main.getResources().getDrawable(R.drawable.ic_content_copy);
-                        copy.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP));
+                        final List<Drawable> drawableSet = Arrays.asList(open, share, copy);
+                        BlendModeUtil.tintDrawablesAsSrcAtop(drawableSet, color);
 
                         ta.recycle();
 
