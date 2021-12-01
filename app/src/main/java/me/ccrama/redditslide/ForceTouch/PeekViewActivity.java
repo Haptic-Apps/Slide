@@ -1,6 +1,5 @@
 package me.ccrama.redditslide.ForceTouch;
 
-import android.os.Bundle;
 import android.view.HapticFeedbackConstants;
 import android.view.MotionEvent;
 import android.view.View;
@@ -16,11 +15,6 @@ import me.ccrama.redditslide.util.DisplayUtil;
 public class PeekViewActivity extends AppCompatActivity {
 
     private PeekView peekView;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
 
     @Override
     public void onPause() {
