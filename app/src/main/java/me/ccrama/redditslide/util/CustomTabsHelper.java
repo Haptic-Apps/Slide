@@ -28,7 +28,7 @@ import java.util.List;
 
 import me.ccrama.redditslide.SettingValues;
 
-import static me.ccrama.redditslide.Fragments.SettingsHandlingFragment.LinkHandlingMode;
+import static me.ccrama.redditslide.ui.settings.SettingsHandlingFragment.LinkHandlingMode;
 
 /**
  * Helper class for Custom Tabs.

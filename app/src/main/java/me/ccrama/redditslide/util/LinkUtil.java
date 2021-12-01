@@ -41,7 +41,7 @@ import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.SubmissionViews.PopulateBase;
 
-import static me.ccrama.redditslide.Fragments.SettingsHandlingFragment.LinkHandlingMode;
+import static me.ccrama.redditslide.ui.settings.SettingsHandlingFragment.LinkHandlingMode;
 
 public class LinkUtil {
 

@@ -131,7 +131,6 @@ import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import me.ccrama.redditslide.Adapters.SettingsSubAdapter;
 import me.ccrama.redditslide.Adapters.SideArrayAdapter;
 import me.ccrama.redditslide.Adapters.SubredditPosts;
 import me.ccrama.redditslide.Authentication;
@@ -144,8 +143,6 @@ import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.ForceTouch.util.DensityUtils;
 import me.ccrama.redditslide.Fragments.CommentPage;
 import me.ccrama.redditslide.Fragments.DrawerItemsDialog;
-import me.ccrama.redditslide.Fragments.SettingsGeneralFragment;
-import me.ccrama.redditslide.Fragments.SettingsThemeFragment;
 import me.ccrama.redditslide.Fragments.SubmissionsView;
 import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.ImageFlairs;
@@ -167,6 +164,11 @@ import me.ccrama.redditslide.Views.SidebarLayout;
 import me.ccrama.redditslide.Views.ToggleSwipeViewPager;
 import me.ccrama.redditslide.Visuals.ColorPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.ui.settings.ManageOfflineContent;
+import me.ccrama.redditslide.ui.settings.SettingsActivity;
+import me.ccrama.redditslide.ui.settings.SettingsGeneralFragment;
+import me.ccrama.redditslide.ui.settings.SettingsSubAdapter;
+import me.ccrama.redditslide.ui.settings.SettingsThemeFragment;
 import me.ccrama.redditslide.util.AnimatorUtil;
 import me.ccrama.redditslide.util.DrawableUtil;
 import me.ccrama.redditslide.util.EditTextValidator;
@@ -1261,7 +1263,7 @@ public class MainActivity extends BaseActivity
             setToolbarClick();
         }*/
         //Only refresh the view if a Setting was altered
-        if (Settings.changed || SettingsThemeFragment.changed) {
+        if (SettingsActivity.changed || SettingsThemeFragment.changed) {
 
             reloadSubs();
             //If the user changed a Setting regarding the app's theme, restartTheme()
@@ -1290,7 +1292,7 @@ public class MainActivity extends BaseActivity
                 SettingsGeneralFragment.searchChanged = false;
             }
             SettingsThemeFragment.changed = false;
-            Settings.changed = false;
+            SettingsActivity.changed = false;
             setToolbarClick();
         }
     }
@@ -2030,7 +2032,7 @@ public class MainActivity extends BaseActivity
         header.findViewById(R.id.settings).setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
-                Intent i = new Intent(MainActivity.this, Settings.class);
+                Intent i = new Intent(MainActivity.this, SettingsActivity.class);
                 startActivity(i);
                 // Cancel sub loading because exiting the settings will reload it anyway
                 if (mAsyncGetSubreddit != null) mAsyncGetSubreddit.cancel(true);

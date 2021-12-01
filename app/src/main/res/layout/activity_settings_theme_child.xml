@@ -67,7 +67,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/settings_theme_theme"
+        android:id="@+id/settings_theme_base"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:background="?android:selectableItemBackground"
@@ -127,7 +127,7 @@
         android:textColor="?attr/colorAccent" />
 
     <RelativeLayout
-        android:id="@+id/settings_theme_dotint"
+        android:id="@+id/settings_theme_colorTintMode"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:background="?android:selectableItemBackground"
@@ -239,7 +239,7 @@
         </LinearLayout>
 
         <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/settings_theme_color_navigation_bar"
+            android:id="@+id/settings_theme_colorNavbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:backgroundTint="?attr/tintColor"
@@ -289,7 +289,7 @@
         </LinearLayout>
 
         <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/settings_theme_color_icon"
+            android:id="@+id/settings_theme_colorAppIcon"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:backgroundTint="?attr/tintColor"

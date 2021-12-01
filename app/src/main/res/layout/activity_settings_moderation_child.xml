@@ -180,7 +180,7 @@
         </LinearLayout>
 
         <androidx.appcompat.widget.SwitchCompat
-                android:id="@+id/settings_moderation_toolbox_modmail"
+                android:id="@+id/settings_moderation_toolbox_sendMsgAsSubreddit"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:paddingEnd="16dp"

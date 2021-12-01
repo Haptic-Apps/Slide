@@ -174,7 +174,7 @@
         </LinearLayout>
 
         <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/settings_general_show_fab"
+            android:id="@+id/settings_general_always_show_fab"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:backgroundTint="?attr/tintColor"
@@ -499,7 +499,7 @@
         android:textColor="?attr/colorAccent" />
 
     <RelativeLayout
-        android:id="@+id/settings_general_download"
+        android:id="@+id/settings_general_set_save_location"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:background="?android:selectableItemBackground"
@@ -522,7 +522,7 @@
                 android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/settings_general_location"
+                android:id="@+id/settings_general_set_save_location_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:alpha=".86"

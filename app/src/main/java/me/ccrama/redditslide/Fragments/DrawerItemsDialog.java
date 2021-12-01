@@ -12,6 +12,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SettingValues;
+import me.ccrama.redditslide.ui.settings.SettingsThemeFragment;
 
 public class DrawerItemsDialog extends MaterialDialog {
     public DrawerItemsDialog(final Builder builder) {

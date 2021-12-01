@@ -25,7 +25,6 @@
 
             <TextView
                 style="@style/TextAppearance.AppCompat.Body2"
-                android:id="@+id/customDomainsHeader"
                 android:text="@string/settings_section_custom_domains"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
@@ -35,7 +34,6 @@
                 android:layout_height="wrap_content" />
 
             <RelativeLayout
-                android:id="@+id/custom_handling"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:background="?android:selectableItemBackground"
@@ -81,13 +79,13 @@
                     android:paddingBottom="8dp">
 
                     <LinearLayout
-                        android:id="@+id/domainlist"
+                        android:id="@+id/settings_handling_domainlist"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical" />
 
                     <EditText
-                        android:id="@+id/domain"
+                        android:id="@+id/settings_handling_domain_edit"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="12dp"

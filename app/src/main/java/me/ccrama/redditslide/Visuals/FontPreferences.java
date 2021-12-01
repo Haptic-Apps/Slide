@@ -139,15 +139,15 @@ public class FontPreferences {
         }
     }
     public enum FontTypeTitle {
-        Slab(RobotoTypefaces.TYPEFACE_ROBOTO_SLAB_LIGHT, "Slab Light"),
-        SlabReg(RobotoTypefaces.TYPEFACE_ROBOTO_SLAB_REGULAR, "Slab Regular"),
-        Condensed(RobotoTypefaces.TYPEFACE_ROBOTO_CONDENSED_LIGHT, "Condensed Light"),
-        CondensedReg(RobotoTypefaces.TYPEFACE_ROBOTO_CONDENSED_REGULAR, "Condensed Regular"),
+        SlabLight(RobotoTypefaces.TYPEFACE_ROBOTO_SLAB_LIGHT, "Slab Light"),
+        SlabRegular(RobotoTypefaces.TYPEFACE_ROBOTO_SLAB_REGULAR, "Slab Regular"),
+        CondensedBold(RobotoTypefaces.TYPEFACE_ROBOTO_CONDENSED_BOLD, "Condensed Bold"),
+        CondensedLight(RobotoTypefaces.TYPEFACE_ROBOTO_CONDENSED_LIGHT, "Condensed Light"),
+        CondensedRegular(RobotoTypefaces.TYPEFACE_ROBOTO_CONDENSED_REGULAR, "Condensed Regular"),
         Light(RobotoTypefaces.TYPEFACE_ROBOTO_LIGHT, "Light"),
         Regular(RobotoTypefaces.TYPEFACE_ROBOTO_REGULAR, "Regular"),
         Bold(RobotoTypefaces.TYPEFACE_ROBOTO_BOLD, "Bold"),
         Medium(RobotoTypefaces.TYPEFACE_ROBOTO_MEDIUM, "Medium"),
-        CondensedBold(RobotoTypefaces.TYPEFACE_ROBOTO_CONDENSED_BOLD, "Condensed Bold"),
         System(-1, "System");
 
         private final int typeface;
