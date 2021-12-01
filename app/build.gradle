@@ -117,8 +117,8 @@ dependencies {
     implementation 'com.afollestad.material-dialogs:commons:0.9.6.0'
 
     // Snackbar engagement for rating
-    implementation 'com.github.ligi.snackengage:snackengage-core:0.28'
-    implementation 'com.github.ligi.snackengage:snackengage-playrate:0.28'
+    implementation 'com.github.ligi.snackengage:snackengage-core:0.29'
+    implementation 'com.github.ligi.snackengage:snackengage-playrate:0.29'
 
     // Material design components for pre-Lollipop APIs
     //  NOTE: Replace rey5137:material with AndroidX versions?
@@ -145,7 +145,7 @@ dependencies {
     implementation 'com.makeramen:roundedimageview:2.3.0'
 
     // Floating action button menu implementation
-    implementation 'com.nambimobile.widgets:expandable-fab:1.1.1'
+    implementation 'com.nambimobile.widgets:expandable-fab:1.2.1'
 
     // Draggable sliding up panel
     implementation 'com.sothree.slidinguppanel:library:3.4.0'
@@ -166,7 +166,7 @@ dependencies {
 /**** Backend logic ****/
 
     // Core Java libraries from Google
-    implementation 'com.google.guava:guava:30.1.1-android'
+    implementation 'com.google.guava:guava:31.0.1-android'
 
     // Application restarting
     implementation 'com.jakewharton:process-phoenix:2.1.2'
@@ -191,7 +191,7 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:3.12.13'
 
     // Convert Java objects into JSON and back
-    implementation 'com.google.code.gson:gson:2.8.8'
+    implementation 'com.google.code.gson:gson:2.8.9'
 
     // WebSocket client
     implementation 'com.neovisionaries:nv-websocket-client:2.14'
