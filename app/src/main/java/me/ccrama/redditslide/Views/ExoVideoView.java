@@ -29,6 +29,7 @@ import com.google.android.exoplayer2.source.TrackGroupArray;
 import com.google.android.exoplayer2.source.dash.DashMediaSource;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.trackselection.ExoTrackSelection;
+import com.google.android.exoplayer2.trackselection.TrackSelection;
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
 import com.google.android.exoplayer2.ui.PlayerControlView;
@@ -134,11 +135,10 @@ public class ExoVideoView extends RelativeLayout {
                         toLog.append("Format:\t").append(trackGroups.get(i).getFormat(j)).append("\n");
                     }
                 }
-                // FIXME: How do I make onTracksChanged work with ExoTrackSelection?
-                /*for (TrackSelection i : trackSelections.getAll()) {
+                for (final TrackSelection i : trackSelections.getAll()) {
                     if (i != null)
-                        toLog.append("Selected format:\t").append(i.getSelectedFormat()).append("\n");
-                }*/
+                        toLog.append("Selected format:\t").append(i.getFormat(0)).append("\n");
+                }
                 Log.v(LogUtil.getTag(), toLog.toString());
             }
         });
