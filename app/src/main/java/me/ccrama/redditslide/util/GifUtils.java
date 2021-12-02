@@ -145,7 +145,7 @@ public class GifUtils {
                         Notification notif = new NotificationCompat.Builder(a, Reddit.CHANNEL_IMG)
                                 .setContentTitle(a.getString(R.string.mediaview_saving,
                                         uri.toString().replace("/DASHPlaylist.mpd", "")))
-                                .setSmallIcon(R.drawable.ic_get_app)
+                                .setSmallIcon(R.drawable.ic_download)
                                 .setProgress(0, 0, true)
                                 .setOngoing(true)
                                 .build();

@@ -424,7 +424,7 @@ public class AlbumPager extends FullScreenActivity
         Drawable external = getResources().getDrawable(R.drawable.ic_open_in_browser);
         Drawable share = getResources().getDrawable(R.drawable.ic_share);
         Drawable image = getResources().getDrawable(R.drawable.ic_image);
-        Drawable save = getResources().getDrawable(R.drawable.ic_get_app);
+        Drawable save = getResources().getDrawable(R.drawable.ic_download);
 
         final List<Drawable> drawableSet = Arrays.asList(external, share, image, save);
         BlendModeUtil.tintDrawablesAsSrcAtop(drawableSet, color);

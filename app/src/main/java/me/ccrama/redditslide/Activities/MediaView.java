@@ -147,7 +147,7 @@ public class MediaView extends FullScreenActivity
         Drawable external = getResources().getDrawable(R.drawable.ic_open_in_browser);
         Drawable share = getResources().getDrawable(R.drawable.ic_share);
         Drawable image = getResources().getDrawable(R.drawable.ic_image);
-        Drawable save = getResources().getDrawable(R.drawable.ic_get_app);
+        Drawable save = getResources().getDrawable(R.drawable.ic_download);
         Drawable collection = getResources().getDrawable(R.drawable.ic_folder);
         Drawable file = getResources().getDrawable(R.drawable.ic_save);
         Drawable thread = getResources().getDrawable(R.drawable.ic_forum);
@@ -282,7 +282,7 @@ public class MediaView extends FullScreenActivity
                             ContextCompat.getSystemService(MediaView.this, NotificationManager.class);
                     mBuilder = new NotificationCompat.Builder(MediaView.this, Reddit.CHANNEL_IMG);
                     mBuilder.setContentTitle(getString(R.string.mediaview_saving, baseUrl))
-                            .setSmallIcon(R.drawable.ic_get_app);
+                            .setSmallIcon(R.drawable.ic_download);
                     try {
 
                         final URL url =
@@ -368,7 +368,7 @@ public class MediaView extends FullScreenActivity
                             ContextCompat.getSystemService(MediaView.this, NotificationManager.class);
                     mBuilder = new NotificationCompat.Builder(MediaView.this, Reddit.CHANNEL_IMG);
                     mBuilder.setContentTitle(getString(R.string.mediaview_saving, baseUrl))
-                            .setSmallIcon(R.drawable.ic_get_app);
+                            .setSmallIcon(R.drawable.ic_download);
                     try {
 
                         final URL url =

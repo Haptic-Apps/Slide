@@ -411,7 +411,7 @@ public class PopulateNewsViewHolder {
                 ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_content_copy,
                         null);
         final Drawable readLater =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_get_app, null);
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_download, null);
         Drawable open =
                 ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_open_in_browser, null);
         Drawable link = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_link, null);
