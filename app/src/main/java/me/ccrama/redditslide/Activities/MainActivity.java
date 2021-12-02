@@ -185,6 +185,7 @@ import me.ccrama.redditslide.util.SortingUtil;
 import me.ccrama.redditslide.util.StringUtil;
 import me.ccrama.redditslide.util.SubmissionParser;
 import me.ccrama.redditslide.util.TimeUtils;
+import me.ccrama.redditslide.util.preference.PreferenceHelper;
 import me.ccrama.redditslide.util.stubs.SimpleTextWatcher;
 
 import static me.ccrama.redditslide.UserSubscriptions.modOf;
@@ -449,9 +450,9 @@ public class MainActivity extends BaseActivity
         if (pager != null
                 && SettingValues.commentPager
                 && pager.getCurrentItem() == toOpenComments
-                && SettingValues.commentVolumeNav
+                && PreferenceHelper.volumeNavComments()
                 && pager.getAdapter() instanceof MainPagerAdapterComment) {
-            if (SettingValues.commentVolumeNav) {
+            if (PreferenceHelper.volumeNavComments()) {
                 switch (keyCode) {
                     case KeyEvent.KEYCODE_VOLUME_UP:
                     case KeyEvent.KEYCODE_VOLUME_DOWN:

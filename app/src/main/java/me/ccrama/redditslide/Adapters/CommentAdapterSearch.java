@@ -43,7 +43,6 @@ import java.util.Locale;
 
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.UserTags;
 import me.ccrama.redditslide.Views.RoundedBackgroundSpan;
@@ -53,7 +52,7 @@ import me.ccrama.redditslide.util.CompatUtil;
 import me.ccrama.redditslide.util.MiscUtil;
 import me.ccrama.redditslide.util.SubmissionParser;
 import me.ccrama.redditslide.util.TimeUtils;
-
+import me.ccrama.redditslide.util.preference.PreferenceHelper;
 
 public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         implements Filterable {
@@ -185,7 +184,7 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
             titleString.append(pinned);
             titleString.append(" ");
         }
-        if (!SettingValues.hideCommentAwards && (comment.getTimesSilvered() > 0 || comment.getTimesGilded() > 0  || comment.getTimesPlatinized() > 0)) {
+        if (!PreferenceHelper.hideCommentAwards() && (comment.getTimesSilvered() > 0 || comment.getTimesGilded() > 0  || comment.getTimesPlatinized() > 0)) {
             TypedArray a = mContext.obtainStyledAttributes(
                     new FontPreferences(mContext).getPostFontStyle().getResId(),
                     R.styleable.FontStyle);

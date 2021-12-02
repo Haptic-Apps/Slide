@@ -86,6 +86,7 @@ import me.ccrama.redditslide.util.LayoutUtils;
 import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 import me.ccrama.redditslide.util.OnSingleClickListener;
+import me.ccrama.redditslide.util.preference.PreferenceHelper;
 
 import static me.ccrama.redditslide.Notifications.ImageDownloadNotificationService.EXTRA_SUBMISSION_TITLE;
 
@@ -979,7 +980,7 @@ public class PopulateNewsViewHolder {
         final int commentCount = submission.getCommentCount();
         final int more = LastComments.commentsSince(submission);
         String scoreRatio =
-                (SettingValues.upvotePercentage && full && submission.getUpvoteRatio() != null) ?
+                (PreferenceHelper.showUpvotePercentage() && full && submission.getUpvoteRatio() != null) ?
                         "("
                                 + (int) (submission.getUpvoteRatio() * 100)
                                 + "%)" : "";

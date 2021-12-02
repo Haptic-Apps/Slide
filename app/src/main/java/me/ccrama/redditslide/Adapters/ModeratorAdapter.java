@@ -77,7 +77,7 @@ import me.ccrama.redditslide.util.MiscUtil;
 import me.ccrama.redditslide.util.OnSingleClickListener;
 import me.ccrama.redditslide.util.SubmissionParser;
 import me.ccrama.redditslide.util.TimeUtils;
-
+import me.ccrama.redditslide.util.preference.PreferenceHelper;
 
 public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements BaseAdapter {
 
@@ -415,7 +415,7 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             setViews(comment.getDataNode().get("body_html").asText(), comment.getSubredditName(), holder);
 
             ((TextView) holder.gild).setText("");
-            if (!SettingValues.hideCommentAwards && (comment.getTimesSilvered() > 0 || comment.getTimesGilded() > 0  || comment.getTimesPlatinized() > 0)) {
+            if (!PreferenceHelper.hideCommentAwards() && (comment.getTimesSilvered() > 0 || comment.getTimesGilded() > 0  || comment.getTimesPlatinized() > 0)) {
                 TypedArray a = mContext.obtainStyledAttributes(
                         new FontPreferences(mContext).getPostFontStyle().getResId(),
                         R.styleable.FontStyle);

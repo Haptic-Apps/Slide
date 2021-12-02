@@ -97,6 +97,7 @@ import me.ccrama.redditslide.util.KeyboardUtil;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.OnSingleClickListener;
 import me.ccrama.redditslide.util.SubmissionParser;
+import me.ccrama.redditslide.util.preference.PreferenceHelper;
 import me.ccrama.redditslide.util.stubs.SimpleTextWatcher;
 
 
@@ -308,6 +309,10 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
+    private void setCommentDepthColor(final View v, final int ifColorDepthEnabled, final int otherwise) {
+        v.setBackgroundColor(ContextCompat.getColor(mContext,
+                PreferenceHelper.colorCommentDepth() ? ifColorDepthEnabled : otherwise));
+    }
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder firstHolder, int old) {
@@ -341,7 +346,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             View.OnLongClickListener onLongClickListener = new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    if (SettingValues.swap) {
+                    if (PreferenceHelper.swapLongpressTap()) {
                         doOnClick(holder, comment, baseNode);
                     } else {
                         doLongClick(holder, comment, baseNode);
@@ -357,7 +362,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 @Override
                 public boolean onLongClick(View v) {
                     if (!currentlyEditingId.equals(comment.getFullName())) {
-                        if (SettingValues.swap) {
+                        if (PreferenceHelper.swapLongpressTap()) {
                             doOnClick(holder, comment, baseNode);
                         } else {
                             doLongClick(holder, comment, baseNode);
@@ -372,7 +377,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 @Override
                 public void onSingleClick(View v) {
                     if (!currentlyEditingId.equals(comment.getFullName())) {
-                        if (SettingValues.swap) {
+                        if (PreferenceHelper.swapLongpressTap()) {
                             doLongClick(holder, comment, baseNode);
                         } else {
                             doOnClick(holder, comment, baseNode);
@@ -382,7 +387,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             };
             holder.itemView.setOnClickListener(singleClick);
             holder.commentOverflow.setOnClickListener(singleClick);
-            if (!toCollapse.contains(comment.getFullName()) || !SettingValues.collapseComments) {
+            if (!toCollapse.contains(comment.getFullName()) || !PreferenceHelper.fullyCollapseComments()) {
                 setViews(comment.getDataNode().get("body_html").asText(),
                         submission.getSubredditName(), holder, singleClick, onLongClickListener);
             }
@@ -391,7 +396,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 @Override
                 public void onSingleClick(View v) {
                     SpoilerRobotoTextView SpoilerRobotoTextView = (SpoilerRobotoTextView) v;
-                    if (SettingValues.swap) {
+                    if (PreferenceHelper.swapLongpressTap()) {
                         if (!SpoilerRobotoTextView.isSpoilerClicked()) {
                             doLongClick(holder, comment, baseNode);
                         } else if (SpoilerRobotoTextView.isSpoilerClicked()) {
@@ -459,7 +464,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 } else {
                     holder.childrenNumber.setVisibility(View.GONE);
                 }
-                if (SettingValues.collapseComments && toCollapse.contains(comment.getFullName())) {
+                if (PreferenceHelper.fullyCollapseComments() && toCollapse.contains(comment.getFullName())) {
                     holder.firstTextView.setVisibility(View.GONE);
                     holder.commentOverflow.setVisibility(View.GONE);
                 }
@@ -471,7 +476,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             holder.dot.setVisibility(View.VISIBLE);
 
-            int dwidth = (int) ((SettingValues.largeDepth ? 5 : 3) * Resources.getSystem()
+            int dwidth = (int) ((PreferenceHelper.wideDepth() ? 5 : 3) * Resources.getSystem()
                     .getDisplayMetrics().density);
             int width = 0;
 
@@ -490,7 +495,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             if (baseNode.getDepth() - 1 > 0) {
                 int i22 = baseNode.getDepth() - 2;
                 String commentOp = dataSet.commentOPs.get(comment.getId());
-                if (SettingValues.highlightCommentOP
+                if (PreferenceHelper.highlightCommentOP()
                         && commentOp != null
                         && comment != null
                         && commentOp.equals(comment.getAuthor())) {
@@ -499,25 +504,15 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                 } else {
                     if (i22 % 5 == 0) {
-                        holder.dot.setBackgroundColor(ContextCompat.getColor(mContext,
-                                !SettingValues.colorCommentDepth ? R.color.md_grey_700
-                                        : R.color.md_blue_500));
+                        setCommentDepthColor(holder.dot, R.color.md_blue_500, R.color.md_grey_700);
                     } else if (i22 % 4 == 0) {
-                        holder.dot.setBackgroundColor(ContextCompat.getColor(mContext,
-                                !SettingValues.colorCommentDepth ? R.color.md_grey_600
-                                        : R.color.md_green_500));
+                        setCommentDepthColor(holder.dot, R.color.md_green_500, R.color.md_grey_600);
                     } else if (i22 % 3 == 0) {
-                        holder.dot.setBackgroundColor(ContextCompat.getColor(mContext,
-                                !SettingValues.colorCommentDepth ? R.color.md_grey_500
-                                        : R.color.md_yellow_500));
+                        setCommentDepthColor(holder.dot, R.color.md_yellow_500, R.color.md_grey_500);
                     } else if (i22 % 2 == 0) {
-                        holder.dot.setBackgroundColor(ContextCompat.getColor(mContext,
-                                !SettingValues.colorCommentDepth ? R.color.md_grey_400
-                                        : R.color.md_orange_500));
+                        setCommentDepthColor(holder.dot, R.color.md_orange_500, R.color.md_grey_400);
                     } else {
-                        holder.dot.setBackgroundColor(ContextCompat.getColor(mContext,
-                                !SettingValues.colorCommentDepth ? R.color.md_grey_300
-                                        : R.color.md_red_500));
+                        setCommentDepthColor(holder.dot, R.color.md_red_500, R.color.md_grey_300);
                     }
                 }
             } else {
@@ -543,7 +538,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 setCommentStateHighlighted(holder, comment, baseNode, true, false);
             }
 
-            if (SettingValues.collapseDeletedComments) {
+            if (PreferenceHelper.collapseDeletedComments()) {
                 if (comment.getBody().startsWith("[removed]") || comment.getBody().startsWith("[deleted]")) {
                     holder.firstTextView.setVisibility(View.GONE);
                     holder.commentOverflow.setVisibility(View.GONE);
@@ -574,7 +569,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                             .setVisibility(View.GONE);
                                     currentlyEditing = null;
                                     editingPosition = -1;
-                                    if (SettingValues.fastscroll) {
+                                    if (PreferenceHelper.parentCommentNav()) {
                                         mPage.fastScroll.setVisibility(View.VISIBLE);
                                     }
                                     if (mPage.fab != null) mPage.fab.setVisibility(View.VISIBLE);
@@ -622,7 +617,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 holder.content.setText(R.string.thread_continue);
             }
 
-            int dwidth = (int) ((SettingValues.largeDepth ? 5 : 3) * Resources.getSystem()
+            int dwidth = (int) ((PreferenceHelper.wideDepth() ? 5 : 3) * Resources.getSystem()
                     .getDisplayMetrics().density);
             int width = 0;
             for (int i = 1; i < baseNode.comment.getDepth(); i++) {
@@ -719,7 +714,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         mPage.fastScroll.setVisibility(View.GONE);
                         if (mPage.fab != null) mPage.fab.setVisibility(View.GONE);
                         mPage.overrideFab = true;
-                    } else if (SettingValues.fastscroll) {
+                    } else if (PreferenceHelper.parentCommentNav()) {
                         mPage.fastScroll.setVisibility(View.VISIBLE);
                         if (mPage.fab != null) mPage.fab.setVisibility(View.VISIBLE);
                         mPage.overrideFab = false;
@@ -749,7 +744,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         public void onSingleClick(View v) {
                             dataSet.refreshLayout.setRefreshing(true);
 
-                            if (SettingValues.fastscroll) {
+                            if (PreferenceHelper.parentCommentNav()) {
                                 mPage.fastScroll.setVisibility(View.VISIBLE);
                             }
                             if (mPage.fab != null) mPage.fab.setVisibility(View.VISIBLE);
@@ -1022,12 +1017,12 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         // If a comment is hidden and (Swap long press == true), then a single click will un-hide the comment
         // and expand to show all children comments
-        if (SettingValues.swap
+        if (PreferenceHelper.swapLongpressTap()
                 && holder.firstTextView.getVisibility() == View.GONE
                 && !isReplying) {
             hiddenPersons.remove(n.getFullName());
             unhideAll(baseNode, holder.getBindingAdapterPosition() + 1);
-            if (toCollapse.contains(n.getFullName()) && SettingValues.collapseComments) {
+            if (toCollapse.contains(n.getFullName()) && PreferenceHelper.fullyCollapseComments()) {
                 setViews(n.getDataNode().get("body_html").asText(), submission.getSubredditName(),
                         holder);
             }
@@ -1043,7 +1038,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
             resetMenu(holder.menuArea, false);
             final View baseView = inflater.inflate(
-                    SettingValues.rightHandedCommentMenu ?
+                    PreferenceHelper.rightHandedCommentMenu() ?
                             R.layout.comment_menu_right_handed : R.layout.comment_menu, holder.menuArea);
 
             if (!isReplying) {
@@ -1209,7 +1204,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                     mPage.fab.setVisibility(View.GONE);
                                 }
                                 mPage.overrideFab = true;
-                            } else if (SettingValues.fastscroll) {
+                            } else if (PreferenceHelper.parentCommentNav()) {
                                 mPage.fastScroll.setVisibility(View.VISIBLE);
                                 if (mPage.fab != null) {
                                     mPage.fab.setVisibility(View.VISIBLE);
@@ -1301,7 +1296,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                     mPage.fastScroll.setVisibility(View.GONE);
                                     if (mPage.fab != null) mPage.fab.setVisibility(View.GONE);
                                     mPage.overrideFab = true;
-                                } else if (SettingValues.fastscroll) {
+                                } else if (PreferenceHelper.parentCommentNav()) {
                                     mPage.fastScroll.setVisibility(View.VISIBLE);
                                     if (mPage.fab != null) mPage.fab.setVisibility(View.VISIBLE);
                                     mPage.overrideFab = false;
@@ -1368,7 +1363,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         backedText = "";
 
                         doShowMenu(baseView);
-                        if (SettingValues.fastscroll) {
+                        if (PreferenceHelper.parentCommentNav()) {
                             mPage.fastScroll.setVisibility(View.VISIBLE);
                             if (mPage.fab != null) mPage.fab.setVisibility(View.VISIBLE);
                             mPage.overrideFab = false;
@@ -1561,7 +1556,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     .setPositiveButton(R.string.btn_yes, (dialog, which) -> {
                         currentlyEditing = null;
                         editingPosition = -1;
-                        if (SettingValues.fastscroll) {
+                        if (PreferenceHelper.parentCommentNav()) {
                             mPage.fastScroll.setVisibility(View.VISIBLE);
                         }
                         if (mPage.fab != null) mPage.fab.setVisibility(View.VISIBLE);
@@ -1623,7 +1618,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     .setPositiveButton(R.string.btn_yes, (dialog, which) -> {
                         currentlyEditing = null;
                         editingPosition = -1;
-                        if (SettingValues.fastscroll) {
+                        if (PreferenceHelper.parentCommentNav()) {
                             mPage.fastScroll.setVisibility(View.VISIBLE);
                         }
                         if (mPage.fab != null) mPage.fab.setVisibility(View.VISIBLE);
@@ -1652,7 +1647,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     public void doOnClick(CommentViewHolder holder, Comment comment, CommentNode baseNode) {
         if (currentSelectedItem != null && currentSelectedItem.contains(comment.getFullName())) {
-            if (SettingValues.swap) {
+            if (PreferenceHelper.swapLongpressTap()) {
                 //If the comment is highlighted and the user is long pressing the comment,
                 //hide the comment.
                 doOnClick(holder, baseNode, comment);
@@ -1674,7 +1669,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     .setPositiveButton(R.string.btn_yes, (dialog, which) -> {
                         currentlyEditing = null;
                         editingPosition = -1;
-                        if (SettingValues.fastscroll) {
+                        if (PreferenceHelper.parentCommentNav()) {
                             mPage.fastScroll.setVisibility(View.VISIBLE);
                         }
                         if (mPage.fab != null) mPage.fab.setVisibility(View.VISIBLE);
@@ -1703,7 +1698,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     unhideAll(baseNode, holder.getBindingAdapterPosition() + 1);
 
                     if (toCollapse.contains(comment.getFullName())
-                            && SettingValues.collapseComments) {
+                            && PreferenceHelper.fullyCollapseComments()) {
                         setViews(comment.getDataNode().get("body_html").asText(),
                                 submission.getSubredditName(), holder);
                     }
@@ -1731,17 +1726,17 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             holder.childrenNumber.setText("+" + childNumber);
                         }
                     } else {
-                        if (!SettingValues.collapseComments) {
+                        if (!PreferenceHelper.fullyCollapseComments()) {
                             doLongClick(holder, comment, baseNode);
                         }
                     }
                     toCollapse.add(comment.getFullName());
                     if ((holder.firstTextView.getVisibility() == View.VISIBLE
                             || holder.commentOverflow.getVisibility() == View.VISIBLE)
-                            && SettingValues.collapseComments) {
+                            && PreferenceHelper.fullyCollapseComments()) {
                         holder.firstTextView.setVisibility(View.GONE);
                         holder.commentOverflow.setVisibility(View.GONE);
-                    } else if (SettingValues.collapseComments) {
+                    } else if (PreferenceHelper.fullyCollapseComments()) {
                         if (!holder.firstTextView.getText().toString().isEmpty()) {
                             holder.firstTextView.setVisibility(View.VISIBLE);
                         } else {
@@ -1796,7 +1791,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public void unhideAll(CommentNode n, int i) {
         try {
             int counter = unhideNumber(n, 0);
-            if (SettingValues.collapseComments) {
+            if (PreferenceHelper.fullyCollapseComments()) {
                 listView.setItemAnimator(null);
             } else {
                 try {
@@ -1812,7 +1807,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     public void unhideAll(CommentNode n) {
         unhideNumber(n, 0);
-        if (SettingValues.collapseComments) {
+        if (PreferenceHelper.fullyCollapseComments()) {
             listView.setItemAnimator(null);
         } else {
             listView.setItemAnimator(new AlphaInAnimator());
@@ -1823,7 +1818,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public void hideAll(CommentNode n) {
 
         hideNumber(n, 0);
-        if (SettingValues.collapseComments) {
+        if (PreferenceHelper.fullyCollapseComments()) {
             listView.setItemAnimator(null);
         } else {
             listView.setItemAnimator(new AlphaInAnimator());
@@ -1835,7 +1830,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public void hideAll(CommentNode n, int i) {
 
         int counter = hideNumber(n, 0);
-        if (SettingValues.collapseComments) {
+        if (PreferenceHelper.fullyCollapseComments()) {
             listView.setItemAnimator(null);
         } else {
             listView.setItemAnimator(new AlphaInAnimator());

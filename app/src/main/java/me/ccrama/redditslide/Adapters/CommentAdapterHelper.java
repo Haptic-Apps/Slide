@@ -87,6 +87,7 @@ import me.ccrama.redditslide.util.LayoutUtils;
 import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.MiscUtil;
 import me.ccrama.redditslide.util.TimeUtils;
+import me.ccrama.redditslide.util.preference.PreferenceHelper;
 
 /**
  * Created by Carlos on 8/4/2016.
@@ -1341,7 +1342,7 @@ public class CommentAdapterHelper {
         SpannableStringBuilder timeSpan = new SpannableStringBuilder().append(
                 (timeAgo == null || timeAgo.isEmpty()) ? "just now" : timeAgo);
 
-        if (SettingValues.highlightTime
+        if (PreferenceHelper.coloredTimeBubble()
                 && adapter.lastSeen != 0
                 && adapter.lastSeen < time
                 && !adapter.dataSet.single
@@ -1367,7 +1368,7 @@ public class CommentAdapterHelper {
             titleString.append(pinned);
             titleString.append(" ");
         }
-        if (!SettingValues.hideCommentAwards && (comment.getTimesSilvered() > 0 || comment.getTimesGilded() > 0  || comment.getTimesPlatinized() > 0)) {
+        if (!PreferenceHelper.hideCommentAwards() && (comment.getTimesSilvered() > 0 || comment.getTimesGilded() > 0  || comment.getTimesPlatinized() > 0)) {
             TypedArray a = mContext.obtainStyledAttributes(
                     new FontPreferences(mContext).getPostFontStyle().getResId(),
                     R.styleable.FontStyle);

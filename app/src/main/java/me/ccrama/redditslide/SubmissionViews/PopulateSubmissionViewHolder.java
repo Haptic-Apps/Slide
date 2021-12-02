@@ -121,6 +121,7 @@ import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 import me.ccrama.redditslide.util.OnSingleClickListener;
 import me.ccrama.redditslide.util.SubmissionParser;
+import me.ccrama.redditslide.util.preference.PreferenceHelper;
 
 import static me.ccrama.redditslide.Notifications.ImageDownloadNotificationService.EXTRA_SUBMISSION_TITLE;
 
@@ -2438,7 +2439,7 @@ public class PopulateSubmissionViewHolder {
         holder.comments.setText(String.format(Locale.getDefault(), "%d %s", commentCount,
                 ((more > 0 && SettingValues.commentLastVisit) ? "(+" + more + ")" : "")));
         String scoreRatio =
-                (SettingValues.upvotePercentage && full && submission.getUpvoteRatio() != null) ?
+                (PreferenceHelper.showUpvotePercentage() && full && submission.getUpvoteRatio() != null) ?
                         "("
                                 + (int) (submission.getUpvoteRatio() * 100)
                                 + "%)" : "";

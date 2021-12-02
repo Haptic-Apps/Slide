@@ -50,6 +50,7 @@ import me.ccrama.redditslide.util.BlendModeUtil;
 import me.ccrama.redditslide.util.CompatUtil;
 import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
+import me.ccrama.redditslide.util.preference.PreferenceHelper;
 
 /**
  * Created by carlo_000 on 2/7/2016.
@@ -147,7 +148,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                 if (full) {
                     if (!fullImage && height < dpToPx(50) && type != ContentType.Type.SELF) {
                         forceThumb = true;
-                    } else if (SettingValues.cropImage) {
+                    } else if (PreferenceHelper.cropImage()) {
                         backdrop.setLayoutParams(
                                 new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT,
                                         dpToPx(200)));

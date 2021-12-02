@@ -45,4 +45,80 @@ public class PreferenceHelper {
     public static boolean forceFullCommentView() {
         return getHelperBoolean(PrefKeys.PREF_FORCE_FULL_COMMENT_VIEW, false);
     }
+
+
+    //////////////////////////////////////////////////
+    // Comments settings
+    //////////////////////////////////////////////////
+    public static boolean cropImage() {
+        return getHelperBoolean(PrefKeys.PREF_CROP_IMAGE, true);
+    }
+
+    public static boolean colorCommentDepth() {
+        return getHelperBoolean(PrefKeys.PREF_COLOR_COMMENT_DEPTH, true);
+    }
+
+    public static boolean highlightCommentOP() {
+        return getHelperBoolean(PrefKeys.PREF_HIGHLIGHT_COMMENT_OP, true);
+    }
+
+    public static boolean wideDepth() {
+        return getHelperBoolean(PrefKeys.PREF_WIDE_DEPTH, false);
+    }
+
+    public static boolean showCommentFab() {
+        return getHelperBoolean(PrefKeys.PREF_SHOW_COMMENT_FAB, false);
+    }
+
+    public static boolean rightHandedCommentMenu() {
+        return getHelperBoolean(PrefKeys.PREF_RIGHT_HANDED_COMMENT_MENU, false);
+    }
+
+    public static boolean showUpvotePercentage() {
+        return getHelperBoolean(PrefKeys.PREF_SHOW_UPVOTE_PERCENTAGE, false);
+    }
+
+    public static boolean coloredTimeBubble() {
+        return getHelperBoolean(PrefKeys.PREF_COLORED_TIME_BUBBLE, true);
+    }
+
+    public static boolean hideCommentAwards() {
+        return getHelperBoolean(PrefKeys.PREF_HIDE_COMMENT_AWARDS, false);
+    }
+
+    public static boolean parentCommentNav() {
+        return getHelperBoolean(PrefKeys.PREF_PARENT_COMMENT_NAV, true);
+    }
+
+    public static boolean autohideCommentNavBar() {
+        return getHelperBoolean(PrefKeys.PREF_AUTOHIDE_COMMENT_NAVBAR, false);
+    }
+
+    public static boolean showCollapseExpandButton() {
+        return getHelperBoolean(PrefKeys.PREF_SHOW_COLLAPSE_EXPAND_BUTTON, false);
+    }
+
+    public static boolean volumeNavComments() {
+        return getHelperBoolean(PrefKeys.PREF_VOLUME_NAV_COMMENTS, false);
+    }
+
+    public static boolean navbarVoteGestures() {
+        return getHelperBoolean(PrefKeys.PREF_NAVBAR_VOTE_GESTURES, false);
+    }
+
+    public static boolean swapLongpressTap() {
+        return getHelperBoolean(PrefKeys.PREF_SWAP_LONGPRESS_TAP, false);
+    }
+
+    public static boolean fullyCollapseComments() {
+        return getHelperBoolean(PrefKeys.PREF_FULLY_COLLAPSE_COMMENTS, false);
+    }
+
+    public static boolean collapseChildComments() {
+        return getHelperBoolean(PrefKeys.PREF_COLLAPSE_CHILD_COMMENTS, false);
+    }
+
+    public static boolean collapseDeletedComments() {
+        return getHelperBoolean(PrefKeys.PREF_COLLAPSE_DELETED_COMMENTS, false);
+    }
 }

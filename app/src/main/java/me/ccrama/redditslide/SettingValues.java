@@ -23,16 +23,12 @@ import me.ccrama.redditslide.util.SortingUtil;
 public class SettingValues {
     public static final String PREF_SINGLE                    = "Single";
     public static final String PREF_FAB                       = "Fab";
-    public static final String PREF_UPVOTE_PERCENTAGE         = "upvotePercentage";
     public static final String PREF_FAB_TYPE                  = "FabType";
     public static final String PREF_DAY_TIME                  = "day";
-    public static final String PREF_VOTE_GESTURES             = "voteGestures";
     public static final String PREF_NIGHT_MODE_STATE          = "nightModeState";
     public static final String PREF_NIGHT_MODE                = "nightMode";
     public static final String PREF_NIGHT_THEME               = "nightTheme";
     public static final String PREF_TYPE_IN_TEXT              = "typeInText";
-    public static final String PREF_AUTOHIDE_COMMENTS         = "autohideComments";
-    public static final String PREF_SHOW_COLLAPSE_EXPAND      = "showCollapseExpand";
     public static final String PREF_NO_IMAGES                 = "noImages";
     public static final String PREF_AUTOTHEME                 = "autotime";
     public static final String PREVIEWS_LEFT                  = "previewsLeft";
@@ -45,7 +41,6 @@ public class SettingValues {
     public static final String PREF_READER_NIGHT              = "readernight";
     public static final String PREF_COLOR_EVERYWHERE          = "colorEverywhere";
     public static final String PREF_EXPANDED_TOOLBAR          = "expandedToolbar";
-    public static final String PREF_SWAP                      = "Swap";
     public static final String PREF_ACTIONBAR_VISIBLE         = "actionbarVisible";
     public static final String PREF_SMALL_TAG                 = "smallTag";
     public static final String PREF_ACTIONBAR_TAP             = "actionbarTap";
@@ -60,18 +55,11 @@ public class SettingValues {
     public static final String PREF_SUBREDDIT_FILTERS         = "subredditFilters";
     public static final String PREF_ABBREVIATE_SCORES         = "abbreviateScores";
     public static final String PREF_HIDE_POST_AWARDS          = "hidePostAwards";
-    public static final String PREF_HIDE_COMMENT_AWARDS       = "hideCommentAwards";
     public static final String PREF_FLAIR_FILTERS             = "subFlairFilters";
     public static final String PREF_COMMENT_LAST_VISIT        = "commentLastVisit";
     public static final String PREF_VOTES_INFO_LINE           = "votesInfoLine";
     public static final String PREF_TYPE_INFO_LINE            = "typeInfoLine";
     public static final String PREF_COMMENT_PAGER             = "commentPager";
-    public static final String PREF_COLLAPSE_COMMENTS         = "collapseCOmments";
-    public static final String PREF_COLLAPSE_COMMENTS_DEFAULT = "collapseCommentsDefault";
-    public static final String PREF_COLLAPSE_DELETED_COMMENTS = "collapseDeletedComments";
-    public static final String PREF_RIGHT_HANDED_COMMENT_MENU = "rightHandedCommentMenu";
-    public static final String PREF_CROP_IMAGE                = "cropImage";
-    public static final String PREF_COMMENT_FAB               = "commentFab";
     public static final String PREF_SWITCH_THUMB              = "switchThumb";
     public static final String PREF_BIG_THUMBS                = "bigThumbnails";
     public static final String PREF_NO_THUMB                  = "noThumbnails";
@@ -98,14 +86,12 @@ public class SettingValues {
     public static final String PREF_HIDE_NSFW_PREVIEW         = "hideNSFWPreviews";
     public static final String PREF_HIDE_NSFW_COLLECTION      = "hideNSFWPreviewsCollection";
     public static final String PREF_IGNORE_SUB_SETTINGS       = "ignoreSub";
-    public static final String PREF_HIGHLIGHT_TIME            = "highlightTime";
     public static final String PREF_MUTE                      = "muted";
     public static final String PREF_LINK_HANDLING_MODE        = "linkHandlingMode";
 
     public static final String PREF_ALBUM                  = "album";
     public static final String PREF_GIF                    = "gif";
     public static final String PREF_HQGIF                  = "hqgif";
-    public static final String PREF_FASTSCROLL             = "Fastscroll";
     public static final String PREF_FAB_CLEAR              = "fabClear";
     public static final String PREF_HIDEBUTTON             = "Hidebutton";
     public static final String PREF_SAVE_BUTTON            = "saveButton";
@@ -115,17 +101,13 @@ public class SettingValues {
     public static final String SYNCCIT_NAME                = "SYNCCIT_NAME";
     public static final String PREF_BLUR                   = "blur";
     public static final String PREF_ALBUM_SWIPE            = "albumswipe";
-    public static final String PREF_COMMENT_NAV            = "commentVolumeNav";
-    public static final String PREF_COLOR_COMMENT_DEPTH    = "colorCommentDepth";
     public static final String COMMENT_DEPTH               = "commentDepth";
     public static final String COMMENT_COUNT               = "commentcount";
     public static final String PREF_USER_FILTERS           = "userFilters";
     public static final String PREF_COLOR_ICON             = "colorIcon";
     public static final String PREF_PEEK                   = "peek";
     public static final String PREF_LARGE_LINKS            = "largeLinks";
-    public static final String PREF_LARGE_DEPTH            = "largeDepth";
     public static final String PREF_TITLE_TOP              = "titleTop";
-    public static final String PREF_HIGHLIGHT_COMMENT_OP   = "commentOP";
     public static final String PREF_LONG_LINK              = "shareLongLink";
     public static final String PREF_SELECTED_BROWSER       = "selectedBrowser";
     public static final String PREF_SELECTED_DRAWER_ITEMS  = "selectedDrawerItems";
@@ -151,22 +133,15 @@ public class SettingValues {
     public static SharedPreferences       prefs;
     public static boolean                 expandedToolbar;
     public static boolean                 single;
-    public static boolean                 swap;
     public static boolean                 album;
     public static boolean                 cache;
-    public static boolean                 expandedSettings;
-    public static boolean                 fabComments;
-    public static boolean                 largeDepth;
     public static boolean                 cacheDefault;
     public static boolean                 image;
     public static boolean                 video;
-    public static boolean                 upvotePercentage;
     public static boolean                 colorBack;
     public static boolean                 colorNavBar;
     public static boolean                 actionbarVisible;
     public static boolean                 actionbarTap;
-    public static boolean                 commentAutoHide;
-    public static boolean                 showCollapseExpand;
     public static boolean lowResAlways;
     public static boolean noImages;
     public static boolean lowResMobile;
@@ -179,25 +154,16 @@ public class SettingValues {
     public static boolean storeNSFWHistory;
     public static boolean scrollSeen;
     public static boolean saveButton;
-    public static boolean voteGestures;
     public static boolean colorEverywhere;
     public static boolean gif;
     public static boolean hqgif;
-    public static boolean colorCommentDepth;
-    public static boolean commentVolumeNav;
     public static boolean postNav;
-    public static boolean cropImage;
     public static boolean smallTag;
     public static boolean typeInfoLine;
     public static boolean votesInfoLine;
     public static boolean readerMode;
-    public static boolean collapseComments;
-    public static boolean collapseCommentsDefault;
-    public static boolean collapseDeletedComments;
-    public static boolean rightHandedCommentMenu;
     public static boolean abbreviateScores;
     public static boolean hidePostAwards;
-    public static boolean hideCommentAwards;
     public static boolean shareLongLink;
     public static boolean isMuted;
     public static int     subredditSearchMethod;
@@ -224,7 +190,6 @@ public class SettingValues {
     public static boolean hideNSFWCollection;
     public static boolean highColorspaceImages;
 
-    public static boolean fastscroll;
     public static boolean fab     = true;
     public static int     fabType = Constants.FAB_POST;
     public static boolean hideButton;
@@ -260,8 +225,6 @@ public class SettingValues {
     public static boolean colorIcon;
     public static boolean peek;
     public static boolean largeLinks;
-    public static boolean highlightCommentOP;
-    public static boolean highlightTime;
     public static String  selectedBrowser;
     public static long    selectedDrawerItems;
     public static ForcedState forcedNightModeState = ForcedState.NOT_FORCED;
@@ -301,13 +264,11 @@ public class SettingValues {
         blurCheck = prefs.getBoolean(PREF_BLUR, false);
         overrideLanguage = prefs.getBoolean(PREF_OVERRIDE_LANGUAGE, false);
         immersiveMode = prefs.getBoolean(PREF_IMMERSIVE_MODE, false);
-        largeDepth = prefs.getBoolean(PREF_LARGE_DEPTH, false);
         readerMode = prefs.getBoolean(PREF_READER_MODE, false);
         imageSubfolders = prefs.getBoolean(PREF_IMAGE_SUBFOLDERS, false);
         imageDownloadButton = prefs.getBoolean(PREF_IMAGE_DOWNLOAD_BUTTON, true);
         isMuted = prefs.getBoolean(PREF_MUTE, false);
 
-        commentVolumeNav = prefs.getBoolean(PREF_COMMENT_NAV, false);
         postNav = false;
 
         fab = prefs.getBoolean(PREF_FAB, true);
@@ -327,8 +288,6 @@ public class SettingValues {
         backButtonBehavior = prefs.getInt(PREF_BACK_BUTTON_BEHAVIOR,
                 Constants.BackButtonBehaviorOptions.ConfirmExit.getValue());
 
-        highlightTime = prefs.getBoolean(PREF_HIGHLIGHT_TIME, true);
-
         // TODO: Remove the old pref check in a later version
         // This handles forward migration from the old night_mode boolean state
         nightModeState = prefs.getInt(PREF_NIGHT_MODE_STATE, (prefs.getBoolean(PREF_NIGHT_MODE, false) ? NightModeState.MANUAL : NightModeState.DISABLED).ordinal());
@@ -339,15 +298,7 @@ public class SettingValues {
         colorNavBar = prefs.getBoolean(PREF_COLOR_NAV_BAR, false);
         shareLongLink = prefs.getBoolean(PREF_LONG_LINK, false);
         colorEverywhere = prefs.getBoolean(PREF_COLOR_EVERYWHERE, true);
-        colorCommentDepth = prefs.getBoolean(PREF_COLOR_COMMENT_DEPTH, true);
         alwaysZoom = prefs.getBoolean(PREF_ZOOM_DEFAULT, true);
-        collapseComments = prefs.getBoolean(PREF_COLLAPSE_COMMENTS, false);
-        collapseCommentsDefault = prefs.getBoolean(PREF_COLLAPSE_COMMENTS_DEFAULT, false);
-        collapseDeletedComments = prefs.getBoolean(PREF_COLLAPSE_DELETED_COMMENTS, false);
-        rightHandedCommentMenu = prefs.getBoolean(PREF_RIGHT_HANDED_COMMENT_MENU, false);
-        commentAutoHide = prefs.getBoolean(PREF_AUTOHIDE_COMMENTS, false);
-        showCollapseExpand = prefs.getBoolean(PREF_SHOW_COLLAPSE_EXPAND, false);
-        highlightCommentOP = prefs.getBoolean(PREF_HIGHLIGHT_COMMENT_OP, true);
 
         typeInfoLine = prefs.getBoolean(PREF_TYPE_INFO_LINE, false);
         votesInfoLine = prefs.getBoolean(PREF_VOTES_INFO_LINE, false);
@@ -364,26 +315,22 @@ public class SettingValues {
         abbreviateScores = prefs.getBoolean(PREF_ABBREVIATE_SCORES, true);
 
         hidePostAwards = prefs.getBoolean(PREF_HIDE_POST_AWARDS, false);
-        hideCommentAwards = prefs.getBoolean(PREF_HIDE_COMMENT_AWARDS, false);
 
         lowResAlways = prefs.getBoolean(PREF_LOW_RES_ALWAYS, false);
         lowResMobile = prefs.getBoolean(PREF_LOW_RES_MOBILE, false);
         loadImageLq = prefs.getBoolean(PREF_IMAGE_LQ, false);
         showDomain = prefs.getBoolean(PREF_SHOW_DOMAIN, false);
         expandedToolbar = prefs.getBoolean(PREF_EXPANDED_TOOLBAR, false);
-        voteGestures = prefs.getBoolean(PREF_VOTE_GESTURES, false);
 
         alphabetizeOnSubscribe = prefs.getBoolean(PREF_ALPHABETIZE_SUBSCRIBE, false);
 
         commentPager = prefs.getBoolean(PREF_COMMENT_PAGER, false);
         smallTag = prefs.getBoolean(PREF_SMALL_TAG, false);
-        swap = prefs.getBoolean(PREF_SWAP, false);
         hideSelftextLeadImage = prefs.getBoolean(PREF_SELFTEXT_IMAGE_COMMENT, false);
         image = prefs.getBoolean(PREF_IMAGE, true);
         cache = true;
         cacheDefault = false;
         storeHistory = prefs.getBoolean(PREF_STORE_HISTORY, true);
-        upvotePercentage = prefs.getBoolean(PREF_UPVOTE_PERCENTAGE, false);
         storeNSFWHistory = prefs.getBoolean(PREF_STORE_NSFW_HISTORY, false);
         scrollSeen = prefs.getBoolean(PREF_SCROLL_SEEN, false);
         synccitName = prefs.getString(SYNCCIT_NAME, "");
@@ -397,7 +344,6 @@ public class SettingValues {
         nightStart = prefs.getInt(PREF_NIGHT_START, 9);
         nightEnd = prefs.getInt(PREF_NIGHT_END, 5);
 
-        fabComments = prefs.getBoolean(PREF_COMMENT_FAB, false);
         largeLinks = prefs.getBoolean(PREF_LARGE_LINKS, false);
 
         // SharedPreferences' StringSets should never be modified, so we duplicate them into a new HashSet
@@ -411,7 +357,6 @@ public class SettingValues {
 
         colorSubName = prefs.getBoolean(PREF_COLOR_SUB_NAME, false);
 
-        cropImage = prefs.getBoolean(PREF_CROP_IMAGE, true);
         switchThumb = prefs.getBoolean(PREF_SWITCH_THUMB, true);
         bigThumbnails = prefs.getBoolean(PREF_BIG_THUMBS, false);
         noThumbnails = prefs.getBoolean(PREF_NO_THUMB, false);
@@ -424,7 +369,6 @@ public class SettingValues {
         gif = prefs.getBoolean(PREF_GIF, true);
         hqgif = prefs.getBoolean(PREF_HQGIF, false);
         video = true;
-        fastscroll = prefs.getBoolean(PREF_FASTSCROLL, true);
         typeInText = prefs.getBoolean(PREF_TYPE_IN_TEXT, false);
 
         hideButton = prefs.getBoolean(PREF_HIDEBUTTON, false);

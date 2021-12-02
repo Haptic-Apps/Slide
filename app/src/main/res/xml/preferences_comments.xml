@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        android:title="@string/display"
+        app:iconSpaceReserved="false">
+
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="@string/prefKey_comments_cropImage"
+            android:title="@string/settings_comment_crop"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="@string/prefKey_comments_colorCommentDepth"
+            android:title="@string/settings_comment_color"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="@string/prefKey_comments_highlightCommentOp"
+            android:title="@string/settings_comment_highlightOpColor"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="@string/prefKey_comments_wideDepth"
+            android:title="@string/settings_wide_depth_indicators"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="@string/prefKey_comments_showCommentFab"
+            android:title="@string/settings_fab_create"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="@string/prefKey_comments_rightHandedComments"
+            android:title="@string/settings_right_handed_comment_menu"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="@string/prefKey_comments_showUpvotePercentage"
+            android:title="@string/upvote_percentage"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:enabled="false"
+            android:key="@string/prefKey_comments_coloredTimeBubble"
+            android:summary="@string/settings_highlight_time_desc"
+            android:title="@string/settings_colored_time"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="@string/prefKey_comments_hideCommentAwards"
+            android:title="@string/settings_hide_comment_awards"
+            app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
+
+    <PreferenceCategory
+        android:title="@string/navigation"
+        app:iconSpaceReserved="false">
+
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="@string/prefKey_comments_parentCommentNav"
+            android:summary="@string/settings_commentnav_description"
+            android:title="@string/settings_commentnav"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:dependency="@string/prefKey_comments_parentCommentNav"
+            android:key="@string/prefKey_comments_autohideCommentNavbar"
+            android:title="@string/auto_hide_the_comment_nav_bar"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:singleLineTitle="false"
+            android:dependency="@string/prefKey_comments_parentCommentNav"
+            android:key="@string/prefKey_comments_showCollapseExpandButton"
+            android:title="@string/show_collapse_expand_nav_bar"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="@string/prefKey_comments_volumeNavComments"
+            android:title="@string/settings_volume_nav_comments"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="@string/prefKey_comments_navbarVoteGestures"
+            android:summary="@string/nav_gestures_description"
+            android:title="@string/navigation_bar_vote_gestures"
+            app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
+
+    <PreferenceCategory
+        android:title="@string/collapse_comments"
+        app:iconSpaceReserved="false">
+
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="@string/prefKey_comments_swapLongpressTap"
+            android:title="@string/settings_comments_swap_long"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="@string/prefKey_comments_fullyCollapseComments"
+            android:summary="@string/settings_comment_collapse_description"
+            android:title="@string/settings_comment_collapse"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="@string/prefKey_comments_collapseChildComments"
+            android:title="@string/settings_comment_collapse_default"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="@string/prefKey_comments_collapseDeletedComments"
+            android:title="@string/settings_comments_collapse_deleted"
+            app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

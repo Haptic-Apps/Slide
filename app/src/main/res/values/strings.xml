@@ -663,6 +663,7 @@
     <string name="settings_section_data_saving_mode">Data saving mode</string>
     <string name="settings_section_data_saving_quality">Data saving quality</string>
     <string name="settings_comment_color">Colorful comment depth indicators</string>
+    <string name="settings_comment_highlightOpColor">Highlight top-level comment OPs</string>
     <string name="settings_volume_nav_comments">Navigate comments using volume buttons</string>
     <string name="settings_synccit_remove">DISCONNECT SYNCCIT</string>
     <string name="settings_synccit_auth">Auth code</string>
@@ -1218,7 +1219,7 @@
     <string name="page_does_not_exist">The page you requested does not exist</string>
     <string name="back_button_behavior_goto_first">Go to first subreddit</string>
     <string name="settings_hide_post_awards">Hide awards</string>
-    <string name="settings_hide_comment_awards">Hide awards</string>
+    <string name="settings_hide_comment_awards">Hide comment awards</string>
     <string name="high_colorspace_images">High-Colorspace Images</string>
     <string name="description_high_colorspace">Loads full colorspace on images, potentially leading to higher memory usage</string>
     <string name="editor_btn_select_flair">Select flair</string>

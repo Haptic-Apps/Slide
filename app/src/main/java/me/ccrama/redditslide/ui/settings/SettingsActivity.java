@@ -11,6 +11,7 @@ import me.ccrama.redditslide.Activities.BaseActivity;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.databinding.ActivitySettingsBinding;
+import me.ccrama.redditslide.ui.settings.fragments.SettingsCommentsFragment;
 import me.ccrama.redditslide.ui.settings.fragments.SettingsFragment;
 import me.ccrama.redditslide.ui.settings.fragments.SettingsMultiColumnFragment;
 
@@ -33,6 +34,8 @@ public class SettingsActivity extends BaseActivity implements RestartActivity {
 
             case R.xml.preferences_multicolumn:
                 return R.string.settings_title_multi_column;
+            case R.xml.preferences_comments:
+                return R.string.settings_title_comments;
         }
     }
 
@@ -109,6 +112,9 @@ public class SettingsActivity extends BaseActivity implements RestartActivity {
         switch (screen) {
             case R.xml.preferences_multicolumn:
                 prefFragment = new SettingsMultiColumnFragment();
+                break;
+            case R.xml.preferences_comments:
+                prefFragment = new SettingsCommentsFragment();
                 break;
         }
         return prefFragment;

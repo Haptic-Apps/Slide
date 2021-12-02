@@ -40,4 +40,25 @@
     <string name="prefKey_multicolumn_portraitModeDualColumns">pref_portraitModeDualColumns</string>
     <string name="prefKey_multicolumn_forceFullCommentView">pref_forceFullCommentView</string>
 
+
+    <!-- preferences_comments -->
+    <string name="prefKey_comments_cropImage">pref_cropImage</string>
+    <string name="prefKey_comments_colorCommentDepth">pref_colorCommentDepth</string>
+    <string name="prefKey_comments_highlightCommentOp">pref_highlightCommentOp</string>
+    <string name="prefKey_comments_wideDepth">pref_wideDepth</string>
+    <string name="prefKey_comments_showCommentFab">pref_showCommentFab</string>
+    <string name="prefKey_comments_rightHandedComments">pref_rightHandedComments</string>
+    <string name="prefKey_comments_showUpvotePercentage">pref_showUpvotePercentage</string>
+    <string name="prefKey_comments_coloredTimeBubble">pref_coloredTimeBubble</string>
+    <string name="prefKey_comments_hideCommentAwards">pref_hideCommentAwards</string>
+    <string name="prefKey_comments_parentCommentNav">pref_parentCommentNav</string>
+    <string name="prefKey_comments_autohideCommentNavbar">pref_autohideCommentNavbar</string>
+    <string name="prefKey_comments_showCollapseExpandButton">pref_showCollapseExpandButton</string>
+    <string name="prefKey_comments_volumeNavComments">pref_volumeNavComments</string>
+    <string name="prefKey_comments_navbarVoteGestures">pref_navbarVoteGestures</string>
+    <string name="prefKey_comments_swapLongpressTap">pref_swapLongpressTap</string>
+    <string name="prefKey_comments_fullyCollapseComments">pref_fullyCollapseComments</string>
+    <string name="prefKey_comments_collapseChildComments">pref_collapseChildComments</string>
+    <string name="prefKey_comments_collapseDeletedComments">pref_collapseDeletedComments</string>
+
 </resources>

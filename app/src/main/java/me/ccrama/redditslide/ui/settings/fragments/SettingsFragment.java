@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.StringRes;
+import androidx.annotation.XmlRes;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
@@ -17,7 +19,6 @@ import me.ccrama.redditslide.ui.settings.ManageOfflineContent;
 import me.ccrama.redditslide.ui.settings.SettingsAbout;
 import me.ccrama.redditslide.ui.settings.SettingsActivity;
 import me.ccrama.redditslide.ui.settings.SettingsBackup;
-import me.ccrama.redditslide.ui.settings.SettingsComments;
 import me.ccrama.redditslide.ui.settings.SettingsData;
 import me.ccrama.redditslide.ui.settings.SettingsFilter;
 import me.ccrama.redditslide.ui.settings.SettingsFont;
@@ -103,8 +104,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         final Preference fontPref = findPreference(getString(PrefKeys.PREF_ROOT_FONT));
         setActivityListener(fontPref, SettingsFont.class);
 
-        final Preference commentsPref = findPreference(getString(PrefKeys.PREF_ROOT_COMMENTS));
-        setActivityListener(commentsPref, SettingsComments.class);
+        declareSettingsScreen(PrefKeys.PREF_ROOT_COMMENTS, R.xml.preferences_comments);
 
 
         // Content
@@ -174,6 +174,16 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
         final Preference aboutPref = findPreference(getString(PrefKeys.PREF_ROOT_ABOUT));
         setActivityListener(aboutPref, SettingsAbout.class);
+    }
+
+    private void declareSettingsScreen(@StringRes final int resId, @XmlRes final int screen) {
+        final Preference pref = findPreference(getString(resId));
+        if (pref != null) {
+            pref.setOnPreferenceClickListener(preference -> {
+                activity.openSettingsScreen(screen);
+                return true;
+            });
+        }
     }
 
     private void setActivityResultListener(final Preference pref, final Class<?> clazz) {
