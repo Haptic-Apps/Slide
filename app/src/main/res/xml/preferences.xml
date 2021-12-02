@@ -108,6 +108,7 @@
         <Preference
             android:icon="@drawable/ic_reddit"
             android:key="@string/prefKey_redditContent"
+            android:summary="@string/settings_reddit_description"
             android:title="@string/content_settings"
             app:iconSpaceReserved="false" />
 

@@ -71,10 +71,6 @@ public class SettingValues {
     public static final String PREF_COOKIES                   = "storeCookies";
     public static final String PREF_NIGHT_START               = "nightStart";
     public static final String PREF_NIGHT_END                 = "nightEnd";
-    public static final String PREF_SHOW_NSFW_CONTENT         = "showNSFWContent";
-    public static final String PREF_HIDE_NSFW_PREVIEW         = "hideNSFWPreviews";
-    public static final String PREF_HIDE_NSFW_COLLECTION      = "hideNSFWPreviewsCollection";
-    public static final String PREF_IGNORE_SUB_SETTINGS       = "ignoreSub";
     public static final String PREF_MUTE                      = "muted";
     public static final String PREF_LINK_HANDLING_MODE        = "linkHandlingMode";
 
@@ -127,7 +123,6 @@ public class SettingValues {
     public static boolean readerNight;
     public static boolean swipeAnywhere;
     public static boolean commentLastVisit;
-    public static boolean showNSFWContent;
     public static boolean saveButton;
     public static boolean colorEverywhere;
     public static boolean gif;
@@ -157,8 +152,6 @@ public class SettingValues {
     public static Set<String>   alwaysExternal;
     public static Set<String>   userFilters;
 
-    public static boolean ignoreSubSetting;
-    public static boolean hideNSFWCollection;
     public static boolean highColorspaceImages;
 
     public static boolean fab     = true;
@@ -216,9 +209,6 @@ public class SettingValues {
         timePeriod = TimePeriod.valueOf(settings.getString("timePeriod", "DAY"));
         defaultCommentSorting =
                 CommentSort.valueOf(settings.getString("defaultCommentSortingNew", "CONFIDENCE"));
-        showNSFWContent = prefs.getBoolean(PREF_SHOW_NSFW_CONTENT, false);
-        hideNSFWCollection = prefs.getBoolean(PREF_HIDE_NSFW_COLLECTION, true);
-        ignoreSubSetting = prefs.getBoolean(PREF_IGNORE_SUB_SETTINGS, false);
 
         single = prefs.getBoolean(PREF_SINGLE, false);
         readerNight = prefs.getBoolean(PREF_READER_NIGHT, false);
@@ -352,10 +342,6 @@ public class SettingValues {
         prefs.edit()
                 .putBoolean("cardtextenabled" + sub.toLowerCase(Locale.ENGLISH), checked)
                 .apply();
-    }
-
-    public static boolean getIsNSFWEnabled() {
-        return prefs.getBoolean(PREF_HIDE_NSFW_PREVIEW + Authentication.name, true);
     }
 
     public static void resetSelftextEnabled(String subreddit) {

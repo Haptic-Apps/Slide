@@ -100,6 +100,14 @@
     <string name="prefKey_datasaving_lowQualityVideos">pref_lowQualityVideos</string>
 
 
+    <!-- preferences_redditcontent -->
+    <string name="prefKey_redditcontent_seeNsfwContent">prefKey_seeNsfwContent</string>
+    <string name="prefKey_redditcontent_hideAllNsfw">prefKey_hideAllNsfw</string>
+    <string name="prefKey_redditcontent_hideNsfwPreviews">prefKey_hideNsfwPreviews</string>
+    <string name="prefKey_redditcontent_ignoreSubMediaPrefs">prefKey_ignoreSubMediaPrefs</string>
+    <string name="prefKey_redditcontent_viewAllRedditPrefs">prefKey_viewAllRedditPrefs</string>
+
+
     <!-- preferences_backup -->
     <string name="prefKey_backup_backupToFile">prefKey_backupToFile</string>
     <string name="prefKey_backup_restoreFromFile">prefKey_restoreFromFile</string>

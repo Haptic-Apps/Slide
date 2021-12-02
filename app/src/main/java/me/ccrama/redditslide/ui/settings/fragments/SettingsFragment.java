@@ -21,7 +21,6 @@ import me.ccrama.redditslide.ui.settings.SettingsFilter;
 import me.ccrama.redditslide.ui.settings.SettingsFont;
 import me.ccrama.redditslide.ui.settings.SettingsGeneral;
 import me.ccrama.redditslide.ui.settings.SettingsHandling;
-import me.ccrama.redditslide.ui.settings.SettingsReddit;
 import me.ccrama.redditslide.ui.settings.SettingsSubreddit;
 import me.ccrama.redditslide.ui.settings.SettingsTheme;
 import me.ccrama.redditslide.ui.settings.dragSort.ReorderSubreddits;
@@ -116,10 +115,13 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         setActivityListener(filterPref, SettingsFilter.class);
 
         final Preference redditContentPref = findPreference(getString(PrefKeys.PREF_ROOT_REDDIT_CONTENT));
-        if (Authentication.isLoggedIn && NetworkUtil.isConnected(getContext())) {
-            setActivityListener(redditContentPref, SettingsReddit.class);
-        } else {
-            if (redditContentPref != null) {
+        if (redditContentPref != null) {
+            if (Authentication.isLoggedIn && NetworkUtil.isConnected(getContext())) {
+                redditContentPref.setOnPreferenceClickListener(preference -> {
+                    activity.openSettingsScreen(R.xml.preferences_redditcontent);
+                    return true;
+                });
+            } else {
                 redditContentPref.setEnabled(false);
             }
         }

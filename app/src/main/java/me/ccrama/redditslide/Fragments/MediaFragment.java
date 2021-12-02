@@ -70,6 +70,7 @@ import me.ccrama.redditslide.util.JsonUtil;
 import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
+import me.ccrama.redditslide.util.preference.PreferenceHelper;
 import okhttp3.OkHttpClient;
 
 import static me.ccrama.redditslide.Notifications.ImageDownloadNotificationService.EXTRA_SUBMISSION_TITLE;
@@ -173,7 +174,7 @@ public class MediaFragment extends Fragment {
 
         if (Strings.isNullOrEmpty(s.getThumbnail())
                 || Strings.isNullOrEmpty(firstUrl)
-                || (s.isNsfw() && SettingValues.getIsNSFWEnabled())) {
+                || (s.isNsfw() && PreferenceHelper.hideAllNsfw())) {
             thumbnailView.setVisibility(View.VISIBLE);
             ((ImageView) thumbnailView).setImageResource(R.drawable.web);
             addClickFunctions(thumbnailView, slideLayout, rootView,
@@ -182,7 +183,7 @@ public class MediaFragment extends Fragment {
                     type, getActivity(), s);
             (rootView.findViewById(R.id.progress)).setVisibility(View.GONE);
 
-            if ((s.isNsfw() && SettingValues.getIsNSFWEnabled())) {
+            if (s.isNsfw() && PreferenceHelper.hideAllNsfw()) {
                 ((ImageView) thumbnailView).setImageResource(
                         R.drawable.nsfw);
             } else {
@@ -198,7 +199,7 @@ public class MediaFragment extends Fragment {
             addClickFunctions(img, slideLayout, rootView, type, getActivity(), s);
         }
 
-        if (!s.isNsfw() || !SettingValues.getIsNSFWEnabled()) {
+        if (!s.isNsfw() || !PreferenceHelper.hideAllNsfw()) {
             if (type == ContentType.Type.EXTERNAL
                     || type == ContentType.Type.LINK
                     || type == ContentType.Type.VIDEO) {

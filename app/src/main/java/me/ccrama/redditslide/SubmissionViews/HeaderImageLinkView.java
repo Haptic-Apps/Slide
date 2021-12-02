@@ -210,7 +210,7 @@ public class HeaderImageLinkView extends RelativeLayout {
             }
 
             JsonNode node = submission.getDataNode();
-            if(!SettingValues.ignoreSubSetting && node != null && node.has("sr_detail") && node.get("sr_detail").has("show_media") && !node.get("sr_detail").get("show_media").asBoolean()){
+            if(!PreferenceHelper.ignoreSubMediaPrefs() && node != null && node.has("sr_detail") && node.get("sr_detail").has("show_media") && !node.get("sr_detail").get("show_media").asBoolean()){
                 thumbnailType = Submission.ThumbnailType.NONE;
             }
 
@@ -225,7 +225,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                         ContextCompat.getDrawable(getContext(), R.drawable.web));
                 thumbUsed = true;
             } else if (submission.isNsfw()
-                    && SettingValues.getIsNSFWEnabled() || (baseSub != null && submission.isNsfw() && SettingValues.hideNSFWCollection && (baseSub.equals("frontpage") || baseSub.equals("all") || baseSub.contains("+") || baseSub.equals("popular")) )) {
+                    && PreferenceHelper.hideAllNsfw() || (baseSub != null && submission.isNsfw() && PreferenceHelper.hideNsfwPreviews() && (baseSub.equals("frontpage") || baseSub.equals("all") || baseSub.contains("+") || baseSub.equals("popular")) )) {
                 setVisibility(View.GONE);
                 if (!full || forceThumb) {
                     thumbImage2.setVisibility(View.VISIBLE);
@@ -427,7 +427,7 @@ public class HeaderImageLinkView extends RelativeLayout {
             } else if (!thumbnail.isNull()
                     && submission.getThumbnail() != null
                     && (submission.getThumbnailType() == Submission.ThumbnailType.URL || (!thumbnail
-                    .isNull() && submission.isNsfw() && SettingValues.getIsNSFWEnabled()))) {
+                    .isNull() && submission.isNsfw() && PreferenceHelper.hideAllNsfw()))) {
 
                 url = submission.getThumbnail();
                 if (!full) {

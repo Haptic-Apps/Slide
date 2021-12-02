@@ -9,6 +9,8 @@ import java.net.URL;
 import java.util.Locale;
 import java.util.Set;
 
+import me.ccrama.redditslide.util.preference.PreferenceHelper;
+
 /**
  * Created by carlo_000 on 1/13/2016.
  */
@@ -125,7 +127,7 @@ public class PostMatch {
 
 
         if (s.isNsfw()) {
-            if (!SettingValues.showNSFWContent) {
+            if (!PreferenceHelper.seeNsfwContent()) {
                 contentMatch = true;
             }
             if (ignore18) {

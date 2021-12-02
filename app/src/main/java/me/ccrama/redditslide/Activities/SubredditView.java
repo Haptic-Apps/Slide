@@ -1839,7 +1839,7 @@ public class SubredditView extends BaseActivity {
                 }
 
                 // Over 18 interstitial for signed out users or those who haven't enabled NSFW content
-                if (subreddit.isNsfw() && (!SettingValues.showNSFWContent)) {
+                if (subreddit.isNsfw() && !PreferenceHelper.seeNsfwContent()) {
                     new AlertDialog.Builder(SubredditView.this)
                             .setTitle(getString(R.string.over18_title, subreddit.getDisplayName()))
                             .setMessage(getString(R.string.over18_desc) + "\n\n" + getString(

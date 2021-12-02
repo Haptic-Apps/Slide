@@ -582,7 +582,6 @@
 
 
     <!-- Settings -->
-    <string name="settings_reddit_prefs">Reddit preferences</string>
     <string name="settings_accent_title">Edit accent color</string>
     <string name="settings_delete_sub_settings">Do you really want to delete settings for %1$s?</string>
     <string name="settings_layout_default">Post layout</string>
@@ -711,7 +710,9 @@
     <string name="settings_general_comment_last_visit">Show comment count since last visit</string>
     <string name="settings_fab_create">Show \"create comment\" FAB</string>
     <string name="settings_right_handed_comment_menu">Right-handed comment reply menu</string>
-    <string name="settings_reddit_description">These settings change what the Reddit API returns to Slide.\n\nTo see thumbnails in all subreddits, enable \'Ignore subreddit media preferences\'\n\nTo see all NSFW content, turn off \'Hide NSFW photos\' and turn on \'I am over 18\'</string>
+    <string name="settings_reddit_description">These settings change what the Reddit API returns to Slide</string>
+    <string name="settings_reddit_seeNsfwContent_desc">To see all NSFW content, enable this setting and turn off \'Hide all NSFW photos\'</string>
+    <string name="settings_reddit_ignoreSubMediaPrefs_desc">Enable this to see thumbnails in all subreddits</string>
     <string name="settings_reddit_media_pref">Ignore subreddit media preferences</string>
     <string name="settings_description_synccit">Synccit allows you to sync your submission history between devices and your browser</string>
     <string name="settings_description_view_type">View types affect both the main view and single subreddit views.\n\nComment pane: comments slide out from next to posts and the comment page state is saved after swiping back (so you don\'t lose your place)\n\nNo subreddit tabs: disables swiping between subreddits\n\nSubreddit tabs: slide between your subreddits</string>
@@ -1227,4 +1228,5 @@
     <string name="settings_donate_paypal">Donate via PayPal</string>
     <string name="settings_datasaving_imageQuality_title">Image quality</string>
     <string name="setting_toolbox_removalType_error">You must enable the Toolbox functionality setting first.</string>
+    <string name="settings_reddit_hideNsfwPreviews_desc">Hide NSFW previews in collections (like /r/all)</string>
 </resources>

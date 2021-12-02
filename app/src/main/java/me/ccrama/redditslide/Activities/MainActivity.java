@@ -1943,14 +1943,10 @@ public class MainActivity extends BaseActivity
             });
 
             final SwitchCompat toggleNSFW = expandSettings.findViewById(R.id.toggle_nsfw);
-            toggleNSFW.setChecked(SettingValues.showNSFWContent);
-            toggleNSFW.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    SettingValues.showNSFWContent = isChecked;
-                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_SHOW_NSFW_CONTENT, isChecked).apply();
-                    reloadSubs();
-                }
+            toggleNSFW.setChecked(PreferenceHelper.seeNsfwContent());
+            toggleNSFW.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                PreferenceHelper.setSeeNsfwContent(isChecked);
+                reloadSubs();
             });
 
             final SwitchCompat toggleRightThumbnails = expandSettings.findViewById(R.id.toggle_right_thumbnails);

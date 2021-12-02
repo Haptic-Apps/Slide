@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        android:title="@string/nsfw"
+        app:iconSpaceReserved="false">
+
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="@string/prefKey_redditcontent_seeNsfwContent"
+            android:summary="@string/settings_reddit_seeNsfwContent_desc"
+            android:title="@string/settings_redditprefs_over18"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:dependency="@string/prefKey_redditcontent_seeNsfwContent"
+            android:key="@string/prefKey_redditcontent_hideAllNsfw"
+            android:title="@string/settings_disable_nsfw_photo"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:dependency="@string/prefKey_redditcontent_seeNsfwContent"
+            android:key="@string/prefKey_redditcontent_hideNsfwPreviews"
+            android:title="@string/settings_reddit_hideNsfwPreviews_desc"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="@string/prefKey_redditcontent_ignoreSubMediaPrefs"
+            android:summary="@string/settings_reddit_ignoreSubMediaPrefs_desc"
+            android:title="@string/settings_reddit_media_pref"
+            app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
+
+    <PreferenceCategory
+        android:title="@string/view_reddit_settings"
+        app:iconSpaceReserved="false">
+
+        <Preference
+            android:key="@string/prefKey_redditcontent_viewAllRedditPrefs"
+            android:title="@string/settings_prefs_reddit"
+            app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

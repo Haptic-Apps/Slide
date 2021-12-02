@@ -91,6 +91,14 @@ public class PrefKeys {
     public static final int PREF_LOW_QUALITY_VIDEOS = R.string.prefKey_datasaving_lowQualityVideos;//"lqVideos"
 
 
+    // Reddit content settings
+    public static final int PREF_SEE_NSFW_CONTENT = R.string.prefKey_redditcontent_seeNsfwContent;//"showNSFWContent"
+    public static final int PREF_HIDE_ALL_NSFW = R.string.prefKey_redditcontent_hideAllNsfw;//"hideNSFWPreviews"
+    public static final int PREF_HIDE_NSFW_PREVIEWS = R.string.prefKey_redditcontent_hideNsfwPreviews;//"hideNSFWPreviewsCollection"
+    public static final int PREF_IGNORE_SUB_MEDIA_PREFS = R.string.prefKey_redditcontent_ignoreSubMediaPrefs;//"ignoreSub"
+    public static final int PREF_VIEW_ALL_REDDIT_PREFS = R.string.prefKey_redditcontent_viewAllRedditPrefs;
+
+
     // Backup settings
     public static final int PREF_BACKUP_TO_FILE = R.string.prefKey_backup_backupToFile;
     public static final int PREF_RESTORE_FROM_FILE = R.string.prefKey_backup_restoreFromFile;

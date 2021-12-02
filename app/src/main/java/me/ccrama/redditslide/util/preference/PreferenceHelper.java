@@ -7,6 +7,8 @@ import android.content.res.Resources;
 import androidx.annotation.StringRes;
 import androidx.preference.PreferenceManager;
 
+import me.ccrama.redditslide.Authentication;
+
 /**
  * Created by TacoTheDank on 05/12/2021.
  * <p>
@@ -28,6 +30,10 @@ public class PreferenceHelper {
 
     private static boolean getHelperBoolean(@StringRes final int prefKey, final boolean defValue) {
         return sharedPrefs.getBoolean(getPrefKey(prefKey), defValue);
+    }
+
+    private static boolean getHelperBoolean(final String prefKey, final boolean defValue) {
+        return sharedPrefs.getBoolean(prefKey, defValue);
     }
 
     private static String getHelperString(@StringRes final int prefKey, final int defValue) {
@@ -255,6 +261,40 @@ public class PreferenceHelper {
 
     public static boolean preferLowQualityVideos() {
         return getHelperBoolean(PrefKeys.PREF_LOW_QUALITY_VIDEOS, true);
+    }
+
+
+    //////////////////////////////////////////////////
+    // Reddit content settings
+    //////////////////////////////////////////////////
+    public static boolean seeNsfwContent() {
+        return getHelperBoolean(PrefKeys.PREF_SEE_NSFW_CONTENT, false);
+    }
+
+    public static void setSeeNsfwContent(final boolean value) {
+        sharedPrefs.edit()
+                .putBoolean(getPrefKey(PrefKeys.PREF_SEE_NSFW_CONTENT), value)
+                .apply();
+    }
+
+    public static boolean hideAllNsfw() {
+        return getHelperBoolean(
+                getPrefKey(PrefKeys.PREF_HIDE_ALL_NSFW) + Authentication.name,
+                true);
+    }
+
+    public static boolean hideNsfwPreviews() {
+        return getHelperBoolean(PrefKeys.PREF_HIDE_NSFW_PREVIEWS, true);
+    }
+
+    public static void setHideNsfwPreviews(final boolean value) {
+        sharedPrefs.edit()
+                .putBoolean(getPrefKey(PrefKeys.PREF_HIDE_NSFW_PREVIEWS) + Authentication.name, value)
+                .apply();
+    }
+
+    public static boolean ignoreSubMediaPrefs() {
+        return getHelperBoolean(PrefKeys.PREF_IGNORE_SUB_MEDIA_PREFS, false);
     }
 
 
