@@ -34,6 +34,10 @@ public class PreferenceHelper {
         return sharedPrefs.getString(getPrefKey(prefKey), getPrefKey(defValue));
     }
 
+    private static String getHelperString(@StringRes final int prefKey, final String defValue) {
+        return sharedPrefs.getString(getPrefKey(prefKey), defValue);
+    }
+
     /**
      * Compares the preference's current value to the called prefKey.
      *
@@ -251,5 +255,28 @@ public class PreferenceHelper {
 
     public static boolean preferLowQualityVideos() {
         return getHelperBoolean(PrefKeys.PREF_LOW_QUALITY_VIDEOS, true);
+    }
+
+
+    //////////////////////////////////////////////////
+    // Synccit settings
+    //////////////////////////////////////////////////
+    public static String synccitUsername() {
+        return getHelperString(PrefKeys.PREF_SYNCCIT_USERNAME, "");
+    }
+
+    public static boolean isSynccitUsernameEmpty() {
+        return synccitUsername().isEmpty();
+    }
+
+    public static String synccitAuthcode() {
+        return getHelperString(PrefKeys.PREF_SYNCCIT_AUTHCODE, "");
+    }
+
+    public static void disconnectSynccit() {
+        sharedPrefs.edit()
+                .putString(getPrefKey(PrefKeys.PREF_SYNCCIT_USERNAME), "")
+                .putString(getPrefKey(PrefKeys.PREF_SYNCCIT_AUTHCODE), "")
+                .apply();
     }
 }

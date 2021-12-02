@@ -127,7 +127,7 @@ public class MultiredditPosts implements PostLoader {
                     ids[i] = s.getId();
                     i++;
                 }
-                if (!SettingValues.synccitName.isEmpty() && !offline) {
+                if (!PreferenceHelper.isSynccitUsernameEmpty() && !offline) {
                     new MySynccitReadTask().execute(ids);
                 }
                 final int finalStart = start;

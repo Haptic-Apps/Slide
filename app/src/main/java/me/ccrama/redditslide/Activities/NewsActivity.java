@@ -51,6 +51,7 @@ import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkStateReceiver;
 import me.ccrama.redditslide.util.NetworkUtil;
 import me.ccrama.redditslide.util.StringUtil;
+import me.ccrama.redditslide.util.preference.PreferenceHelper;
 
 public class NewsActivity extends BaseActivity
         implements NetworkStateReceiver.NetworkStateReceiverListener {
@@ -86,7 +87,7 @@ public class NewsActivity extends BaseActivity
     public void onPause() {
         super.onPause();
         changed = false;
-        if (!SettingValues.synccitName.isEmpty()) {
+        if (!PreferenceHelper.isSynccitUsernameEmpty()) {
             new MySynccitUpdateTask().execute(
                     SynccitRead.newVisited.toArray(new String[0]));
         }

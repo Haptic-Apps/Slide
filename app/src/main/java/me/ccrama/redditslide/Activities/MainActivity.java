@@ -368,7 +368,7 @@ public class MainActivity extends BaseActivity
     public void onPause() {
         super.onPause();
         changed = false;
-        if (!SettingValues.synccitName.isEmpty()) {
+        if (!PreferenceHelper.isSynccitUsernameEmpty()) {
             new MySynccitUpdateTask().execute(
                     SynccitRead.newVisited.toArray(new String[0]));
         }

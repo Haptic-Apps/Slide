@@ -127,6 +127,7 @@
         <Preference
             android:icon="@drawable/ic_synccit"
             android:key="@string/prefKey_synccit"
+            android:summary="@string/settings_description_synccit"
             android:title="@string/settings_synccit"
             app:iconSpaceReserved="false" />
 

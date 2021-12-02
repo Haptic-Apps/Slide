@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <EditTextPreference
+        android:defaultValue=""
+        android:key="@string/prefKey_synccit_username"
+        android:title="@string/settings_synccit_username"
+        app:iconSpaceReserved="false" />
+
+    <EditTextPreference
+        android:defaultValue=""
+        android:key="@string/prefKey_synccit_authcode"
+        android:title="@string/settings_synccit_auth"
+        app:iconSpaceReserved="false" />
+
+    <Preference
+        android:key="@string/prefKey_synccit_save"
+        android:title="@string/btn_save"
+        app:iconSpaceReserved="false" />
+
+    <Preference
+        android:key="@string/prefKey_synccit_disconnect"
+        android:title="@string/settings_synccit_remove"
+        app:iconSpaceReserved="false" />
+
+</PreferenceScreen>

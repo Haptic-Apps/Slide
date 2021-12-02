@@ -1,6 +1,6 @@
 package me.ccrama.redditslide.Synccit;
 
-import me.ccrama.redditslide.SettingValues;
+import me.ccrama.redditslide.util.preference.PreferenceHelper;
 
 /**
  * Created by carlo_000 on 2/16/2016.
@@ -15,12 +15,12 @@ public class MySynccitUpdateTask extends SynccitUpdateTask {
 
     @Override
     protected String getUsername() {
-        return SettingValues.synccitName;
+        return PreferenceHelper.synccitUsername();
     }
 
     @Override
     protected String getAuth() {
-        return SettingValues.synccitAuth;
+        return PreferenceHelper.synccitAuthcode();
     }
 
     @Override

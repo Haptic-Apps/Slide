@@ -181,7 +181,7 @@ public class SubredditPostsRealm implements PostLoader {
                     ((SubredditView) context).subreddit = subredditRandom;
                     ((SubredditView) context).executeAsyncSubreddit(subredditRandom);
                 }
-                if (!SettingValues.synccitName.isEmpty() && !offline) {
+                if (!PreferenceHelper.isSynccitUsernameEmpty() && !offline) {
                     new MySynccitReadTask(displayer).execute(ids);
                 }
 

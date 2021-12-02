@@ -665,7 +665,7 @@
     <string name="settings_comment_color">Colorful comment depth indicators</string>
     <string name="settings_comment_highlightOpColor">Highlight top-level comment OPs</string>
     <string name="settings_volume_nav_comments">Navigate comments using volume buttons</string>
-    <string name="settings_synccit_remove">DISCONNECT SYNCCIT</string>
+    <string name="settings_synccit_remove">Disconnect Synccit</string>
     <string name="settings_synccit_auth">Auth code</string>
     <string name="settings_synccit_username">Username</string>
     <string name="settings_synccit_delete">Really delete Synccit account?</string>

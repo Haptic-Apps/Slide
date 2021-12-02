@@ -86,8 +86,6 @@ public class SettingValues {
     public static final String PREF_SAVE_BUTTON            = "saveButton";
     public static final String PREF_IMAGE                  = "image";
     public static final String PREF_SELFTEXT_IMAGE_COMMENT = "selftextImageComment";
-    public static final String SYNCCIT_AUTH                = "SYNCCIT_AUTH";
-    public static final String SYNCCIT_NAME                = "SYNCCIT_NAME";
     public static final String PREF_BLUR                   = "blur";
     public static final String PREF_ALBUM_SWIPE            = "albumswipe";
     public static final String COMMENT_DEPTH               = "commentDepth";
@@ -150,9 +148,6 @@ public class SettingValues {
     public static int     linkHandlingMode;
 
     public static int previews;
-
-    public static String synccitName;
-    public static String synccitAuth;
 
     public static Set<String>   titleFilters;
     public static Set<String>   textFilters;
@@ -287,8 +282,6 @@ public class SettingValues {
         image = prefs.getBoolean(PREF_IMAGE, true);
         cache = true;
         cacheDefault = false;
-        synccitName = prefs.getString(SYNCCIT_NAME, "");
-        synccitAuth = prefs.getString(SYNCCIT_AUTH, "");
         notifSound = prefs.getBoolean(PREF_SOUND_NOTIFS, false);
         cookies = prefs.getBoolean(PREF_COOKIES, true);
         linkHandlingMode = prefs.getInt(PREF_LINK_HANDLING_MODE,

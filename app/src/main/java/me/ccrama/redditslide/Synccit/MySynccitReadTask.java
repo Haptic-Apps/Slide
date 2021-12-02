@@ -8,7 +8,6 @@ import java.util.HashSet;
 
 import me.ccrama.redditslide.Adapters.SubmissionDisplay;
 import me.ccrama.redditslide.HasSeen;
-import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.util.preference.PreferenceHelper;
 
 public class MySynccitReadTask extends SynccitReadTask {
@@ -39,12 +38,12 @@ public class MySynccitReadTask extends SynccitReadTask {
 
     @Override
     protected String getUsername() {
-        return SettingValues.synccitName;
+        return PreferenceHelper.synccitUsername();
     }
 
     @Override
     protected String getAuth() {
-        return SettingValues.synccitAuth;
+        return PreferenceHelper.synccitAuthcode();
     }
 
     @Override

@@ -96,6 +96,13 @@ public class PrefKeys {
     public static final int PREF_RESTORE_FROM_FILE = R.string.prefKey_backup_restoreFromFile;
 
 
+    // Synccit settings
+    public static final int PREF_SYNCCIT_USERNAME = R.string.prefKey_synccit_username;//"SYNCCIT_NAME"
+    public static final int PREF_SYNCCIT_AUTHCODE = R.string.prefKey_synccit_authcode;//"SYNCCIT_AUTH"
+    public static final int PREF_SYNCCIT_SAVE = R.string.prefKey_synccit_save;
+    public static final int PREF_SYNCCIT_DISCONNECT = R.string.prefKey_synccit_disconnect;
+
+
     // About settings
     public static final int PREF_ABOUT_REPORT_BUGS = R.string.prefKey_about_reportBugs;
     public static final int PREF_ABOUT_CHANGELOG = R.string.prefKey_about_changelog;

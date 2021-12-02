@@ -105,6 +105,13 @@
     <string name="prefKey_backup_restoreFromFile">prefKey_restoreFromFile</string>
 
 
+    <!-- preferences_synccit -->
+    <string name="prefKey_synccit_username">pref_synccit_username</string>
+    <string name="prefKey_synccit_authcode">pref_synccit_authcode</string>
+    <string name="prefKey_synccit_save">pref_synccit_save</string>
+    <string name="prefKey_synccit_disconnect">pref_synccit_disconnect</string>
+
+
     <!-- preferences_about -->
     <string name="prefKey_about_reportBugs">prefKey_reportBugs</string>
     <string name="prefKey_about_changelog">prefKey_changelog</string>

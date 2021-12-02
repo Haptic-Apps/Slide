@@ -302,7 +302,7 @@
         <activity android:name=".Activities.MakeExternal"/>
 
         <activity
-                android:name=".ui.settings.SettingsSynccit"
+                android:name=".ui.settings.fragments.SettingsSynccitFragment"
                 android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode"
                 android:theme="@style/swipeable"
                 android:windowSoftInputMode="adjustResize"/>

@@ -23,7 +23,6 @@ import me.ccrama.redditslide.ui.settings.SettingsGeneral;
 import me.ccrama.redditslide.ui.settings.SettingsHandling;
 import me.ccrama.redditslide.ui.settings.SettingsReddit;
 import me.ccrama.redditslide.ui.settings.SettingsSubreddit;
-import me.ccrama.redditslide.ui.settings.SettingsSynccit;
 import me.ccrama.redditslide.ui.settings.SettingsTheme;
 import me.ccrama.redditslide.ui.settings.dragSort.ReorderSubreddits;
 import me.ccrama.redditslide.util.NetworkUtil;
@@ -142,8 +141,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             });
         }
 
-        final Preference synccitPref = findPreference(getString(PrefKeys.PREF_ROOT_SYNCCIT));
-        setActivityListener(synccitPref, SettingsSynccit.class);
+        declareSettingsScreen(PrefKeys.PREF_ROOT_SYNCCIT, R.xml.preferences_synccit);
 
         final Preference proPref = findPreference(getString(PrefKeys.PREF_ROOT_PRO_UPGRADE));
         if (proPref != null) {
