@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <Preference
+        android:icon="@drawable/ic_report"
+        android:key="@string/prefKey_about_reportBugs"
+        android:title="@string/settings_bugs"
+        app:iconSpaceReserved="false" />
+
+    <Preference
+        android:icon="@drawable/ic_comment"
+        android:key="@string/prefKey_about_changelog"
+        android:title="@string/settings_changelog"
+        app:iconSpaceReserved="false" />
+
+    <Preference
+        android:icon="@drawable/ic_star"
+        android:key="@string/prefKey_about_rate"
+        android:title="@string/rate_slide"
+        app:iconSpaceReserved="false" />
+
+    <Preference
+        android:icon="@drawable/ic_bookmark_border"
+        android:key="@string/prefKey_about_subreddit"
+        android:title="/r/slideforreddit"
+        app:iconSpaceReserved="false" />
+
+    <Preference
+        android:icon="@drawable/ic_info"
+        android:key="@string/prefKey_about_libraries"
+        android:title="@string/settings_libs"
+        app:iconSpaceReserved="false" />
+
+    <Preference
+        android:icon="@drawable/ic_info"
+        android:key="@string/prefKey_about_version"
+        android:title="App version"
+        app:iconSpaceReserved="false" />
+
+</PreferenceScreen>

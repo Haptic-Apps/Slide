@@ -73,4 +73,13 @@ public class PrefKeys {
     public static final int PREF_IMAGE_QUALITY_MEDIUM = R.string.prefKey_datasaving_imageQuality_medium;//"lqMid"
     public static final int PREF_IMAGE_QUALITY_HIGH = R.string.prefKey_datasaving_imageQuality_high;//"lqHigh"
     public static final int PREF_LOW_QUALITY_VIDEOS = R.string.prefKey_datasaving_lowQualityVideos;//"lqVideos"
+
+
+    // About settings
+    public static final int PREF_ABOUT_REPORT_BUGS = R.string.prefKey_about_reportBugs;
+    public static final int PREF_ABOUT_CHANGELOG = R.string.prefKey_about_changelog;
+    public static final int PREF_ABOUT_RATE = R.string.prefKey_about_rate;
+    public static final int PREF_ABOUT_SUBREDDIT = R.string.prefKey_about_subreddit;
+    public static final int PREF_ABOUT_LIBRARIES = R.string.prefKey_about_libraries;
+    public static final int PREF_ABOUT_VERSION = R.string.prefKey_about_version;
 }

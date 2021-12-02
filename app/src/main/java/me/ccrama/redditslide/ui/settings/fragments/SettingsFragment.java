@@ -16,7 +16,6 @@ import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.ui.settings.DonateView;
 import me.ccrama.redditslide.ui.settings.EditCardsLayout;
 import me.ccrama.redditslide.ui.settings.ManageOfflineContent;
-import me.ccrama.redditslide.ui.settings.SettingsAbout;
 import me.ccrama.redditslide.ui.settings.SettingsActivity;
 import me.ccrama.redditslide.ui.settings.SettingsBackup;
 import me.ccrama.redditslide.ui.settings.SettingsFilter;
@@ -168,8 +167,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             }
         }
 
-        final Preference aboutPref = findPreference(getString(PrefKeys.PREF_ROOT_ABOUT));
-        setActivityListener(aboutPref, SettingsAbout.class);
+        declareSettingsScreen(PrefKeys.PREF_ROOT_ABOUT, R.xml.preferences_about);
     }
 
     private void declareSettingsScreen(@StringRes final int resId, @XmlRes final int screen) {
