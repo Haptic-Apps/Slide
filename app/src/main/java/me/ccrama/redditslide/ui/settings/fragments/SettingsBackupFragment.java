@@ -2,7 +2,6 @@ package me.ccrama.redditslide.ui.settings.fragments;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -168,10 +167,6 @@ public class SettingsBackupFragment extends PreferenceFragmentCompat {
         ((SettingsActivity) getActivity()).getSupportActionBar().setTitle(R.string.settings_title_backup);
     }
 
-    private void backupToDir(final boolean personal) {
-        new BackupTask(personal).execute();
-    }
-
     private void close(final Closeable stream) {
         try {
             if (stream != null) {
@@ -181,94 +176,80 @@ public class SettingsBackupFragment extends PreferenceFragmentCompat {
         }
     }
 
-    private class BackupTask extends AsyncTask<Void, Void, Void> {
-        private final boolean personal;
+    private void backupToDir(final boolean personal) {
+        final File prefsdir = new File(getActivity().getApplicationInfo().dataDir, "shared_prefs");
 
-        private BackupTask(final boolean personal) {
-            this.personal = personal;
-        }
+        if (prefsdir.exists() && prefsdir.isDirectory()) {
+            final String[] list = prefsdir.list();
 
-        @Override
-        protected Void doInBackground(final Void... params) {
-            final File prefsdir = new File(getActivity().getApplicationInfo().dataDir, "shared_prefs");
+            final File getExtDir
+                    = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+            getExtDir.mkdirs();
 
-            if (prefsdir.exists() && prefsdir.isDirectory()) {
-                final String[] list = prefsdir.list();
+            final File backedup = new File(getExtDir
+                    + File.separator
+                    + "Slide"
+                    + new SimpleDateFormat("-yyyy-MM-dd-HH-mm-ss")
+                    .format(Calendar.getInstance().getTime())
+                    + (!personal ? "-personal" : "")
+                    + ".txt");
+            file = backedup;
+            FileWriter fw = null;
+            try {
+                backedup.createNewFile();
+                fw = new FileWriter(backedup);
+                fw.write("Slide_backupEND>");
+                for (final String s : list) {
 
-                final File getExtDir
-                        = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-                getExtDir.mkdirs();
-
-                final File backedup = new File(getExtDir
-                        + File.separator
-                        + "Slide"
-                        + new SimpleDateFormat("-yyyy-MM-dd-HH-mm-ss")
-                        .format(Calendar.getInstance().getTime())
-                        + (!personal ? "-personal" : "")
-                        + ".txt");
-                file = backedup;
-                FileWriter fw = null;
-                try {
-                    backedup.createNewFile();
-                    fw = new FileWriter(backedup);
-                    fw.write("Slide_backupEND>");
-                    for (final String s : list) {
-
-                        final boolean other = !StringUtils.containsAny(s, "cache",
-                                "ion-cookies", "albums", "com.google", "STACKTRACE");
-                        final boolean personal1 = !StringUtils.containsAny(s, "SUBSNEW",
-                                "appRestart", "STACKTRACE", "AUTH", "TAGS", "SEEN", "HIDDEN", "HIDDEN_POSTS");
-                        if (other && (!personal || personal1)) {
-                            FileReader fr = null;
-                            try {
-                                fr = new FileReader(prefsdir + File.separator + s);
-                                int c = fr.read();
-                                fw.write("<START" + new File(s).getName() + ">");
-                                while (c != -1) {
-                                    fw.write(c);
-                                    c = fr.read();
-                                }
-                                fw.write("END>");
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            } finally {
-                                close(fr);
+                    final boolean other = !StringUtils.containsAny(s, "cache",
+                            "ion-cookies", "albums", "com.google", "STACKTRACE");
+                    final boolean personal1 = !StringUtils.containsAny(s, "SUBSNEW",
+                            "appRestart", "STACKTRACE", "AUTH", "TAGS", "SEEN", "HIDDEN", "HIDDEN_POSTS");
+                    if (other && (!personal || personal1)) {
+                        FileReader fr = null;
+                        try {
+                            fr = new FileReader(prefsdir + File.separator + s);
+                            int c = fr.read();
+                            fw.write("<START" + new File(s).getName() + ">");
+                            while (c != -1) {
+                                fw.write(c);
+                                c = fr.read();
                             }
+                            fw.write("END>");
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        } finally {
+                            close(fr);
                         }
                     }
-                    return null;
-                } catch (final Exception e) {
-                    e.printStackTrace();
-                } finally {
-                    close(fw);
                 }
+            } catch (final Exception e) {
+                e.printStackTrace();
+            } finally {
+                close(fw);
             }
-            return null;
         }
 
-        @Override
-        protected void onPostExecute(final Void aVoid) {
-            new AlertDialog.Builder(getActivity())
-                    .setTitle(R.string.backup_complete)
-                    .setMessage(R.string.backup_saved_downloads)
-                    .setPositiveButton(R.string.btn_view, (dialog, which) -> {
-                        final Intent intent = FileUtil.getFileIntent(file,
-                                new Intent(Intent.ACTION_VIEW),
-                                getActivity());
-                        if (intent.resolveActivityInfo(getActivity().getPackageManager(), 0) != null) {
-                            startActivity(Intent.createChooser(
-                                    intent, getString(R.string.settings_backup_view)));
-                        } else {
-                            Toast.makeText(getActivity(),
-                                    getString(R.string.settings_backup_err_no_explorer,
-                                            file.getAbsolutePath() + file),
-                                    Toast.LENGTH_LONG)
-                                    .show();
-                        }
-                    })
-                    .setNegativeButton(R.string.btn_close, null)
-                    .setCancelable(false)
-                    .show();
-        }
+        new AlertDialog.Builder(getActivity())
+                .setTitle(R.string.backup_complete)
+                .setMessage(R.string.backup_saved_downloads)
+                .setPositiveButton(R.string.btn_view, (dialog, which) -> {
+                    final Intent intent = FileUtil.getFileIntent(file,
+                            new Intent(Intent.ACTION_VIEW),
+                            getActivity());
+                    if (intent.resolveActivityInfo(getActivity().getPackageManager(), 0) != null) {
+                        startActivity(Intent.createChooser(
+                                intent, getString(R.string.settings_backup_view)));
+                    } else {
+                        Toast.makeText(getActivity(),
+                                getString(R.string.settings_backup_err_no_explorer,
+                                        file.getAbsolutePath() + file),
+                                Toast.LENGTH_LONG)
+                                .show();
+                    }
+                })
+                .setNegativeButton(R.string.btn_close, null)
+                .setCancelable(false)
+                .show();
     }
 }
