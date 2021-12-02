@@ -1341,7 +1341,7 @@ public class PopulateSubmissionViewHolder {
         b.sheet(0, report,
                 res.getQuantityString(R.plurals.mod_btn_reports, reportCount, reportCount));
 
-        if (SettingValues.toolboxEnabled) {
+        if (PreferenceHelper.toolboxEnabled()) {
             b.sheet(24, note, res.getString(R.string.mod_usernotes_view));
         }
 
@@ -1483,7 +1483,7 @@ public class PopulateSubmissionViewHolder {
                         removeSubmission(mContext, submission, posts, recyclerview, holder, false);
                         break;
                     case 7:
-                        if (SettingValues.removalReasonType == SettingValues.RemovalReasonType.TOOLBOX.ordinal()
+                        if (PreferenceHelper.isRemovalReasonTypeToolbox()
                                 && ToolboxUI.canShowRemoval(submission.getSubredditName())) {
                             ToolboxUI.showRemoval(mContext, submission, new ToolboxUI.CompletedRemovalCallback() {
                                 @Override

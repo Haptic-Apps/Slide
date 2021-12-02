@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        android:title="@string/settings_title_general"
+        app:iconSpaceReserved="false">
+
+        <ListPreference
+            android:defaultValue="@string/prefKey_moderation_removalReasonType_slide"
+            android:entries="@array/pref_moderation_removalReasonType_options"
+            android:entryValues="@array/pref_moderation_removalReasonType_values"
+            android:key="@string/prefKey_moderation_removalReasonType"
+            android:title="@string/settings_mod_removal_reasons"
+            app:iconSpaceReserved="false"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+
+    <PreferenceCategory
+        android:title="@string/settings_mod_toolbox_header"
+        app:iconSpaceReserved="false">
+
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="@string/prefKey_moderation_enableToolbox"
+            android:summary="@string/settings_mod_toolbox_desc"
+            android:title="@string/settings_mod_toolbox_enabled"
+            app:iconSpaceReserved="false" />
+
+        <ListPreference
+            android:defaultValue="@string/prefKey_moderation_sendingMethod_comment"
+            android:dependency="@string/prefKey_moderation_enableToolbox"
+            android:entries="@array/pref_moderation_sendingMethod_options"
+            android:entryValues="@array/pref_moderation_sendingMethod_values"
+            android:key="@string/prefKey_moderation_sendingMethod"
+            android:title="@string/settings_mod_toolbox_message"
+            app:iconSpaceReserved="false"
+            app:useSimpleSummaryProvider="true" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:dependency="@string/prefKey_moderation_enableToolbox"
+            android:key="@string/prefKey_moderation_sendAsSubreddit"
+            android:title="@string/settings_mod_toolbox_modmail"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:dependency="@string/prefKey_moderation_enableToolbox"
+            android:key="@string/prefKey_moderation_stickyRemovalComments"
+            android:title="@string/settings_mod_toolbox_sticky"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:dependency="@string/prefKey_moderation_enableToolbox"
+            android:key="@string/prefKey_moderation_lockThreadAfterPost"
+            android:title="@string/settings_mod_toolbox_lock"
+            app:iconSpaceReserved="false" />
+
+        <Preference
+            android:dependency="@string/prefKey_moderation_enableToolbox"
+            android:key="@string/prefKey_moderation_refreshToolboxData"
+            android:title="@string/settings_mod_toolbox_refresh"
+            app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

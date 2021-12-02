@@ -33,6 +33,22 @@ public class PrefKeys {
     public static final int PREF_FORCE_FULL_COMMENT_VIEW = R.string.prefKey_multicolumn_forceFullCommentView;//"fullCommentOverride"
 
 
+    // Moderation settings
+    public static final int PREF_REMOVAL_REASON_TYPE = R.string.prefKey_moderation_removalReasonType;//"removalReasonType"
+    public static final int PREF_REMOVAL_REASON_TYPE_SLIDE = R.string.prefKey_moderation_removalReasonType_slide;
+    public static final int PREF_REMOVAL_REASON_TYPE_TOOLBOX = R.string.prefKey_moderation_removalReasonType_toolbox;
+    public static final int PREF_ENABLE_TOOLBOX = R.string.prefKey_moderation_enableToolbox;//"toolboxEnabled"
+    public static final int PREF_SENDING_METHOD = R.string.prefKey_moderation_sendingMethod;//"toolboxMessageType"
+    public static final int PREF_SENDING_METHOD_COMMENT = R.string.prefKey_moderation_sendingMethod_comment;
+    public static final int PREF_SENDING_METHOD_PM = R.string.prefKey_moderation_sendingMethod_pm;
+    public static final int PREF_SENDING_METHOD_BOTH = R.string.prefKey_moderation_sendingMethod_both;
+    public static final int PREF_SENDING_METHOD_NONE = R.string.prefKey_moderation_sendingMethod_none;
+    public static final int PREF_SEND_AS_SUBREDDIT = R.string.prefKey_moderation_sendAsSubreddit;//"toolboxModmail"
+    public static final int PREF_STICKY_REMOVAL_COMMENTS = R.string.prefKey_moderation_stickyRemovalComments;//"toolboxSticky"
+    public static final int PREF_LOCK_THREAD_AFTER_POST = R.string.prefKey_moderation_lockThreadAfterPost;//"toolboxLock"
+    public static final int PREF_REFRESH_TOOLBOX_DATA = R.string.prefKey_moderation_refreshToolboxData;
+
+
     // Comments settings
     public static final int PREF_CROP_IMAGE = R.string.prefKey_comments_cropImage;//"cropImage"
     public static final int PREF_COLOR_COMMENT_DEPTH = R.string.prefKey_comments_colorCommentDepth;//"colorCommentDepth"

@@ -100,12 +100,6 @@ public class SettingValues {
     public static final String PREF_LONG_LINK              = "shareLongLink";
     public static final String PREF_SELECTED_BROWSER       = "selectedBrowser";
     public static final String PREF_SELECTED_DRAWER_ITEMS  = "selectedDrawerItems";
-    public static final String PREF_MOD_REMOVAL_TYPE       = "removalReasonType";
-    public static final String PREF_MOD_TOOLBOX_ENABLED    = "toolboxEnabled";
-    public static final String PREF_MOD_TOOLBOX_MESSAGE    = "toolboxMessageType";
-    public static final String PREF_MOD_TOOLBOX_STICKY     = "toolboxSticky";
-    public static final String PREF_MOD_TOOLBOX_LOCK       = "toolboxLock";
-    public static final String PREF_MOD_TOOLBOX_MODMAIL    = "toolboxModmail";
     public static final String PREF_ALWAYS_SHOW_FAB        = "alwaysShowFAB";
     public static final String PREF_HIGH_COLORSPACE_IMAGES = "highMemoryImages";
 
@@ -206,12 +200,6 @@ public class SettingValues {
     public static String  selectedBrowser;
     public static long    selectedDrawerItems;
     public static ForcedState forcedNightModeState = ForcedState.NOT_FORCED;
-    public static boolean toolboxEnabled;
-    public static int     removalReasonType;
-    public static int     toolboxMessageType;
-    public static boolean toolboxSticky;
-    public static boolean toolboxLock;
-    public static boolean toolboxModmail;
     public static boolean alwaysShowFAB;
 
     public static void setAllValues(SharedPreferences settings) {
@@ -345,13 +333,6 @@ public class SettingValues {
         peek = prefs.getBoolean(PREF_PEEK, false);
         selectedBrowser = prefs.getString(PREF_SELECTED_BROWSER, "");
         selectedDrawerItems = prefs.getLong(PREF_SELECTED_DRAWER_ITEMS, -1);
-
-        toolboxEnabled = prefs.getBoolean(PREF_MOD_TOOLBOX_ENABLED, false);
-        removalReasonType = prefs.getInt(PREF_MOD_REMOVAL_TYPE, RemovalReasonType.SLIDE.ordinal());
-        toolboxMessageType = prefs.getInt(PREF_MOD_TOOLBOX_MESSAGE, ToolboxRemovalMessageType.COMMENT.ordinal());
-        toolboxSticky = prefs.getBoolean(PREF_MOD_TOOLBOX_STICKY, false);
-        toolboxLock = prefs.getBoolean(PREF_MOD_TOOLBOX_LOCK, false);
-        toolboxModmail = prefs.getBoolean(PREF_MOD_TOOLBOX_MODMAIL, false);
     }
 
     public static void setPicsEnabled(String sub, boolean checked) {
@@ -487,14 +468,6 @@ public class SettingValues {
 
     public static boolean hasSort(String subreddit) {
         return prefs.contains("defaultSort" + subreddit.toLowerCase(Locale.ENGLISH));
-    }
-
-    public enum RemovalReasonType {
-        SLIDE, TOOLBOX, REDDIT
-    }
-
-    public enum ToolboxRemovalMessageType {
-        COMMENT, PM, BOTH, NONE
     }
 
     public enum ColorIndicator {

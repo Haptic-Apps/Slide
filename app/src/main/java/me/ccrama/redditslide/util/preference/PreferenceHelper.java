@@ -62,6 +62,58 @@ public class PreferenceHelper {
 
 
     //////////////////////////////////////////////////
+    // Moderation settings
+    //////////////////////////////////////////////////
+    private static String getRemovalReasonTypeState() {
+        return getHelperString(PrefKeys.PREF_REMOVAL_REASON_TYPE, PrefKeys.PREF_REMOVAL_REASON_TYPE_SLIDE);
+    }
+
+    public static boolean isRemovalReasonTypeSlide() {
+        return getEquals(getRemovalReasonTypeState(), PrefKeys.PREF_REMOVAL_REASON_TYPE_SLIDE);
+    }
+
+    public static boolean isRemovalReasonTypeToolbox() {
+        return getEquals(getRemovalReasonTypeState(), PrefKeys.PREF_REMOVAL_REASON_TYPE_TOOLBOX);
+    }
+
+    public static boolean toolboxEnabled() {
+        return getHelperBoolean(PrefKeys.PREF_ENABLE_TOOLBOX, false);
+    }
+
+    private static String getSendingMethodState() {
+        return getHelperString(PrefKeys.PREF_SENDING_METHOD, PrefKeys.PREF_SENDING_METHOD_COMMENT);
+    }
+
+    public static boolean isSendingMethodComment() {
+        return getEquals(getSendingMethodState(), PrefKeys.PREF_SENDING_METHOD_COMMENT);
+    }
+
+    public static boolean isSendingMethodPm() {
+        return getEquals(getSendingMethodState(), PrefKeys.PREF_SENDING_METHOD_PM);
+    }
+
+    public static boolean isSendingMethodBoth() {
+        return getEquals(getSendingMethodState(), PrefKeys.PREF_SENDING_METHOD_BOTH);
+    }
+
+    public static boolean isSendingMethodNone() {
+        return getEquals(getSendingMethodState(), PrefKeys.PREF_SENDING_METHOD_NONE);
+    }
+
+    public static boolean sendReasonAsSubreddit() {
+        return getHelperBoolean(PrefKeys.PREF_SEND_AS_SUBREDDIT, false);
+    }
+
+    public static boolean stickyRemovalComments() {
+        return getHelperBoolean(PrefKeys.PREF_STICKY_REMOVAL_COMMENTS, false);
+    }
+
+    public static boolean lockThreadAfterPost() {
+        return getHelperBoolean(PrefKeys.PREF_LOCK_THREAD_AFTER_POST, false);
+    }
+
+
+    //////////////////////////////////////////////////
     // Comments settings
     //////////////////////////////////////////////////
     public static boolean cropImage() {

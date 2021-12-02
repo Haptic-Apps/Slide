@@ -55,8 +55,8 @@ import me.ccrama.redditslide.Activities.Reauthenticate;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Views.RoundedBackgroundSpan;
+import me.ccrama.redditslide.util.preference.PreferenceHelper;
 
 /**
  * Misc UI stuff for toolbox - usernote display, removal display, etc.
@@ -138,18 +138,18 @@ public class ToolboxUI {
         }
 
         // Set default states of checkboxes/radiobuttons
-        if (SettingValues.toolboxMessageType == SettingValues.ToolboxRemovalMessageType.COMMENT.ordinal()) {
+        if (PreferenceHelper.isSendingMethodComment()) {
             ((RadioButton) actions.findViewById(R.id.comment)).setChecked(true);
-        } else if (SettingValues.toolboxMessageType == SettingValues.ToolboxRemovalMessageType.PM.ordinal()) {
+        } else if (PreferenceHelper.isSendingMethodPm()) {
             ((RadioButton) actions.findViewById(R.id.pm)).setChecked(true);
-        } else if (SettingValues.toolboxMessageType == SettingValues.ToolboxRemovalMessageType.BOTH.ordinal()) {
+        } else if (PreferenceHelper.isSendingMethodBoth()) {
             ((RadioButton) actions.findViewById(R.id.both)).setChecked(true);
-        } else {
+        } else if (PreferenceHelper.isSendingMethodNone()) {
             ((RadioButton) actions.findViewById(R.id.none)).setChecked(true);
         }
-        actionSticky.setChecked(SettingValues.toolboxSticky);
-        actionModmail.setChecked(SettingValues.toolboxModmail);
-        actionLock.setChecked(SettingValues.toolboxLock);
+        actionSticky.setChecked(PreferenceHelper.stickyRemovalComments());
+        actionModmail.setChecked(PreferenceHelper.sendReasonAsSubreddit());
+        actionLock.setChecked(PreferenceHelper.lockThreadAfterPost());
 
         // Set up dialog buttons
         builder.customView(dialogContent, false);
@@ -216,7 +216,7 @@ public class ToolboxUI {
      * @return whether a toolbox removal dialog can be shown
      */
     public static boolean canShowRemoval(String subreddit) {
-        return SettingValues.toolboxEnabled
+        return PreferenceHelper.toolboxEnabled()
                 && Toolbox.getConfig(subreddit) != null
                 && Toolbox.getConfig(subreddit).getRemovalReasons() != null;
     }
@@ -365,7 +365,7 @@ public class ToolboxUI {
      */
     public static void appendToolboxNote(Context context, SpannableStringBuilder builder,
             String subreddit, String user) {
-        if (!SettingValues.toolboxEnabled || !Authentication.mod) {
+        if (!PreferenceHelper.toolboxEnabled() || !Authentication.mod) {
             return;
         }
 

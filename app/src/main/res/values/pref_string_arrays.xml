@@ -1,5 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- preferences_moderation -->
+    <string-array name="pref_moderation_removalReasonType_options">
+        <item>@string/settings_mod_removal_slide</item>
+        <item>@string/settings_mod_removal_toolbox</item>
+        <!--item>@string/settings_mod_removal_reddit</item-->
+    </string-array>
+    <string-array name="pref_moderation_removalReasonType_values">
+        <item>@string/prefKey_moderation_removalReasonType_slide</item>
+        <item>@string/prefKey_moderation_removalReasonType_toolbox</item>
+        <!--item>@string/prefKey_moderation_removalReasonType_reddit</item-->
+    </string-array>
+    <string-array name="pref_moderation_sendingMethod_options">
+        <item>@string/toolbox_removal_comment</item>
+        <item>@string/toolbox_removal_pm</item>
+        <item>@string/toolbox_removal_both</item>
+        <item>@string/toolbox_removal_none</item>
+    </string-array>
+    <string-array name="pref_moderation_sendingMethod_values">
+        <item>@string/prefKey_moderation_sendingMethod_comment</item>
+        <item>@string/prefKey_moderation_sendingMethod_pm</item>
+        <item>@string/prefKey_moderation_sendingMethod_both</item>
+        <item>@string/prefKey_moderation_sendingMethod_none</item>
+    </string-array>
+
+    <!-- preferences_datasaving -->
     <string-array name="pref_datasaving_enableDataSaving_options">
         <item>@string/never</item>
         <item>@string/datasave_mobile</item>

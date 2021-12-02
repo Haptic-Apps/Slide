@@ -22,7 +22,6 @@ import me.ccrama.redditslide.ui.settings.SettingsFilter;
 import me.ccrama.redditslide.ui.settings.SettingsFont;
 import me.ccrama.redditslide.ui.settings.SettingsGeneral;
 import me.ccrama.redditslide.ui.settings.SettingsHandling;
-import me.ccrama.redditslide.ui.settings.SettingsModeration;
 import me.ccrama.redditslide.ui.settings.SettingsReddit;
 import me.ccrama.redditslide.ui.settings.SettingsSubreddit;
 import me.ccrama.redditslide.ui.settings.SettingsSynccit;
@@ -83,8 +82,11 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         if (Authentication.mod) {
             if (moderationPref != null) {
                 moderationPref.setVisible(true);
+                moderationPref.setOnPreferenceClickListener(preference -> {
+                    activity.openSettingsScreen(R.xml.preferences_moderation);
+                    return true;
+                });
             }
-            setActivityListener(moderationPref, SettingsModeration.class);
         }
 
 
