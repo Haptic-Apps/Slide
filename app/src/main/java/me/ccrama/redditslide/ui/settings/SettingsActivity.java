@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult;
 import androidx.preference.PreferenceFragmentCompat;
 
 import me.ccrama.redditslide.Activities.BaseActivity;
@@ -21,8 +23,9 @@ import me.ccrama.redditslide.ui.settings.fragments.SettingsMultiColumnFragment;
  */
 public class SettingsActivity extends BaseActivity implements RestartActivity {
 
-    public final static int RESTART_SETTINGS_RESULT = 2;
     public static boolean changed; //whether or not a Setting was changed
+    public final ActivityResultLauncher<Intent> restartActivityLauncher =
+            registerForActivityResult(new StartActivityForResult(), result -> restartActivity());
     private ActivitySettingsBinding binding;
 
     private SharedPreferences.OnSharedPreferenceChangeListener prefsListener;
@@ -39,14 +42,6 @@ public class SettingsActivity extends BaseActivity implements RestartActivity {
                 return R.string.settings_title_comments;
             case R.xml.preferences_history:
                 return R.string.settings_title_history;
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RESTART_SETTINGS_RESULT) {
-            restartActivity();
         }
     }
 

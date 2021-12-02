@@ -188,7 +188,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         if (pref != null) {
             pref.setOnPreferenceClickListener(preference -> {
                 final Intent i = new Intent(activity, clazz);
-                startActivityForResult(i, SettingsActivity.RESTART_SETTINGS_RESULT);
+                activity.restartActivityLauncher.launch(i);
                 return true;
             });
         }
