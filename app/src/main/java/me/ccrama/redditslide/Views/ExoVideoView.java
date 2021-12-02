@@ -44,6 +44,7 @@ import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.util.BlendModeUtil;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
+import me.ccrama.redditslide.util.preference.PreferenceHelper;
 
 /**
  * View containing an ExoPlayer
@@ -96,9 +97,10 @@ public class ExoVideoView extends RelativeLayout {
 
         // Create a track selector so we can set specific video quality for DASH
         trackSelector = new DefaultTrackSelector(context);
-        if ((SettingValues.lowResAlways
-                || (NetworkUtil.isConnected(context) && !NetworkUtil.isConnectedWifi(context) && SettingValues.lowResMobile))
-                && SettingValues.lqVideos) {
+        if ((PreferenceHelper.isDataSavingAlways()
+                || (NetworkUtil.isConnected(context)
+                && !NetworkUtil.isConnectedWifi(context) && PreferenceHelper.isDataSavingMobile()))
+                && PreferenceHelper.preferLowQualityVideos()) {
             trackSelector.setParameters(trackSelector.buildUponParameters().setForceLowestBitrate(true));
         } else {
             trackSelector.setParameters(trackSelector.buildUponParameters().setForceHighestSupportedBitrate(true));

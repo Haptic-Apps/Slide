@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        android:title="@string/settings_section_data_saving_mode"
+        app:iconSpaceReserved="false">
+
+        <ListPreference
+            android:defaultValue="@string/prefKey_datasaving_enableDataSaving_never"
+            android:entries="@array/pref_datasaving_enableDataSaving_options"
+            android:entryValues="@array/pref_datasaving_enableDataSaving_values"
+            android:key="@string/prefKey_datasaving_enableDataSaving"
+            android:title="@string/settings_data_enable"
+            app:iconSpaceReserved="false"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+
+    <PreferenceCategory
+        android:title="@string/settings_section_data_saving_quality"
+        app:iconSpaceReserved="false">
+
+        <ListPreference
+            android:defaultValue="@string/prefKey_datasaving_imageQuality_medium"
+            android:entries="@array/pref_datasaving_imageQuality_options"
+            android:entryValues="@array/pref_datasaving_imageQuality_values"
+            android:key="@string/prefKey_datasaving_imageQuality"
+            android:title="@string/settings_datasaving_imageQuality_title"
+            app:iconSpaceReserved="false"
+            app:useSimpleSummaryProvider="true" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="@string/prefKey_datasaving_lowQualityVideos"
+            android:title="@string/settings_data_video_quality"
+            app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

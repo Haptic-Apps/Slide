@@ -69,4 +69,16 @@
     <string name="prefKey_history_clearSubmissionHistory">pref_clearSubmissionHistory</string>
     <string name="prefKey_history_clearSubredditHistory">pref_clearSubredditHistory</string>
 
+
+    <!-- preferences_datasaving -->
+    <string name="prefKey_datasaving_enableDataSaving">pref_enableDataSaving</string>
+    <string name="prefKey_datasaving_enableDataSaving_never">pref_enableDataSaving_never</string>
+    <string name="prefKey_datasaving_enableDataSaving_mobile">pref_enableDataSaving_mobile</string>
+    <string name="prefKey_datasaving_enableDataSaving_always">pref_enableDataSaving_always</string>
+    <string name="prefKey_datasaving_imageQuality">pref_imageQuality</string>
+    <string name="prefKey_datasaving_imageQuality_neverLoad">pref_imageQuality_neverLoad</string>
+    <string name="prefKey_datasaving_imageQuality_low">pref_imageQuality_low</string>
+    <string name="prefKey_datasaving_imageQuality_medium">pref_imageQuality_medium</string>
+    <string name="prefKey_datasaving_imageQuality_high">pref_imageQuality_high</string>
+    <string name="prefKey_datasaving_lowQualityVideos">pref_lowQualityVideos</string>
 </resources>

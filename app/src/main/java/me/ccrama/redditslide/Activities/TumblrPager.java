@@ -78,6 +78,7 @@ import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 import me.ccrama.redditslide.util.ShareUtil;
 import me.ccrama.redditslide.util.SubmissionParser;
+import me.ccrama.redditslide.util.preference.PreferenceHelper;
 
 
 /**
@@ -479,9 +480,9 @@ public class TumblrPager extends FullScreenActivity
             final Photo current = ((TumblrPager) getActivity()).images.get(i);
             final String url = current.getOriginalSize().getUrl();
             boolean lq = false;
-            if (SettingValues.loadImageLq && (SettingValues.lowResAlways
+            if (PreferenceHelper.imageLoadingEnabled() && (PreferenceHelper.isDataSavingAlways()
                     || (!NetworkUtil.isConnectedWifi(getActivity())
-                    && SettingValues.lowResMobile)) && current.getAltSizes()!= null&&! current.getAltSizes().isEmpty()) {
+                    && PreferenceHelper.isDataSavingMobile())) && current.getAltSizes()!= null&&! current.getAltSizes().isEmpty()) {
                 String lqurl = current.getAltSizes().get(current.getAltSizes().size()/2).getUrl();
                 loadImage(rootView, this, lqurl);
                 lq = true;

@@ -30,6 +30,20 @@ public class PreferenceHelper {
         return sharedPrefs.getBoolean(getPrefKey(prefKey), defValue);
     }
 
+    private static String getHelperString(@StringRes final int prefKey, final int defValue) {
+        return sharedPrefs.getString(getPrefKey(prefKey), getPrefKey(defValue));
+    }
+
+    /**
+     * Compares the preference's current value to the called prefKey.
+     *
+     * @param currentKeyValue the current key string value of a prefKey
+     * @param prefKey         a passed prefKey
+     * @return true if the prefKey's current value is equal to the passed prefKey, false otherwise
+     */
+    private static boolean getEquals(final String currentKeyValue, @StringRes final int prefKey) {
+        return currentKeyValue.equals(getPrefKey(prefKey));
+    }
 
     //////////////////////////////////////////////////
     // Multi-column settings
@@ -136,5 +150,54 @@ public class PreferenceHelper {
 
     public static boolean scrollSeen() {
         return getHelperBoolean(PrefKeys.PREF_SCROLL_SEEN, false);
+    }
+
+
+    //////////////////////////////////////////////////
+    // Data-saving settings
+    //////////////////////////////////////////////////
+    private static String getDataSavingEnabledState() {
+        return getHelperString(PrefKeys.PREF_ENABLE_DATA_SAVING, PrefKeys.PREF_ENABLE_DATA_SAVING_NEVER);
+    }
+
+    public static boolean isDataSavingNever() {
+        return getEquals(getDataSavingEnabledState(), PrefKeys.PREF_ENABLE_DATA_SAVING_NEVER);
+    }
+
+    public static boolean isDataSavingMobile() {
+        return getEquals(getDataSavingEnabledState(), PrefKeys.PREF_ENABLE_DATA_SAVING_MOBILE);
+    }
+
+    public static boolean isDataSavingAlways() {
+        return getEquals(getDataSavingEnabledState(), PrefKeys.PREF_ENABLE_DATA_SAVING_ALWAYS);
+    }
+
+    private static String getImageQualityState() {
+        return getHelperString(PrefKeys.PREF_IMAGE_QUALITY, PrefKeys.PREF_IMAGE_QUALITY_MEDIUM);
+    }
+
+    public static boolean isImageQualityNeverLoad() {
+        return getEquals(getImageQualityState(), PrefKeys.PREF_IMAGE_QUALITY_NEVERLOAD);
+    }
+
+    // Returns whether at least any image loading is enabled, regardless of quality
+    public static boolean imageLoadingEnabled() {//"imageLq"
+        return !isImageQualityNeverLoad();
+    }
+
+    public static boolean isImageQualityLow() {
+        return getEquals(getImageQualityState(), PrefKeys.PREF_IMAGE_QUALITY_LOW);
+    }
+
+    public static boolean isImageQualityMedium() {
+        return getEquals(getImageQualityState(), PrefKeys.PREF_IMAGE_QUALITY_MEDIUM);
+    }
+
+    public static boolean isImageQualityHigh() {
+        return getEquals(getImageQualityState(), PrefKeys.PREF_IMAGE_QUALITY_HIGH);
+    }
+
+    public static boolean preferLowQualityVideos() {
+        return getHelperBoolean(PrefKeys.PREF_LOW_QUALITY_VIDEOS, true);
     }
 }

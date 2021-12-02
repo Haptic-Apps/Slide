@@ -661,7 +661,7 @@
     <string name="settings_section_save_history">Save history</string>
     <string name="settings_section_clear_history">Clear history</string>
     <string name="settings_section_data_saving_mode">Data saving mode</string>
-    <string name="settings_section_data_saving_quality">Data saving quality</string>
+    <string name="settings_section_data_saving_quality">When data saving is enabled...</string>
     <string name="settings_comment_color">Colorful comment depth indicators</string>
     <string name="settings_comment_highlightOpColor">Highlight top-level comment OPs</string>
     <string name="settings_volume_nav_comments">Navigate comments using volume buttons</string>
@@ -680,7 +680,7 @@
     <string name="settings_comment_collapse_description">Also disables comment animations</string>
     <string name="settings_comment_collapse_default">Collapse child comments by default</string>
     <string name="settings_data_enable">Enable Data Saving settings</string>
-    <string name="settings_data_video_quality">Prefer low-quality videos when Data Saving enabled</string>
+    <string name="settings_data_video_quality">Prefer low-quality videos</string>
     <string name="settings_comments_collapse_deleted">Collapse deleted comments by default</string>
     <string name="settings_backup_occurs">Backup will occur at %1$s</string>
     <string name="settings_backup_none">No subreddits will back up</string>
@@ -1225,4 +1225,5 @@
     <string name="editor_btn_select_flair">Select flair</string>
     <string name="submit_selected_flair">Selected flair: %s</string>
     <string name="settings_donate_paypal">Donate via PayPal</string>
+    <string name="settings_datasaving_imageQuality_title">Image quality</string>
 </resources>

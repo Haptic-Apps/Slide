@@ -9,7 +9,7 @@ import java.util.List;
 
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.Reddit;
-import me.ccrama.redditslide.SettingValues;
+import me.ccrama.redditslide.util.preference.PreferenceHelper;
 
 /**
  * Created by TacoTheDank on 12/11/2020.
@@ -28,15 +28,15 @@ public class PhotoLoader {
                     || type == ContentType.Type.SELF
                     || thumbnailType == Submission.ThumbnailType.URL) {
                 if (type == ContentType.Type.IMAGE) {
-                    if ((!NetworkUtil.isConnectedWifi(c) && SettingValues.lowResMobile
-                            || SettingValues.lowResAlways)
+                    if ((!NetworkUtil.isConnectedWifi(c) && PreferenceHelper.isDataSavingMobile()
+                            || PreferenceHelper.isDataSavingAlways())
                             && thumbnails.getVariations() != null
                             && thumbnails.getVariations().length > 0) {
 
                         final int length = thumbnails.getVariations().length;
-                        if (SettingValues.lqLow && length >= 3) {
+                        if (PreferenceHelper.isImageQualityLow() && length >= 3) {
                             url = getThumbnailUrl(thumbnails.getVariations()[2]);
-                        } else if (SettingValues.lqMid && length >= 4) {
+                        } else if (PreferenceHelper.isImageQualityMedium() && length >= 4) {
                             url = getThumbnailUrl(thumbnails.getVariations()[3]);
                         } else if (length >= 5) {
                             url = getThumbnailUrl(thumbnails.getVariations()[length - 1]);
@@ -65,14 +65,14 @@ public class PhotoLoader {
 
                 } else {
 
-                    if ((!NetworkUtil.isConnectedWifi(c) && SettingValues.lowResMobile
-                            || SettingValues.lowResAlways)
+                    if ((!NetworkUtil.isConnectedWifi(c) && PreferenceHelper.isDataSavingMobile()
+                            || PreferenceHelper.isDataSavingAlways())
                             && thumbnails.getVariations().length != 0) {
 
                         final int length = thumbnails.getVariations().length;
-                        if (SettingValues.lqLow && length >= 3) {
+                        if (PreferenceHelper.isImageQualityLow() && length >= 3) {
                             url = getThumbnailUrl(thumbnails.getVariations()[2]);
-                        } else if (SettingValues.lqMid && length >= 4) {
+                        } else if (PreferenceHelper.isImageQualityMedium() && length >= 4) {
                             url = getThumbnailUrl(thumbnails.getVariations()[3]);
                         } else if (length >= 5) {
                             url = getThumbnailUrl(thumbnails.getVariations()[length - 1]);

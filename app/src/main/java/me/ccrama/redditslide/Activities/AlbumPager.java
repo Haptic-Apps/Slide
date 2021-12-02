@@ -75,6 +75,7 @@ import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 import me.ccrama.redditslide.util.ShareUtil;
 import me.ccrama.redditslide.util.SubmissionParser;
+import me.ccrama.redditslide.util.preference.PreferenceHelper;
 
 import static me.ccrama.redditslide.Notifications.ImageDownloadNotificationService.EXTRA_SUBMISSION_TITLE;
 
@@ -505,10 +506,11 @@ public class AlbumPager extends FullScreenActivity
                 final Image current = ((AlbumPager) getActivity()).images.get(i);
                 final String url = current.getImageUrl();
                 boolean lq = false;
-                if (SettingValues.loadImageLq && (SettingValues.lowResAlways || (!NetworkUtil.isConnectedWifi(getActivity())
-                        && SettingValues.lowResMobile))) {
+                if (PreferenceHelper.imageLoadingEnabled() && (PreferenceHelper.isDataSavingAlways() || (!NetworkUtil.isConnectedWifi(getActivity())
+                        && PreferenceHelper.isDataSavingMobile()))) {
                     String lqurl = url.substring(0, url.lastIndexOf("."))
-                            + (SettingValues.lqLow ? "m" : (SettingValues.lqMid ? "l" : "h"))
+                            + (PreferenceHelper.isImageQualityLow() ? "m"
+                            : (PreferenceHelper.isImageQualityMedium() ? "l" : "h"))
                             + url.substring(url.lastIndexOf("."));
                     loadImage(rootView, this, lqurl, ((AlbumPager) getActivity()).images.size() == 1);
                     lq = true;

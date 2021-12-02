@@ -265,8 +265,8 @@ public class SubredditPosts implements PostLoader {
             List<Submission> filteredSubmissions = getNextFiltered();
 
 
-            if (!(SettingValues.noImages && ((!NetworkUtil.isConnectedWifi(c)
-                    && SettingValues.lowResMobile) || SettingValues.lowResAlways))) {
+            if (!(PreferenceHelper.isImageQualityNeverLoad() && ((!NetworkUtil.isConnectedWifi(c)
+                    && PreferenceHelper.isDataSavingMobile()) || PreferenceHelper.isDataSavingAlways()))) {
                 PhotoLoader.loadPhotos(c, filteredSubmissions);
             }
             if (PreferenceHelper.storeHistory()) {

@@ -29,7 +29,6 @@ public class SettingValues {
     public static final String PREF_NIGHT_MODE                = "nightMode";
     public static final String PREF_NIGHT_THEME               = "nightTheme";
     public static final String PREF_TYPE_IN_TEXT              = "typeInText";
-    public static final String PREF_NO_IMAGES                 = "noImages";
     public static final String PREF_AUTOTHEME                 = "autotime";
     public static final String PREVIEWS_LEFT                  = "previewsLeft";
     public static final String PREF_ALPHABETIZE_SUBSCRIBE     = "alphabetizeSubscribe";
@@ -60,9 +59,6 @@ public class SettingValues {
     public static final String PREF_SWITCH_THUMB              = "switchThumb";
     public static final String PREF_BIG_THUMBS                = "bigThumbnails";
     public static final String PREF_NO_THUMB                  = "noThumbnails";
-    public static final String PREF_LOW_RES_ALWAYS            = "lowResAlways";
-    public static final String PREF_LOW_RES_MOBILE            = "lowRes";
-    public static final String PREF_IMAGE_LQ                  = "imageLq";
     public static final String PREF_COLOR_SUB_NAME            = "colorSubName";
     public static final String PREF_OVERRIDE_LANGUAGE         = "overrideLanguage";
     public static final String PREF_IMMERSIVE_MODE            = "immersiveMode";
@@ -71,10 +67,6 @@ public class SettingValues {
     public static final String PREF_ZOOM_DEFAULT              = "zoomDefault";
     public static final String PREF_SUBREDDIT_SEARCH_METHOD   = "subredditSearchMethod";
     public static final String PREF_BACK_BUTTON_BEHAVIOR      = "backButtonBehavior";
-    public static final String PREF_LQ_LOW                    = "lqLow";
-    public static final String PREF_LQ_MID                    = "lqMid";
-    public static final String PREF_LQ_HIGH                   = "lqHigh";
-    public static final String PREF_LQ_VIDEOS                 = "lqVideos";
     public static final String PREF_SOUND_NOTIFS              = "soundNotifs";
     public static final String PREF_COOKIES                   = "storeCookies";
     public static final String PREF_NIGHT_START               = "nightStart";
@@ -139,9 +131,6 @@ public class SettingValues {
     public static boolean                 colorNavBar;
     public static boolean                 actionbarVisible;
     public static boolean                 actionbarTap;
-    public static boolean lowResAlways;
-    public static boolean noImages;
-    public static boolean lowResMobile;
     public static boolean blurCheck;
     public static boolean readerNight;
     public static boolean swipeAnywhere;
@@ -179,7 +168,6 @@ public class SettingValues {
     public static Set<String>   alwaysExternal;
     public static Set<String>   userFilters;
 
-    public static boolean loadImageLq;
     public static boolean ignoreSubSetting;
     public static boolean hideNSFWCollection;
     public static boolean highColorspaceImages;
@@ -207,10 +195,6 @@ public class SettingValues {
     public static boolean showDomain;
     public static boolean cardText;
     public static boolean alwaysZoom;
-    public static boolean lqLow  = false;
-    public static boolean lqMid  = true;
-    public static boolean lqHigh = false;
-    public static boolean lqVideos;
     public static int     currentTheme; //current base theme (Light, Dark, Dark blue, etc.)
     public static int     nightTheme;
     public static boolean typeInText;
@@ -298,21 +282,12 @@ public class SettingValues {
         votesInfoLine = prefs.getBoolean(PREF_VOTES_INFO_LINE, false);
         titleTop = prefs.getBoolean(PREF_TITLE_TOP, true);
 
-        lqLow = prefs.getBoolean(PREF_LQ_LOW, false);
-        lqMid = prefs.getBoolean(PREF_LQ_MID, true);
-        lqHigh = prefs.getBoolean(PREF_LQ_HIGH, false);
-        lqVideos = prefs.getBoolean(PREF_LQ_VIDEOS, true);
         highColorspaceImages = prefs.getBoolean(PREF_HIGH_COLORSPACE_IMAGES, false);
-
-        noImages = prefs.getBoolean(PREF_NO_IMAGES, false);
 
         abbreviateScores = prefs.getBoolean(PREF_ABBREVIATE_SCORES, true);
 
         hidePostAwards = prefs.getBoolean(PREF_HIDE_POST_AWARDS, false);
 
-        lowResAlways = prefs.getBoolean(PREF_LOW_RES_ALWAYS, false);
-        lowResMobile = prefs.getBoolean(PREF_LOW_RES_MOBILE, false);
-        loadImageLq = prefs.getBoolean(PREF_IMAGE_LQ, false);
         showDomain = prefs.getBoolean(PREF_SHOW_DOMAIN, false);
         expandedToolbar = prefs.getBoolean(PREF_EXPANDED_TOOLBAR, false);
 

@@ -80,6 +80,7 @@ import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 import me.ccrama.redditslide.util.ShareUtil;
+import me.ccrama.redditslide.util.preference.PreferenceHelper;
 
 import static me.ccrama.redditslide.Notifications.ImageDownloadNotificationService.EXTRA_SUBMISSION_TITLE;
 
@@ -602,12 +603,12 @@ public class MediaView extends FullScreenActivity
                     findViewById(R.id.hq).setVisibility(View.GONE);
                 }
             });
-        } else if (ContentType.isImgurImage(contentUrl) && SettingValues.loadImageLq && (
-                SettingValues.lowResAlways
-                        || (!NetworkUtil.isConnectedWifi(this) && SettingValues.lowResMobile))) {
+        } else if (ContentType.isImgurImage(contentUrl) && PreferenceHelper.imageLoadingEnabled() && (
+                PreferenceHelper.isDataSavingAlways()
+                        || (!NetworkUtil.isConnectedWifi(this) && PreferenceHelper.isDataSavingMobile()))) {
             String url = contentUrl;
-            url = url.substring(0, url.lastIndexOf(".")) + (SettingValues.lqLow ? "m"
-                    : (SettingValues.lqMid ? "l" : "h")) + url.substring(url.lastIndexOf(".")
+            url = url.substring(0, url.lastIndexOf(".")) + (PreferenceHelper.isImageQualityLow() ? "m"
+                    : (PreferenceHelper.isImageQualityMedium() ? "l" : "h")) + url.substring(url.lastIndexOf(".")
             );
 
             displayImage(url);

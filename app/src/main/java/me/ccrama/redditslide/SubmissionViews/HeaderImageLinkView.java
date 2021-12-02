@@ -107,8 +107,8 @@ public class HeaderImageLinkView extends RelativeLayout {
         thumbImage2.setImageResource(android.R.color.transparent);
 
         boolean loadLq =
-                (((!NetworkUtil.isConnectedWifi(getContext()) && SettingValues.lowResMobile)
-                        || SettingValues.lowResAlways));
+                (!NetworkUtil.isConnectedWifi(getContext()) && PreferenceHelper.isDataSavingMobile())
+                        || PreferenceHelper.isDataSavingAlways();
 
        /* todo, maybe if(thumbImage2 != null && thumbImage2 instanceof RoundImageTriangleView)
             switch (ContentType.getContentType(submission)) {
@@ -135,7 +135,7 @@ public class HeaderImageLinkView extends RelativeLayout {
         }*/
 
         if (type == ContentType.Type.SELF && SettingValues.hideSelftextLeadImage
-                || SettingValues.noImages && submission.isSelfPost()) {
+                || PreferenceHelper.isImageQualityNeverLoad() && submission.isSelfPost()) {
             setVisibility(View.GONE);
             if (wrapArea != null) wrapArea.setVisibility(View.GONE);
             thumbImage2.setVisibility(View.GONE);
@@ -214,7 +214,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                 thumbnailType = Submission.ThumbnailType.NONE;
             }
 
-            if (SettingValues.noImages && loadLq) {
+            if (PreferenceHelper.isImageQualityNeverLoad() && loadLq) {
                 setVisibility(View.GONE);
                 if (!full && !submission.isSelfPost()) {
                     thumbImage2.setVisibility(View.VISIBLE);
@@ -280,16 +280,16 @@ public class HeaderImageLinkView extends RelativeLayout {
 
                     if (ContentType.isImgurImage(submission.getUrl())) {
                         url = submission.getUrl();
-                        url = url.substring(0, url.lastIndexOf(".")) + (SettingValues.lqLow ? "m"
-                                : (SettingValues.lqMid ? "l" : "h")) + url.substring(
+                        url = url.substring(0, url.lastIndexOf(".")) + (PreferenceHelper.isImageQualityLow() ? "m"
+                                : (PreferenceHelper.isImageQualityMedium() ? "l" : "h")) + url.substring(
                                 url.lastIndexOf("."));
                     } else {
                         int length = submission.getThumbnails().getVariations().length;
-                        if (SettingValues.lqLow && length >= 3) {
+                        if (PreferenceHelper.isImageQualityLow() && length >= 3) {
                             url = CompatUtil.fromHtml(
                                     submission.getThumbnails().getVariations()[2].getUrl())
                                     .toString(); //unescape url characters
-                        } else if (SettingValues.lqMid && length >= 4) {
+                        } else if (PreferenceHelper.isImageQualityMedium() && length >= 4) {
                             url = CompatUtil.fromHtml(
                                     submission.getThumbnails().getVariations()[3].getUrl())
                                     .toString(); //unescape url characters
@@ -366,16 +366,16 @@ public class HeaderImageLinkView extends RelativeLayout {
                 if (loadLq && submission.getThumbnails().getVariations().length != 0) {
                     if (ContentType.isImgurImage(submission.getUrl())) {
                         url = submission.getUrl();
-                        url = url.substring(0, url.lastIndexOf(".")) + (SettingValues.lqLow ? "m"
-                                : (SettingValues.lqMid ? "l" : "h")) + url.substring(
+                        url = url.substring(0, url.lastIndexOf(".")) + (PreferenceHelper.isImageQualityLow() ? "m"
+                                : (PreferenceHelper.isImageQualityMedium() ? "l" : "h")) + url.substring(
                                 url.lastIndexOf("."));
                     } else {
                         int length = submission.getThumbnails().getVariations().length;
-                        if (SettingValues.lqLow && length >= 3) {
+                        if (PreferenceHelper.isImageQualityLow() && length >= 3) {
                             url = CompatUtil.fromHtml(
                                     submission.getThumbnails().getVariations()[2].getUrl())
                                     .toString(); //unescape url characters
-                        } else if (SettingValues.lqMid && length >= 4) {
+                        } else if (PreferenceHelper.isImageQualityMedium() && length >= 4) {
                             url = CompatUtil.fromHtml(
                                     submission.getThumbnails().getVariations()[3].getUrl())
                                     .toString(); //unescape url characters

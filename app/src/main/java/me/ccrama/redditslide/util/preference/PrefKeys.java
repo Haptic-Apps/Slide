@@ -60,4 +60,17 @@ public class PrefKeys {
     public static final int PREF_SCROLL_SEEN = R.string.prefKey_history_scrollSeen;//"scrollSeen"
     public static final int PREF_CLEAR_SUBMISSION_HISTORY = R.string.prefKey_history_clearSubmissionHistory;
     public static final int PREF_CLEAR_SUBREDDIT_HISTORY = R.string.prefKey_history_clearSubredditHistory;
+
+
+    // Data-saving settings
+    public static final int PREF_ENABLE_DATA_SAVING = R.string.prefKey_datasaving_enableDataSaving;
+    public static final int PREF_ENABLE_DATA_SAVING_NEVER = R.string.prefKey_datasaving_enableDataSaving_never;
+    public static final int PREF_ENABLE_DATA_SAVING_MOBILE = R.string.prefKey_datasaving_enableDataSaving_mobile;//"lowRes"
+    public static final int PREF_ENABLE_DATA_SAVING_ALWAYS = R.string.prefKey_datasaving_enableDataSaving_always;//"lowResAlways"
+    public static final int PREF_IMAGE_QUALITY = R.string.prefKey_datasaving_imageQuality;
+    public static final int PREF_IMAGE_QUALITY_NEVERLOAD = R.string.prefKey_datasaving_imageQuality_neverLoad;//"noImages"
+    public static final int PREF_IMAGE_QUALITY_LOW = R.string.prefKey_datasaving_imageQuality_low;//"lqLow"
+    public static final int PREF_IMAGE_QUALITY_MEDIUM = R.string.prefKey_datasaving_imageQuality_medium;//"lqMid"
+    public static final int PREF_IMAGE_QUALITY_HIGH = R.string.prefKey_datasaving_imageQuality_high;//"lqHigh"
+    public static final int PREF_LOW_QUALITY_VIDEOS = R.string.prefKey_datasaving_lowQualityVideos;//"lqVideos"
 }

@@ -213,7 +213,7 @@ public class MultiredditPosts implements PostLoader {
             HasSeen.setHasSeenSubmission(filteredSubmissions);
             SubmissionCache.cacheSubmissions(filteredSubmissions, context, paginator.getMultiReddit().getDisplayName());
 
-            if (!(SettingValues.noImages && ((!NetworkUtil.isConnectedWifi(c) && SettingValues.lowResMobile) || SettingValues.lowResAlways)))
+            if (!(PreferenceHelper.isImageQualityNeverLoad() && ((!NetworkUtil.isConnectedWifi(c) && PreferenceHelper.isDataSavingMobile()) || PreferenceHelper.isDataSavingAlways())))
                 PhotoLoader.loadPhotos(c, filteredSubmissions);
 
             if (PreferenceHelper.storeHistory()) LastComments.setCommentsSince(filteredSubmissions);

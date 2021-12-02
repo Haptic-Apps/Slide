@@ -354,7 +354,7 @@ public class PopulateSubmissionViewHolder {
 
             if (baseView != null
                     && baseView.lq
-                    && SettingValues.loadImageLq
+                    && PreferenceHelper.imageLoadingEnabled()
                     && type != ContentType.Type.XKCD) {
                 myIntent.putExtra(MediaView.EXTRA_LQ, true);
                 myIntent.putExtra(MediaView.EXTRA_DISPLAY_URL, baseView.loadedUrl);
@@ -374,7 +374,7 @@ public class PopulateSubmissionViewHolder {
                         .get("source")
                         .get("url")
                         .asText();
-                if (baseView == null || (!SettingValues.loadImageLq && baseView.lq)) {
+                if (baseView == null || baseView.lq) {
                     myIntent.putExtra(MediaView.EXTRA_DISPLAY_URL, previewUrl);
                 } else {
                     myIntent.putExtra(MediaView.EXTRA_DISPLAY_URL, baseView.loadedUrl);

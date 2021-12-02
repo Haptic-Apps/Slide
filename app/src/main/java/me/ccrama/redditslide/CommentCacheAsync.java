@@ -32,6 +32,7 @@ import java.util.Set;
 import me.ccrama.redditslide.util.GifUtils;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.PhotoLoader;
+import me.ccrama.redditslide.util.preference.PreferenceHelper;
 
 /**
  * Created by carlo_000 on 4/18/2016.
@@ -169,7 +170,7 @@ public class CommentCacheAsync extends AsyncTask {
                                 SubmissionSerializer.withComments(n, CommentSort.CONFIDENCE);
                         OfflineSubreddit.writeSubmission(n, s2, context);
                         newFullnames.add(s2.getFullName());
-                        if (!SettingValues.noImages) PhotoLoader.loadPhoto(context, s);
+                        if (!PreferenceHelper.isImageQualityNeverLoad()) PhotoLoader.loadPhoto(context, s);
                         switch (ContentType.getContentType(s)) {
                             case VREDDIT_DIRECT:
                             case VREDDIT_REDIRECT:

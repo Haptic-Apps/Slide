@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="pref_datasaving_enableDataSaving_options">
+        <item>@string/never</item>
+        <item>@string/datasave_mobile</item>
+        <item>@string/datasave_always</item>
+    </string-array>
+    <string-array name="pref_datasaving_enableDataSaving_values">
+        <item>@string/prefKey_datasaving_enableDataSaving_never</item>
+        <item>@string/prefKey_datasaving_enableDataSaving_mobile</item>
+        <item>@string/prefKey_datasaving_enableDataSaving_always</item>
+    </string-array>
+    <string-array name="pref_datasaving_imageQuality_options">
+        <item>@string/never_load_images</item>
+        <item>@string/load_low_quality</item>
+        <item>@string/load_medium_quality</item>
+        <item>@string/load_high_quality</item>
+    </string-array>
+    <string-array name="pref_datasaving_imageQuality_values">
+        <item>@string/prefKey_datasaving_imageQuality_neverLoad</item>
+        <item>@string/prefKey_datasaving_imageQuality_low</item>
+        <item>@string/prefKey_datasaving_imageQuality_medium</item>
+        <item>@string/prefKey_datasaving_imageQuality_high</item>
+    </string-array>
+</resources>
