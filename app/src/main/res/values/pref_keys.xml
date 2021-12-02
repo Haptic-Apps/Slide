@@ -61,4 +61,12 @@
     <string name="prefKey_comments_collapseChildComments">pref_collapseChildComments</string>
     <string name="prefKey_comments_collapseDeletedComments">pref_collapseDeletedComments</string>
 
+
+    <!-- preferences_history -->
+    <string name="prefKey_history_storeHistory">pref_storeHistory</string>
+    <string name="prefKey_history_storeNsfwHistory">pref_storeNsfwHistory</string>
+    <string name="prefKey_history_scrollSeen">pref_scrollSeen</string>
+    <string name="prefKey_history_clearSubmissionHistory">pref_clearSubmissionHistory</string>
+    <string name="prefKey_history_clearSubredditHistory">pref_clearSubredditHistory</string>
+
 </resources>

@@ -296,8 +296,8 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     String url = "www.reddit.com" + submission.getPermalink();
                     url = url.replace("?ref=search_posts", "");
                     OpenRedditLink.openUrl(mContext, url, true);
-                    if (SettingValues.storeHistory) {
-                        if (SettingValues.storeNSFWHistory && submission.isNsfw() || !submission.isNsfw())
+                    if (PreferenceHelper.storeHistory()) {
+                        if (PreferenceHelper.storeNsfwHistory() && submission.isNsfw() || !submission.isNsfw())
                             HasSeen.addSeen(submission.getFullName());
                     }
 

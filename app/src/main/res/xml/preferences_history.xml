@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        android:title="@string/settings_section_save_history"
+        app:iconSpaceReserved="false">
+
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="@string/prefKey_history_storeHistory"
+            android:title="@string/settings_store_history"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:dependency="@string/prefKey_history_storeHistory"
+            android:key="@string/prefKey_history_storeNsfwHistory"
+            android:title="@string/settings_store_nsfw_history"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:dependency="@string/prefKey_history_storeHistory"
+            android:key="@string/prefKey_history_scrollSeen"
+            android:title="@string/settings_general_scroll_read"
+            app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
+
+    <PreferenceCategory
+        android:title="@string/settings_section_clear_history"
+        app:iconSpaceReserved="false">
+
+        <Preference
+            android:key="@string/prefKey_history_clearSubmissionHistory"
+            android:title="@string/clear_submission_history"
+            app:iconSpaceReserved="false" />
+
+        <Preference
+            android:key="@string/prefKey_history_clearSubredditHistory"
+            android:title="@string/clear_subreddit_history"
+            app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

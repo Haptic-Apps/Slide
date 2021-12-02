@@ -689,8 +689,8 @@ public class HeaderImageLinkView extends RelativeLayout {
                 clickHandled = true;
 
                 handler.removeCallbacksAndMessages(null);
-                if (SettingValues.storeHistory && !full) {
-                    if (!submission.isNsfw() || SettingValues.storeNSFWHistory) {
+                if (PreferenceHelper.storeHistory() && !full) {
+                    if (!submission.isNsfw() || PreferenceHelper.storeNsfwHistory()) {
                         HasSeen.addSeen(submission.getFullName());
                         ((View) getParent()).findViewById(R.id.title).setAlpha(0.54f);
                         ((View) getParent()).findViewById(R.id.body).setAlpha(0.54f);

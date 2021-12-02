@@ -41,6 +41,7 @@ import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 import me.ccrama.redditslide.util.PhotoLoader;
 import me.ccrama.redditslide.util.TimeUtils;
+import me.ccrama.redditslide.util.preference.PreferenceHelper;
 
 /**
  * This class is reponsible for loading subreddit specific submissions {@link loadMore(Context,
@@ -242,7 +243,7 @@ public class SubredditPostsRealm implements PostLoader {
                     && SettingValues.lowResMobile) || SettingValues.lowResAlways))) {
                 PhotoLoader.loadPhotos(c, filteredSubmissions);
             }
-            if (SettingValues.storeHistory) {
+            if (PreferenceHelper.storeHistory()) {
                 HasSeen.setHasSeenSubmission(filteredSubmissions);
                 LastComments.setCommentsSince(filteredSubmissions);
             }

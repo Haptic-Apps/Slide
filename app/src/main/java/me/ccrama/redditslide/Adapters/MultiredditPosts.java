@@ -27,6 +27,7 @@ import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 import me.ccrama.redditslide.util.PhotoLoader;
+import me.ccrama.redditslide.util.preference.PreferenceHelper;
 
 /**
  * This class is reponsible for loading subreddit specific submissions
@@ -215,7 +216,7 @@ public class MultiredditPosts implements PostLoader {
             if (!(SettingValues.noImages && ((!NetworkUtil.isConnectedWifi(c) && SettingValues.lowResMobile) || SettingValues.lowResAlways)))
                 PhotoLoader.loadPhotos(c, filteredSubmissions);
 
-            if (SettingValues.storeHistory) LastComments.setCommentsSince(filteredSubmissions);
+            if (PreferenceHelper.storeHistory()) LastComments.setCommentsSince(filteredSubmissions);
 
             return filteredSubmissions;
         }

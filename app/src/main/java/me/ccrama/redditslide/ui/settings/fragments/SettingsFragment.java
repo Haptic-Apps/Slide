@@ -24,7 +24,6 @@ import me.ccrama.redditslide.ui.settings.SettingsFilter;
 import me.ccrama.redditslide.ui.settings.SettingsFont;
 import me.ccrama.redditslide.ui.settings.SettingsGeneral;
 import me.ccrama.redditslide.ui.settings.SettingsHandling;
-import me.ccrama.redditslide.ui.settings.SettingsHistory;
 import me.ccrama.redditslide.ui.settings.SettingsModeration;
 import me.ccrama.redditslide.ui.settings.SettingsReddit;
 import me.ccrama.redditslide.ui.settings.SettingsSubreddit;
@@ -111,8 +110,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         final Preference handlingPref = findPreference(getString(PrefKeys.PREF_ROOT_LINK_HANDLING));
         setActivityListener(handlingPref, SettingsHandling.class);
 
-        final Preference historyPref = findPreference(getString(PrefKeys.PREF_ROOT_HISTORY));
-        setActivityListener(historyPref, SettingsHistory.class);
+        declareSettingsScreen(PrefKeys.PREF_ROOT_HISTORY, R.xml.preferences_history);
 
         final Preference dataPref = findPreference(getString(PrefKeys.PREF_ROOT_DATA_SAVING));
         setActivityListener(dataPref, SettingsData.class);

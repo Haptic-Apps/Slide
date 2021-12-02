@@ -52,6 +52,7 @@ import me.ccrama.redditslide.Visuals.ColorPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.handler.ToolbarScrollHideHandler;
 import me.ccrama.redditslide.util.LayoutUtils;
+import me.ccrama.redditslide.util.preference.PreferenceHelper;
 
 public class NewsView extends Fragment implements SubmissionDisplay {
     private static int                 adapterPosition;
@@ -495,9 +496,9 @@ public class NewsView extends Fragment implements SubmissionDisplay {
                                 if (firstVisibleItems != null && firstVisibleItems.length > 0) {
                                     for (int firstVisibleItem : firstVisibleItems) {
                                         pastVisiblesItems = firstVisibleItem;
-                                        if (SettingValues.scrollSeen
+                                        if (PreferenceHelper.scrollSeen()
                                                 && pastVisiblesItems > 0
-                                                && SettingValues.storeHistory) {
+                                                && PreferenceHelper.storeHistory()) {
                                             HasSeen.addSeenScrolling(
                                                     posts.posts.get(pastVisiblesItems - 1)
                                                             .getFullName());

@@ -97,6 +97,7 @@ import me.ccrama.redditslide.util.ProUtil;
 import me.ccrama.redditslide.util.SortingUtil;
 import me.ccrama.redditslide.util.StringUtil;
 import me.ccrama.redditslide.util.SubmissionParser;
+import me.ccrama.redditslide.util.preference.PreferenceHelper;
 
 public class SubredditView extends BaseActivity {
 
@@ -415,13 +416,13 @@ public class SubredditView extends BaseActivity {
     public void onDestroy() {
         super.onDestroy();
         if (sub != null) {
-            if (sub.isNsfw() && (!SettingValues.storeHistory || !SettingValues.storeNSFWHistory)) {
+            if (sub.isNsfw() && (!PreferenceHelper.storeHistory() || !PreferenceHelper.storeNsfwHistory())) {
                 SharedPreferences.Editor e = Reddit.cachedData.edit();
                 for (String s : OfflineSubreddit.getAll(sub.getDisplayName())) {
                     e.remove(s);
                 }
                 e.apply();
-            } else if (!SettingValues.storeHistory) {
+            } else if (!PreferenceHelper.storeHistory()) {
                 SharedPreferences.Editor e = Reddit.cachedData.edit();
                 for (String s : OfflineSubreddit.getAll(sub.getDisplayName())) {
                     e.remove(s);
@@ -1830,10 +1831,10 @@ public class SubredditView extends BaseActivity {
                 SubredditView.this.subreddit = sub.getDisplayName();
 
                 if (subreddit.isNsfw()
-                        && SettingValues.storeHistory
-                        && SettingValues.storeNSFWHistory) {
+                        && PreferenceHelper.storeHistory()
+                        && PreferenceHelper.storeNsfwHistory()) {
                     UserSubscriptions.addSubToHistory(subreddit.getDisplayName());
-                } else if (SettingValues.storeHistory && !subreddit.isNsfw()) {
+                } else if (PreferenceHelper.storeHistory() && !subreddit.isNsfw()) {
                     UserSubscriptions.addSubToHistory(subreddit.getDisplayName());
                 }
 

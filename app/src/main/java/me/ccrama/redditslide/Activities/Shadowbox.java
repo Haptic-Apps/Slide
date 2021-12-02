@@ -27,7 +27,7 @@ import me.ccrama.redditslide.LastComments;
 import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.PostLoader;
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.SettingValues;
+import me.ccrama.redditslide.util.preference.PreferenceHelper;
 
 /**
  * Created by ccrama on 9/17/2015.
@@ -83,8 +83,8 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
         pager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
-                if (SettingValues.storeHistory) {
-                    if (subredditPosts.getPosts().get(position).isNsfw() && !SettingValues.storeNSFWHistory) {
+                if (PreferenceHelper.storeHistory()) {
+                    if (subredditPosts.getPosts().get(position).isNsfw() && !PreferenceHelper.storeNsfwHistory()) {
                     } else HasSeen.addSeen(subredditPosts.getPosts().get(position).getFullName());
                 }
             }
@@ -96,7 +96,7 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
 
     @Override
     public void updateSuccess(final List<Submission> submissions, final int startIndex) {
-        if (SettingValues.storeHistory) LastComments.setCommentsSince(submissions);
+        if (PreferenceHelper.storeHistory()) LastComments.setCommentsSince(submissions);
         runOnUiThread(new Runnable() {
             @Override
             public void run() {

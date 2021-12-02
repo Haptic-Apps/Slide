@@ -52,4 +52,12 @@ public class PrefKeys {
     public static final int PREF_FULLY_COLLAPSE_COMMENTS = R.string.prefKey_comments_fullyCollapseComments;//"collapseCOmments"
     public static final int PREF_COLLAPSE_CHILD_COMMENTS = R.string.prefKey_comments_collapseChildComments;//"collapseCommentsDefault"
     public static final int PREF_COLLAPSE_DELETED_COMMENTS = R.string.prefKey_comments_collapseDeletedComments;//"collapseDeletedComments"
+
+
+    // History settings
+    public static final int PREF_STORE_HISTORY = R.string.prefKey_history_storeHistory;//"storehistory"
+    public static final int PREF_STORE_NSFW_HISTORY = R.string.prefKey_history_storeNsfwHistory;//"storensfw"
+    public static final int PREF_SCROLL_SEEN = R.string.prefKey_history_scrollSeen;//"scrollSeen"
+    public static final int PREF_CLEAR_SUBMISSION_HISTORY = R.string.prefKey_history_clearSubmissionHistory;
+    public static final int PREF_CLEAR_SUBREDDIT_HISTORY = R.string.prefKey_history_clearSubredditHistory;
 }

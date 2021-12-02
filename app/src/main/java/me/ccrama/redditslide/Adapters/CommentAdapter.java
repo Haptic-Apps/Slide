@@ -288,8 +288,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     public void doTimes() {
         if (submission != null && SettingValues.commentLastVisit && !dataSet.single && (
-                SettingValues.storeHistory
-                        && (!submission.isNsfw() || SettingValues.storeNSFWHistory))) {
+                PreferenceHelper.storeHistory()
+                        && (!submission.isNsfw() || PreferenceHelper.storeNsfwHistory()))) {
             lastSeen = HasSeen.getSeenTime(submission);
             String fullname = submission.getFullName();
             if (fullname.contains("t3_")) {
@@ -299,8 +299,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             KVStore.getInstance().insert(fullname, String.valueOf(System.currentTimeMillis()));
         }
         if (submission != null) {
-            if (SettingValues.storeHistory) {
-                if (submission.isNsfw() && !SettingValues.storeNSFWHistory) {
+            if (PreferenceHelper.storeHistory()) {
+                if (submission.isNsfw() && !PreferenceHelper.storeNsfwHistory()) {
                 } else {
                     HasSeen.addSeen(submission.getFullName());
                 }

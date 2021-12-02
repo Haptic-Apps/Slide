@@ -141,8 +141,8 @@ public class PopulateSubmissionViewHolder {
             public void onSingleClick(View v) {
                 if (NetworkUtil.isConnected(contextActivity) || (!NetworkUtil.isConnected(
                         contextActivity) && ContentType.fullImage(type))) {
-                    if (SettingValues.storeHistory && !full) {
-                        if (!submission.isNsfw() || SettingValues.storeNSFWHistory) {
+                    if (PreferenceHelper.storeHistory() && !full) {
+                        if (!submission.isNsfw() || PreferenceHelper.storeNsfwHistory()) {
                             HasSeen.addSeen(submission.getFullName());
                             if (contextActivity instanceof MainActivity
                                     || contextActivity instanceof MultiredditOverview
@@ -803,9 +803,9 @@ public class PopulateSubmissionViewHolder {
                     break;
                     case 7:
                         LinkUtil.openExternally(submission.getUrl());
-                        if (submission.isNsfw() && !SettingValues.storeNSFWHistory) {
+                        if (submission.isNsfw() && !PreferenceHelper.storeNsfwHistory()) {
                             //Do nothing if the post is NSFW and storeNSFWHistory is not enabled
-                        } else if (SettingValues.storeHistory) {
+                        } else if (PreferenceHelper.storeHistory()) {
                             HasSeen.addSeen(submission.getFullName());
                         }
                         break;
@@ -2720,8 +2720,8 @@ public class PopulateSubmissionViewHolder {
                     downvotebutton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            if (SettingValues.storeHistory && !full) {
-                                if (!submission.isNsfw() || SettingValues.storeNSFWHistory) {
+                            if (PreferenceHelper.storeHistory() && !full) {
+                                if (!submission.isNsfw() || PreferenceHelper.storeNsfwHistory()) {
                                     HasSeen.addSeen(submission.getFullName());
                                     if (mContext instanceof MainActivity) {
                                         holder.title.setAlpha(0.54f);
@@ -2772,8 +2772,8 @@ public class PopulateSubmissionViewHolder {
                     upvotebutton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            if (SettingValues.storeHistory && !full) {
-                                if (!submission.isNsfw() || SettingValues.storeNSFWHistory) {
+                            if (PreferenceHelper.storeHistory() && !full) {
+                                if (!submission.isNsfw() || PreferenceHelper.storeNsfwHistory()) {
                                     HasSeen.addSeen(submission.getFullName());
                                     if (mContext instanceof MainActivity) {
                                         holder.title.setAlpha(0.54f);

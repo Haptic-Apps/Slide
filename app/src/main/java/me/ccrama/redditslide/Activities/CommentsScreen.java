@@ -265,7 +265,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
 
     @Override
     public void updateSuccess(final List<Submission> submissions, final int startIndex) {
-        if (SettingValues.storeHistory) LastComments.setCommentsSince(submissions);
+        if (PreferenceHelper.storeHistory()) LastComments.setCommentsSince(submissions);
         currentPosts.clear();
         currentPosts.addAll(submissions);
         runOnUiThread(new Runnable() {

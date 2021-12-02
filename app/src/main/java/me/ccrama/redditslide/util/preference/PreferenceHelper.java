@@ -121,4 +121,20 @@ public class PreferenceHelper {
     public static boolean collapseDeletedComments() {
         return getHelperBoolean(PrefKeys.PREF_COLLAPSE_DELETED_COMMENTS, false);
     }
+
+
+    //////////////////////////////////////////////////
+    // History settings
+    //////////////////////////////////////////////////
+    public static boolean storeHistory() {
+        return getHelperBoolean(PrefKeys.PREF_STORE_HISTORY, true);
+    }
+
+    public static boolean storeNsfwHistory() {
+        return getHelperBoolean(PrefKeys.PREF_STORE_NSFW_HISTORY, false);
+    }
+
+    public static boolean scrollSeen() {
+        return getHelperBoolean(PrefKeys.PREF_SCROLL_SEEN, false);
+    }
 }

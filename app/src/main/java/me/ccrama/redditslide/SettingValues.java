@@ -44,9 +44,6 @@ public class SettingValues {
     public static final String PREF_ACTIONBAR_VISIBLE         = "actionbarVisible";
     public static final String PREF_SMALL_TAG                 = "smallTag";
     public static final String PREF_ACTIONBAR_TAP             = "actionbarTap";
-    public static final String PREF_STORE_HISTORY             = "storehistory";
-    public static final String PREF_STORE_NSFW_HISTORY        = "storensfw";
-    public static final String PREF_SCROLL_SEEN               = "scrollSeen";
     public static final String PREF_TITLE_FILTERS             = "titleFilters";
     public static final String PREF_TEXT_FILTERS              = "textFilters";
     public static final String PREF_DOMAIN_FILTERS            = "domainFilters";
@@ -149,10 +146,7 @@ public class SettingValues {
     public static boolean readerNight;
     public static boolean swipeAnywhere;
     public static boolean commentLastVisit;
-    public static boolean storeHistory;
     public static boolean showNSFWContent;
-    public static boolean storeNSFWHistory;
-    public static boolean scrollSeen;
     public static boolean saveButton;
     public static boolean colorEverywhere;
     public static boolean gif;
@@ -330,9 +324,6 @@ public class SettingValues {
         image = prefs.getBoolean(PREF_IMAGE, true);
         cache = true;
         cacheDefault = false;
-        storeHistory = prefs.getBoolean(PREF_STORE_HISTORY, true);
-        storeNSFWHistory = prefs.getBoolean(PREF_STORE_NSFW_HISTORY, false);
-        scrollSeen = prefs.getBoolean(PREF_SCROLL_SEEN, false);
         synccitName = prefs.getString(SYNCCIT_NAME, "");
         synccitAuth = prefs.getString(SYNCCIT_AUTH, "");
         notifSound = prefs.getBoolean(PREF_SOUND_NOTIFS, false);
