@@ -75,9 +75,6 @@ android {
 }
 
 dependencies {
-/** Flavors **/
-    withGPlayImplementation 'com.google.android.gms:play-services-drive:11.4.2'
-
 /** Custom **/
     implementation 'com.github.ccrama:JRAW:9c8a410a06'
     implementation 'com.github.ccrama:TedBottomPicker:496623c9b6'

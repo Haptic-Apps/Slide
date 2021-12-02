@@ -17,7 +17,6 @@ import me.ccrama.redditslide.ui.settings.DonateView;
 import me.ccrama.redditslide.ui.settings.EditCardsLayout;
 import me.ccrama.redditslide.ui.settings.ManageOfflineContent;
 import me.ccrama.redditslide.ui.settings.SettingsActivity;
-import me.ccrama.redditslide.ui.settings.SettingsBackup;
 import me.ccrama.redditslide.ui.settings.SettingsFilter;
 import me.ccrama.redditslide.ui.settings.SettingsFont;
 import me.ccrama.redditslide.ui.settings.SettingsGeneral;
@@ -129,7 +128,19 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
         // Other
         final Preference backupPref = findPreference(getString(PrefKeys.PREF_ROOT_BACKUP_RESTORE));
-        setActivityListener(backupPref, SettingsBackup.class);
+        if (backupPref != null) {
+            backupPref.setOnPreferenceClickListener(preference -> {
+                if (SettingValues.isPro) {
+                    activity.openSettingsScreen(R.xml.preferences_backup);
+                } else {
+                    ProUtil.proUpgradeMsg(getActivity(), R.string.general_backup_ispro)
+                            .setNegativeButton(R.string.btn_no_thanks, (dialog, whichButton) ->
+                                    dialog.dismiss())
+                            .show();
+                }
+                return true;
+            });
+        }
 
         final Preference synccitPref = findPreference(getString(PrefKeys.PREF_ROOT_SYNCCIT));
         setActivityListener(synccitPref, SettingsSynccit.class);

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <Preference
+        android:icon="@drawable/ic_download"
+        android:key="@string/prefKey_backup_backupToFile"
+        android:title="@string/backup_btn_file"
+        app:iconSpaceReserved="false" />
+
+    <Preference
+        android:icon="@drawable/ic_folder_open"
+        android:key="@string/prefKey_backup_restoreFromFile"
+        android:title="@string/backup_btn_restore_file"
+        app:iconSpaceReserved="false" />
+
+</PreferenceScreen>

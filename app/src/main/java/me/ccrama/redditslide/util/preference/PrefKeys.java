@@ -91,6 +91,11 @@ public class PrefKeys {
     public static final int PREF_LOW_QUALITY_VIDEOS = R.string.prefKey_datasaving_lowQualityVideos;//"lqVideos"
 
 
+    // Backup settings
+    public static final int PREF_BACKUP_TO_FILE = R.string.prefKey_backup_backupToFile;
+    public static final int PREF_RESTORE_FROM_FILE = R.string.prefKey_backup_restoreFromFile;
+
+
     // About settings
     public static final int PREF_ABOUT_REPORT_BUGS = R.string.prefKey_about_reportBugs;
     public static final int PREF_ABOUT_CHANGELOG = R.string.prefKey_about_changelog;

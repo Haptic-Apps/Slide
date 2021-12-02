@@ -100,6 +100,11 @@
     <string name="prefKey_datasaving_lowQualityVideos">pref_lowQualityVideos</string>
 
 
+    <!-- preferences_backup -->
+    <string name="prefKey_backup_backupToFile">prefKey_backupToFile</string>
+    <string name="prefKey_backup_restoreFromFile">prefKey_restoreFromFile</string>
+
+
     <!-- preferences_about -->
     <string name="prefKey_about_reportBugs">prefKey_reportBugs</string>
     <string name="prefKey_about_changelog">prefKey_changelog</string>
