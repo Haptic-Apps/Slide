@@ -75,6 +75,7 @@ import me.ccrama.redditslide.util.SortingUtil;
 import me.ccrama.redditslide.util.UpgradeUtil;
 import me.ccrama.redditslide.util.billing.IabHelper;
 import me.ccrama.redditslide.util.billing.IabResult;
+import me.ccrama.redditslide.util.preference.PreferenceHelper;
 import okhttp3.Dns;
 import okhttp3.OkHttpClient;
 
@@ -398,6 +399,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         DatabaseProvider databaseProvider = new ExoDatabaseProvider(getAppContext());
         videoCache = new SimpleCache(dir, evictor, databaseProvider); // 256MB
 
+        PreferenceHelper.initPreferences(this);
         UpgradeUtil.upgrade(getApplicationContext());
         doMainStuff();
     }

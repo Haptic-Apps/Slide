@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        android:title="@string/multi_column_title"
+        app:iconSpaceReserved="false">
+
+        <SeekBarPreference
+            android:defaultValue="2"
+            android:key="@string/prefKey_multicolumn_landscapeColumnNumber"
+            android:max="6"
+            android:title="@string/multi_column_landscape"
+            app:iconSpaceReserved="false"
+            app:min="1"
+            app:showSeekBarValue="true" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="@string/prefKey_multicolumn_singleColumnMultiWindow"
+            android:title="@string/single_column_multi_window"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="@string/prefKey_multicolumn_portraitModeDualColumns"
+            android:title="@string/multi_column_portrait"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="@string/prefKey_multicolumn_forceFullCommentView"
+            android:title="@string/multi_column_force_full"
+            app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

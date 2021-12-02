@@ -1,34 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
     android:background="?attr/activity_background"
     android:orientation="vertical">
 
-    <include layout="@layout/settings_toolbar" />
+    <include
+        android:id="@+id/settings_toolbar"
+        layout="@layout/settings_toolbar" />
 
-        <ScrollView
-            android:id="@+id/base"
-            android:layout_marginTop="56dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/settings_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
-            <LinearLayout
-                android:id="@+id/settings_home"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <!--suppress CheckTagEmptyBody -->
-                <LinearLayout
-                    android:id="@+id/settings_parent"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-                </LinearLayout>
-
-            </LinearLayout>
-
-        </ScrollView>
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</LinearLayout>

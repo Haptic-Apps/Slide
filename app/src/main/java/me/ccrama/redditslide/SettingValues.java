@@ -70,8 +70,6 @@ public class SettingValues {
     public static final String PREF_COLLAPSE_COMMENTS_DEFAULT = "collapseCommentsDefault";
     public static final String PREF_COLLAPSE_DELETED_COMMENTS = "collapseDeletedComments";
     public static final String PREF_RIGHT_HANDED_COMMENT_MENU = "rightHandedCommentMenu";
-    public static final String PREF_DUAL_PORTRAIT             = "dualPortrait";
-    public static final String PREF_SINGLE_COLUMN_MULTI       = "singleColumnMultiWindow";
     public static final String PREF_CROP_IMAGE                = "cropImage";
     public static final String PREF_COMMENT_FAB               = "commentFab";
     public static final String PREF_SWITCH_THUMB              = "switchThumb";
@@ -104,7 +102,6 @@ public class SettingValues {
     public static final String PREF_MUTE                      = "muted";
     public static final String PREF_LINK_HANDLING_MODE        = "linkHandlingMode";
 
-    public static final String PREF_FULL_COMMENT_OVERRIDE  = "fullCommentOverride";
     public static final String PREF_ALBUM                  = "album";
     public static final String PREF_GIF                    = "gif";
     public static final String PREF_HQGIF                  = "hqgif";
@@ -170,7 +167,6 @@ public class SettingValues {
     public static boolean                 actionbarTap;
     public static boolean                 commentAutoHide;
     public static boolean                 showCollapseExpand;
-    public static boolean                 fullCommentOverride;
     public static boolean lowResAlways;
     public static boolean noImages;
     public static boolean lowResMobile;
@@ -235,8 +231,6 @@ public class SettingValues {
     public static boolean isPro;
     public static boolean customtabs;
     public static boolean titleTop;
-    public static boolean dualPortrait;
-    public static boolean singleColumnMultiWindow;
     public static int nightModeState;
     public static boolean imageSubfolders;
     public static boolean imageDownloadButton;
@@ -378,7 +372,6 @@ public class SettingValues {
         showDomain = prefs.getBoolean(PREF_SHOW_DOMAIN, false);
         expandedToolbar = prefs.getBoolean(PREF_EXPANDED_TOOLBAR, false);
         voteGestures = prefs.getBoolean(PREF_VOTE_GESTURES, false);
-        fullCommentOverride = prefs.getBoolean(PREF_FULL_COMMENT_OVERRIDE, false);
 
         alphabetizeOnSubscribe = prefs.getBoolean(PREF_ALPHABETIZE_SUBSCRIBE, false);
 
@@ -416,8 +409,6 @@ public class SettingValues {
         flairFilters = new HashSet<>(prefs.getStringSet(PREF_FLAIR_FILTERS, new HashSet<>()));
         userFilters = new HashSet<>(prefs.getStringSet(PREF_USER_FILTERS, new HashSet<>()));
 
-        dualPortrait = prefs.getBoolean(PREF_DUAL_PORTRAIT, false);
-        singleColumnMultiWindow = prefs.getBoolean(PREF_SINGLE_COLUMN_MULTI, false);
         colorSubName = prefs.getBoolean(PREF_COLOR_SUB_NAME, false);
 
         cropImage = prefs.getBoolean(PREF_CROP_IMAGE, true);

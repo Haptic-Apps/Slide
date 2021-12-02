@@ -33,6 +33,7 @@
     <string name="type_streamable">Streamable</string>
     <string name="type_youtube">YouTube</string>
 
+    <string name="paypal_link">https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=56FKCCYLX7L72</string>
 
     <!-- Useful strings displayed at startup -->
     <string-array name="startup_strings">

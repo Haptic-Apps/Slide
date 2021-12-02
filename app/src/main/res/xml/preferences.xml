@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        android:title="@string/settings_section_general"
+        app:iconSpaceReserved="false">
+
+        <Preference
+            android:icon="@drawable/ic_settings"
+            android:key="@string/prefKey_general"
+            android:title="@string/settings_title_general"
+            app:iconSpaceReserved="false" />
+
+        <Preference
+            android:icon="@drawable/ic_dashboard"
+            android:key="@string/prefKey_multiColumn"
+            android:title="@string/settings_title_multi_column"
+            app:iconSpaceReserved="false" />
+
+        <Preference
+            android:icon="@drawable/ic_bookmark_border"
+            android:key="@string/prefKey_manageSubreddits"
+            android:title="@string/manage_your_subreddits"
+            app:iconSpaceReserved="false" />
+
+        <Preference
+            android:icon="@drawable/ic_cloud_off"
+            android:key="@string/prefKey_manageOfflineContent"
+            android:title="@string/manage_offline_content"
+            app:iconSpaceReserved="false" />
+
+        <Preference
+            android:icon="@drawable/ic_verified_user"
+            android:key="@string/prefKey_moderation"
+            android:title="@string/settings_moderation"
+            app:iconSpaceReserved="false"
+            app:isPreferenceVisible="false" />
+
+    </PreferenceCategory>
+
+
+    <PreferenceCategory
+        android:title="@string/settings_section_appearance"
+        app:iconSpaceReserved="false">
+
+        <Preference
+            android:icon="@drawable/ic_invert_colors"
+            android:key="@string/prefKey_mainTheme"
+            android:title="@string/settings_title_default_theme"
+            app:iconSpaceReserved="false" />
+
+        <Preference
+            android:icon="@drawable/ic_view_agenda"
+            android:key="@string/prefKey_postLayout"
+            android:title="@string/settings_layout_default"
+            app:iconSpaceReserved="false" />
+
+        <Preference
+            android:icon="@drawable/ic_bookmark_border"
+            android:key="@string/prefKey_subredditThemes"
+            android:title="@string/settings_title_sub_theme"
+            app:iconSpaceReserved="false" />
+
+        <Preference
+            android:icon="@drawable/ic_text_fields"
+            android:key="@string/prefKey_font"
+            android:title="@string/settings_title_font"
+            app:iconSpaceReserved="false" />
+
+        <Preference
+            android:icon="@drawable/ic_forum"
+            android:key="@string/prefKey_comments"
+            android:title="@string/settings_title_comments"
+            app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
+
+    <PreferenceCategory
+        android:title="@string/settings_section_content"
+        app:iconSpaceReserved="false">
+
+        <Preference
+            android:icon="@drawable/ic_link"
+            android:key="@string/prefKey_linkHandling"
+            android:title="@string/settings_link_handling"
+            app:iconSpaceReserved="false" />
+
+        <Preference
+            android:icon="@drawable/ic_history"
+            android:key="@string/prefKey_history"
+            android:title="@string/settings_title_history"
+            app:iconSpaceReserved="false" />
+
+        <Preference
+            android:icon="@drawable/ic_public"
+            android:key="@string/prefKey_dataSaving"
+            android:title="@string/settings_data"
+            app:iconSpaceReserved="false" />
+
+        <Preference
+            android:icon="@drawable/ic_filter_list"
+            android:key="@string/prefKey_filterList"
+            android:title="@string/settings_title_filter"
+            app:iconSpaceReserved="false" />
+
+        <Preference
+            android:icon="@drawable/ic_reddit"
+            android:key="@string/prefKey_redditContent"
+            android:title="@string/content_settings"
+            app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
+
+    <PreferenceCategory
+        android:title="@string/settings_section_other"
+        app:iconSpaceReserved="false">
+
+        <Preference
+            android:icon="@drawable/ic_backup"
+            android:key="@string/prefKey_backupRestore"
+            android:title="@string/settings_title_backup"
+            app:iconSpaceReserved="false" />
+
+        <Preference
+            android:icon="@drawable/ic_synccit"
+            android:key="@string/prefKey_synccit"
+            android:title="@string/settings_synccit"
+            app:iconSpaceReserved="false" />
+
+        <Preference
+            android:icon="@drawable/ic_crown"
+            android:key="@string/prefKey_proUpgrade"
+            android:title="@string/settings_title_pro"
+            app:iconSpaceReserved="false" />
+
+        <Preference
+            android:icon="@drawable/ic_card_giftcard"
+            android:key="@string/prefKey_donate"
+            android:title="@string/settings_title_support"
+            app:iconSpaceReserved="false" />
+
+        <Preference
+            android:icon="@drawable/ic_info"
+            android:key="@string/prefKey_about"
+            android:title="@string/settings_title_about"
+            app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

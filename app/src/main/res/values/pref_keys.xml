@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         ALL PREFERENCE KEYS ARE ORGANIZED ACCORDING TO THEIR ORDER IN THE SETTINGS HIERARCHY.
+         PLEASE ADHERE TO THIS ORDER WHEN ADDING NEW SETTINGS.
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    -->
+
+    <!-- preferences (MAIN SETTINGS PAGE - THE ROOT) -->
+    <!-- General -->
+    <string name="prefKey_general">pref_general</string>
+    <string name="prefKey_multiColumn">pref_multiColumn</string>
+    <string name="prefKey_manageSubreddits">pref_manageSubreddits</string>
+    <string name="prefKey_manageOfflineContent">pref_manageOfflineContent</string>
+    <string name="prefKey_moderation">pref_moderation</string>
+    <!-- Appearance -->
+    <string name="prefKey_mainTheme">pref_mainTheme</string>
+    <string name="prefKey_postLayout">pref_postLayout</string>
+    <string name="prefKey_subredditThemes">pref_subredditThemes</string>
+    <string name="prefKey_font">pref_font</string>
+    <string name="prefKey_comments">pref_comments</string>
+    <!-- Content -->
+    <string name="prefKey_linkHandling">pref_linkHandling</string>
+    <string name="prefKey_history">pref_history</string>
+    <string name="prefKey_dataSaving">pref_dataSaving</string>
+    <string name="prefKey_filterList">pref_filterList</string>
+    <string name="prefKey_redditContent">pref_redditContent</string>
+    <!-- Other -->
+    <string name="prefKey_backupRestore">pref_backupRestore</string>
+    <string name="prefKey_synccit">pref_synccit</string>
+    <string name="prefKey_proUpgrade">pref_proUpgrade</string>
+    <string name="prefKey_donate">pref_donate</string>
+    <string name="prefKey_about">pref_about</string>
+
+
+    <!-- preferences_multicolumn -->
+    <string name="prefKey_multicolumn_landscapeColumnNumber">pref_landscapeColumnNumber</string>
+    <string name="prefKey_multicolumn_singleColumnMultiWindow">pref_singleColumnMultiWindow</string>
+    <string name="prefKey_multicolumn_portraitModeDualColumns">pref_portraitModeDualColumns</string>
+    <string name="prefKey_multicolumn_forceFullCommentView">pref_forceFullCommentView</string>
+
+</resources>

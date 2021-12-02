@@ -99,7 +99,7 @@
 
     <!-- Settings for Multi-column view -->
     <string name="multi_column_title">Multi-column</string>
-    <string name="multi_column_landscape">Landscape</string>
+    <string name="multi_column_landscape">Number of columns in landscape</string>
     <string name="multi_column_portrait">Dual columns in portrait mode</string>
     <string name="single_column_multi_window">Single column in multi-window mode</string>
 
@@ -1088,10 +1088,6 @@
     <string name="load_videos_internally_content">Would you like to try out the Slide Video plugin? This will allow you to view videos (like YouTube) internally!</string>
     <string name="do_not_show_again">Don\'t show again</string>
     <string name="enter_text_to_filter_click_enter_to_add_flair">Enter text to filter (subreddit:flair_text), click enter to add</string>
-    <plurals name="landscape_columns">
-        <item quantity="one">%d column in landscape</item>
-        <item quantity="other">%d columns in landscape</item>
-    </plurals>
     <string name="datasave_always">Mobile data and Wi-Fi</string>
     <string name="datasave_mobile">Mobile data</string>
     <string name="never">Never</string>
@@ -1227,4 +1223,5 @@
     <string name="description_high_colorspace">Loads full colorspace on images, potentially leading to higher memory usage</string>
     <string name="editor_btn_select_flair">Select flair</string>
     <string name="submit_selected_flair">Selected flair: %s</string>
+    <string name="settings_donate_paypal">Donate via PayPal</string>
 </resources>

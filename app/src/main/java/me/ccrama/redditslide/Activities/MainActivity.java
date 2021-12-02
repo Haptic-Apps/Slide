@@ -287,7 +287,7 @@ public class MainActivity extends BaseActivity
                 KeyboardUtil.hideKeyboard(this, view.getWindowToken(), 0);
             }
         } else if (requestCode == 2002 && resultCode != RESULT_OK) {
-            mToolbar.performLongClick(); //search was init from the toolbar, so return focus to the toolbar
+            mToolbar.performLongClick(); //search was initPreferences from the toolbar, so return focus to the toolbar
         } else if (requestCode == 423 && resultCode == RESULT_OK) {
             ((MainPagerAdapterComment) adapter).mCurrentComments.doResult(data);
         } else if (requestCode == 940) {

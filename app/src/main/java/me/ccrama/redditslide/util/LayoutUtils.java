@@ -13,6 +13,7 @@ import com.google.android.material.tabs.TabLayout;
 
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
+import me.ccrama.redditslide.util.preference.PreferenceHelper;
 
 /**
  * Created by TacoTheDank on 12/31/2020.
@@ -55,11 +56,11 @@ public class LayoutUtils {
         final int numColumns;
         boolean singleColumnMultiWindow = false;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            singleColumnMultiWindow = activity.isInMultiWindowMode() && SettingValues.singleColumnMultiWindow;
+            singleColumnMultiWindow = activity.isInMultiWindowMode() && PreferenceHelper.singleColumnMultiWindow();
         }
         if (orientation == Configuration.ORIENTATION_LANDSCAPE && SettingValues.isPro && !singleColumnMultiWindow) {
             numColumns = Reddit.dpWidth;
-        } else if (orientation == Configuration.ORIENTATION_PORTRAIT && SettingValues.dualPortrait) {
+        } else if (orientation == Configuration.ORIENTATION_PORTRAIT && PreferenceHelper.portraitModeDualColumns()) {
             numColumns = 2;
         } else {
             numColumns = 1;
