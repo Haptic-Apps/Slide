@@ -224,7 +224,7 @@ public class CreateCardView {
     }
 
     public static View setNoThumbnails(Boolean b, ViewGroup parent) {
-        SettingValues.prefs.edit().putBoolean("bigPicEnabled", b).apply();
+        SettingValues.prefs.edit().putBoolean("bigPicEnabled", false).apply();
         SettingValues.bigPicEnabled = false;
 
         SettingValues.prefs.edit().putBoolean("bigPicCropped", false).apply();
