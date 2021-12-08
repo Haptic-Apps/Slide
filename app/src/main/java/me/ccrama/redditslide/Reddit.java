@@ -28,7 +28,6 @@ import androidx.core.app.NotificationChannelCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
-import androidx.multidex.MultiDexApplication;
 
 import com.google.android.exoplayer2.database.DatabaseProvider;
 import com.google.android.exoplayer2.database.ExoDatabaseProvider;
@@ -81,7 +80,7 @@ import okhttp3.OkHttpClient;
 /**
  * Created by ccrama on 9/17/2015.
  */
-public class Reddit extends MultiDexApplication implements Application.ActivityLifecycleCallbacks {
+public class Reddit extends Application implements Application.ActivityLifecycleCallbacks {
     private static Application mApplication;
 
     public static final String EMPTY_STRING = "NOTHING";

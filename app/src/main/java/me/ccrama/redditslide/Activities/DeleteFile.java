@@ -1,7 +1,6 @@
 package me.ccrama.redditslide.Activities;
 
 import android.app.Activity;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -10,7 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 
-import androidx.core.content.ContextCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import java.io.File;
 
@@ -35,10 +34,8 @@ public class DeleteFile extends Activity {
         super.onCreate(savedInstance);
         Intent intent = getIntent();
 
-        NotificationManager manager = ContextCompat.getSystemService(this, NotificationManager.class);
-        if (manager != null) {
-            manager.cancel(intent.getIntExtra(NOTIFICATION_ID, -1));
-        }
+        final NotificationManagerCompat manager = NotificationManagerCompat.from(this);
+        manager.cancel(intent.getIntExtra(NOTIFICATION_ID, -1));
 
         Bundle extras = intent.getExtras();
         String image;

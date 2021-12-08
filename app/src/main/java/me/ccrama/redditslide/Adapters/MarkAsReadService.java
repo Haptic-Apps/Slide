@@ -1,13 +1,12 @@
 package me.ccrama.redditslide.Adapters;
 
 import android.app.IntentService;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.core.content.ContextCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import net.dean.jraw.http.NetworkException;
 import net.dean.jraw.managers.InboxManager;
@@ -36,10 +35,8 @@ public class MarkAsReadService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        NotificationManager manager = ContextCompat.getSystemService(this, NotificationManager.class);
-        if (manager != null) {
-            manager.cancel(intent.getIntExtra(NOTIFICATION_ID, -1));
-        }
+        NotificationManagerCompat manager = NotificationManagerCompat.from(this);
+        manager.cancel(intent.getIntExtra(NOTIFICATION_ID, -1));
 
         String[] messages = null;
         Bundle extras = intent.getExtras();

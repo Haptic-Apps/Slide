@@ -2,7 +2,6 @@ package me.ccrama.redditslide.Activities;
 
 import android.animation.ValueAnimator;
 import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -28,7 +27,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.NotificationCompat;
-import androidx.core.content.ContextCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import com.cocosw.bottomsheet.BottomSheet;
 import com.google.gson.Gson;
@@ -110,7 +109,7 @@ public class MediaView extends FullScreenActivity
     public String  actuallyLoaded;
     public boolean isGif;
 
-    private NotificationManager        mNotifyManager;
+    private NotificationManagerCompat mNotifyManager;
     private NotificationCompat.Builder mBuilder;
     private long                       stopPosition;
     private GifUtils.AsyncLoadGif      gif;
@@ -278,8 +277,7 @@ public class MediaView extends FullScreenActivity
                             Reddit.appRestart.getString("imagelocation", "") + File.separator + UUID
                                     .randomUUID()
                                     .toString() + baseUrl.substring(baseUrl.lastIndexOf(".")));
-                    mNotifyManager =
-                            ContextCompat.getSystemService(MediaView.this, NotificationManager.class);
+                    mNotifyManager = NotificationManagerCompat.from(MediaView.this);
                     mBuilder = new NotificationCompat.Builder(MediaView.this, Reddit.CHANNEL_IMG);
                     mBuilder.setContentTitle(getString(R.string.mediaview_saving, baseUrl))
                             .setSmallIcon(R.drawable.ic_download);
@@ -334,10 +332,8 @@ public class MediaView extends FullScreenActivity
                                                 .setContentIntent(contentIntent)
                                                 .build();
 
-                                        NotificationManager mNotificationManager =
-                                                ContextCompat.getSystemService(MediaView.this, NotificationManager.class);
-                                        if (mNotificationManager != null) {
-                                            mNotificationManager.notify(1, notif);
+                                        if (mNotifyManager != null) {
+                                            mNotifyManager.notify(1, notif);
                                         }
                                     }
                                 });
@@ -364,8 +360,7 @@ public class MediaView extends FullScreenActivity
                             Reddit.appRestart.getString("imagelocation", "") + File.separator + UUID
                                     .randomUUID()
                                     .toString() + baseUrl.substring(baseUrl.lastIndexOf(".")));
-                    mNotifyManager =
-                            ContextCompat.getSystemService(MediaView.this, NotificationManager.class);
+                    mNotifyManager = NotificationManagerCompat.from(MediaView.this);
                     mBuilder = new NotificationCompat.Builder(MediaView.this, Reddit.CHANNEL_IMG);
                     mBuilder.setContentTitle(getString(R.string.mediaview_saving, baseUrl))
                             .setSmallIcon(R.drawable.ic_download);
@@ -407,13 +402,9 @@ public class MediaView extends FullScreenActivity
                                         MediaView.this.sendBroadcast(mediaScanIntent);
 
                                         final Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                                        startActivity(
-                                                Intent.createChooser(shareIntent, "Share GIF"));
-                                        NotificationManager mNotificationManager =
-                                                ContextCompat.getSystemService(MediaView.this,
-                                                        NotificationManager.class);
-                                        if (mNotificationManager != null) {
-                                            mNotificationManager.cancel(1);
+                                        startActivity(Intent.createChooser(shareIntent, "Share GIF"));
+                                        if (mNotifyManager != null) {
+                                            mNotifyManager.cancel(1);
                                         }
                                     }
                                 });

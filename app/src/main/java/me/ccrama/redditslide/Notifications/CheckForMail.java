@@ -5,7 +5,6 @@ package me.ccrama.redditslide.Notifications;
  */
 
 import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.ContentValues;
@@ -19,7 +18,6 @@ import android.text.Html;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
-import androidx.core.content.ContextCompat;
 
 import net.dean.jraw.models.Message;
 import net.dean.jraw.models.Submission;
@@ -257,8 +255,7 @@ public class CheckForMail extends BroadcastReceiver {
             Resources res = c.getResources();
             if (messages != null && !messages.isEmpty()) {
                 Collections.reverse(messages);
-                NotificationManager notificationManager =
-                        ContextCompat.getSystemService(c, NotificationManager.class);
+                NotificationManagerCompat notificationManager = NotificationManagerCompat.from(c);
 
                 Intent notificationIntent = new Intent(c, ModQueue.class);
 
@@ -297,10 +294,7 @@ public class CheckForMail extends BroadcastReceiver {
                         builder.setSound(null);
                     }
                     Notification notification = builder.build();
-
-                    if (notificationManager != null) {
-                        notificationManager.notify(1, notification);
-                    }
+                    notificationManager.notify(1, notification);
                 }
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -331,9 +325,7 @@ public class CheckForMail extends BroadcastReceiver {
                             builder.setSound(null);
                         }
                         Notification notification = builder.build();
-                        if (notificationManager != null) {
-                            notificationManager.notify((int) m.getCreated().getTime(), notification);
-                        }
+                        notificationManager.notify((int) m.getCreated().getTime(), notification);
                     }
                 }
 
@@ -374,7 +366,7 @@ public class CheckForMail extends BroadcastReceiver {
         public void onPostExecute(List<Submission> messages) {
             if (messages != null) {
                 if (!messages.isEmpty()) {
-                    NotificationManager notificationManager = ContextCompat.getSystemService(c, NotificationManager.class);
+                    NotificationManagerCompat notificationManager = NotificationManagerCompat.from(c);
                     for (Submission s : messages) {
                         Intent readIntent = new Intent(c, OpenContent.class);
                         readIntent.putExtra(OpenContent.EXTRA_URL,
@@ -421,10 +413,7 @@ public class CheckForMail extends BroadcastReceiver {
                                                 R.string.sub_post_notifs_notification_btn,
                                                 s.getSubredditName()), cancelPi)
                                         .build();
-                        if (notificationManager != null) {
-                            notificationManager.notify((int) (s.getCreated().getTime() / 1000),
-                                    notification);
-                        }
+                        notificationManager.notify((int) (s.getCreated().getTime() / 1000), notification);
                     }
                 }
             }

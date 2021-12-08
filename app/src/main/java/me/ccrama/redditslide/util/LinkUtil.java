@@ -20,7 +20,6 @@ import androidx.browser.customtabs.CustomTabsClient;
 import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.browser.customtabs.CustomTabsServiceConnection;
 import androidx.browser.customtabs.CustomTabsSession;
-import androidx.core.content.ContextCompat;
 
 import net.dean.jraw.models.Submission;
 
@@ -84,8 +83,7 @@ public class LinkUtil {
                         .addMenuItem(contextActivity.getString(R.string.open_links_externally),
                                 pendingIntent)
                         .setCloseButtonIcon(DrawableUtil.drawableToBitmap(
-                                ContextCompat.getDrawable(contextActivity,
-                                        R.drawable.ic_arrow_back)));
+                                contextActivity.getDrawable(R.drawable.ic_arrow_back)));
         try {
             CustomTabsIntent customTabsIntent = builder.build();
 

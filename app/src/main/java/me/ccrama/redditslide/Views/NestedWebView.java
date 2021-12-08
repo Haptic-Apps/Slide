@@ -5,6 +5,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
+import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewParent;
 import android.webkit.WebView;
@@ -89,7 +90,7 @@ public class NestedWebView extends WebView implements NestedScrollingChild, Nest
                 final int y = (int) ev.getY(pointerIndex);
                 final int yDiff = Math.abs(y - mLastMotionY);
                 if (yDiff > mTouchSlop
-                        && (getNestedScrollAxes() & ViewCompat.SCROLL_AXIS_VERTICAL) == 0) {
+                        && (getNestedScrollAxes() & View.SCROLL_AXIS_VERTICAL) == 0) {
                     mIsBeingDragged = true;
                     mLastMotionY = y;
                     initVelocityTrackerIfNotExists();

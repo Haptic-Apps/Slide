@@ -6,7 +6,6 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.core.view.ViewCompat;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -31,7 +30,7 @@ class AutoHideFAB extends FloatingActionButton.Behavior {
 
     @Override
     public boolean onStartNestedScroll(CoordinatorLayout coordinatorLayout, FloatingActionButton child, View directTargetChild, View target, int nestedScrollAxes, int type) {
-        return nestedScrollAxes == ViewCompat.SCROLL_AXIS_VERTICAL;
+        return nestedScrollAxes == View.SCROLL_AXIS_VERTICAL;
     }
 
 }

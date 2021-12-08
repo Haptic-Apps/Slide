@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -393,33 +394,22 @@ public class PopulateNewsViewHolder {
             final Submission submission, final NewsViewHolder holder, final List<T> posts,
             final String baseSub, final RecyclerView recyclerview, final boolean full) {
 
+        final Resources res = mContext.getResources();
         int[] attrs = new int[]{R.attr.tintColor};
         TypedArray ta = mContext.obtainStyledAttributes(attrs);
 
         int color = ta.getColor(0, Color.WHITE);
-        Drawable profile =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_account_circle, null);
-        final Drawable sub =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_bookmark_border, null);
-        Drawable saved =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_star,
-                        null);
-        Drawable hide = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_visibility_off, null);
-        final Drawable report =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_report, null);
-        Drawable copy =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_content_copy,
-                        null);
-        final Drawable readLater =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_download, null);
-        Drawable open =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_open_in_browser, null);
-        Drawable link = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_link, null);
-        Drawable reddit =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_forum,
-                        null);
-        Drawable filter =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_filter_list, null);
+        Drawable profile = res.getDrawable(R.drawable.ic_account_circle, null);
+        final Drawable sub = res.getDrawable(R.drawable.ic_bookmark_border, null);
+        Drawable saved = res.getDrawable(R.drawable.ic_star, null);
+        Drawable hide = res.getDrawable(R.drawable.ic_visibility_off, null);
+        final Drawable report = res.getDrawable(R.drawable.ic_report, null);
+        Drawable copy = res.getDrawable(R.drawable.ic_content_copy, null);
+        final Drawable readLater = res.getDrawable(R.drawable.ic_download, null);
+        Drawable open = res.getDrawable(R.drawable.ic_open_in_browser, null);
+        Drawable link = res.getDrawable(R.drawable.ic_link, null);
+        Drawable reddit = res.getDrawable(R.drawable.ic_forum, null);
+        Drawable filter = res.getDrawable(R.drawable.ic_filter_list, null);
 
         final List<Drawable> drawableSet = Arrays.asList(
                 profile, sub, saved, hide, report, copy,

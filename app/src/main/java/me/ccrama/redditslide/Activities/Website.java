@@ -14,6 +14,7 @@ import android.webkit.CookieSyncManager;
 import android.webkit.DownloadListener;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -344,7 +345,8 @@ public class Website extends BaseActivityAnim {
         private Map<String, Boolean> loadedUrls = new HashMap<>();
 
         @Override
-        public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
+        public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
+            String url = request.getUrl().toString();
             boolean ad;
             if (!loadedUrls.containsKey(url)) {
                 ad = AdBlocker.isAd(url, Website.this);
@@ -354,7 +356,7 @@ public class Website extends BaseActivityAnim {
             }
             return ad && (currentURL != null && !currentURL.contains("twitter.com")) && SettingValues.isPro
                     ? AdBlocker.createEmptyResource()
-                    : super.shouldInterceptRequest(view, url);
+                    : super.shouldInterceptRequest(view, request);
         }
 
         @Override

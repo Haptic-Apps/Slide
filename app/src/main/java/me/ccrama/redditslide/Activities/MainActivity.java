@@ -7,7 +7,6 @@ import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.app.Dialog;
-import android.app.NotificationManager;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -71,12 +70,11 @@ import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.pm.ShortcutInfoCompat;
 import androidx.core.content.pm.ShortcutManagerCompat;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.core.graphics.drawable.IconCompat;
-import androidx.core.view.GravityCompat;
 import androidx.customview.widget.ViewDragHelper;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -332,8 +330,8 @@ public class MainActivity extends BaseActivity
 
     @Override
     public void onBackPressed() {
-        if (drawerLayout != null && drawerLayout.isDrawerOpen(GravityCompat.START)
-                || drawerLayout != null && drawerLayout.isDrawerOpen(GravityCompat.END)) {
+        if (drawerLayout != null && drawerLayout.isDrawerOpen(Gravity.LEFT)
+                || drawerLayout != null && drawerLayout.isDrawerOpen(Gravity.RIGHT)) {
             drawerLayout.closeDrawers();
         } else if (commentPager && pager.getCurrentItem() == toOpenComments) {
             pager.setCurrentItem(pager.getCurrentItem() - 1);
@@ -343,7 +341,7 @@ public class MainActivity extends BaseActivity
             findViewById(R.id.close_search_toolbar).performClick(); //close GO_TO_SUB_FIELD
         } else if (SettingValues.backButtonBehavior
                 == Constants.BackButtonBehaviorOptions.OpenDrawer.getValue()) {
-            drawerLayout.openDrawer(GravityCompat.START);
+            drawerLayout.openDrawer(Gravity.LEFT);
         } else if (SettingValues.backButtonBehavior
                 == Constants.BackButtonBehaviorOptions.GotoFirst.getValue()) {
             pager.setCurrentItem(0);
@@ -570,7 +568,7 @@ public class MainActivity extends BaseActivity
                         && !subreddit.contains("+")
                         && !subreddit.contains(".")
                         && !subreddit.contains("/m/")) {
-                    drawerLayout.openDrawer(GravityCompat.END);
+                    drawerLayout.openDrawer(Gravity.RIGHT);
                 } else {
                     Toast.makeText(this, R.string.sidebar_notfound, Toast.LENGTH_SHORT).show();
                 }
@@ -2060,7 +2058,7 @@ public class MainActivity extends BaseActivity
                     @Override
                     public void onDrawerOpened(View drawerView) {
                         super.onDrawerOpened(drawerView);
-                        if (drawerLayout.isDrawerOpen(GravityCompat.END)) {
+                        if (drawerLayout.isDrawerOpen(Gravity.RIGHT)) {
                             int current = pager.getCurrentItem();
 
                             if (current == toOpenComments && toOpenComments != 0) {
@@ -2629,7 +2627,7 @@ public class MainActivity extends BaseActivity
                 && !subreddit.contains(".")
                 && !subreddit.contains("/m/")) {
             if (drawerLayout != null) {
-                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, GravityCompat.END);
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, Gravity.RIGHT);
             }
 
             mAsyncGetSubreddit = new AsyncGetSubreddit();
@@ -3055,8 +3053,7 @@ public class MainActivity extends BaseActivity
             }
         } else {
             if (drawerLayout != null) {
-                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED,
-                        GravityCompat.END);
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.RIGHT);
             }
         }
     }
@@ -3129,7 +3126,7 @@ public class MainActivity extends BaseActivity
                 && !subreddit.contains(".")
                 && !subreddit.contains("/m/")) {
             if (drawerLayout != null) {
-                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, GravityCompat.END);
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, Gravity.RIGHT);
             }
 
             findViewById(R.id.sidebar_text).setVisibility(View.GONE);
@@ -3152,8 +3149,7 @@ public class MainActivity extends BaseActivity
 
         } else {
             if (drawerLayout != null) {
-                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED,
-                        GravityCompat.END);
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.RIGHT);
             }
         }
     }
@@ -3912,7 +3908,7 @@ public class MainActivity extends BaseActivity
         color.eraseColor(Palette.getColor(subreddit));
         color = ImageUtil.clipToCircle(color);
 
-        Bitmap over = DrawableUtil.drawableToBitmap(ResourcesCompat.getDrawable(getResources(), overlay, null));
+        Bitmap over = DrawableUtil.drawableToBitmap(getResources().getDrawable(overlay, null));
 
         Canvas canvas = new Canvas(color);
         canvas.drawBitmap(over, color.getWidth() / 2.0f - (over.getWidth() / 2.0f),
@@ -4347,11 +4343,9 @@ public class MainActivity extends BaseActivity
                 if (badge != null) {
                     badge.setVisibility(View.GONE);
                 }
-                NotificationManager notificationManager =
-                        ContextCompat.getSystemService(MainActivity.this, NotificationManager.class);
-                if (notificationManager != null) {
-                    notificationManager.cancel(0);
-                }
+                final NotificationManagerCompat notificationManager =
+                        NotificationManagerCompat.from(MainActivity.this);
+                notificationManager.cancel(0);
             } else if (count != -1) {
                 if (badge != null) {
                     badge.setVisibility(View.VISIBLE);

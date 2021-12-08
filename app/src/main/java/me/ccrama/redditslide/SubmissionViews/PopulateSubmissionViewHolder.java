@@ -32,7 +32,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -526,32 +525,20 @@ public class PopulateSubmissionViewHolder {
         int[] attrs = new int[]{R.attr.tintColor};
         TypedArray ta = mContext.obtainStyledAttributes(attrs);
 
+        final Resources res = mContext.getResources();
         int color = ta.getColor(0, Color.WHITE);
-        Drawable profile =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_account_circle, null);
-        final Drawable sub =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_bookmark_border, null);
-        Drawable saved =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_star,
-                        null);
-        Drawable hide = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_visibility_off, null);
-        final Drawable report =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_report, null);
-        Drawable copy =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_content_copy,
-                        null);
-        final Drawable readLater =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_download, null);
-        Drawable open =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_open_in_browser, null);
-        Drawable link = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_link, null);
-        Drawable reddit =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_forum,
-                        null);
-        Drawable filter =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_filter_list, null);
-        Drawable crosspost =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_forward, null);
+        Drawable profile = res.getDrawable(R.drawable.ic_account_circle, null);
+        final Drawable sub = res.getDrawable(R.drawable.ic_bookmark_border, null);
+        Drawable saved = res.getDrawable(R.drawable.ic_star, null);
+        Drawable hide = res.getDrawable(R.drawable.ic_visibility_off, null);
+        final Drawable report = res.getDrawable(R.drawable.ic_report, null);
+        Drawable copy = res.getDrawable(R.drawable.ic_content_copy, null);
+        final Drawable readLater = res.getDrawable(R.drawable.ic_download, null);
+        Drawable open = res.getDrawable(R.drawable.ic_open_in_browser, null);
+        Drawable link = res.getDrawable(R.drawable.ic_link, null);
+        Drawable reddit = res.getDrawable(R.drawable.ic_forum, null);
+        Drawable filter = res.getDrawable(R.drawable.ic_filter_list, null);
+        Drawable crosspost = res.getDrawable(R.drawable.ic_forward, null);
 
         final List<Drawable> drawableSet = Arrays.asList(
                 profile, sub, saved, hide, report, copy,
@@ -1295,34 +1282,20 @@ public class PopulateSubmissionViewHolder {
         TypedArray ta = mContext.obtainStyledAttributes(attrs);
 
         int color = ta.getColor(0, Color.WHITE);
-        Drawable profile =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_account_circle, null);
-        final Drawable report =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_report, null);
-        final Drawable approve =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_thumb_up, null);
-        final Drawable nsfw =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_visibility_off, null);
-        final Drawable spoiler =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_remove_circle, null);
-        final Drawable pin =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_bookmark_border, null);
-        final Drawable lock =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_lock, null);
-        final Drawable flair = ResourcesCompat.getDrawable(mContext.getResources(),
-                R.drawable.ic_format_quote, null);
-        final Drawable remove =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_close, null);
-        final Drawable remove_reason =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_announcement, null);
-        final Drawable ban =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_gavel, null);
-        final Drawable spam =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_flag, null);
-        final Drawable distinguish =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_star,
-                        null);
-        final Drawable note = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_note, null);
+        Drawable profile = res.getDrawable(R.drawable.ic_account_circle, null);
+        final Drawable report = res.getDrawable(R.drawable.ic_report, null);
+        final Drawable approve = res.getDrawable(R.drawable.ic_thumb_up, null);
+        final Drawable nsfw = res.getDrawable(R.drawable.ic_visibility_off, null);
+        final Drawable spoiler = res.getDrawable(R.drawable.ic_remove_circle, null);
+        final Drawable pin = res.getDrawable(R.drawable.ic_bookmark_border, null);
+        final Drawable lock = res.getDrawable(R.drawable.ic_lock, null);
+        final Drawable flair = res.getDrawable(R.drawable.ic_format_quote, null);
+        final Drawable remove = res.getDrawable(R.drawable.ic_close, null);
+        final Drawable remove_reason = res.getDrawable(R.drawable.ic_announcement, null);
+        final Drawable ban = res.getDrawable(R.drawable.ic_gavel, null);
+        final Drawable spam = res.getDrawable(R.drawable.ic_flag, null);
+        final Drawable distinguish = res.getDrawable(R.drawable.ic_star, null);
+        final Drawable note = res.getDrawable(R.drawable.ic_note, null);
 
         final List<Drawable> drawableSet = Arrays.asList(
                 profile, report, approve, spam, nsfw,

@@ -2,7 +2,6 @@ package me.ccrama.redditslide.util;
 
 import android.app.Activity;
 import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.graphics.Color;
@@ -19,7 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.NotificationCompat;
-import androidx.core.content.ContextCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.ext.okhttp.OkHttpDataSource;
@@ -95,11 +94,8 @@ public class GifUtils {
                                         .setContentIntent(contentIntent)
                                         .build();
 
-                        NotificationManager mNotificationManager =
-                                ContextCompat.getSystemService(c, NotificationManager.class);
-                        if (mNotificationManager != null) {
-                            mNotificationManager.notify((int) System.currentTimeMillis(), notif);
-                        }
+                        NotificationManagerCompat mNotificationManager = NotificationManagerCompat.from(c);
+                        mNotificationManager.notify((int) System.currentTimeMillis(), notif);
                     }
                 }
         );
@@ -136,7 +132,7 @@ public class GifUtils {
         } else {
             new AsyncTask<Void, Integer, Boolean>() {
                 File outFile;
-                NotificationManager notifMgr = ContextCompat.getSystemService(a, NotificationManager.class);
+                final NotificationManagerCompat notifMgr = NotificationManagerCompat.from(a);
 
                 @Override
                 protected void onPreExecute() {

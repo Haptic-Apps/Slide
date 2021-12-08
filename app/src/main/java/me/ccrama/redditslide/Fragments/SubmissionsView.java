@@ -16,7 +16,6 @@ import android.widget.RelativeLayout;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.view.ContextThemeWrapper;
-import androidx.core.view.MarginLayoutParamsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator;
 import androidx.recyclerview.widget.RecyclerView;
@@ -129,7 +128,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
             RelativeLayout.LayoutParams params =
                     new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                             ViewGroup.LayoutParams.MATCH_PARENT);
-            MarginLayoutParamsCompat.setMarginStart(params, 0);
+            params.setMarginStart(0);
             rv.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
             mSwipeRefreshLayout.setLayoutParams(params);
         }

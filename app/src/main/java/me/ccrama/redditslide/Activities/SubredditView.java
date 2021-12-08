@@ -33,7 +33,6 @@ import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.appcompat.widget.AppCompatCheckBox;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -148,8 +147,8 @@ public class SubredditView extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        if (drawerLayout != null && drawerLayout.isDrawerOpen(GravityCompat.START)
-                || drawerLayout != null && drawerLayout.isDrawerOpen(GravityCompat.END)) {
+        if (drawerLayout != null && drawerLayout.isDrawerOpen(Gravity.LEFT)
+                || drawerLayout != null && drawerLayout.isDrawerOpen(Gravity.RIGHT)) {
             drawerLayout.closeDrawers();
         } else if (commentPager && pager.getCurrentItem() == 2) {
             pager.setCurrentItem(pager.getCurrentItem() - 1);
@@ -231,7 +230,7 @@ public class SubredditView extends BaseActivity {
                 && !subreddit.contains("+")) {
             executeAsyncSubreddit(subreddit);
         } else {
-            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.END);
+            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.RIGHT);
         }
     }
 
@@ -459,7 +458,7 @@ public class SubredditView extends BaseActivity {
                 && !subOverride.contains(".")
                 && !subOverride.contains("/m/")) {
             if (drawerLayout != null) {
-                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, GravityCompat.END);
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, Gravity.RIGHT);
             }
             loaded = true;
 
@@ -882,7 +881,7 @@ public class SubredditView extends BaseActivity {
         } else {
             if (drawerLayout != null) {
                 drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED,
-                        GravityCompat.END);
+                        Gravity.RIGHT);
             }
         }
     }
@@ -897,7 +896,7 @@ public class SubredditView extends BaseActivity {
                 !subOverride.contains("+") && !subOverride.contains(".") && !subOverride.contains(
                 "/m/")) {
             if (drawerLayout != null) {
-                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, GravityCompat.END);
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, Gravity.RIGHT);
             }
 
             findViewById(R.id.sidebar_text).setVisibility(View.GONE);
@@ -920,8 +919,7 @@ public class SubredditView extends BaseActivity {
 
         } else {
             if (drawerLayout != null) {
-                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED,
-                        GravityCompat.END);
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.RIGHT);
             }
         }
     }

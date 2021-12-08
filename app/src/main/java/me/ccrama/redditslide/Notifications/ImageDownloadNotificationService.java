@@ -1,7 +1,6 @@
 package me.ccrama.redditslide.Notifications;
 
 import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
@@ -18,7 +17,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
-import androidx.core.content.ContextCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import com.google.common.io.Files;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -73,7 +72,7 @@ public class ImageDownloadNotificationService extends Service {
     private class PollTask extends AsyncTask<Void, Void, Void> {
 
         public int id;
-        private NotificationManager mNotifyManager;
+        private NotificationManagerCompat mNotifyManager;
         private NotificationCompat.Builder mBuilder;
         public String actuallyLoaded;
         private final int index;
@@ -93,8 +92,7 @@ public class ImageDownloadNotificationService extends Service {
 
         public void startNotification() {
             id = (int) (System.currentTimeMillis() / 1000);
-            mNotifyManager = ContextCompat.getSystemService(
-                    ImageDownloadNotificationService.this, NotificationManager.class);
+            mNotifyManager = NotificationManagerCompat.from(ImageDownloadNotificationService.this);
             mBuilder = new NotificationCompat.Builder(getApplicationContext(), Reddit.CHANNEL_IMG);
             mBuilder.setContentTitle(getString(R.string.mediaview_notif_title))
                     .setContentText(getString(R.string.mediaview_notif_text))
@@ -316,13 +314,10 @@ public class ImageDownloadNotificationService extends Service {
                                                     false)))
                                     .build();
 
-                            NotificationManager mNotificationManager =
-                                    ContextCompat.getSystemService(getApplicationContext(),
-                                            NotificationManager.class);
                             notif.flags |= Notification.FLAG_AUTO_CANCEL;
-                            if (mNotificationManager != null) {
-                                mNotificationManager.cancel(id);
-                                mNotificationManager.notify(id, notif);
+                            if (mNotifyManager != null) {
+                                mNotifyManager.cancel(id);
+                                mNotifyManager.notify(id, notif);
                             }
                             loadedImage.recycle();
                             stopSelf();

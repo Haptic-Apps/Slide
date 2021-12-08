@@ -10,7 +10,6 @@ import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.view.MarginLayoutParamsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator;
 import androidx.recyclerview.widget.RecyclerView;
@@ -213,7 +212,7 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
          */
         if (SettingValues.defaultCardView == CreateCardView.CardEnum.LIST) {
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-            MarginLayoutParamsCompat.setMarginStart(params, 0);
+            params.setMarginStart(0);
             rv.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
             refreshLayout.setLayoutParams(params);
         }

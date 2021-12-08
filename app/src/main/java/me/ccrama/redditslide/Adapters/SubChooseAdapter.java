@@ -14,8 +14,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.TextView;
 
-import androidx.core.content.ContextCompat;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -116,11 +114,11 @@ public class SubChooseAdapter extends ArrayAdapter<String> {
                     Intent shortcutIntent  = new Intent(getContext(), OpenContent.class);
                     if (subreddit.toLowerCase(Locale.ENGLISH).equals("androidcirclejerk")) {
                         bm2 = DrawableUtil.drawableToBitmapShortcut(
-                                ContextCompat.getDrawable(getContext(), R.drawable.matiasduarte));
+                                getContext().getDrawable(R.drawable.matiasduarte));
                         Log.v(LogUtil.getTag(), "NULL IS " + (bm2 == null));
                     } else {
                         src = DrawableUtil.drawableToBitmapShortcut(
-                                ContextCompat.getDrawable(getContext(), R.drawable.blackandwhite));
+                                getContext().getDrawable(R.drawable.blackandwhite));
                         final int overlayColor = Palette.getColor(subreddit);
                         final Paint paint = new Paint();
                         final Bitmap bm1 = Bitmap.createBitmap(src.getWidth(), src.getHeight(), Bitmap.Config.ARGB_8888);
