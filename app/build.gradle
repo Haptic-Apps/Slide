@@ -79,13 +79,14 @@ dependencies {
     withGPlayImplementation 'com.google.android.gms:play-services-drive:11.4.2'
 
 /** Custom **/
-    implementation 'com.github.ccrama:JRAW:9c8a410a06'
-    implementation 'com.github.ccrama:TedBottomPicker:496623c9b6'
-    implementation 'com.github.ccrama.commonmark-java:commonmark:07b304b575'
-    implementation 'com.github.ccrama.commonmark-java:commonmark-ext-gfm-strikethrough:07b304b575'
-    implementation 'com.github.ccrama.commonmark-java:commonmark-ext-gfm-tables:07b304b575'
-    implementation 'com.github.ccrama:JReadability:bb291880a5'
-    implementation 'com.github.Alexendoo.Android-RobotoTextView:robototextview:f6d0eb5ac7'
+    implementation 'com.github.Haptic-Apps:JRAW:9c8a410a06'
+    implementation 'com.github.Haptic-Apps:TedBottomPicker:496623c9b6'
+    def commonmarkVersion = '0ebc0749c7'
+    implementation "com.github.Haptic-Apps.commonmark-java:commonmark:$commonmarkVersion"
+    implementation "com.github.Haptic-Apps.commonmark-java:commonmark-ext-gfm-strikethrough:$commonmarkVersion"
+    implementation "com.github.Haptic-Apps.commonmark-java:commonmark-ext-gfm-tables:$commonmarkVersion"
+    implementation 'com.github.Haptic-Apps:JReadability:bb291880a5'
+    implementation 'com.github.Haptic-Apps.Android-RobotoTextView:robototextview:f6d0eb5ac7'
 
 /** AndroidX **/
     implementation 'androidx.appcompat:appcompat:1.3.1'
