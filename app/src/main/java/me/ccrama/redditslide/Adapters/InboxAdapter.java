@@ -419,8 +419,7 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         final EditText e = dialoglayout.findViewById(R.id.entry);
 
-        DoEditorActions.doActions(e, dialoglayout,
-                ((AppCompatActivity) mContext).getSupportFragmentManager(), (Activity) mContext,
+        DoEditorActions.doActions(e, dialoglayout, (AppCompatActivity) mContext,
                 replyTo.getBody(), null);
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(mContext)

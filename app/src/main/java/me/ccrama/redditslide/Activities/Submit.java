@@ -280,20 +280,17 @@ public class Submit extends BaseActivity {
         findViewById(R.id.selImage).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                TedBottomPicker tedBottomPicker =
-                        new TedBottomPicker.Builder(Submit.this).setOnImageSelectedListener(
-                                Submit.this::handleImageIntent)
-                                .setLayoutResource(R.layout.image_sheet_dialog)
-                                .setTitle("Choose a photo")
-                                .create();
+                TedBottomPicker.with(Submit.this)
+                        .setTitle("Choose a photo")
+                        .showMultiImage(uriList ->
+                                handleImageIntent(uriList));
 
-                tedBottomPicker.show(getSupportFragmentManager());
                 KeyboardUtil.hideKeyboard(Submit.this, findViewById(R.id.bodytext).getWindowToken(), 0);
             }
         });
 
         DoEditorActions.doActions(((EditText) findViewById(R.id.bodytext)),
-                findViewById(R.id.selftext), getSupportFragmentManager(), Submit.this, null, null);
+                findViewById(R.id.selftext), Submit.this, null, null);
         if (intent.hasExtra(Intent.EXTRA_TEXT) && !intent.getExtras()
                 .getString(Intent.EXTRA_TEXT, "")
                 .isEmpty() && !intent.getBooleanExtra(EXTRA_IS_SELF, false)) {

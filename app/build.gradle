@@ -80,7 +80,7 @@ dependencies {
 
 /** Custom **/
     implementation 'com.github.Haptic-Apps:JRAW:9c8a410a06'
-    implementation 'com.github.Haptic-Apps:TedBottomPicker:496623c9b6'
+    implementation 'com.github.Haptic-Apps:TedBottomPicker:6e4f15bdc8'
     def commonmarkVersion = '0ebc0749c7'
     implementation "com.github.Haptic-Apps.commonmark-java:commonmark:$commonmarkVersion"
     implementation "com.github.Haptic-Apps.commonmark-java:commonmark-ext-gfm-strikethrough:$commonmarkVersion"

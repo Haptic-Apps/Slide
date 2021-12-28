@@ -32,6 +32,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -677,8 +678,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (replyArea.getVisibility() == View.GONE) {
             expandSubmissionReply(replyArea);
             EditText replyLine = submissionViewHolder.itemView.findViewById(R.id.replyLine);
-            DoEditorActions.doActions(replyLine, submissionViewHolder.itemView, fm,
-                    (Activity) mContext, submission.isSelfPost() ? submission.getSelftext() : null,
+            DoEditorActions.doActions(replyLine, submissionViewHolder.itemView,
+                    (AppCompatActivity) mContext, submission.isSelfPost() ? submission.getSelftext() : null,
                     new String[]{submission.getAuthor()});
 
             currentlyEditing = submissionViewHolder.itemView.findViewById(R.id.replyLine);
@@ -1292,8 +1293,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         replyArea.setVisibility(View.VISIBLE);
                         menu.setVisibility(View.GONE);
                         currentlyEditing = replyLine;
-                        DoEditorActions.doActions(currentlyEditing, replyArea, fm,
-                                (Activity) mContext, comment.getBody(), getParents(baseNode));
+                        DoEditorActions.doActions(currentlyEditing, replyArea,
+                                (AppCompatActivity) mContext, comment.getBody(), getParents(baseNode));
                         currentlyEditing.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                             @Override
                             public void onFocusChange(View v, boolean hasFocus) {

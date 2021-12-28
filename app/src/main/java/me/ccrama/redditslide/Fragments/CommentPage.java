@@ -354,8 +354,7 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                         BlendModeUtil.tintDrawableAsSrcIn(e.getBackground(), TINT);
                     }
 
-                    DoEditorActions.doActions(e, replyView,
-                            getActivity().getSupportFragmentManager(), getActivity(),
+                    DoEditorActions.doActions(e, replyView, getActivity(),
                             adapter.submission.isSelfPost() ? adapter.submission.getSelftext()
                                     : null, new String[]{adapter.submission.getAuthor()});
 

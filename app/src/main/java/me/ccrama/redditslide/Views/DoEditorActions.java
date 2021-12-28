@@ -1,6 +1,5 @@
 package me.ccrama.redditslide.Views;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
@@ -21,6 +20,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -62,7 +62,7 @@ import me.ccrama.redditslide.util.SubmissionParser;
 public class DoEditorActions {
 
     public static void doActions(final EditText editText, final View baseView,
-            final FragmentManager fm, final Activity a, final String oldComment,
+            final FragmentActivity fa, final String oldComment,
             @Nullable final String[] authors) {
         baseView.findViewById(R.id.bold).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,7 +89,7 @@ public class DoEditorActions {
                             String author =  "/u/" + authors[0];
                             insertBefore(author, editText);
                         } else {
-                            new AlertDialog.Builder(a)
+                            new AlertDialog.Builder(fa)
                                     .setTitle(R.string.authors_above)
                                     .setItems(authors, (dialog, which) -> {
                                         String author =  "/u/" + authors[which];
@@ -180,24 +180,24 @@ public class DoEditorActions {
                     draftText[i] = drafts.get(i);
                 }
                 if (drafts.isEmpty()) {
-                    new AlertDialog.Builder(a)
+                    new AlertDialog.Builder(fa)
                             .setTitle(R.string.dialog_no_drafts)
                             .setMessage(R.string.dialog_no_drafts_msg)
                             .setPositiveButton(R.string.btn_ok, null)
                             .show();
                 } else {
-                    new AlertDialog.Builder(a)
+                    new AlertDialog.Builder(fa)
                             .setTitle(R.string.choose_draft)
                             .setItems(draftText, (dialog, which) ->
                                     editText.setText(editText.getText().toString() + draftText[which]))
                             .setNeutralButton(R.string.btn_cancel, null)
                             .setPositiveButton(R.string.manage_drafts, (dialog, which) -> {
                                 final boolean[] selected = new boolean[drafts.size()];
-                                new AlertDialog.Builder(a)
+                                new AlertDialog.Builder(fa)
                                         .setTitle(R.string.choose_draft)
                                         .setNeutralButton(R.string.btn_cancel, null)
                                         .setNegativeButton(R.string.btn_delete, (dialog1, which1) ->
-                                                new AlertDialog.Builder(a)
+                                                new AlertDialog.Builder(fa)
                                                         .setTitle(R.string.really_delete_drafts)
                                                         .setCancelable(false)
                                                         .setPositiveButton(R.string.btn_yes, (dialog11, which11) -> {
@@ -227,18 +227,11 @@ public class DoEditorActions {
                 sStart = editText.getSelectionStart();
                 sEnd = editText.getSelectionEnd();
 
-                TedBottomPicker tedBottomPicker = new TedBottomPicker.Builder(editText.getContext())
-                        .setOnImageSelectedListener(new TedBottomPicker.OnImageSelectedListener() {
-                            @Override
-                            public void onImageSelected(List<Uri> uri) {
-                                handleImageIntent(uri, editText, a);
-                            }
-                        })
-                        .setLayoutResource(R.layout.image_sheet_dialog)
+                TedBottomPicker.with(fa)
                         .setTitle("Choose a photo")
-                        .create();
+                        .showMultiImage(uriList ->
+                                handleImageIntent(uriList, editText, fa));
 
-                tedBottomPicker.show(fm);
                 KeyboardUtil.hideKeyboard(editText.getContext(), editText.getWindowToken(), 0);
             }
         });
@@ -247,15 +240,15 @@ public class DoEditorActions {
             @Override
             public void onClick(View v) {
                 if (SettingValues.isPro) {
-                    doDraw(a, editText, fm);
+                    doDraw(fa, editText, fa.getSupportFragmentManager());
                 } else {
                     final AlertDialog.Builder b =
-                            ProUtil.proUpgradeMsg(a, R.string.general_cropdraw_ispro)
+                            ProUtil.proUpgradeMsg(fa, R.string.general_cropdraw_ispro)
                                     .setNegativeButton(R.string.btn_no_thanks, (dialog, whichButton) ->
                                             dialog.dismiss());
                     if (SettingValues.previews > 0) {
                         b.setNeutralButton(
-                                a.getString(R.string.pro_previews, SettingValues.previews),
+                                fa.getString(R.string.pro_previews, SettingValues.previews),
                                 (dialog, which) -> {
                                     SettingValues.prefs.edit()
                                             .putInt(SettingValues.PREVIEWS_LEFT,
@@ -263,7 +256,7 @@ public class DoEditorActions {
                                             .apply();
                                     SettingValues.previews = SettingValues.prefs.getInt(
                                             SettingValues.PREVIEWS_LEFT, 10);
-                                    doDraw(a, editText, fm);
+                                    doDraw(fa, editText, fa.getSupportFragmentManager());
                                 });
                     }
                     b.show();
@@ -288,16 +281,16 @@ public class DoEditorActions {
             public void onClick(View v) {
 
                 if (oldComment != null) {
-                    final TextView showText = new TextView(a);
+                    final TextView showText = new TextView(fa);
                     showText.setText(StringEscapeUtils.unescapeHtml4(oldComment)); // text we get is escaped, we don't want that
                     showText.setTextIsSelectable(true);
                     int sixteen = DisplayUtil.dpToPxVertical(24);
                     showText.setPadding(sixteen, 0, sixteen, 0);
-                    MaterialDialog.Builder builder = new MaterialDialog.Builder(a);
+                    MaterialDialog.Builder builder = new MaterialDialog.Builder(fa);
                     builder.customView(showText, false)
                             .title(R.string.editor_actions_quote_comment)
                             .cancelable(true)
-                            .positiveText(a.getString(R.string.btn_select))
+                            .positiveText(fa.getString(R.string.btn_select))
                             .onPositive(new MaterialDialog.SingleButtonCallback() {
                                 @Override
                                 public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
@@ -310,7 +303,7 @@ public class DoEditorActions {
                                     insertBefore("> " + selected.replaceAll("\n", "\n> ") + "\n\n", editText);
                                 }
                             })
-                            .negativeText(a.getString(R.string.btn_cancel))
+                            .negativeText(fa.getString(R.string.btn_cancel))
                             .show();
                     KeyboardUtil.hideKeyboard(editText.getContext(), editText.getWindowToken(), 0);
                 } else {
@@ -358,13 +351,13 @@ public class DoEditorActions {
                 HtmlRenderer renderer = HtmlRenderer.builder().extensions(extensions).build();
                 Node document = parser.parse(editText.getText().toString());
                 String html = renderer.render(document);
-                LayoutInflater inflater = a.getLayoutInflater();
+                LayoutInflater inflater = fa.getLayoutInflater();
                 final View dialoglayout = inflater.inflate(R.layout.parent_comment_dialog, null);
                 setViews(html, "NO sub",
                         dialoglayout.findViewById(R.id.firstTextView),
                         dialoglayout.findViewById(R.id.commentOverflow));
 
-                new AlertDialog.Builder(a)
+                new AlertDialog.Builder(fa)
                         .setView(dialoglayout)
                         .show();
             }
@@ -373,7 +366,7 @@ public class DoEditorActions {
         baseView.findViewById(R.id.link).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final LayoutInflater inflater = LayoutInflater.from(a);
+                final LayoutInflater inflater = LayoutInflater.from(fa);
                 final LinearLayout layout =
                         (LinearLayout) inflater.inflate(R.layout.insert_link, null);
 
@@ -459,7 +452,7 @@ public class DoEditorActions {
                             sEnd = editText.getSelectionEnd();
                             handleImageIntent(new ArrayList<Uri>() {{
                                 add(content);
-                            }}, editText, a);
+                            }}, editText, fa);
                         }
                     });
         } catch (Exception e) {
@@ -470,32 +463,24 @@ public class DoEditorActions {
     public static Editable e;
     public static int      sStart, sEnd;
 
-    public static void doDraw(final Activity a, final EditText editText, final FragmentManager fm) {
-        final Intent intent = new Intent(a, Draw.class);
+    public static void doDraw(final FragmentActivity fa, final EditText editText, final FragmentManager fm) {
+        final Intent intent = new Intent(fa, Draw.class);
         KeyboardUtil.hideKeyboard(editText.getContext(), editText.getWindowToken(), 0);
         e = editText.getText();
-        TedBottomPicker tedBottomPicker =
-                new TedBottomPicker.Builder(editText.getContext()).setOnImageSelectedListener(
-                        new TedBottomPicker.OnImageSelectedListener() {
-                            @Override
-                            public void onImageSelected(List<Uri> uri) {
-                                Draw.uri = uri.get(0);
-                                Fragment auxiliary = new AuxiliaryFragment();
+        TedBottomPicker.with(fa)
+                .setTitle("Choose a photo")
+                .showMultiImage(uriList -> {
+                    Draw.uri = uriList.get(0);
+                    Fragment auxiliary = new AuxiliaryFragment();
 
-                                sStart = editText.getSelectionStart();
-                                sEnd = editText.getSelectionEnd();
+                    sStart = editText.getSelectionStart();
+                    sEnd = editText.getSelectionEnd();
 
-                                fm.beginTransaction().add(auxiliary, "IMAGE_UPLOAD").commit();
-                                fm.executePendingTransactions();
+                    fm.beginTransaction().add(auxiliary, "IMAGE_UPLOAD").commit();
+                    fm.executePendingTransactions();
 
-                                auxiliary.startActivityForResult(intent, 3333);
-                            }
-                        })
-                        .setLayoutResource(R.layout.image_sheet_dialog)
-                        .setTitle("Choose a photo")
-                        .create();
-
-        tedBottomPicker.show(fm);
+                    auxiliary.startActivityForResult(intent, 3333);
+                });
     }
 
     public static class AuxiliaryFragment extends Fragment {

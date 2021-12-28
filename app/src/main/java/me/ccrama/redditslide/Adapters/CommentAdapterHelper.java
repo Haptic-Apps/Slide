@@ -34,6 +34,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 
@@ -1484,7 +1485,7 @@ public class CommentAdapterHelper {
         final EditText e = dialoglayout.findViewById(R.id.entry);
         e.setText(StringEscapeUtils.unescapeHtml4(baseNode.getComment().getBody()));
 
-        DoEditorActions.doActions(e, dialoglayout, fm, (Activity) mContext,
+        DoEditorActions.doActions(e, dialoglayout, (AppCompatActivity) mContext,
                 StringEscapeUtils.unescapeHtml4(replyText), null);
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(mContext)

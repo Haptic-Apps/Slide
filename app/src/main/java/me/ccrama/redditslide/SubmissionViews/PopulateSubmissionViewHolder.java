@@ -2933,8 +2933,7 @@ public class PopulateSubmissionViewHolder {
                                                     submission.getSelftext()));
 
                                             DoEditorActions.doActions(e, dialoglayout,
-                                                    ((AppCompatActivity) mContext).getSupportFragmentManager(),
-                                                    mContext, null, null);
+                                                    (AppCompatActivity) mContext, null, null);
 
                                             final AlertDialog.Builder builder = new AlertDialog.Builder(mContext)
                                                     .setCancelable(false)
