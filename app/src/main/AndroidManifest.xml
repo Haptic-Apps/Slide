@@ -463,30 +463,8 @@
                 <category android:name="android.intent.category.BROWSABLE"/>
 
                 <data android:scheme="http"/>
-                <data
-                        android:host="*reddit.com"
-                        android:pathPattern=".*"
-                        android:scheme="https"/>
-                <data
-                        android:host="amp.reddit.com"
-                        android:pathPattern=".*"
-                        android:scheme="https"/>
-                <data
-                        android:host="*reddit.com"
-                        android:pathPattern=".*"
-                        android:scheme="http"/>
-                <data
-                        android:host="redd.it"
-                        android:pathPattern=".*"
-                        android:scheme="https"/>
-
-
-                <data
-                        android:host="redd.it"
-                        android:pathPattern=".*"
-                        android:scheme="http"/>
                 <data android:scheme="https"/>
-                <data android:host="*reddit.com"/>
+                <data android:host="*.reddit.com"/>
                 <data android:host="redd.it"/>
                 <data android:host="amp.reddit.com"/>
 
