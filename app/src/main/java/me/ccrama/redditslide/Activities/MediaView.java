@@ -576,7 +576,7 @@ public class MediaView extends FullScreenActivity
                 @Override
                 public void onClick(View v) {
                     finish();
-                    SubmissionsView.datachanged(commentUrl);
+                    SubmissionsView.dataChanged(commentUrl);
                 }
             });
         } else {

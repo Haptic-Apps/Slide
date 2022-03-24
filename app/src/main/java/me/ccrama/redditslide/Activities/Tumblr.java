@@ -95,7 +95,7 @@ public class Tumblr extends FullScreenActivity implements FolderChooserDialogCre
             mToolbar.findViewById(R.id.grid).callOnClick();
         }
         if (id == R.id.comments) {
-            SubmissionsView.datachanged(adapterPosition);
+            SubmissionsView.dataChanged(adapterPosition);
             finish();
         }
         if (id == R.id.external) {

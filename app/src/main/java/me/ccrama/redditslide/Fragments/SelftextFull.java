@@ -26,7 +26,7 @@ import me.ccrama.redditslide.util.SubmissionParser;
  */
 public class SelftextFull extends Fragment {
 
-    private int i = 0;
+    private int pageValue = 0;
     private Submission s;
 
 
@@ -48,7 +48,7 @@ public class SelftextFull extends Fragment {
             public void onClick(View v) {
 
                 Intent i2 = new Intent(getActivity(), CommentsScreen.class);
-                i2.putExtra(CommentsScreen.EXTRA_PAGE, i);
+                i2.putExtra(CommentsScreen.EXTRA_PAGE, pageValue);
                 i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, sub);
                 (getActivity()).startActivity(i2);
 
@@ -63,7 +63,7 @@ public class SelftextFull extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle bundle = this.getArguments();
-        i = bundle.getInt("page", 0);
+        pageValue = bundle.getInt("page", 0);
         sub = bundle.getString("sub");
         if (((Shadowbox) getActivity()).subredditPosts == null
                 || ((Shadowbox) getActivity()).subredditPosts.getPosts().size() < bundle.getInt(

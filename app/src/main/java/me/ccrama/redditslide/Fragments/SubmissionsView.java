@@ -440,7 +440,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
     }
 
 
-    public static void datachanged(int adaptorPosition2) {
+    public static void dataChanged(int adaptorPosition2) {
         adapterPosition = adaptorPosition2;
     }
 

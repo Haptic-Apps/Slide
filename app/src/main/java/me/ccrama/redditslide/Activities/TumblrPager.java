@@ -123,7 +123,7 @@ public class TumblrPager extends FullScreenActivity
         if (id == R.id.comments) {
             int adapterPosition = getIntent().getIntExtra(MediaView.ADAPTER_POSITION, -1);
             finish();
-            SubmissionsView.datachanged(adapterPosition);
+            SubmissionsView.dataChanged(adapterPosition);
             //getIntent().getStringExtra(MediaView.SUBMISSION_SUBREDDIT));
             //SubmissionAdapter.setOpen(this, getIntent().getStringExtra(MediaView.SUBMISSION_URL));
         }
@@ -583,7 +583,7 @@ public class TumblrPager extends FullScreenActivity
                     @Override
                     public void onClick(View v) {
                         getActivity().finish();
-                        SubmissionsView.datachanged(adapterPosition);
+                        SubmissionsView.dataChanged(adapterPosition);
                     }
                 });
             } else {

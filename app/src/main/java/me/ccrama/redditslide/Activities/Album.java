@@ -97,7 +97,7 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
             mToolbar.findViewById(R.id.grid).callOnClick();
         }
         if (id == R.id.comments) {
-            SubmissionsView.datachanged(adapterPosition);
+            SubmissionsView.dataChanged(adapterPosition);
             finish();
         }
         if (id == R.id.external) {

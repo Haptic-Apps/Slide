@@ -31,7 +31,6 @@ public class SubredditSearchPosts extends GeneralPosts {
     private String subreddit = "";
     public  boolean               loading;
     private Paginator<Submission> paginator;
-    public  SwipeRefreshLayout    refreshLayout;
     private ContributionAdapter   adapter;
 
     public Activity parent;

@@ -24,7 +24,7 @@ import me.ccrama.redditslide.PostMatch;
  * Created by ccrama on 9/17/2015.
  */
 public class HistoryPosts extends GeneralPosts {
-    private SwipeRefreshLayout  refreshLayout;
+
     private ContributionAdapter adapter;
     public  boolean             loading;
     String prefix = "";

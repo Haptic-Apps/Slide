@@ -82,16 +82,7 @@ public class PeekView extends FrameLayout {
             v.getGlobalVisibleRect(outRect);
             if(!outRect.contains((int) event.getX(), (int) event.getY())){
                 currentHighlight = 0;
-                ValueAnimator animator = ValueAnimator.ofInt(eight, eight * 2);
-                animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                    @Override
-                    public void onAnimationUpdate(ValueAnimator valueAnimator){
-                        v.setPadding(0,  (Integer) valueAnimator.getAnimatedValue(), 0, (Integer) valueAnimator.getAnimatedValue());
-                    }
-                });
-                animator.setInterpolator(new AccelerateDecelerateInterpolator());
-                animator.setDuration(150);
-                animator.start();
+                _handleAnimation(v, eight, eight * 2);
             } else {
                 return;
             }
@@ -102,22 +93,26 @@ public class PeekView extends FrameLayout {
             v.getGlobalVisibleRect(outRect);
             if(outRect.contains((int) event.getX(), (int) event.getY()) && i != currentHighlight){
                 currentHighlight = i;
-                ValueAnimator animator = ValueAnimator.ofInt(eight * 2, eight);
-                animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                    @Override
-                    public void onAnimationUpdate(ValueAnimator valueAnimator){
-                        v.setPadding(0,  (Integer) valueAnimator.getAnimatedValue(), 0, (Integer) valueAnimator.getAnimatedValue());
-                    }
-                });
-                animator.setInterpolator(new AccelerateDecelerateInterpolator());
-                animator.setDuration(150);
-                animator.start();
+                _handleAnimation(v, eight * 2, eight);
 
                 break;
             } else if(outRect.contains((int) event.getX(), (int) event.getY())){
                 break;
             }
         }
+    }
+
+    private void _handleAnimation(View v, int width, int height) {
+        ValueAnimator animator = ValueAnimator.ofInt(width, height);
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator){
+                v.setPadding(0,  (Integer) valueAnimator.getAnimatedValue(), 0, (Integer) valueAnimator.getAnimatedValue());
+            }
+        });
+        animator.setInterpolator(new AccelerateDecelerateInterpolator());
+        animator.setDuration(150);
+        animator.start();
     }
 
     public void pop(){

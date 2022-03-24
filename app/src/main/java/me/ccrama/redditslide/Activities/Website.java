@@ -107,7 +107,7 @@ public class Website extends BaseActivityAnim {
             case R.id.comments:
                 final int commentUrl = getIntent().getExtras().getInt(LinkUtil.ADAPTER_POSITION);
                 finish();
-                SubmissionsView.datachanged(commentUrl);
+                SubmissionsView.dataChanged(commentUrl);
                 break;
             case R.id.external:
                 Intent inte = new Intent(this, MakeExternal.class);

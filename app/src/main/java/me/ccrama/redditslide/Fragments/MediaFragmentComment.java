@@ -68,7 +68,7 @@ public class MediaFragmentComment extends Fragment {
     public  String                contentUrl;
     public  String                sub;
     public  String                actuallyLoaded;
-    public  int                   i;
+    public  int                   pageValue;
     private ViewGroup             rootView;
     private ExoVideoView          videoView;
     private boolean               imageShown;
@@ -76,7 +76,7 @@ public class MediaFragmentComment extends Fragment {
     private boolean               hidden;
     private long                   stopPosition;
     public  boolean               isGif;
-    private CommentUrlObject      s;
+    private CommentUrlObject      urlObject;
     private OkHttpClient          client;
     private Gson                  gson;
     private String                mashapeKey;
@@ -127,7 +127,7 @@ public class MediaFragmentComment extends Fragment {
         }
         final SlidingUpPanelLayout slideLayout = rootView.findViewById(R.id.sliding_layout);
 
-        PopulateShadowboxInfo.doActionbar(s.comment, rootView, getActivity(), true);
+        PopulateShadowboxInfo.doActionbar(urlObject.comment, rootView, getActivity(), true);
         (rootView.findViewById(R.id.thumbimage2)).setVisibility(View.GONE);
 
         ContentType.Type type = ContentType.getContentType(contentUrl);
@@ -136,7 +136,7 @@ public class MediaFragmentComment extends Fragment {
             (rootView.findViewById(R.id.thumbimage2)).setVisibility(View.GONE);
         }
         addClickFunctions((rootView.findViewById(R.id.submission_image)), slideLayout, rootView,
-                type, getActivity(), s);
+                type, getActivity(), urlObject);
         doLoad(contentUrl);
 
         final View.OnClickListener openClick = new View.OnClickListener() {
@@ -164,7 +164,7 @@ public class MediaFragmentComment extends Fragment {
                             SlidingUpPanelLayout.PanelState previousState,
                             SlidingUpPanelLayout.PanelState newState) {
                         if (newState == SlidingUpPanelLayout.PanelState.EXPANDED) {
-                            final Comment c = s.comment.getComment();
+                            final Comment c = urlObject.comment.getComment();
                             rootView.findViewById(R.id.base)
                                     .setOnClickListener(new View.OnClickListener() {
                                         @Override
@@ -195,9 +195,9 @@ public class MediaFragmentComment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle bundle = this.getArguments();
-        i = bundle.getInt("page");
-        s = ShadowboxComments.comments.get(i);
-        sub = s.comment.getComment().getSubredditName();
+        pageValue = bundle.getInt("page");
+        urlObject = ShadowboxComments.comments.get(pageValue);
+        sub = urlObject.comment.getComment().getSubredditName();
         contentUrl = bundle.getString("contentUrl");
         client = Reddit.client;
         gson = new Gson();

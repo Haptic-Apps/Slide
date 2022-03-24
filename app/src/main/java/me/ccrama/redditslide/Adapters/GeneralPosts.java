@@ -1,5 +1,7 @@
 package me.ccrama.redditslide.Adapters;
 
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import net.dean.jraw.models.Contribution;
 
 import java.util.ArrayList;
@@ -10,4 +12,5 @@ import java.util.ArrayList;
 public class GeneralPosts {
     public ArrayList<Contribution> posts ;
     public boolean nomore;
+    public SwipeRefreshLayout refreshLayout;
 }

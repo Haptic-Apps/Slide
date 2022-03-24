@@ -25,7 +25,6 @@ public class ContributionPosts extends GeneralPosts {
     protected final String subreddit;
     public boolean loading;
     private UserContributionPaginator paginator;
-    protected SwipeRefreshLayout refreshLayout;
     protected ContributionAdapter adapter;
 
     public ContributionPosts(String subreddit, String where) {
