@@ -1,9 +1,9 @@
 package me.ccrama.redditslide.Views;
 
-import android.annotation.ColorInt;
-import android.annotation.IntRange;
-import android.annotation.NonNull;
-import android.annotation.Px;
+import androidx.annotation.ColorInt;
+import androidx.annotation.IntRange;
+import androidx.annotation.NonNull;
+import androidx.annotation.Px;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
