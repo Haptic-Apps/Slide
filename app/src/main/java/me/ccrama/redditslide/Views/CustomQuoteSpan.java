@@ -1,9 +1,5 @@
 package me.ccrama.redditslide.Views;
 
-import android.annotation.ColorInt;
-import android.annotation.IntRange;
-import android.annotation.NonNull;
-import android.annotation.Px;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -11,6 +7,11 @@ import android.text.Layout;
 import android.text.style.LeadingMarginSpan;
 import android.text.style.LineBackgroundSpan;
 import android.text.style.QuoteSpan;
+
+import androidx.annotation.ColorInt;
+import androidx.annotation.IntRange;
+import androidx.annotation.NonNull;
+import androidx.annotation.Px;
 
 /**
  * A custom implementation of {@link QuoteSpan} that implements stripe and gap width
