@@ -1,18 +1,18 @@
 plugins {
+    id 'com.android.application'
     id 'com.gladed.androidgitversion' version '0.4.14'
     id 'com.github.ben-manes.versions' version '0.42.0'
-    id 'com.android.application'
 }
 
 android {
-    compileSdkVersion 29
+    compileSdk 29
     buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "me.ccrama.redditslide"
-        minSdkVersion 16
+        minSdk 16
         //Change to 28 for F-Droid, need to add this to the scheme
-        targetSdkVersion 29
+        targetSdk 29
         versionCode 337
         versionName androidGitVersion.name()
 
@@ -54,7 +54,7 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    lintOptions {
+    lint {
         quiet true
         abortOnError false
         ignoreWarnings true
