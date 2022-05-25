@@ -63,6 +63,7 @@ import me.ccrama.redditslide.Autocache.AutoCacheScheduler;
 import me.ccrama.redditslide.ImgurAlbum.AlbumUtils;
 import me.ccrama.redditslide.Notifications.NotificationJobScheduler;
 import me.ccrama.redditslide.Notifications.NotificationPiggyback;
+import me.ccrama.redditslide.Synccit.http.HttpClientFactory;
 import me.ccrama.redditslide.Tumblr.TumblrUtils;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.AdBlocker;
@@ -118,7 +119,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static boolean            peek;
     public        boolean      active;
     public        ImageLoader  defaultImageLoader;
-    public static OkHttpClient client;
+    public static  volatile OkHttpClient  client;
 
     public static boolean canUseNightModeAuto = false;
 
@@ -209,9 +210,9 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public void onActivityResumed(Activity activity) {
         doLanguages();
         if (client == null) {
-            OkHttpClient.Builder builder = new OkHttpClient.Builder();
-            builder.dns(new GfycatIpv4Dns());
-            client = builder.build();
+            //OkHttpClient.Builder builder = new OkHttpClient.Builder();
+            //builder.dns(new GfycatIpv4Dns());
+            client = HttpClientFactory.getOkHttpClient();//builder.build();
         }
         if (authentication != null
                 && Authentication.didOnline
@@ -405,7 +406,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public void doMainStuff() {
         Log.v(LogUtil.getTag(), "ON CREATED AGAIN");
         if (client == null) {
-            client = new OkHttpClient();
+            client = HttpClientFactory.getOkHttpClient();//new OkHttpClient();
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -512,8 +513,10 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         if (manager != null) {
             for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(
                     Integer.MAX_VALUE)) {
-                if (NotificationPiggyback.class.getName().equals(service.service.getClassName())) {
-                    return true;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                    if (NotificationPiggyback.class.getName().equals(service.service.getClassName())) {
+                        return true;
+                    }
                 }
             }
         }

@@ -5,14 +5,14 @@ plugins {
 }
 
 android {
-    compileSdk 29
-    buildToolsVersion "30.0.3"
+    compileSdk 32
+    buildToolsVersion '32.0.0'
 
     defaultConfig {
         applicationId "me.ccrama.redditslide"
         minSdk 16
+        targetSdk 32
         //Change to 28 for F-Droid, need to add this to the scheme
-        targetSdk 29
         versionCode 337
         versionName androidGitVersion.name()
 
@@ -190,6 +190,9 @@ dependencies {
 
     // HTTP client
     implementation 'com.squareup.okhttp3:okhttp:3.12.13'
+
+    // Cronet
+    implementation 'org.chromium.net:cronet-embedded:101.4951.41'
 
     // Convert Java objects into JSON and back
     implementation 'com.google.code.gson:gson:2.8.9'
