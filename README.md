@@ -1,10 +1,10 @@
 # Slide
 
 <img src="app/src/main/res/drawable/ic_launcher.png"
-    align="left" width="200" hspace="10" vspace="10">
+    align="left" width="180" hspace="10" vspace="10">
 
-Slide is an open-source, ad-free Reddit browser for Android. It is based around
-the [Java Reddit API Wrapper](https://github.com/mattbdean/JRAW).
+Slide is an open-source, ad-free Reddit browser for Android.
+It is based around the [Java Reddit API Wrapper](https://github.com/mattbdean/JRAW).
 
 Slide is available on the Google Play Store and F-Droid.
 
