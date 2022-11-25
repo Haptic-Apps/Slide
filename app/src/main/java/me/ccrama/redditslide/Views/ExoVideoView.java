@@ -41,6 +41,7 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.util.BlendModeUtil;
+import me.ccrama.redditslide.util.GifUtils;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 
@@ -177,7 +178,7 @@ public class ExoVideoView extends RelativeLayout {
         // Create the data sources used to retrieve and cache the video
         DataSource.Factory downloader =
                 new OkHttpDataSource.Factory(Reddit.client)
-                        .setUserAgent(context.getString(R.string.app_name));
+                        .setDefaultRequestProperties(GifUtils.AsyncLoadGif.makeHeaderMap(uri.getHost()));
         DataSource.Factory cacheDataSourceFactory =
                 new CacheDataSource.Factory()
                         .setCache(Reddit.videoCache)

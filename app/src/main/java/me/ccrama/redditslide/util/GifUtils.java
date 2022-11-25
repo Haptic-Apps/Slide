@@ -434,6 +434,16 @@ public class GifUtils {
             return VideoType.OTHER;
         }
 
+      public static Map<String, String> makeHeaderMap(String domain){
+        Map<String, String> map = new HashMap<>();
+        map.put("Host", domain);
+        map.put("Sec-Fetch-Dest", "empty");
+        map.put("Sec-Fetch-Mode", "cors");
+        map.put("Sec-Fetch-Site", "same-origin");
+        map.put("User-Agent", "Mozilla/5.0 (Windows NT 10.0; rv:107.0) Gecko/20100101 Firefox/107.0");
+        return map;
+      }
+
       /**
        * Get an API response for a given host and gfy name
        *
@@ -442,8 +452,10 @@ public class GifUtils {
        * @return the result
        */
         JsonObject getApiResponse(String host, String name){
-          String gfycatUrl = "https://api." + host + ".com/v1/gfycats" + name;
-          return HttpUtil.getJsonObject(client, gson, gfycatUrl);
+          String domain = "api." + host + ".com";
+          String gfycatUrl = "https://" + domain + "/v1/gfycats" + name;
+
+          return HttpUtil.getJsonObject(client, gson, gfycatUrl, makeHeaderMap(domain));
         }
 
        /**
