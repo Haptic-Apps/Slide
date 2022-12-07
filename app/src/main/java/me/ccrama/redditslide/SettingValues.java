@@ -99,6 +99,8 @@ public class SettingValues {
     public static final String PREF_SHOW_NSFW_CONTENT         = "showNSFWContent";
     public static final String PREF_HIDE_NSFW_PREVIEW         = "hideNSFWPreviews";
     public static final String PREF_HIDE_NSFW_COLLECTION      = "hideNSFWPreviewsCollection";
+    public static final String PREF_PRIVATE_MODE              = "privateMode";
+    public static final String PREF_PRIVATE_MODE_NSFW         = "privateModeNSFW";
     public static final String PREF_IGNORE_SUB_SETTINGS       = "ignoreSub";
     public static final String PREF_HIGHLIGHT_TIME            = "highlightTime";
     public static final String PREF_MUTE                      = "muted";
@@ -204,6 +206,8 @@ public class SettingValues {
     public static boolean hideCommentAwards;
     public static boolean shareLongLink;
     public static boolean isMuted;
+    public static boolean privateMode;
+    public static boolean privateModeNSFW;
     public static int     subredditSearchMethod;
     public static int     backButtonBehavior;
     public static int     nightStart;
@@ -301,6 +305,9 @@ public class SettingValues {
         showNSFWContent = prefs.getBoolean(PREF_SHOW_NSFW_CONTENT, false);
         hideNSFWCollection = prefs.getBoolean(PREF_HIDE_NSFW_COLLECTION, true);
         ignoreSubSetting = prefs.getBoolean(PREF_IGNORE_SUB_SETTINGS, false);
+        
+        privateMode = prefs.getBoolean(PREF_PRIVATE_MODE, false);
+        privateModeNSFW = prefs.getBoolean(PREF_PRIVATE_MODE_NSFW, true);
 
         single = prefs.getBoolean(PREF_SINGLE, false);
         readerNight = prefs.getBoolean(PREF_READER_NIGHT, false);
@@ -481,6 +488,19 @@ public class SettingValues {
 
     public static boolean getIsNSFWEnabled() {
         return prefs.getBoolean(PREF_HIDE_NSFW_PREVIEW + Authentication.name, true);
+    }
+    
+    public static boolean shouldPrivateModeBeEnabled(boolean nsfw) {
+        if (nsfw) {
+              if (privateMode || privateModeNSFW) {
+               return true;
+              } else {
+               return false;   
+              }
+        }
+        else {
+            return privateMode;
+        }
     }
 
     public static void resetSelftextEnabled(String subreddit) {

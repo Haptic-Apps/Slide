@@ -746,12 +746,15 @@
     <string name="settings_mod_toolbox_modmail">Send removal reasons as a subreddit</string>
     <string name="settings_mod_toolbox_refreshing">Refreshing Toolbox data for all subreddits</string>
 
+    <!-- Settings for private mode -->
+
     <!-- Quick setting toggles in the drawer -->
     <string name="toggle_night_mode">Night mode</string>
     <string name="toggle_immersive_mode">Immersive mode</string>
     <string name="toggle_nsfw">Show NSFW content</string>
     <string name="toggle_right_thumbnails">Right-aligned thumbnails</string>
     <string name="toggle_reader_mode">Use reader mode</string>
+    <string name="toggle_private_mode">Use private mode</string>
 
     <!-- View types -->
     <string name="view_type_tabs">Subreddit tabs</string>

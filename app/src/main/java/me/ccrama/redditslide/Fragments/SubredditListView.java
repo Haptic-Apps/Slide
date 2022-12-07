@@ -41,7 +41,6 @@ public class SubredditListView extends Fragment {
     public String where;
     private SwipeRefreshLayout mSwipeRefreshLayout;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
