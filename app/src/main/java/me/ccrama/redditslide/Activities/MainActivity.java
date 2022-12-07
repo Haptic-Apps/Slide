@@ -860,6 +860,7 @@ public class MainActivity extends BaseActivity
                         if (Authentication.isLoggedIn) {
                             new AsyncNotificationBadge().executeOnExecutor(
                                     AsyncTask.THREAD_POOL_EXECUTOR);
+                            new SyncMultiReddits().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                         }
                         if (!Reddit.appRestart.getString(CheckForMail.SUBS_TO_GET, "").isEmpty()) {
                             new CheckForMail.AsyncGetSubs(MainActivity.this).executeOnExecutor(
@@ -1358,21 +1359,14 @@ public class MainActivity extends BaseActivity
         if (Authentication.isLoggedIn && Authentication.didOnline) {
 
             header = inflater.inflate(R.layout.drawer_loggedin, drawerSubList, false);
+            RelativeLayout multiReddits = header.findViewById(R.id.multi);
             headerMain = header;
             hea = header.findViewById(R.id.back);
 
             drawerSubList.addHeaderView(header, null, false);
             ((TextView) header.findViewById(R.id.name)).setText(Authentication.name);
-            header.findViewById(R.id.multi).setOnClickListener(new OnSingleClickListener() {
-                @Override
-                public void onSingleClick(View view) {
-                    if (runAfterLoad == null) {
-                        Intent inte = new Intent(MainActivity.this, MultiredditOverview.class);
-                        MainActivity.this.startActivity(inte);
-                    }
-                }
-            });
-            header.findViewById(R.id.multi).setOnLongClickListener(new View.OnLongClickListener() {
+
+            multiReddits.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
                     new MaterialDialog.Builder(MainActivity.this).inputRange(3, 20)
@@ -1403,6 +1397,23 @@ public class MainActivity extends BaseActivity
                             .negativeText(R.string.btn_cancel)
                             .show();
                     return true;
+                }
+            });
+            LinearLayout multireddits_area = header.findViewById(R.id.expand_multireddits);
+
+            findViewById(R.id.godown_multireddits).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (multireddits_area.getVisibility() == View.GONE) {
+                        expand(multireddits_area);
+                        flipAnimator(false, header.findViewById(R.id.godown_multireddits)).start();
+                        header.findViewById(R.id.godown_multireddits).setContentDescription(getResources().getString(R.string.btn_collapse));
+                    } else {
+                        collapse(multireddits_area);
+                        flipAnimator(true, header.findViewById(R.id.godown_multireddits)).start();
+                        header.findViewById(R.id.godown_multireddits).setContentDescription(getResources().getString(R.string.btn_expand));
+                    }
+
                 }
             });
 
@@ -1694,6 +1705,7 @@ public class MainActivity extends BaseActivity
 
         } else if (Authentication.didOnline) {
             header = inflater.inflate(R.layout.drawer_loggedout, drawerSubList, false);
+            LinearLayout multiReddits = header.findViewById(R.id.multi);
             drawerSubList.addHeaderView(header, null, false);
             headerMain = header;
             hea = header.findViewById(R.id.back);
@@ -1845,7 +1857,7 @@ public class MainActivity extends BaseActivity
             });
             headerMain = header;
 
-            header.findViewById(R.id.multi).setOnClickListener(new View.OnClickListener() {
+            multiReddits.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     new MaterialDialog.Builder(MainActivity.this).inputRange(3, 20)
@@ -4236,6 +4248,35 @@ public class MainActivity extends BaseActivity
                 return null;
             }
 
+        }
+    }
+
+    public class SyncMultiReddits extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... params) {
+            UserSubscriptions.syncMultiReddits(MainActivity.this);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            LinearLayout multiredditsArea = headerMain.findViewById(R.id.expand_multireddits);
+
+            for (MultiReddit multiReddit : UserSubscriptions.multireddits) {
+                final View t =
+                        getLayoutInflater().inflate(R.layout.multireddit_textview_white, multiredditsArea,
+                                false);
+                ((TextView) t.findViewById(R.id.name)).setText(multiReddit.getDisplayName());
+
+                t.setOnClickListener(v -> {
+                    Intent intent = new Intent(MainActivity.this, MultiredditOverview.class);
+
+                    intent.putExtra(MultiredditOverview.EXTRA_MULTI, multiReddit.getFullName());
+                    startActivity(intent);
+                });
+
+                multiredditsArea.addView(t);
+            }
         }
     }
 

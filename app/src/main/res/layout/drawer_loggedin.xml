@@ -407,15 +407,21 @@
         </LinearLayout>
     </RelativeLayout>
 
-    <LinearLayout
-            android:id="@+id/multi"
+    <RelativeLayout
+        android:id="@+id/multi"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="?android:selectableItemBackground"
+        android:orientation="horizontal"
+        android:paddingStart="0dp">
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:background="?android:selectableItemBackground"
             android:orientation="horizontal"
             android:paddingStart="0dp">
 
-        <ImageView
+            <ImageView
                 android:layout_width="26dp"
                 android:layout_height="match_parent"
                 android:layout_marginEnd="26dp"
@@ -423,7 +429,7 @@
                 android:tint="?attr/tintColor"
                 app:srcCompat="@drawable/ic_folder"/>
 
-        <TextView
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
@@ -431,8 +437,35 @@
                 android:textColor="?attr/fontColor"
                 android:textSize="14sp"
                 android:textStyle="bold"/>
-    </LinearLayout>
 
+
+
+        </LinearLayout>
+        <ImageView
+            android:id="@+id/godown_multireddits"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="2dp"
+            android:gravity="center"
+            android:padding="14dp"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:theme="@style/Ripple.List"
+            android:tint="?attr/tintColor"
+            android:contentDescription="@string/btn_expand"
+            app:srcCompat="@drawable/down" />
+    </RelativeLayout>
+    <LinearLayout
+        android:id="@+id/expand_multireddits"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/activity_background"
+        android:orientation="vertical"
+        android:visibility="gone">
+    </LinearLayout>
     <LinearLayout
             android:id="@+id/support"
             android:layout_width="match_parent"
