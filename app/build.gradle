@@ -152,7 +152,7 @@ dependencies {
     implementation 'com.sothree.slidinguppanel:library:3.4.0'
 
     // ViewAnimationUtils.createCircularReveal for pre-Lollipop APIs
-    implementation 'com.github.ozodrukh.CircularReveal:circualreveal:2.1.0'
+    implementation 'com.github.ozodrukh.circularreveal:circualreveal:2.1.0'
 
     // RecyclerView animations
     implementation 'com.mikepenz:itemanimators:1.1.0@aar'
