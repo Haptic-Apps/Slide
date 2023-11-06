@@ -301,15 +301,18 @@ public class SwipeBackLayout extends FrameLayout {
      * @see #EDGE_TOP
      */
     public void setShadow(Drawable shadow, int edgeFlag) {
-        if ((edgeFlag & EDGE_LEFT) != 0) {
-            mShadowLeft = shadow;
-        } else if ((edgeFlag & EDGE_RIGHT) != 0) {
-            mShadowRight = shadow;
-        } else if ((edgeFlag & EDGE_BOTTOM) != 0) {
-            mShadowBottom = shadow;
-        } else if ((edgeFlag & EDGE_TOP) != 0) {
-            mShadowTop = shadow;
-        }
+        ShadowSetter shadowSetter = new ShadowSetter();
+
+        Shadow leftShadow = new LeftShadow();
+        Shadow rightShadow = new RightShadow();
+        Shadow topShadow = new TopShadow();
+        Shadow bottomShadow = new BottomShadow();
+
+        leftShadow.setShadow(edgeFlag, shadow);
+        rightShadow.setShadow(edgeFlag, shadow);
+        topShadow.setShadow(edgeFlag, shadow);
+        bottomShadow.setShadow(edgeFlag, shadow);
+
         invalidate();
     }
 
@@ -413,15 +416,16 @@ public class SwipeBackLayout extends FrameLayout {
         final int alpha = (int) (baseAlpha * mScrimOpacity);
         final int color = alpha << 24 | (mScrimColor & 0xffffff);
 
-        if ((mTrackingEdge & EDGE_LEFT) != 0) {
-            canvas.clipRect(0, 0, child.getLeft(), getHeight());
-        } else if ((mTrackingEdge & EDGE_RIGHT) != 0) {
-            canvas.clipRect(child.getRight(), 0, getRight(), getHeight());
-        } else if ((mTrackingEdge & EDGE_BOTTOM) != 0) {
-            canvas.clipRect(child.getLeft(), child.getBottom(), getRight(), getHeight());
-        } else if ((mTrackingEdge & EDGE_TOP) != 0) {
-            canvas.clipRect(child.getLeft(), 0, getRight(), child.getTop() + getStatusBarHeight());
-        }
+        ScrimStrategy top = new TopScrimStrategy();
+        ScrimStrategy right = new RightScrimStrategy();
+        ScrimStrategy bottom = new BottomScrimStrategy();
+        ScrimStrategy left = new LeftScrimStrategy();
+
+        top.drawScrim(canvas, child);
+        right.drawScrim(canvas, child);
+        bottom.drawScrim(canvas, child);
+        left.drawScrim(canvas, child);
+
         canvas.drawColor(color);
     }
 
@@ -429,33 +433,17 @@ public class SwipeBackLayout extends FrameLayout {
         final Rect childRect = mTmpRect;
         child.getHitRect(childRect);
 
-        if ((mEdgeFlag & EDGE_LEFT) != 0) {
-            mShadowLeft.setBounds(childRect.left - mShadowLeft.getIntrinsicWidth(), childRect.top,
-                    childRect.left, childRect.bottom);
-            mShadowLeft.setAlpha((int) (mScrimOpacity * FULL_ALPHA));
-            mShadowLeft.draw(canvas);
-        }
+        ShadowStrategy left = new LeftShadowDrawer();
+        left.drawShadow(mShadowLeft, childRect, mScrimOpacity, canvas);
 
-        if ((mEdgeFlag & EDGE_RIGHT) != 0) {
-            mShadowRight.setBounds(childRect.right, childRect.top,
-                    childRect.right + mShadowRight.getIntrinsicWidth(), childRect.bottom);
-            mShadowRight.setAlpha((int) (mScrimOpacity * FULL_ALPHA));
-            mShadowRight.draw(canvas);
-        }
+        ShadowStrategy right = new RightShadowDrawer();
+        right.drawShadow(mShadowRight, childRect, mScrimOpacity, canvas);
 
-        if ((mEdgeFlag & EDGE_BOTTOM) != 0) {
-            mShadowBottom.setBounds(childRect.left, childRect.bottom, childRect.right,
-                    childRect.bottom + mShadowBottom.getIntrinsicHeight());
-            mShadowBottom.setAlpha((int) (mScrimOpacity * FULL_ALPHA));
-            mShadowBottom.draw(canvas);
-        }
+        ShadowStrategy bottom = new BottomShadowDrawer();
+        right.drawShadow(mShadowBottom, childRect, mScrimOpacity, canvas);
 
-        if ((mEdgeFlag & EDGE_TOP) != 0) {
-            mShadowTop.setBounds(childRect.left, childRect.top - mShadowTop.getIntrinsicHeight(),
-                    childRect.right, childRect.top + getStatusBarHeight());
-            mShadowTop.setAlpha((int) (mScrimOpacity * FULL_ALPHA));
-            mShadowTop.draw(canvas);
-        }
+        ShadowStrategy top = new TopShadowDrawer();
+        top.drawShadow(mShadowTop, childRect, mScrimOpacity, canvas);
     }
 
     /**
