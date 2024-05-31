@@ -2343,7 +2343,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private RedditClient getAuthenticatedClient(String profileName) {
         String token;
         RedditClient reddit = new RedditClient(
-                UserAgent.of("android:me.ccrama.RedditSlide:v" + BuildConfig.VERSION_NAME));
+                UserAgent.of("tacome.ccrama.RedditSlide:v" + BuildConfig.VERSION_NAME));
         final HashMap<String, String> accounts = new HashMap<>();
 
         for (String s : Authentication.authentication.getStringSet("accounts",
